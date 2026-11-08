@@ -1,0 +1,10 @@
+class AppInfo {
+  static const name = 'Lokalnie Widzew';
+  static const applicationId = 'com.lokalniewidzew.app';
+  static const version = '1.0.0';
+  static const buildNumber = '1';
+  static const fullVersion = 'v$version+$buildNumber';
+  static const adminEmail = 'administracja@lokalniewidzew.app';
+  static const adminPhone = '+48 42 000 00 00';
+  static const tagline = 'Ogłoszenia sąsiedzkie Widzewa, Olechowa i Janowa';
+}

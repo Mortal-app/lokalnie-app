@@ -1,0 +1,52 @@
+import 'package:flutter/widgets.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+
+/// Lekkie powiadomienia systemowe. [LocalNotificationMock] zostaje
+/// źródłem listy w aplikacji — ta warstwa tylko wypycha alert na telefon.
+class LocalPushService {
+  static final FlutterLocalNotificationsPlugin _plugin =
+      FlutterLocalNotificationsPlugin();
+  static var _ready = false;
+
+  static bool get _inTest =>
+      WidgetsBinding.instance.runtimeType.toString().contains('TestWidgets');
+
+  static Future<void> init() async {
+    if (_inTest || _ready) return;
+    const android = AndroidInitializationSettings('@mipmap/ic_launcher');
+    const ios = DarwinInitializationSettings();
+    await _plugin.initialize(
+      const InitializationSettings(android: android, iOS: ios),
+    );
+    await _plugin
+        .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin
+        >()
+        ?.requestNotificationsPermission();
+    _ready = true;
+  }
+
+  static Future<void> show({
+    required String title,
+    required String body,
+    int id = 0,
+  }) async {
+    if (_inTest) return;
+    await init();
+    await _plugin.show(
+      id,
+      title,
+      body,
+      const NotificationDetails(
+        android: AndroidNotificationDetails(
+          'widzew_local',
+          'Lokalnie Widzew',
+          channelDescription: 'Czaty sąsiedzkie i alerty z okolicy',
+          importance: Importance.high,
+          priority: Priority.high,
+        ),
+        iOS: DarwinNotificationDetails(),
+      ),
+    );
+  }
+}
