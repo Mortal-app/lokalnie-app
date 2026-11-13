@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/pcv_window.dart';
+import '../theme/widzew_ui.dart';
 
 class PcvWindowScreen extends StatefulWidget {
   final List<PcvWindowTip> items;
@@ -30,6 +31,7 @@ class _PcvWindowScreenState extends State<PcvWindowScreen> {
   Future<void> _add() async {
     final created = await showDialog<PcvWindowTip>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _PcvDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _PcvWindowScreenState extends State<PcvWindowScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Okna PCV i okucia')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.sensor_window),
         label: const Text('Porada / pomoc'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Regulacja okuć przed zimą i latem — fachowcy z osiedla.',

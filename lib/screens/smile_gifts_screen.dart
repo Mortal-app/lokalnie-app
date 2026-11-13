@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/smile_gift.dart';
+import '../theme/widzew_ui.dart';
 
 class SmileGiftsScreen extends StatefulWidget {
   final List<SmileGift> items;
@@ -30,6 +31,7 @@ class _SmileGiftsScreenState extends State<SmileGiftsScreen> {
   Future<void> _add() async {
     final created = await showDialog<SmileGift>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _GiftDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _SmileGiftsScreenState extends State<SmileGiftsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Oddam za uśmiech')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.favorite),
         label: const Text('Oddaj za darmo'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Czysty dar: odzież, zabawki i meble całkowicie za darmo. Serce oznacza prezent.',

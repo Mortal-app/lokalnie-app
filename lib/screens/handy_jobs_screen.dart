@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../models/handy_job.dart';
 import '../services/form_draft_store.dart';
+import '../theme/widzew_ui.dart';
 
 class HandyJobsScreen extends StatefulWidget {
   final List<HandyJob> items;
@@ -43,6 +44,7 @@ class _HandyJobsScreenState extends State<HandyJobsScreen> {
   Future<void> _add() async {
     final created = await showDialog<HandyJob>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _HandyDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -67,13 +69,15 @@ class _HandyJobsScreenState extends State<HandyJobsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Pogotowie domowe')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.handyman_outlined),
         label: const Text('Zgłoś / oferuję'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Szybkie interwencje sąsiadów: kran, zamek, karnisz — złota rączka z klatki.',

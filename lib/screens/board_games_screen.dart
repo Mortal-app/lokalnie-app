@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/board_game_night.dart';
+import '../theme/widzew_ui.dart';
 
 class BoardGamesScreen extends StatefulWidget {
   final List<BoardGameNight> items;
@@ -30,6 +31,7 @@ class _BoardGamesScreenState extends State<BoardGamesScreen> {
   Future<void> _add() async {
     final created = await showDialog<BoardGameNight>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _GameDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _BoardGamesScreenState extends State<BoardGamesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Klub planszówek')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.casino_outlined),
         label: const Text('Zorganizuj wieczór'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Wieczory z grami planszowymi i karcianymi w świetlicy lub u sąsiadów — bez prądu.',

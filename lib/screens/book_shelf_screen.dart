@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../models/announcement.dart';
 import '../models/book_offer.dart';
+import '../theme/widzew_ui.dart';
 
 class BookShelfScreen extends StatefulWidget {
   final List<BookOffer> books;
@@ -38,6 +39,7 @@ class _BookShelfScreenState extends State<BookShelfScreen> {
   Future<void> _add() async {
     final created = await showDialog<BookOffer>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _AddBookDialog(
         userName: widget.userName,
         subDistrict: widget.defaultSubDistrict,
@@ -52,13 +54,15 @@ class _BookShelfScreenState extends State<BookShelfScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Książki z Widzewa')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.menu_book_outlined),
         label: const Text('Wystaw książkę'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Półka sąsiedzka: literatura, kryminały, dla dzieci i podręczniki.',

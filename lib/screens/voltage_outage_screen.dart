@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../models/bike_station.dart';
 import '../models/voltage_outage.dart';
+import '../theme/widzew_ui.dart';
 
 class VoltageOutageScreen extends StatefulWidget {
   final List<VoltageOutageReport> items;
@@ -37,6 +38,7 @@ class _VoltageOutageScreenState extends State<VoltageOutageScreen> {
   Future<void> _add() async {
     final created = await showDialog<VoltageOutageReport>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _VoltageDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -48,13 +50,15 @@ class _VoltageOutageScreenState extends State<VoltageOutageScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Zaniki napięcia i faz')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.bolt_outlined),
         label: const Text('Zgłoś zanik'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Skoki napięcia i zaniki prądu na ulicach Widzewa Wschodu i Olechowa.',

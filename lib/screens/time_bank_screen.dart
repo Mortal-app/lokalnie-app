@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/time_bank_offer.dart';
+import '../theme/widzew_ui.dart';
 
 class TimeBankScreen extends StatefulWidget {
   final List<TimeBankOffer> offers;
@@ -38,6 +39,7 @@ class _TimeBankScreenState extends State<TimeBankScreen> {
   Future<void> _add() async {
     final created = await showDialog<TimeBankOffer>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _TimeOfferDialog(
         userName: widget.userName,
         subDistrict: widget.defaultSubDistrict,
@@ -52,13 +54,15 @@ class _TimeBankScreenState extends State<TimeBankScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Sąsiedzki Bank Czasu')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.schedule_outlined),
         label: const Text('Dodaj przysługę'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           Card(
             child: ListTile(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/video_intercom.dart';
+import '../theme/widzew_ui.dart';
 
 class VideoIntercomScreen extends StatefulWidget {
   final List<VideoIntercomTip> items;
@@ -30,6 +31,7 @@ class _VideoIntercomScreenState extends State<VideoIntercomScreen> {
   Future<void> _add() async {
     final created = await showDialog<VideoIntercomTip>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _IntercomDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _VideoIntercomScreenState extends State<VideoIntercomScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Wideodomofony i unifony')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.videocam_outlined),
         label: const Text('Porada'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Konfiguracja paneli wideo, słuchawek unifonów i ustawień dostępu do klatki schodowej.',

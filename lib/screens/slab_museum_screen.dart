@@ -30,6 +30,7 @@ class _SlabMuseumScreenState extends State<SlabMuseumScreen> {
     final controller = TextEditingController();
     final text = await showDialog<String>(
       context: context,
+      barrierDismissible: true,
       builder: (context) => AlertDialog(
         title: const Text('Wspomnienie'),
         content: TextField(
@@ -67,7 +68,7 @@ class _SlabMuseumScreenState extends State<SlabMuseumScreen> {
     return Scaffold(
       appBar: AppBar(title: const Text('Muzeum wielkiej płyty')),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 80),
         children: [
           const Text(
             'Galeria etapów Widzewa Wschodu i Olechowa. Seniorzy — dodajcie wspomnienie.',

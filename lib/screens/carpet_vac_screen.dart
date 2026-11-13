@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/carpet_vac.dart';
+import '../theme/widzew_ui.dart';
 
 class CarpetVacScreen extends StatefulWidget {
   final List<CarpetVacOffer> items;
@@ -30,6 +31,7 @@ class _CarpetVacScreenState extends State<CarpetVacScreen> {
   Future<void> _add() async {
     final created = await showDialog<CarpetVacOffer>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _VacDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _CarpetVacScreenState extends State<CarpetVacScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Dywany i odkurzacze piorące')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.cleaning_services_outlined),
         label: const Text('Ogłoszenie'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Wypożyczalnia odkurzaczy piorących i wspólne czyszczenie dywanów na klatce.',

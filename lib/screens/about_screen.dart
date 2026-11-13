@@ -21,7 +21,7 @@ class AboutScreen extends StatelessWidget {
       appBar: AppBar(title: const Text('O aplikacji')),
       body: ListView(
         key: const ValueKey('about-list'),
-        padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
+        padding: const EdgeInsets.fromLTRB(16, 16, 16, 80),
         children: [
           const Text(
             'O aplikacji Lokalnie Widzew',

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/party_gear.dart';
+import '../theme/widzew_ui.dart';
 
 class PartyGearScreen extends StatefulWidget {
   final List<PartyGear> items;
@@ -30,6 +31,7 @@ class _PartyGearScreenState extends State<PartyGearScreen> {
   Future<void> _add() async {
     final created = await showDialog<PartyGear>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => const _GearDialog(),
     );
     if (created == null) return;
@@ -53,13 +55,15 @@ class _PartyGearScreenState extends State<PartyGearScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Sprzęt imprezowy')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.speaker_outlined),
         label: const Text('Oddam sprzęt'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Projektory, głośniki Bluetooth, stoły cateringowe i namioty na imprezy sąsiedzkie.',

@@ -73,7 +73,7 @@ class _LLogoPainter extends CustomPainter {
     final thickness = size.width * thicknessRatio;
     final barWidth = size.width * barWidthRatio;
     final barHeight = size.height * barHeightRatio;
-    final left = (size.width - barWidth) / 2 + size.width * 0.04;
+    final left = (size.width - barWidth) / 2;
     final top = (size.height - barHeight) / 2 + size.height * 0.03;
     final radius = Radius.circular(size.width * 0.045);
     canvas.drawRRect(

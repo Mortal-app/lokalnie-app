@@ -13,7 +13,6 @@ import '../models/neighbor_badge.dart';
 import '../models/neighborhood_event.dart';
 import '../models/neighbor_trust.dart';
 import '../models/infrastructure_report.dart';
-import '../models/notification_radius.dart';
 import '../models/community_stats.dart';
 import '../models/tradesperson_marketplace.dart';
 import '../widgets/subscription_status_panel.dart';
@@ -25,6 +24,8 @@ import '../theme/widzew_colors.dart';
 import '../theme/widzew_ui.dart';
 import '../widgets/app_page_route.dart';
 import '../utils/flutter_runtime.dart';
+import 'my_announcements_screen.dart';
+import 'my_reports_screen.dart';
 import 'settings_screen.dart';
 import 'tradesperson_pro_benefits_screen.dart';
 
@@ -43,15 +44,16 @@ class ProfileScreen extends StatelessWidget {
   final ValueChanged<bool> onThemeChanged;
   final bool neighborhoodNotificationsEnabled;
   final ValueChanged<bool> onNeighborhoodNotificationsChanged;
-  final ValueChanged<Announcement> onReportAnnouncement;
-  final ValueChanged<Announcement> onEditAnnouncement;
+  final void Function(Announcement announcement, String reason)
+  onReportAnnouncement;
+  final VoidCallback? onOpenContentReview;
+  final Future<Announcement?> Function(Announcement announcement)
+  onEditAnnouncement;
   final ValueChanged<Announcement> onCompleteAnnouncement;
   final ValueChanged<Announcement> onDeleteAnnouncement;
   final VoidCallback onRestoreDefaults;
   final VoidCallback onClearCachedAnnouncements;
   final List<NeighborhoodEvent> events;
-  final NotificationRadius notificationRadius;
-  final ValueChanged<NotificationRadius> onNotificationRadiusChanged;
   final bool seniorMode;
   final ValueChanged<bool> onSeniorModeChanged;
   final AppLocale appLocale;
@@ -356,14 +358,13 @@ class ProfileScreen extends StatelessWidget {
     required this.neighborhoodNotificationsEnabled,
     required this.onNeighborhoodNotificationsChanged,
     required this.onReportAnnouncement,
+    this.onOpenContentReview,
     required this.onEditAnnouncement,
     required this.onCompleteAnnouncement,
     required this.onDeleteAnnouncement,
     required this.onRestoreDefaults,
     required this.onClearCachedAnnouncements,
     this.events = const [],
-    this.notificationRadius = NotificationRadius.allWidzew,
-    required this.onNotificationRadiusChanged,
     this.seniorMode = false,
     required this.onSeniorModeChanged,
     this.appLocale = AppLocale.pl,
@@ -665,6 +666,29 @@ class ProfileScreen extends StatelessWidget {
     return NeighborTrust.forAuthor(userName, likesCount: likes);
   }
 
+  void _openMyAnnouncements(BuildContext context) {
+    Navigator.of(context).push(
+      AppPageRoute<void>(
+        builder: (_) => MyAnnouncementsScreen(
+          announcements: ownAnnouncements,
+          onOpen: onOpenAnnouncement,
+          onEdit: onEditAnnouncement,
+          onComplete: onCompleteAnnouncement,
+          onDelete: onDeleteAnnouncement,
+        ),
+      ),
+    );
+  }
+
+  void _openMyReports(BuildContext context) {
+    Navigator.of(context).push(
+      AppPageRoute<void>(
+        builder: (_) =>
+            MyReportsScreen(reports: _myReports, onOpen: onOpenAnnouncement),
+      ),
+    );
+  }
+
   void _openSettings(BuildContext context) {
     Navigator.of(context).push(
       AppPageRoute<void>(
@@ -673,7 +697,6 @@ class ProfileScreen extends StatelessWidget {
           onThemeChanged: onThemeChanged,
           widzewSkin: widzewSkin,
           onWidzewSkinChanged: onWidzewSkinChanged,
-          userName: userName,
           onRestoreDefaults: onRestoreDefaults,
           onVersionTileTap: onVersionTileTap,
         ),
@@ -756,84 +779,97 @@ class ProfileScreen extends StatelessWidget {
                 clipBehavior: Clip.antiAlias,
                 child: SafeArea(
                   top: false,
-                  child: ListView(
+                  child: CustomScrollView(
                     controller: scrollController,
-                    padding: const EdgeInsets.fromLTRB(8, 0, 8, 24),
-                    children: [
-                      Padding(
+                    physics: const ClampingScrollPhysics(),
+                    slivers: [
+                      SliverPadding(
                         padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
-                        child: Text(
-                          context.tr('avatarSheetTitle'),
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w700,
+                        sliver: SliverToBoxAdapter(
+                          child: Text(
+                            context.tr('avatarSheetTitle'),
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w700,
+                            ),
                           ),
                         ),
                       ),
-                      ListTile(
-                        leading: const Icon(Icons.camera_alt_outlined),
-                        title: Text(context.tr('avatarTakePhoto')),
-                        onTap: () {
-                          Navigator.of(sheetContext).pop();
-                          unawaited(_pickAvatarPhoto(context, camera: true));
-                        },
-                      ),
-                      ListTile(
-                        leading: const Icon(Icons.image_outlined),
-                        title: Text(context.tr('avatarPickGallery')),
-                        onTap: () {
-                          Navigator.of(sheetContext).pop();
-                          unawaited(_pickAvatarPhoto(context, camera: false));
-                        },
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
-                        child: Text(
-                          context.tr('avatarPresets'),
-                          style: Theme.of(context).textTheme.titleSmall,
+                      SliverToBoxAdapter(
+                        child: ListTile(
+                          leading: const Icon(Icons.camera_alt_outlined),
+                          title: Text(context.tr('avatarTakePhoto')),
+                          onTap: () {
+                            Navigator.of(sheetContext).pop();
+                            unawaited(_pickAvatarPhoto(context, camera: true));
+                          },
                         ),
                       ),
-                      GridView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: NeighborAvatar.icons.length,
-                        padding: const EdgeInsets.symmetric(horizontal: 12),
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 4,
-                              mainAxisSpacing: 8,
-                              crossAxisSpacing: 8,
-                              childAspectRatio: 1.15,
-                            ),
-                        itemBuilder: (context, index) {
-                          final selected =
-                              avatarPhotoPath == null && avatarIndex == index;
-                          return Material(
-                            key: ValueKey('neighbor-avatar-$index'),
-                            color: selected
-                                ? WidzewColors.redSoft
-                                : Theme.of(context)
-                                      .colorScheme
-                                      .surfaceContainerHighest,
-                            shape: WidzewUi.shape,
-                            child: InkWell(
-                              customBorder: WidzewUi.shape,
-                              onTap: onAvatarChanged == null
-                                  ? null
-                                  : () {
-                                      onAvatarChanged!(index);
-                                      onAvatarPhotoChanged?.call(null);
-                                      Navigator.of(sheetContext).pop();
-                                    },
-                              child: Icon(
-                                NeighborAvatar.at(index),
-                                size: 26,
-                                color: selected ? WidzewColors.red : null,
+                      SliverToBoxAdapter(
+                        child: ListTile(
+                          leading: const Icon(Icons.image_outlined),
+                          title: Text(context.tr('avatarPickGallery')),
+                          onTap: () {
+                            Navigator.of(sheetContext).pop();
+                            unawaited(_pickAvatarPhoto(context, camera: false));
+                          },
+                        ),
+                      ),
+                      SliverPadding(
+                        padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+                        sliver: SliverToBoxAdapter(
+                          child: Text(
+                            context.tr('avatarPresets'),
+                            style: Theme.of(context).textTheme.titleSmall,
+                          ),
+                        ),
+                      ),
+                      SliverPadding(
+                        padding: const EdgeInsets.fromLTRB(12, 0, 12, 24),
+                        sliver: SliverGrid(
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 4,
+                                mainAxisSpacing: 8,
+                                crossAxisSpacing: 8,
+                                childAspectRatio: 1.15,
                               ),
-                            ),
-                          );
-                        },
+                          delegate: SliverChildBuilderDelegate(
+                            (context, index) {
+                              final selected =
+                                  avatarPhotoPath == null &&
+                                  avatarIndex == index;
+                              return Material(
+                                key: ValueKey('neighbor-avatar-$index'),
+                                color: selected
+                                    ? WidzewColors.redSoft
+                                    : Theme.of(context)
+                                          .colorScheme
+                                          .surfaceContainerHighest,
+                                shape: WidzewUi.shape,
+                                child: InkWell(
+                                  customBorder: WidzewUi.shape,
+                                  onTap: onAvatarChanged == null
+                                      ? null
+                                      : () {
+                                          onAvatarChanged!(index);
+                                          onAvatarPhotoChanged?.call(null);
+                                          Navigator.of(sheetContext).pop();
+                                        },
+                                  child: Icon(
+                                    NeighborAvatar.at(index),
+                                    size: 26,
+                                    color: selected ? WidzewColors.red : null,
+                                  ),
+                                ),
+                              );
+                            },
+                            childCount: NeighborAvatar.icons.length,
+                            addAutomaticKeepAlives: false,
+                            addRepaintBoundaries: true,
+                          ),
+                        ),
                       ),
                     ],
                   ),
@@ -850,7 +886,6 @@ class ProfileScreen extends StatelessWidget {
     final reputation = NeighborReputation.badges(
       createdAnnouncementCount: createdAnnouncementCount,
       ownAnnouncements: ownAnnouncements,
-      events: events,
     );
     NeighborBadge? reputationBadge(String title) {
       for (final badge in reputation) {
@@ -861,12 +896,11 @@ class ProfileScreen extends StatelessWidget {
 
     final firstPost = reputationBadge('Pierwsze Ogłoszenie');
     final helpful = reputationBadge('Pomocny Sąsiad');
-    final eco = reputationBadge('Eko-Mieszkaniec');
-    final organizer = reputationBadge('Lokalny Organizator');
     final verified = _trust.isVerified;
     final helpingUnlocked =
         (helpful?.unlocked ?? false) ||
         unlockedNeighborQuestIds.contains('nq-dlon');
+    final ecoUnlocked = ownAnnouncements.any((item) => item.isFree);
     final expertUnlocked =
         createdAnnouncementCount >= 5 || ownAnnouncements.length >= 5;
     final helpedRepairJob =
@@ -882,7 +916,6 @@ class ProfileScreen extends StatelessWidget {
     );
     final achievements = NeighborAchievements.evaluate(
       ownAnnouncements: ownAnnouncements,
-      exploredSubDistricts: exploredSubDistricts,
       helpedRepairJob: helpedRepairJob,
       solvedCityReport: solvedCityReport,
     );
@@ -931,23 +964,21 @@ class ProfileScreen extends StatelessWidget {
         id: 'verified_neighbor',
         title: context.tr('verifiedNeighbor'),
         description: context.tr(
-          earned('verified_neighbor', verified)
+          locationVerified && verified
               ? 'badgeVerifiedEarnedHint'
               : 'badgeVerifiedHint',
         ),
         icon: Icons.verified_user,
-        unlocked: earned('verified_neighbor', verified),
+        unlocked: locationVerified && verified,
       ),
       NeighborBadge(
         id: 'gps_verified',
         title: context.tr('confirmedResident'),
         description: context.tr(
-          earned('gps_verified', locationVerified)
-              ? 'badgeResidentEarnedHint'
-              : 'badgeResidentHint',
+          locationVerified ? 'badgeResidentEarnedHint' : 'badgeResidentHint',
         ),
         icon: Icons.location_on,
-        unlocked: earned('gps_verified', locationVerified),
+        unlocked: locationVerified,
       ),
       ?withPersisted(firstPost),
       NeighborBadge(
@@ -961,8 +992,14 @@ class ProfileScreen extends StatelessWidget {
         icon: Icons.volunteer_activism_outlined,
         unlocked: earned('helpful_hand', helpingUnlocked),
       ),
-      ?withPersisted(eco),
-      ?withPersisted(organizer),
+      achievement(
+        id: 'eco_resident',
+        titleKey: 'badgeEcoTitle',
+        hintKey: 'badgeEcoHint',
+        earnedKey: 'badgeEcoEarnedHint',
+        icon: Icons.eco_outlined,
+        unlocked: ecoUnlocked,
+      ),
       NeighborBadge(
         id: 'local_expert',
         title: context.tr('badgeExpertTitle'),
@@ -973,14 +1010,6 @@ class ProfileScreen extends StatelessWidget {
         ),
         icon: Icons.workspace_premium_outlined,
         unlocked: earned('local_expert', expertUnlocked),
-      ),
-      achievement(
-        id: 'night_guard',
-        titleKey: 'badgeNightWatchTitle',
-        hintKey: 'badgeNightWatchHint',
-        earnedKey: 'badgeNightWatchEarnedHint',
-        icon: Icons.nights_stay_outlined,
-        unlocked: achievements.nightWatch,
       ),
       achievement(
         id: 'fast_deal',
@@ -1022,14 +1051,6 @@ class ProfileScreen extends StatelessWidget {
         icon: Icons.trending_up,
         unlocked: achievements.popularNeighbor,
       ),
-      achievement(
-        id: 'wanderer',
-        titleKey: 'badgeWandererTitle',
-        hintKey: 'badgeWandererHint',
-        earnedKey: 'badgeWandererEarnedHint',
-        icon: Icons.explore_outlined,
-        unlocked: achievements.wanderer,
-      ),
     ];
   }
 
@@ -1065,659 +1086,531 @@ class ProfileScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: ListView(
+      body: CustomScrollView(
         key: const ValueKey('profile-list'),
-        children: [
-          const SizedBox(height: 28),
-          Center(
-            child: SizedBox(
-              width: 116,
-              height: 116,
-              child: Stack(
-                clipBehavior: Clip.none,
-                children: [
-                  Positioned.fill(
-                    child: Material(
-                      color: Colors.transparent,
-                      child: InkWell(
-                        customBorder: const CircleBorder(),
-                        onTap: () => unawaited(_openAvatarSheet(context)),
-                        child: CircleAvatar(
-                          radius: 52,
-                          backgroundColor: const Color(0xFFFDE0E0),
-                          backgroundImage: _avatarPhotoFile == null
-                              ? null
-                              : FileImage(_avatarPhotoFile!),
-                          child: _avatarPhotoFile != null
-                              ? null
-                              : Icon(
-                                  NeighborAvatar.at(avatarIndex),
-                                  size: 56,
-                                  color: const Color(0xFFD32F2F),
-                                ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    right: 2,
-                    bottom: 2,
-                    child: Material(
-                      color: WidzewColors.red,
-                      shape: const CircleBorder(),
-                      elevation: 2,
-                      child: InkWell(
-                        customBorder: const CircleBorder(),
-                        onTap: () => unawaited(_openAvatarSheet(context)),
-                        child: Tooltip(
-                          message: context.tr('changeAvatar'),
-                          child: const Padding(
-                            padding: EdgeInsets.all(8),
-                            child: Icon(
-                              Icons.camera_alt_outlined,
-                              size: 18,
-                              color: Colors.white,
+        scrollCacheExtent: WidzewUi.listCacheExtent,
+        shrinkWrap: false,
+        physics: const ClampingScrollPhysics(),
+        slivers: [
+          SliverPadding(
+            padding: const EdgeInsets.only(bottom: 8),
+            sliver: SliverList(
+              delegate: SliverChildListDelegate([
+                const SizedBox(height: 28),
+                Center(
+                  child: SizedBox(
+                    width: 116,
+                    height: 116,
+                    child: Stack(
+                      clipBehavior: Clip.none,
+                      children: [
+                        Positioned.fill(
+                          child: Material(
+                            color: Colors.transparent,
+                            child: InkWell(
+                              customBorder: const CircleBorder(),
+                              onTap: () => unawaited(_openAvatarSheet(context)),
+                              child: CircleAvatar(
+                                radius: 52,
+                                backgroundColor: const Color(0xFFFDE0E0),
+                                backgroundImage: _avatarPhotoFile == null
+                                    ? null
+                                    : ResizeImage(
+                                        FileImage(_avatarPhotoFile!),
+                                        width: WidzewUi.imageCachePixels(
+                                          context,
+                                          116,
+                                        ),
+                                        height: WidzewUi.imageCachePixels(
+                                          context,
+                                          116,
+                                        ),
+                                      ),
+                                child: _avatarPhotoFile != null
+                                    ? null
+                                    : Icon(
+                                        NeighborAvatar.at(avatarIndex),
+                                        size: 56,
+                                        color: const Color(0xFFD32F2F),
+                                      ),
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          const SizedBox(height: 16),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: Text(
-              userName,
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.headlineSmall
-                  ?.copyWith(fontWeight: FontWeight.w700, height: 1.2),
-            ),
-          ),
-          const SizedBox(height: 12),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Material(
-              key: const ValueKey('active-neighbor-badge'),
-              color: Theme.of(context).colorScheme.surfaceContainerHighest,
-              shape: WidzewUi.shape,
-              child: InkWell(
-                customBorder: WidzewUi.shape,
-                onTap: () => unawaited(_openBadgesSheet(context)),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 14,
-                    vertical: 10,
-                  ),
-                  child: Stack(
-                    children: [
-                      Row(
-                        children: [
-                          Container(
-                            width: 40,
-                            height: 40,
-                            decoration: BoxDecoration(
-                              color: WidzewColors.red.withValues(alpha: 0.12),
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: const Icon(
-                              Icons.military_tech,
-                              color: WidzewColors.red,
-                              size: 22,
-                            ),
-                          ),
-                          const SizedBox(width: 12),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  context.tr('yourBadges'),
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 16,
+                        Positioned(
+                          right: 2,
+                          bottom: 2,
+                          child: Material(
+                            color: WidzewColors.red,
+                            shape: const CircleBorder(),
+                            elevation: 2,
+                            child: InkWell(
+                              customBorder: const CircleBorder(),
+                              onTap: () => unawaited(_openAvatarSheet(context)),
+                              child: Tooltip(
+                                message: context.tr('changeAvatar'),
+                                child: const Padding(
+                                  padding: EdgeInsets.all(8),
+                                  child: Icon(
+                                    Icons.camera_alt_outlined,
+                                    size: 18,
+                                    color: Colors.white,
                                   ),
                                 ),
-                                const SizedBox(height: 2),
-                                Text(
-                                  context.tr('badgesEarnedCount', {
-                                    'earned': '$earnedCount',
-                                    'total': '${badges.length}',
-                                  }),
-                                  style: Theme.of(context).textTheme.bodySmall
-                                      ?.copyWith(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onSurfaceVariant,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  child: Text(
+                    userName,
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.headlineSmall
+                        ?.copyWith(fontWeight: FontWeight.w700, height: 1.2),
+                  ),
+                ),
+                const SizedBox(height: 12),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Material(
+                    key: const ValueKey('active-neighbor-badge'),
+                    color: Theme.of(context)
+                        .colorScheme
+                        .surfaceContainerHighest,
+                    shape: WidzewUi.shape,
+                    child: InkWell(
+                      customBorder: WidzewUi.shape,
+                      onTap: () => unawaited(_openBadgesSheet(context)),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 14,
+                          vertical: 10,
+                        ),
+                        child: Stack(
+                          children: [
+                            Row(
+                              children: [
+                                Container(
+                                  width: 40,
+                                  height: 40,
+                                  decoration: BoxDecoration(
+                                    color: WidzewColors.red.withValues(
+                                      alpha: 0.12,
+                                    ),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  child: const Icon(
+                                    Icons.military_tech,
+                                    color: WidzewColors.red,
+                                    size: 22,
+                                  ),
+                                ),
+                                const SizedBox(width: 12),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        context.tr('yourBadges'),
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 16,
+                                        ),
                                       ),
+                                      const SizedBox(height: 2),
+                                      Text(
+                                        context.tr('badgesEarnedCount', {
+                                          'earned': '$earnedCount',
+                                          'total': '${badges.length}',
+                                        }),
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodySmall
+                                            ?.copyWith(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .onSurfaceVariant,
+                                            ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Icon(
+                                  Icons.keyboard_arrow_down_rounded,
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onSurfaceVariant,
                                 ),
                               ],
                             ),
-                          ),
-                          Icon(
-                            Icons.keyboard_arrow_down_rounded,
-                            color: Theme.of(context)
-                                .colorScheme
-                                .onSurfaceVariant,
-                          ),
-                        ],
+                            if (_expandProfileMenus)
+                              Positioned(
+                                left: 0,
+                                top: 0,
+                                child: Opacity(
+                                  opacity: 0,
+                                  child: Text(context.tr('activeNeighbor')),
+                                ),
+                              ),
+                          ],
+                        ),
                       ),
-                      if (_expandProfileMenus)
-                        Positioned(
-                          left: 0,
-                          top: 0,
-                          child: Opacity(
-                            opacity: 0,
-                            child: Text(context.tr('activeNeighbor')),
-                          ),
+                    ),
+                  ),
+                ),
+                if (onConfirmLocation != null)
+                  ListTile(
+                    leading: const Icon(Icons.my_location_outlined),
+                    title: Text(context.tr('confirmLocation')),
+                    subtitle: Text(
+                      locationVerified
+                          ? context.tr('locationOn')
+                          : context.tr('locationOff'),
+                    ),
+                    trailing: const Icon(Icons.chevron_right),
+                    onTap: onConfirmLocation,
+                  ),
+                ListTile(
+                  leading: const Icon(Icons.push_pin_outlined),
+                  title: Text(context.tr('defaultDistrict')),
+                  subtitle: Text(defaultSubDistrict),
+                  trailing: const Icon(Icons.chevron_right),
+                  onTap: () => _pickHomeNeighborhood(context),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 4, 16, 0),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      key: const ValueKey('activity-summary-header'),
+                      context.tr('activitySummary'),
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 8,
+                  ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: _ProfileStat(
+                          label: context.tr('statPosted'),
+                          value: '$createdAnnouncementCount',
+                          icon: Icons.campaign_outlined,
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: _ProfileStat(
+                          label: context.tr('statFavorites'),
+                          value: '${favoriteAnnouncements.length}',
+                          icon: Icons.bookmark_border,
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: _ProfileStat(
+                          label: context.tr('statArea'),
+                          value: defaultSubDistrict,
+                          icon: Icons.location_on_outlined,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: _ProfileStat(
+                          label: context.tr('statReports'),
+                          value:
+                              '${ownAnnouncements.where((item) => item.isAlert || item.isHelp).length}',
+                          icon: Icons.report_outlined,
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: _ProfileStat(
+                          label: context.tr('statMyPosts'),
+                          value: '${ownAnnouncements.length}',
+                          icon: Icons.inventory_2_outlined,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                ListTile(
+                  leading: const Icon(Icons.hourglass_bottom),
+                  title: Text(context.tr('timeBankTitle')),
+                  subtitle: Text(
+                    context.tr('timeBankHint', {'hours': '$timeBankHours'}),
+                  ),
+                ),
+                CommunityStatsPanel(
+                  key: ValueKey(communityStats.hashCode),
+                  stats: communityStats,
+                ),
+                SwitchListTile(
+                  secondary: const Icon(Icons.handyman_outlined),
+                  title: const Text('Konto Fachowca (Złota Rączka)'),
+                  subtitle: Text(
+                    marketplace.account.isTradesperson
+                        ? 'Wizytówka fachowca · PRO ${marketplace.account.subscriptionStatusLabel}'
+                        : 'Konto klienta — zlecenia przez katalog',
+                  ),
+                  value: marketplace.account.isTradesperson,
+                  onChanged: onTradespersonRoleChanged,
+                ),
+                if (marketplace.account.isTradesperson) ...[
+                  ListTile(
+                    leading: const Icon(Icons.badge_outlined),
+                    title: const Text('Wizytówka fachowca'),
+                    subtitle: Text(
+                      marketplace.account.card.isComplete
+                          ? '${marketplace.account.card.displayName} · ${marketplace.account.card.trade}'
+                          : 'Uzupełnij nazwę, branżę, opis i stawkę',
+                    ),
+                    trailing: const Icon(Icons.chevron_right),
+                    onTap: onOpenTradespersonCard,
+                  ),
+                  if (onRenewTradespersonSubscription != null)
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(16, 4, 16, 8),
+                      child: SubscriptionStatusPanel(
+                        account: marketplace.account,
+                        onRenew: onRenewTradespersonSubscription!,
+                        onOpenDetails: onOpenTradespersonSubscription,
+                      ),
+                    )
+                  else
+                    ListTile(
+                      leading: const Icon(Icons.workspace_premium_outlined),
+                      title: const Text('Abonament Fachowca'),
+                      subtitle: Text(
+                        'Status: ${marketplace.account.subscriptionStatusLabel}',
+                      ),
+                      trailing: const Icon(Icons.chevron_right),
+                      onTap: onOpenTradespersonSubscription,
+                    ),
+                  ListTile(
+                    leading: const Icon(Icons.photo_library_outlined),
+                    title: const Text('Zdjęcia moich prac'),
+                    subtitle: Text(
+                      marketplace.account.portfolio.isEmpty
+                          ? 'Galeria Przed / Po ostatnich realizacji'
+                          : '${marketplace.account.portfolio.length} zdjęć w portfolio',
+                    ),
+                    trailing: const Icon(Icons.chevron_right),
+                    onTap: onOpenTradespersonPortfolio,
+                  ),
+                  ListTile(
+                    leading: const Icon(Icons.request_quote_outlined),
+                    title: const Text('Orientacyjny Cennik'),
+                    subtitle: Text(
+                      marketplace.account.priceList.isEmpty
+                          ? 'Lista usług i stawek'
+                          : '${marketplace.account.priceList.length} pozycji',
+                    ),
+                    trailing: const Icon(Icons.chevron_right),
+                    onTap: onOpenTradespersonPriceList,
+                  ),
+                ],
+                ListTile(
+                  leading: const Icon(Icons.workspace_premium_outlined),
+                  title: const Text('Dlaczego warto zostać Fachowcem PRO'),
+                  subtitle: const Text(
+                    'Korzyści pakietu abonamentowego dla wykonawców',
+                  ),
+                  trailing: const Icon(Icons.chevron_right),
+                  onTap: () {
+                    Navigator.of(context).push(
+                      AppPageRoute<void>(
+                        builder: (_) => TradespersonProBenefitsScreen(
+                          onBecomePro: () {
+                            Navigator.of(context).pop();
+                            onOpenTradespersonSubscription?.call();
+                          },
+                        ),
+                      ),
+                    );
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.home_repair_service_outlined),
+                  title: const Text('Katalog Fachowców'),
+                  subtitle: const Text(
+                    'Zweryfikowani fachowcy PRO na Widzewie',
+                  ),
+                  trailing: const Icon(Icons.chevron_right),
+                  onTap: onOpenTradespersonCatalog,
+                ),
+                ListTile(
+                  leading: const Icon(Icons.favorite_outline),
+                  title: const Text('Ulubieni Fachowcy'),
+                  subtitle: Text(
+                    marketplace.favoriteListingIds.isEmpty
+                        ? 'Zapisani, zaufani wykonawcy'
+                        : '${marketplace.favoriteListingIds.length} zapisanych fachowców',
+                  ),
+                  trailing: const Icon(Icons.chevron_right),
+                  onTap:
+                      onOpenFavoriteTradespeople ?? onOpenTradespersonCatalog,
+                ),
+                SwitchListTile(
+                  secondary: const Icon(Icons.text_increase),
+                  title: Text(context.tr('seniorMode')),
+                  subtitle: Text(context.tr('seniorModeHint')),
+                  value: seniorMode,
+                  onChanged: onSeniorModeChanged,
+                ),
+                SwitchListTile(
+                  secondary: const Icon(Icons.directions_car_outlined),
+                  title: Text(context.tr('driverMode')),
+                  subtitle: Text(context.tr('driverModeHint')),
+                  value: driverMode,
+                  onChanged: onDriverModeChanged,
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 4, 16, 0),
+                  child: Text(
+                    context.tr('language'),
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+                  child: Wrap(
+                    spacing: 8,
+                    runSpacing: 4,
+                    children: [
+                      for (final locale in AppLocale.values.take(3))
+                        ChoiceChip(
+                          label: Text(locale.label),
+                          selected: appLocale == locale,
+                          onSelected: (_) => onAppLocaleChanged(locale),
                         ),
                     ],
                   ),
                 ),
-              ),
-            ),
-          ),
-          if (onConfirmLocation != null)
-            ListTile(
-              leading: const Icon(Icons.my_location_outlined),
-              title: Text(context.tr('confirmLocation')),
-              subtitle: Text(
-                locationVerified
-                    ? context.tr('locationOn')
-                    : context.tr('locationOff'),
-              ),
-              trailing: const Icon(Icons.chevron_right),
-              onTap: onConfirmLocation,
-            ),
-          ListTile(
-            leading: const Icon(Icons.push_pin_outlined),
-            title: Text(context.tr('defaultDistrict')),
-            subtitle: Text(defaultSubDistrict),
-            trailing: const Icon(Icons.chevron_right),
-            onTap: () => _pickHomeNeighborhood(context),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16, 4, 16, 0),
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                key: const ValueKey('activity-summary-header'),
-                context.tr('activitySummary'),
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            child: Row(
-              children: [
-                Expanded(
-                  child: _ProfileStat(
-                    label: context.tr('statPosted'),
-                    value: '$createdAnnouncementCount',
-                    icon: Icons.campaign_outlined,
-                  ),
-                ),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: _ProfileStat(
-                    label: context.tr('statFavorites'),
-                    value: '${favoriteAnnouncements.length}',
-                    icon: Icons.bookmark_border,
-                  ),
-                ),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: _ProfileStat(
-                    label: context.tr('statArea'),
-                    value: defaultSubDistrict,
-                    icon: Icons.location_on_outlined,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
-            child: Row(
-              children: [
-                Expanded(
-                  child: _ProfileStat(
-                    label: context.tr('statReports'),
-                    value:
-                        '${ownAnnouncements.where((item) => item.isAlert || item.isHelp).length}',
-                    icon: Icons.report_outlined,
-                  ),
-                ),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: _ProfileStat(
-                    label: context.tr('statMyPosts'),
-                    value: '${ownAnnouncements.length}',
-                    icon: Icons.inventory_2_outlined,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          ListTile(
-            leading: const Icon(Icons.hourglass_bottom),
-            title: Text(context.tr('timeBankTitle')),
-            subtitle: Text(
-              context.tr('timeBankHint', {'hours': '$timeBankHours'}),
-            ),
-          ),
-          CommunityStatsPanel(stats: communityStats),
-          SwitchListTile(
-            secondary: const Icon(Icons.handyman_outlined),
-            title: const Text('Konto Fachowca (Złota Rączka)'),
-            subtitle: Text(
-              marketplace.account.isTradesperson
-                  ? 'Wizytówka fachowca · PRO ${marketplace.account.subscriptionStatusLabel}'
-                  : 'Konto klienta — zlecenia przez katalog',
-            ),
-            value: marketplace.account.isTradesperson,
-            onChanged: onTradespersonRoleChanged,
-          ),
-          if (marketplace.account.isTradesperson) ...[
-            ListTile(
-              leading: const Icon(Icons.badge_outlined),
-              title: const Text('Wizytówka fachowca'),
-              subtitle: Text(
-                marketplace.account.card.isComplete
-                    ? '${marketplace.account.card.displayName} · ${marketplace.account.card.trade}'
-                    : 'Uzupełnij nazwę, branżę, opis i stawkę',
-              ),
-              trailing: const Icon(Icons.chevron_right),
-              onTap: onOpenTradespersonCard,
-            ),
-            if (onRenewTradespersonSubscription != null)
-              Padding(
-                padding: const EdgeInsets.fromLTRB(16, 4, 16, 8),
-                child: SubscriptionStatusPanel(
-                  account: marketplace.account,
-                  onRenew: onRenewTradespersonSubscription!,
-                  onOpenDetails: onOpenTradespersonSubscription,
-                ),
-              )
-            else
-              ListTile(
-                leading: const Icon(Icons.workspace_premium_outlined),
-                title: const Text('Abonament Fachowca'),
-                subtitle: Text(
-                  'Status: ${marketplace.account.subscriptionStatusLabel}',
-                ),
-                trailing: const Icon(Icons.chevron_right),
-                onTap: onOpenTradespersonSubscription,
-              ),
-            ListTile(
-              leading: const Icon(Icons.photo_library_outlined),
-              title: const Text('Zdjęcia moich prac'),
-              subtitle: Text(
-                marketplace.account.portfolio.isEmpty
-                    ? 'Galeria Przed / Po ostatnich realizacji'
-                    : '${marketplace.account.portfolio.length} zdjęć w portfolio',
-              ),
-              trailing: const Icon(Icons.chevron_right),
-              onTap: onOpenTradespersonPortfolio,
-            ),
-            ListTile(
-              leading: const Icon(Icons.request_quote_outlined),
-              title: const Text('Orientacyjny Cennik'),
-              subtitle: Text(
-                marketplace.account.priceList.isEmpty
-                    ? 'Lista usług i stawek'
-                    : '${marketplace.account.priceList.length} pozycji',
-              ),
-              trailing: const Icon(Icons.chevron_right),
-              onTap: onOpenTradespersonPriceList,
-            ),
-          ],
-          ListTile(
-            leading: const Icon(Icons.workspace_premium_outlined),
-            title: const Text('Dlaczego warto zostać Fachowcem PRO'),
-            subtitle: const Text(
-              'Korzyści pakietu abonamentowego dla wykonawców',
-            ),
-            trailing: const Icon(Icons.chevron_right),
-            onTap: () {
-              Navigator.of(context).push(
-                AppPageRoute<void>(
-                  builder: (_) => TradespersonProBenefitsScreen(
-                    onBecomePro: () {
-                      Navigator.of(context).pop();
-                      onOpenTradespersonSubscription?.call();
-                    },
-                  ),
-                ),
-              );
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.home_repair_service_outlined),
-            title: const Text('Katalog Fachowców'),
-            subtitle: const Text('Zweryfikowani fachowcy PRO na Widzewie'),
-            trailing: const Icon(Icons.chevron_right),
-            onTap: onOpenTradespersonCatalog,
-          ),
-          ListTile(
-            leading: const Icon(Icons.favorite_outline),
-            title: const Text('Ulubieni Fachowcy'),
-            subtitle: Text(
-              marketplace.favoriteListingIds.isEmpty
-                  ? 'Zapisani, zaufani wykonawcy'
-                  : '${marketplace.favoriteListingIds.length} zapisanych fachowców',
-            ),
-            trailing: const Icon(Icons.chevron_right),
-            onTap: onOpenFavoriteTradespeople ?? onOpenTradespersonCatalog,
-          ),
-          SwitchListTile(
-            secondary: const Icon(Icons.text_increase),
-            title: Text(context.tr('seniorMode')),
-            subtitle: Text(context.tr('seniorModeHint')),
-            value: seniorMode,
-            onChanged: onSeniorModeChanged,
-          ),
-          SwitchListTile(
-            secondary: const Icon(Icons.directions_car_outlined),
-            title: Text(context.tr('driverMode')),
-            subtitle: Text(context.tr('driverModeHint')),
-            value: driverMode,
-            onChanged: onDriverModeChanged,
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16, 4, 16, 0),
-            child: Text(
-              context.tr('language'),
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
-            child: Wrap(
-              spacing: 8,
-              runSpacing: 4,
-              children: [
-                for (final locale in AppLocale.values.take(3))
-                  ChoiceChip(
-                    label: Text(locale.label),
-                    selected: appLocale == locale,
-                    onSelected: (_) => onAppLocaleChanged(locale),
-                  ),
-              ],
-            ),
-          ),
-          SwitchListTile(
-            secondary: const Icon(Icons.notifications_active_outlined),
-            title: Text(context.tr('neighborhoodNotifications')),
-            subtitle: Text(
-              neighborhoodNotificationsEnabled
-                  ? context.tr('notificationsOn', {
-                      'district': defaultSubDistrict,
-                    })
-                  : context.tr('notificationsOff'),
-            ),
-            value: neighborhoodNotificationsEnabled,
-            onChanged: onNeighborhoodNotificationsChanged,
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
-            child: Text(
-              context.tr('notificationRadius'),
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
-            child: Wrap(
-              spacing: 8,
-              runSpacing: 4,
-              children: [
-                for (final radius in NotificationRadius.values.take(3))
-                  ChoiceChip(
-                    label: Text(context.tr('radius_${radius.name}')),
-                    selected: notificationRadius == radius,
-                    onSelected: (_) => onNotificationRadiusChanged(radius),
-                  ),
-              ],
-            ),
-          ),
-          const Divider(),
-          _ProfileMenuSection(
-            title: context.tr('myPostsSection'),
-            subtitle: context.tr('myPostsSubtitle'),
-            icon: Icons.person_outline,
-            initiallyExpanded: _expandProfileMenus,
-            children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
-                child: Text(
-                  context.tr('myAnnouncements'),
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(16, 0, 16, 4),
-                child: Text(context.tr('editStatuses')),
-              ),
-              if (ownAnnouncements.isEmpty)
-                Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Text(context.tr('noOwnAnnouncements')),
-                ),
-              for (final announcement in ownAnnouncements)
-                _OwnAnnouncementTile(
-                  announcement: announcement,
-                  onOpen: () => onOpenAnnouncement(announcement),
-                  onEdit: () => onEditAnnouncement(announcement),
-                  onComplete: announcement.status == AnnouncementStatus.current
-                      ? () => onCompleteAnnouncement(announcement)
-                      : null,
-                  onDelete: () => onDeleteAnnouncement(announcement),
-                ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
-                child: Text(
-                  context.tr('myReports'),
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              if (_myReports.isEmpty)
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
-                  child: Text(context.tr('noReports')),
-                ),
-              for (final announcement in _myReports)
-                ListTile(
-                  leading: Icon(
-                    announcement.isAlert
-                        ? Icons.warning_amber_outlined
-                        : Icons.report_outlined,
-                  ),
-                  title: Text(announcement.title),
+                SwitchListTile(
+                  key: const ValueKey('notifications-switch'),
+                  secondary: const Icon(Icons.notifications_active_outlined),
+                  title: Text(context.tr('neighborhoodNotifications')),
                   subtitle: Text(
-                    '${announcement.category} · ${announcement.status.label}',
+                    neighborhoodNotificationsEnabled
+                        ? context.tr('notificationsOn')
+                        : context.tr('notificationsOff'),
                   ),
-                  trailing: const Icon(Icons.chevron_right),
-                  onTap: () => onOpenAnnouncement(announcement),
+                  value: neighborhoodNotificationsEnabled,
+                  onChanged: onNeighborhoodNotificationsChanged,
                 ),
-              const SizedBox(height: 8),
-            ],
-          ),
-          const Divider(),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
-            child: Text(
-              context.tr('savedTitle'),
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                const Divider(),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
+                  child: Text(
+                    context.tr('myPostsSection'),
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                Card(
+                  margin: const EdgeInsets.fromLTRB(12, 6, 12, 6),
+                  child: ListTile(
+                    key: const ValueKey('my-announcements-tile'),
+                    leading: const Icon(Icons.inventory_2_outlined),
+                    title: Text(context.tr('myAnnouncements')),
+                    subtitle: Text(context.tr('editStatuses')),
+                    trailing: const Icon(Icons.chevron_right),
+                    onTap: () => _openMyAnnouncements(context),
+                  ),
+                ),
+                Card(
+                  margin: const EdgeInsets.fromLTRB(12, 6, 12, 6),
+                  child: ListTile(
+                    key: const ValueKey('my-reports-tile'),
+                    leading: const Icon(Icons.report_outlined),
+                    title: Text(context.tr('myReports')),
+                    subtitle: Text(context.tr('reportStatuses')),
+                    trailing: const Icon(Icons.chevron_right),
+                    onTap: () => _openMyReports(context),
+                  ),
+                ),
+                if (onOpenContentReview != null)
+                  Card(
+                    margin: const EdgeInsets.fromLTRB(12, 6, 12, 6),
+                    child: ListTile(
+                      key: const ValueKey('content-review-tile'),
+                      leading: const Icon(Icons.gpp_maybe_outlined),
+                      title: Text(context.tr('contentReview')),
+                      subtitle: Text(context.tr('contentReviewHint')),
+                      trailing: const Icon(Icons.chevron_right),
+                      onTap: onOpenContentReview,
+                    ),
+                  ),
+                const Divider(),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
+                  child: Text(
+                    context.tr('savedTitle'),
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                if (favoriteAnnouncements.isEmpty)
+                  Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Text(context.tr('savedEmpty')),
+                  ),
+              ]),
             ),
           ),
-          if (favoriteAnnouncements.isEmpty)
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: Text(context.tr('savedEmpty')),
-            ),
-          for (final announcement in favoriteAnnouncements)
-            AnnouncementCard(
-              announcement: announcement,
-              useHero: false,
-              onTap: () => onOpenAnnouncement(announcement),
-              onFavoriteToggle: () => onToggleFavorite(announcement),
-              onLike: () => onLikeAnnouncement(announcement),
-              onReport: () => onReportAnnouncement(announcement),
+          if (favoriteAnnouncements.isNotEmpty)
+            SliverPadding(
+              padding: const EdgeInsets.only(bottom: 80),
+              sliver: SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  (context, index) {
+                    final announcement = favoriteAnnouncements[index];
+                    return AnnouncementCard(
+                      key: ValueKey(announcement.heroTag),
+                      announcement: announcement,
+                      useHero: false,
+                      onTap: () => onOpenAnnouncement(announcement),
+                      onFavoriteToggle: () => onToggleFavorite(announcement),
+                      onLike: () => onLikeAnnouncement(announcement),
+                      onReport: (reason) =>
+                          onReportAnnouncement(announcement, reason),
+                    );
+                  },
+                  childCount: favoriteAnnouncements.length,
+                  addAutomaticKeepAlives: false,
+                  addRepaintBoundaries: true,
+                ),
+              ),
             ),
         ],
-      ),
-    );
-  }
-}
-
-class _ProfileMenuSection extends StatelessWidget {
-  final String title;
-  final String? subtitle;
-  final IconData icon;
-  final bool initiallyExpanded;
-  final List<Widget> children;
-
-  const _ProfileMenuSection({
-    required this.title,
-    this.subtitle,
-    required this.initiallyExpanded,
-    required this.icon,
-    required this.children,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.fromLTRB(12, 6, 12, 6),
-      child: ExpansionTile(
-        initiallyExpanded: initiallyExpanded,
-        maintainState: true,
-        leading: Icon(icon, color: WidzewColors.red),
-        title: Text(title, style: const TextStyle(fontWeight: FontWeight.w600)),
-        subtitle: subtitle == null ? null : Text(subtitle!),
-        children: children,
-      ),
-    );
-  }
-}
-
-class _OwnAnnouncementTile extends StatelessWidget {
-  final Announcement announcement;
-  final VoidCallback onOpen;
-  final VoidCallback onEdit;
-  final VoidCallback? onComplete;
-  final VoidCallback onDelete;
-
-  const _OwnAnnouncementTile({
-    required this.announcement,
-    required this.onOpen,
-    required this.onEdit,
-    required this.onComplete,
-    required this.onDelete,
-  });
-
-  Future<void> _confirmDelete(BuildContext context) async {
-    final shouldDelete = await showDialog<bool>(
-      context: context,
-      barrierDismissible: true,
-      builder: (dialogContext) => AlertDialog(
-        title: Text(dialogContext.tr('confirmDeleteTitle')),
-        content: Text(
-          dialogContext.tr('confirmDeleteBody', {'title': announcement.title}),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(dialogContext).pop(false),
-            child: Text(dialogContext.tr('cancel')),
-          ),
-          FilledButton(
-            onPressed: () => Navigator.of(dialogContext).pop(true),
-            child: Text(dialogContext.tr('delete')),
-          ),
-        ],
-      ),
-    );
-    if (!context.mounted || shouldDelete != true) return;
-    onDelete();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final resolved = announcement.status == AnnouncementStatus.resolved;
-    return Opacity(
-      opacity: resolved ? 0.72 : 1,
-      child: Card(
-        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-        color: resolved
-            ? Theme.of(context).colorScheme.surfaceContainerHighest
-            : null,
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(8, 8, 8, 4),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              ListTile(
-                isThreeLine: true,
-                contentPadding: const EdgeInsets.symmetric(horizontal: 8),
-                title: Text(announcement.title),
-                subtitle: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(announcement.authorName),
-                    Text(
-                      announcement.price == null || announcement.price!.isEmpty
-                          ? announcement.category
-                          : '${announcement.category} · ${announcement.price}',
-                    ),
-                    Text(announcement.status.label),
-                    if (resolved)
-                      Padding(
-                        padding: const EdgeInsets.only(top: 4),
-                        child: Chip(
-                          visualDensity: VisualDensity.compact,
-                          label: Text(context.tr('doneChip')),
-                        ),
-                      ),
-                  ],
-                ),
-                onTap: onOpen,
-              ),
-              Wrap(
-                spacing: 4,
-                children: [
-                  TextButton(
-                    onPressed: onEdit,
-                    child: Text(context.tr('edit')),
-                  ),
-                  if (onComplete != null)
-                    TextButton(
-                      key: const ValueKey('complete-own-announcement'),
-                      onPressed: onComplete,
-                      child: Text(context.tr('markDone')),
-                    ),
-                  TextButton(
-                    onPressed: () => _confirmDelete(context),
-                    child: Text(context.tr('delete')),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
       ),
     );
   }

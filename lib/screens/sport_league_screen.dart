@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/sport_league.dart';
+import '../theme/widzew_ui.dart';
 
 class SportLeagueScreen extends StatefulWidget {
   final List<SportHubItem> items;
@@ -32,6 +33,7 @@ class _SportLeagueScreenState extends State<SportLeagueScreen> {
   Future<void> _add() async {
     final created = await showDialog<SportHubItem>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _SportDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -55,13 +57,15 @@ class _SportLeagueScreenState extends State<SportLeagueScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Liga sportowa i typer')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.sports_soccer),
         label: const Text('Mecz / turniej'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Typy lokalnych meczów oraz amatorskie turnieje e-sport i szachy na osiedlu.',

@@ -25,15 +25,12 @@ class AppPageRoute<T> extends PageRouteBuilder<T> {
         },
       );
 
-  static bool get _inTest => WidgetsBinding.instance.runtimeType
-      .toString()
-      .contains('TestWidgets');
+  static bool get _inTest =>
+      WidgetsBinding.instance.runtimeType.toString().contains('TestWidgets');
 
-  static Duration get _duration => _inTest
-      ? Duration.zero
-      : const Duration(milliseconds: 280);
+  static Duration get _duration =>
+      _inTest ? Duration.zero : const Duration(milliseconds: 280);
 
-  static Duration get _reverseDuration => _inTest
-      ? Duration.zero
-      : const Duration(milliseconds: 220);
+  static Duration get _reverseDuration =>
+      _inTest ? Duration.zero : const Duration(milliseconds: 220);
 }

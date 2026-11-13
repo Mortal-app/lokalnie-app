@@ -45,7 +45,7 @@ class _NeighborExpenseScreenState extends State<NeighborExpenseScreen> {
     return Scaffold(
       appBar: AppBar(title: const Text('Kalkulator Sąsiedzki')),
       body: ListView(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.fromLTRB(16, 16, 16, 80),
         children: [
           const Text(
             'Rozlicz wspólne zakupy: koszenie trawnika, wyjazd do marketu budowlanego, zrzutka na klatkę.',

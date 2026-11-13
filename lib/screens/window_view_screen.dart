@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/window_view.dart';
+import '../theme/widzew_ui.dart';
 
 class WindowViewScreen extends StatefulWidget {
   final List<WindowViewPhoto> items;
@@ -30,6 +31,7 @@ class _WindowViewScreenState extends State<WindowViewScreen> {
   Future<void> _add() async {
     final created = await showDialog<WindowViewPhoto>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _ViewDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _WindowViewScreenState extends State<WindowViewScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Widzew w obiektywie')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.wb_twilight_outlined),
         label: const Text('Dodaj widok'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Galeria wschodów i zachodów nad blokowiskami oraz widoków z okien — opis zamiast pliku (testy).',

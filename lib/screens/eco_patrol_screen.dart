@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/eco_report.dart';
+import '../theme/widzew_ui.dart';
 
 class EcoPatrolScreen extends StatefulWidget {
   final List<EcoReport> reports;
@@ -32,6 +33,7 @@ class _EcoPatrolScreenState extends State<EcoPatrolScreen> {
   Future<void> _add() async {
     final created = await showDialog<EcoReport>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _EcoReportDialog(place: widget.userSubDistrict),
     );
     if (created == null) return;
@@ -43,13 +45,15 @@ class _EcoPatrolScreenState extends State<EcoPatrolScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Eko-Patrol / Czysty Widzew')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.forest_outlined),
         label: const Text('Nowe zgłoszenie'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Dzikie wysypiska, przepełnione kosze i drzewa w parku nad Jasieniem.',

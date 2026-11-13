@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/ev_charging.dart';
+import '../theme/widzew_ui.dart';
 
 class EvChargingScreen extends StatefulWidget {
   final List<EvChargingOffer> items;
@@ -32,6 +33,7 @@ class _EvChargingScreenState extends State<EvChargingScreen> {
   Future<void> _add() async {
     final created = await showDialog<EvChargingOffer>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _EvDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -57,13 +59,15 @@ class _EvChargingScreenState extends State<EvChargingScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Ładowanie EV i kabel balkonowy')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.ev_station_outlined),
         label: const Text('Dodaj ofertę'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Koordynacja ładowania EV/hybryd i bezpieczny kabel z parteru — za zgodą sąsiadów.',

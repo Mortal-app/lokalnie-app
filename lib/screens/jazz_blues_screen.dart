@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/jazz_blues.dart';
+import '../theme/widzew_ui.dart';
 
 class JazzBluesScreen extends StatefulWidget {
   final List<JazzBluesPost> items;
@@ -30,6 +31,7 @@ class _JazzBluesScreenState extends State<JazzBluesScreen> {
   Future<void> _add() async {
     final created = await showDialog<JazzBluesPost>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _JazzDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _JazzBluesScreenState extends State<JazzBluesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Jazz i blues')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.music_note_outlined),
         label: const Text('Wpis'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Płyty, kluby jazzowe w Łodzi i jam session — osobno od rocka, ambientu i disco.',

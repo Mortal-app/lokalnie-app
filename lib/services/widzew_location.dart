@@ -9,12 +9,14 @@ class WidzewFix {
   final double longitude;
   final String subDistrict;
   final String addressLabel;
+  final bool success;
 
   const WidzewFix({
     required this.latitude,
     required this.longitude,
     required this.subDistrict,
     required this.addressLabel,
+    this.success = false,
   });
 }
 
@@ -22,7 +24,9 @@ class WidzewLocation {
   static bool get _inTest =>
       WidgetsBinding.instance.runtimeType.toString().contains('TestWidgets');
 
-  static Future<WidzewFix> current({String fallbackDistrict = 'Widzew Wschód'}) async {
+  static Future<WidzewFix> current({
+    String fallbackDistrict = 'Widzew Wschód',
+  }) async {
     if (_inTest) {
       final pin = NeighborhoodGeo.forSubDistrict(fallbackDistrict);
       return WidzewFix(
@@ -30,6 +34,7 @@ class WidzewLocation {
         longitude: pin.longitude,
         subDistrict: fallbackDistrict,
         addressLabel: '$fallbackDistrict · 51.76°N 19.54°E',
+        success: true,
       );
     }
 
@@ -59,6 +64,7 @@ class WidzewLocation {
         addressLabel:
             '$district · ${position.latitude.toStringAsFixed(5)}, '
             '${position.longitude.toStringAsFixed(5)}',
+        success: true,
       );
     } catch (_) {
       return _fallback(fallbackDistrict);
@@ -72,6 +78,7 @@ class WidzewLocation {
       longitude: pin.longitude,
       subDistrict: district,
       addressLabel: '$district (przybliżona lokalizacja Widzewa)',
+      success: false,
     );
   }
 

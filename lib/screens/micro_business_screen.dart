@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/micro_business.dart';
+import '../theme/widzew_ui.dart';
 
 class MicroBusinessScreen extends StatefulWidget {
   final List<MicroBusiness> items;
@@ -30,6 +31,7 @@ class _MicroBusinessScreenState extends State<MicroBusinessScreen> {
   Future<void> _add() async {
     final created = await showDialog<MicroBusiness>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => const _BizDialog(),
     );
     if (created == null) return;
@@ -41,6 +43,7 @@ class _MicroBusinessScreenState extends State<MicroBusinessScreen> {
     final controller = TextEditingController();
     final text = await showDialog<String>(
       context: context,
+      barrierDismissible: true,
       builder: (context) => AlertDialog(
         title: const Text('Opinia mieszkańca'),
         content: TextField(
@@ -77,13 +80,15 @@ class _MicroBusinessScreenState extends State<MicroBusinessScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Inkubator mikrobiznesu')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.storefront_outlined),
         label: const Text('Dodaj działalność'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Jednoosobowe usługi z Widzewa: fryzjerka mobilna, kosmetyczka, elektryk, hydraulik — z opiniami sąsiadów.',

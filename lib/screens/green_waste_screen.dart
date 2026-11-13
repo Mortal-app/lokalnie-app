@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/green_waste.dart';
+import '../theme/widzew_ui.dart';
 
 class GreenWasteScreen extends StatefulWidget {
   final List<GreenWastePickup> items;
@@ -30,6 +31,7 @@ class _GreenWasteScreenState extends State<GreenWasteScreen> {
   Future<void> _add() async {
     final created = await showDialog<GreenWastePickup>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _WasteDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _GreenWasteScreenState extends State<GreenWasteScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Odpady zielone i gałęzie')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.park_outlined),
         label: const Text('Zgłoś gałęzie'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Wywoz i zagospodarowanie gałęzi po przycinaniu krzewów i drzewek na działkach oraz wokół bloków.',

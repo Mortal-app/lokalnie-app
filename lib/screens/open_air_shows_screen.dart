@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/open_air_show.dart';
+import '../theme/widzew_ui.dart';
 
 class OpenAirShowsScreen extends StatefulWidget {
   final List<OpenAirShow> items;
@@ -32,6 +33,7 @@ class _OpenAirShowsScreenState extends State<OpenAirShowsScreen> {
   Future<void> _add() async {
     final created = await showDialog<OpenAirShow>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _ShowDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -52,13 +54,15 @@ class _OpenAirShowsScreenState extends State<OpenAirShowsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Kino pod chmurką i teatrzyk')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.theaters_outlined),
         label: const Text('Propozycja repertuaru'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Letnie pokazy na dziedzińcu lub w świetlicy — głosuj na repertuar.',

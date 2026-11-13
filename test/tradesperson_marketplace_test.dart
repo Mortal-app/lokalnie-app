@@ -42,10 +42,7 @@ void main() {
       RelativeTime.format(now.subtract(const Duration(hours: 2)), now: now),
       '2 godziny temu',
     );
-    expect(
-      RelativeTime.format(DateTime(2026, 11, 3, 9), now: now),
-      'Wczoraj',
-    );
+    expect(RelativeTime.format(DateTime(2026, 11, 3, 9), now: now), 'Wczoraj');
   });
 
   test('tradesperson account defaults to inactive PRO', () {
@@ -124,14 +121,17 @@ void main() {
     expect(locksmith.hasQualityGuarantee, isFalse);
   });
 
-  test('tradesperson store ignores corrupt SharedPreferences payload', () async {
-    SharedPreferences.setMockInitialValues({
-      TradespersonStore.key: '{not-json',
-    });
-    final loaded = await TradespersonStore.load();
-    expect(loaded.helpPosts, isEmpty);
-    expect(loaded.account.isProActive, isFalse);
-  });
+  test(
+    'tradesperson store ignores corrupt SharedPreferences payload',
+    () async {
+      SharedPreferences.setMockInitialValues({
+        TradespersonStore.key: '{not-json',
+      });
+      final loaded = await TradespersonStore.load();
+      expect(loaded.helpPosts, isEmpty);
+      expect(loaded.account.isProActive, isFalse);
+    },
+  );
 
   test('marketplace prunes giełda posts older than 30 days', () {
     final now = DateTime(2026, 11, 6, 20);
@@ -170,10 +170,7 @@ void main() {
     final pruned = state.prunedExpired(now: now);
     expect(pruned.helpPosts.map((item) => item.id), ['fresh']);
     expect(pruned.jobRequests, isEmpty);
-    expect(
-      state.activeHelpPosts(now: now).map((item) => item.id),
-      ['fresh'],
-    );
+    expect(state.activeHelpPosts(now: now).map((item) => item.id), ['fresh']);
   });
 
   test('privacy log masks phones and emails', () {
@@ -206,22 +203,19 @@ void main() {
     expect(MoneyInput.asRateLabel('80,5'), '80,5 zł');
   });
 
-  testWidgets('catalog renders listings and district filter', (tester) async {
+  testWidgets('catalog renders listings without district filters', (
+    tester,
+  ) async {
     await tester.pumpWidget(_catalog());
     await tester.pumpAndSettle();
 
     expect(find.text('Katalog Fachowców'), findsOneWidget);
     expect(find.text('Hydraulik Olechów – Marek Nowak'), findsOneWidget);
     expect(find.text('Gwarancja Jakości'), findsWidgets);
-
-    final janowChip = find.byKey(const ValueKey('district-filter-Janów'));
-    await tester.ensureVisible(janowChip);
-    await tester.tap(janowChip);
-    await tester.pumpAndSettle();
-
-    expect(find.text('Awaryjne otwieranie drzwi – Janów'), findsOneWidget);
-    expect(find.text('Remonty klatkowe – Ekipa Widzew'), findsNothing);
-    expect(find.byKey(const ValueKey('tradesperson-pro-zamek-janow')), findsOneWidget);
+    expect(find.text('Szukam Fachowca'), findsOneWidget);
+    expect(find.text('Ulubieni'), findsOneWidget);
+    expect(find.byKey(const ValueKey('district-filter-Janów')), findsNothing);
+    expect(find.text('Osiedle'), findsNothing);
   });
 
   testWidgets('job board shows urgent badge for seeded lock request', (
@@ -235,7 +229,10 @@ void main() {
 
     expect(find.textContaining('Szukam Fachowca'), findsWidgets);
     expect(find.text('Pilne'), findsOneWidget);
-    expect(find.byKey(const ValueKey('help-post-help-zamek-janow')), findsOneWidget);
+    expect(
+      find.byKey(const ValueKey('help-post-help-zamek-janow')),
+      findsOneWidget,
+    );
     expect(find.text('Odpowiedz / Przyjmij zlecenie'), findsWidgets);
   });
 
@@ -291,9 +288,7 @@ void main() {
     expect(find.byTooltip('Udostępnij profil'), findsOneWidget);
 
     await tester.pumpWidget(
-      MaterialApp(
-        home: TradespersonProBenefitsScreen(onBecomePro: () {}),
-      ),
+      MaterialApp(home: TradespersonProBenefitsScreen(onBecomePro: () {})),
     );
     await tester.pumpAndSettle();
     expect(find.text('Dlaczego warto zostać Fachowcem PRO'), findsOneWidget);
@@ -403,9 +398,6 @@ void main() {
     await tester.pumpAndSettle();
     await tester.tap(find.text('Odpowiedz / Przyjmij zlecenie').first);
     await tester.pumpAndSettle();
-    expect(
-      find.textContaining('aktywnym abonamentem PRO'),
-      findsOneWidget,
-    );
+    expect(find.textContaining('aktywnym abonamentem PRO'), findsOneWidget);
   });
 }

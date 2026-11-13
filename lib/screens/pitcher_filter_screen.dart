@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/pitcher_filter.dart';
+import '../theme/widzew_ui.dart';
 
 class PitcherFilterScreen extends StatefulWidget {
   final List<PitcherFilterLog> items;
@@ -32,6 +33,7 @@ class _PitcherFilterScreenState extends State<PitcherFilterScreen> {
   Future<void> _add() async {
     final created = await showDialog<PitcherFilterLog>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _PitcherDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -80,13 +82,15 @@ class _PitcherFilterScreenState extends State<PitcherFilterScreen> {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.filter_alt_outlined),
         label: const Text('Dzbanek'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Licznik dni od ostatniej wymiany wkładu w dzbanku filtrującym do wody pitnej.',

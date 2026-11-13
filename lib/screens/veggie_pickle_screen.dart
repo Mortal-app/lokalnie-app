@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/veggie_pickle.dart';
+import '../theme/widzew_ui.dart';
 
 class VeggiePickleScreen extends StatefulWidget {
   final List<VeggiePickleRecipe> items;
@@ -30,6 +31,7 @@ class _VeggiePickleScreenState extends State<VeggiePickleScreen> {
   Future<void> _add() async {
     final created = await showDialog<VeggiePickleRecipe>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _PickleDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _VeggiePickleScreenState extends State<VeggiePickleScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Kiszonki warzywne')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.kitchen_outlined),
         label: const Text('Przepis'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Kiszone kalafiory, rzodkiewki, kimchi oraz wymiana solanek i starterów fermentacji mlekowej.',

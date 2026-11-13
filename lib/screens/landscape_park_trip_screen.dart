@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/landscape_park_trip.dart';
+import '../theme/widzew_ui.dart';
 
 class LandscapeParkTripScreen extends StatefulWidget {
   final List<LandscapeParkTrip> items;
@@ -31,6 +32,7 @@ class _LandscapeParkTripScreenState extends State<LandscapeParkTripScreen> {
   Future<void> _add() async {
     final created = await showDialog<LandscapeParkTrip>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _ParkTripDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -42,13 +44,15 @@ class _LandscapeParkTripScreenState extends State<LandscapeParkTripScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Parki krajobrazowe — carpooling')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.directions_car_outlined),
         label: const Text('Wyjazd'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Weekendowe wycieczki piesze i pikniki w otulinie Parku Krajobrazowego Wzniesień Łódzkich oraz Spalskiego.',

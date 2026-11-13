@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/yard_game.dart';
+import '../theme/widzew_ui.dart';
 
 class YardGameScreen extends StatefulWidget {
   final List<YardGameMeetup> items;
@@ -30,6 +31,7 @@ class _YardGameScreenState extends State<YardGameScreen> {
   Future<void> _add() async {
     final created = await showDialog<YardGameMeetup>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _YardDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _YardGameScreenState extends State<YardGameScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Gry podwórkowe i bule')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.sports),
         label: const Text('Turniej'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Turnieje kapśli, gumy do skakania, klas i bul podwórkowych — osobno od klubu pétanque na skwerze.',

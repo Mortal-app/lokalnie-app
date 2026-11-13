@@ -10,7 +10,6 @@ class FormDraftStore {
   static const addAnnouncement = 'add_announcement';
   static const handyJob = 'handy_job';
   static const snapPost = 'snap_post';
-  static const sosAlert = 'sos_alert';
   static const homeFilters = 'home_filters';
 
   static Map<String, String> peek(String formId) =>

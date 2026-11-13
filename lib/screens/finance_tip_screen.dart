@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/finance_tip.dart';
+import '../theme/widzew_ui.dart';
 
 class FinanceTipScreen extends StatefulWidget {
   final List<FinanceTip> items;
@@ -30,6 +31,7 @@ class _FinanceTipScreenState extends State<FinanceTipScreen> {
   Future<void> _add() async {
     final created = await showDialog<FinanceTip>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _TipDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _FinanceTipScreenState extends State<FinanceTipScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Porady finansowe')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.savings_outlined),
         label: const Text('Porada'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Budżet domowy, taryfy prądu i gazu oraz optymalizacja opłat czynszowych.',

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/lunchbox.dart';
+import '../theme/widzew_ui.dart';
 
 class LunchboxScreen extends StatefulWidget {
   final List<LunchboxRecipe> items;
@@ -30,6 +31,7 @@ class _LunchboxScreenState extends State<LunchboxScreen> {
   Future<void> _add() async {
     final created = await showDialog<LunchboxRecipe>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _LunchDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _LunchboxScreenState extends State<LunchboxScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Przekąski do szkoły i pracy')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.lunch_dining_outlined),
         label: const Text('Przepis'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Lunchboksy, batony owsiane i koktajle — szybkie pomysły mieszkańców.',

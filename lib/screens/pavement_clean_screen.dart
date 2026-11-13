@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/pavement_clean.dart';
+import '../theme/widzew_ui.dart';
 
 class PavementCleanScreen extends StatefulWidget {
   final List<PavementCleanSlot> items;
@@ -30,6 +31,7 @@ class _PavementCleanScreenState extends State<PavementCleanScreen> {
   Future<void> _add() async {
     final created = await showDialog<PavementCleanSlot>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _PavDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _PavementCleanScreenState extends State<PavementCleanScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Kostka i chodniki')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.cleaning_services_outlined),
         label: const Text('Termin'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Wspólne porządki kostki, wejść do klatek i podjazdów dla wózków.',

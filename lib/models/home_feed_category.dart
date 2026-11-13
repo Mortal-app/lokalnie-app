@@ -76,7 +76,6 @@ class HomeFeedCategory {
     aliases: [
       'alerty_awarie',
       Announcement.wildlifeCategory,
-      Announcement.sosCategory,
       'Uwaga/Ostrzeżenie',
     ],
   );

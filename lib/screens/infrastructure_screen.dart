@@ -8,6 +8,7 @@ import '../models/announcement.dart';
 import '../models/infrastructure_report.dart';
 import '../models/neighborhood_geo.dart';
 import '../utils/flutter_runtime.dart';
+import '../theme/widzew_ui.dart';
 
 class InfrastructureScreen extends StatefulWidget {
   final List<InfrastructureReport> reports;
@@ -43,6 +44,7 @@ class _InfrastructureScreenState extends State<InfrastructureScreen> {
   Future<void> _add() async {
     final created = await showDialog<InfrastructureReport>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _InfraDialog(
         userName: widget.userName,
         subDistrict: widget.defaultSubDistrict,
@@ -69,13 +71,15 @@ class _InfrastructureScreenState extends State<InfrastructureScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Naprawmy Widzew')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.report_outlined),
         label: const Text('Zgłoś usterkę'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Szybkie zgłoszenia infrastruktury: gniazda os, dziury w chodniku, spalone latarnie. Pinezka na mapie i status ZDiT / MPK.',

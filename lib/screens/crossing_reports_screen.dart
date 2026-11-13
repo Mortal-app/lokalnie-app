@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/crossing_report.dart';
+import '../theme/widzew_ui.dart';
 
 class CrossingReportsScreen extends StatefulWidget {
   final List<CrossingReport> items;
@@ -30,6 +31,7 @@ class _CrossingReportsScreenState extends State<CrossingReportsScreen> {
   Future<void> _add() async {
     final created = await showDialog<CrossingReport>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _CrossDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _CrossingReportsScreenState extends State<CrossingReportsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Bezpieczne przejścia')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.traffic_outlined),
         label: const Text('Zgłoś przejście'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Szybkie zgłoszenia ciemnych, nieoświetlonych lub niebezpiecznych przejść dla pieszych.',

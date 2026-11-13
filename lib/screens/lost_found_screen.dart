@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../models/announcement.dart';
 import '../models/lost_found_item.dart';
+import '../theme/widzew_ui.dart';
 
 class LostFoundScreen extends StatefulWidget {
   final List<LostFoundItem> items;
@@ -35,6 +36,7 @@ class _LostFoundScreenState extends State<LostFoundScreen> {
   Future<void> _add() async {
     final created = await showDialog<LostFoundItem>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _LostDialog(
         userName: widget.userName,
         subDistrict: widget.defaultSubDistrict,
@@ -61,13 +63,15 @@ class _LostFoundScreenState extends State<LostFoundScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Biuro rzeczy znalezionych')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.search),
         label: const Text('Zgłoś zgubę / znalezisko'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Zgubiono / znaleziono na osiedlu: klucze, portfele, dokumenty, koty i psy.',

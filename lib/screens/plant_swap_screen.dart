@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../models/announcement.dart';
 import '../models/plant_swap.dart';
+import '../theme/widzew_ui.dart';
 
 class PlantSwapScreen extends StatefulWidget {
   final List<PlantSwapOffer> offers;
@@ -38,6 +39,7 @@ class _PlantSwapScreenState extends State<PlantSwapScreen> {
   Future<void> _add() async {
     final created = await showDialog<PlantSwapOffer>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _PlantDialog(
         userName: widget.userName,
         subDistrict: widget.defaultSubDistrict,
@@ -52,13 +54,15 @@ class _PlantSwapScreenState extends State<PlantSwapScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Zielony Widzew')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.yard_outlined),
         label: const Text('Dodaj roślinę / poradę'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Szczepki, sadzonki, balkony i ROD. Porady o uprawie w łódzkim klimacie.',

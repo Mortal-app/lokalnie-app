@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/sourdough.dart';
+import '../theme/widzew_ui.dart';
 
 class SourdoughScreen extends StatefulWidget {
   final List<SourdoughRecipe> items;
@@ -30,6 +31,7 @@ class _SourdoughScreenState extends State<SourdoughScreen> {
   Future<void> _add() async {
     final created = await showDialog<SourdoughRecipe>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _BreadDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _SourdoughScreenState extends State<SourdoughScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Domowy chleb i zakwas')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.bakery_dining_outlined),
         label: const Text('Przepis'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Zakwas żytni, wypiek w piekarniku i wymiana starterów między sąsiadami.',

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/workwear.dart';
+import '../theme/widzew_ui.dart';
 
 class WorkwearScreen extends StatefulWidget {
   final List<WorkwearItem> items;
@@ -30,6 +31,7 @@ class _WorkwearScreenState extends State<WorkwearScreen> {
   Future<void> _add() async {
     final created = await showDialog<WorkwearItem>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _WearDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _WorkwearScreenState extends State<WorkwearScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Giełda odzieży roboczej i BHP')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.construction_outlined),
         label: const Text('Oddaj / szukam'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Ubrania robocze, buty z metalowym noskiem i kaski po budowach i remontach.',

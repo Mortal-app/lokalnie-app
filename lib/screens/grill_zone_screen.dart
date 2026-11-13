@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/grill_event.dart';
+import '../theme/widzew_ui.dart';
 
 class GrillZoneScreen extends StatefulWidget {
   final List<GrillEvent> events;
@@ -36,6 +37,7 @@ class _GrillZoneScreenState extends State<GrillZoneScreen> {
   Future<void> _add() async {
     final created = await showDialog<GrillEvent>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _GrillDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -60,13 +62,15 @@ class _GrillZoneScreenState extends State<GrillZoneScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Strefa grilla i pleneru')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.outdoor_grill_outlined),
         label: const Text('Zorganizuj grilla'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Wspólne wypady: Park Baden-Powella, Stawy Stefańskiego i dziedziniec. Rezerwacja grilli przenośnych.',

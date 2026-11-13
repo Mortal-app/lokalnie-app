@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/forest_forage.dart';
+import '../theme/widzew_ui.dart';
 
 class ForestForageScreen extends StatefulWidget {
   final List<ForestForageTrip> items;
@@ -30,6 +31,7 @@ class _ForestForageScreenState extends State<ForestForageScreen> {
   Future<void> _add() async {
     final created = await showDialog<ForestForageTrip>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _ForageDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _ForestForageScreenState extends State<ForestForageScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Grzyby i borówka')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.park_outlined),
         label: const Text('Wyjazd'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Carpooling do lasów w stronę Tuszyna, Koluszek i Strykowa — wolne miejsca w aucie.',

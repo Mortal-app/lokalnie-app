@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/water_pressure.dart';
+import '../theme/widzew_ui.dart';
 
 class WaterPressureScreen extends StatefulWidget {
   final List<WaterPressureReport> items;
@@ -30,6 +31,7 @@ class _WaterPressureScreenState extends State<WaterPressureScreen> {
   Future<void> _add() async {
     final created = await showDialog<WaterPressureReport>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _PressureDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -47,13 +49,15 @@ class _WaterPressureScreenState extends State<WaterPressureScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Ciśnienie wody w pionach')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.water_drop_outlined),
         label: const Text('Zgłoś spadek'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Spadki ciśnienia na piętrach — zgłoszenie idzie też jako powiadomienie dla spółdzielni.',

@@ -19,7 +19,7 @@ class PramAccessScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('Wózki — podjazdy i windy')),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 80),
         children: [
           const Text(
             'Podjazdy, windy bez barier i miejsca przyjazne rodzicom z wózkami w budynkach użyteczności publicznej.',

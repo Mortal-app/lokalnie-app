@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/sport_kit.dart';
+import '../theme/widzew_ui.dart';
 
 class SportKitScreen extends StatefulWidget {
   final List<SportKitOffer> items;
@@ -30,6 +31,7 @@ class _SportKitScreenState extends State<SportKitScreen> {
   Future<void> _add() async {
     final created = await showDialog<SportKitOffer>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _KitDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _SportKitScreenState extends State<SportKitScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Stroje sportowe dzieci')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.sports_soccer_outlined),
         label: const Text('Oddaję strój'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Stroje na WF, korki i ochraniacze — dzieci szybko z nich wyrastają.',

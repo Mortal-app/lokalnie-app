@@ -1,9 +1,8 @@
-enum StartDestination { home, map, sale, groups }
+enum StartDestination { home, sale, groups }
 
 extension StartDestinationX on StartDestination {
   String get label => switch (this) {
     StartDestination.home => 'Główna',
-    StartDestination.map => 'Mapa',
     StartDestination.sale => 'Wyprzedaż',
     StartDestination.groups => 'Grupy',
   };
@@ -12,7 +11,6 @@ extension StartDestinationX on StartDestination {
 
   static StartDestination fromStorage(String? value) {
     return switch (value) {
-      'map' => StartDestination.map,
       'sale' => StartDestination.sale,
       'groups' => StartDestination.groups,
       _ => StartDestination.home,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/student_ride.dart';
+import '../theme/widzew_ui.dart';
 
 class StudentRidesScreen extends StatefulWidget {
   final List<StudentRide> items;
@@ -35,6 +36,7 @@ class _StudentRidesScreenState extends State<StudentRidesScreen> {
   Future<void> _add() async {
     final created = await showDialog<StudentRide>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _StudentDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -46,13 +48,15 @@ class _StudentRidesScreenState extends State<StudentRidesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Dojazdy studenckie')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.school_outlined),
         label: const Text('Dodaj kurs'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Carpooling na Politechnikę Łódzką i Uniwersytet Łódzki z Widzewa Wschodu i Olechowa.',

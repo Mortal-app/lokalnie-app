@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'app_info.dart';
@@ -273,6 +274,7 @@ import 'models/walking_bus.dart';
 import 'models/widzew_history.dart';
 import 'theme/widzew_theme.dart';
 import 'screens/add_announcement_screen.dart';
+import 'screens/content_review_screen.dart';
 import 'screens/announcement_detail_screen.dart';
 import 'screens/add_event_screen.dart';
 import 'screens/home_screen.dart';
@@ -281,8 +283,6 @@ import 'screens/conversations_list_screen.dart';
 import 'models/neighbor_conversation.dart';
 import 'models/neighbor_avatar.dart';
 import 'widgets/voice_note_player.dart';
-import 'screens/sos_alert_screen.dart';
-import 'screens/onboarding_screen.dart';
 import 'screens/profile_screen.dart';
 import 'screens/snap_post_screen.dart';
 import 'screens/cooperative_board_screen.dart';
@@ -560,6 +560,8 @@ import 'services/app_store.dart';
 import 'models/neighborhood_geo.dart';
 import 'services/local_push_service.dart';
 import 'services/badge_service.dart';
+import 'services/board_safety.dart';
+import 'services/stats_service.dart';
 import 'services/neighbor_profile_store.dart';
 import 'services/tradesperson_store.dart';
 import 'models/tradesperson_marketplace.dart';
@@ -569,8 +571,11 @@ import 'utils/neighbor_share.dart';
 import 'widgets/app_page_route.dart';
 import 'widgets/offline_banner.dart';
 import 'widgets/splash_view.dart';
+import 'widgets/widzew_system_ui.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
   runApp(LokalnieWidzewApp(networkGate: ConnectivityNetworkGate()));
 }
 
@@ -639,35 +644,13 @@ class _LokalnieWidzewAppState extends State<LokalnieWidzewApp> {
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
         ],
-        builder: (context, child) => AppLocalizations(
-          locale: AppLocale.pl,
-          child: child ?? const SizedBox.shrink(),
+        builder: (context, child) => WidzewSystemUi(
+          child: AppLocalizations(
+            locale: AppLocale.pl,
+            child: child ?? const SizedBox.shrink(),
+          ),
         ),
         home: const SplashView(),
-      );
-    }
-
-    if (!snapshot.onboardingCompleted) {
-      return MaterialApp(
-        title: AppInfo.name,
-        scaffoldMessengerKey: _messengerKey,
-        debugShowCheckedModeBanner: false,
-        theme: WidzewTheme.light(),
-        locale: snapshot.appLocale.locale,
-        supportedLocales: const [Locale('pl'), Locale('uk'), Locale('en')],
-        localizationsDelegates: const [
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        builder: (context, child) => AppLocalizations(
-          locale: snapshot.appLocale,
-          child: child ?? const SizedBox.shrink(),
-        ),
-        home: OnboardingScreen(
-          onFinished: () =>
-              _saveSnapshot(snapshot.copyWith(onboardingCompleted: true)),
-        ),
       );
     }
 
@@ -698,20 +681,22 @@ class _LokalnieWidzewAppState extends State<LokalnieWidzewApp> {
         GlobalCupertinoLocalizations.delegate,
       ],
       builder: (context, child) {
-        return AppLocalizations(
-          locale: snapshot.appLocale,
-          child: MediaQuery(
-            data: MediaQuery.of(context).copyWith(
-              textScaler: TextScaler.linear(
-                (snapshot.driverMode
-                        ? 1.4
-                        : snapshot.seniorMode
-                        ? 1.28
-                        : 1.0) *
-                    snapshot.accessTextScale,
+        return WidzewSystemUi(
+          child: AppLocalizations(
+            locale: snapshot.appLocale,
+            child: MediaQuery(
+              data: MediaQuery.of(context).copyWith(
+                textScaler: TextScaler.linear(
+                  (snapshot.driverMode
+                          ? 1.4
+                          : snapshot.seniorMode
+                          ? 1.28
+                          : 1.0) *
+                      snapshot.accessTextScale,
+                ),
               ),
+              child: child ?? const SizedBox.shrink(),
             ),
-            child: child ?? const SizedBox.shrink(),
           ),
         );
       },
@@ -1371,7 +1356,9 @@ class _MainTabScreenState extends State<MainTabScreen> {
     _groupsLanding = initial.startDestination == StartDestination.groups;
     _isOnline = widget.networkGate.current;
     unawaited(LocalPushService.init());
+    unawaited(LocalPushService.setEnabled(_neighborhoodNotificationsEnabled));
     unawaited(_loadNeighborProfile());
+    unawaited(_loadBoardSafety());
     _networkSubscription = widget.networkGate.changes.listen((isOnline) {
       if (!mounted) return;
       final cameOnline = !_isOnline && isOnline;
@@ -1689,6 +1676,14 @@ class _MainTabScreenState extends State<MainTabScreen> {
 
   void _persist() => widget.onSnapshotChanged(_currentSnapshot());
 
+  CommunityStats get _communityStats => const StatsService().fromAppState(
+    announcements: _announcements,
+    ecoReports: _ecoReports,
+    messages: _messages,
+    infrastructureReports: _infrastructureReports,
+    currentUserName: _userName,
+  );
+
   List<Widget> get _screens => [
     HomeScreen(
       key: ValueKey('home-$_startDestination-$_defaultSubDistrict'),
@@ -1700,11 +1695,11 @@ class _MainTabScreenState extends State<MainTabScreen> {
       isOnline: _isOnline,
       showOfflineBanner: false,
       userSubDistrict: _defaultSubDistrict,
+      userName: _userName,
       neighborhoodNotificationsEnabled: _neighborhoodNotificationsEnabled,
-      onReportAnnouncement: _hideReportedAnnouncement,
+      onReportAnnouncement: _reportAnnouncement,
       polls: _polls,
       onVotePoll: _votePoll,
-      onAddSosAlert: _openSosAlert,
       events: _events,
       onToggleEventGoing: _toggleEventGoing,
       onAddEventToCalendar: _addEventToCalendar,
@@ -1716,15 +1711,9 @@ class _MainTabScreenState extends State<MainTabScreen> {
           _openAddAnnouncement(category: Announcement.lendingCategory),
       onSnapPost: _openSnapPost,
       onRefresh: () async => _refreshCachedAnnouncements(),
-      onSupportIssue: _supportIssue,
       notificationRadius: _notificationRadius,
       notificationCategories: _notificationCategories,
-      initialContentView: _startDestination == StartDestination.map
-          ? HomeContentView.map
-          : HomeContentView.list,
-      initialCategory: _startDestination == StartDestination.sale
-          ? 'Oddam/Kupię'
-          : null,
+      initialCategory: null,
       driverMode: _driverMode,
       reminders: _reminders,
       onOpenEcoPatrol: _openEcoPatrol,
@@ -1779,7 +1768,7 @@ class _MainTabScreenState extends State<MainTabScreen> {
       onOpenAnnouncement: _openAnnouncementDetails,
       onToggleFavorite: _toggleFavorite,
       onLikeAnnouncement: _likeAnnouncement,
-      onReportAnnouncement: _hideReportedAnnouncement,
+      onReportAnnouncement: _reportAnnouncement,
       onReact: _reactAnnouncement,
     ),
     MessagesHub(
@@ -1820,8 +1809,6 @@ class _MainTabScreenState extends State<MainTabScreen> {
       neighborhoodNotificationsEnabled: _neighborhoodNotificationsEnabled,
       onNeighborhoodNotificationsChanged: _setNeighborhoodNotifications,
       events: _events,
-      notificationRadius: _notificationRadius,
-      onNotificationRadiusChanged: _setNotificationRadius,
       seniorMode: _seniorMode,
       onSeniorModeChanged: _setSeniorMode,
       appLocale: _appLocale,
@@ -1837,13 +1824,7 @@ class _MainTabScreenState extends State<MainTabScreen> {
       onOpenLocalDeals: _openLocalDeals,
       onOpenBookShelf: _openBookShelf,
       timeBankHours: _timeBankHours,
-      communityStats: CommunityStats.from(
-        announcements: _announcements,
-        ecoReports: _ecoReports,
-        books: _bookOffers,
-        timeOffers: _timeBankOffers,
-        events: _events,
-      ),
+      communityStats: _communityStats,
       onOpenCharityDrives: _openCharityDrives,
       onOpenInfrastructure: _openInfrastructure,
       onOpenFleaMarket: _openFleaMarket,
@@ -2115,7 +2096,8 @@ class _MainTabScreenState extends State<MainTabScreen> {
       infrastructureReports: List.unmodifiable(_infrastructureReports),
       unlockedBadgeIds: BadgeService.unlockedIds,
       onDefaultSubDistrictChanged: _setDefaultSubDistrict,
-      onReportAnnouncement: _hideReportedAnnouncement,
+      onReportAnnouncement: _reportAnnouncement,
+      onOpenContentReview: _openContentReview,
       onEditAnnouncement: _editAnnouncement,
       onCompleteAnnouncement: (announcement) =>
           _setStatus(announcement, AnnouncementStatus.resolved),
@@ -2167,7 +2149,7 @@ class _MainTabScreenState extends State<MainTabScreen> {
           onAddComment: (comment) => _addComment(opened, comment),
           currentUserName: _userName,
           onStatusChanged: (status) => _setStatus(opened, status),
-          onReport: () => _hideReportedAnnouncement(opened),
+          onReport: (reason) => _reportAnnouncement(opened, reason),
           onRemindTomorrow: () => _remindAnnouncement(opened),
           onReact: (emoji) => _reactAnnouncement(opened, emoji),
           onWriteToAuthor: () => _startChatWithAuthor(opened),
@@ -2194,6 +2176,15 @@ class _MainTabScreenState extends State<MainTabScreen> {
   bool get _inWidgetTest => isFlutterWidgetTest;
 
   void _addComment(Announcement announcement, String comment) {
+    final filter = ContentFilter.inspect(comment);
+    if (filter.blocked) {
+      if (mounted) {
+        ScaffoldMessenger.of(context)
+          ..hideCurrentSnackBar()
+          ..showSnackBar(SnackBar(content: Text(filter.message)));
+      }
+      return;
+    }
     final index = _announcementIndex(announcement);
     if (index == -1) return;
     final current = _announcements[index];
@@ -2264,10 +2255,6 @@ class _MainTabScreenState extends State<MainTabScreen> {
     unawaited(
       NeighborProfileStore.saveExploredDistricts(_exploredSubDistricts),
     );
-    if (_exploredSubDistricts.length >=
-        NeighborAchievements.wandererDistrictsNeeded) {
-      unawaited(_unlockBadges([BadgeIds.wanderer]));
-    }
   }
 
   int _announcementIndex(Announcement announcement) => _announcements
@@ -2295,24 +2282,102 @@ class _MainTabScreenState extends State<MainTabScreen> {
     _persist();
   }
 
-  void _hideReportedAnnouncement(Announcement announcement) {
+  void _reportAnnouncement(Announcement announcement, String reason) {
     final key = _announcementKey(announcement);
+    final outcome = BoardSafetyStore.addReport(
+      announcementKey: key,
+      reporterId: _userName,
+      reason: reason,
+    );
+    if (outcome.hidden) {
+      setState(() {
+        _hiddenAnnouncementKeys.add(key);
+        if (!_blockedAnnouncementKeys.contains(key)) {
+          _blockedAnnouncementKeys = [..._blockedAnnouncementKeys, key];
+        }
+      });
+      _persist();
+    } else {
+      setState(() {});
+    }
+    if (!mounted) return;
+    ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(SnackBar(content: Text(outcome.message)));
+  }
+
+  void _openContentReview() {
+    Navigator.of(context).push(
+      AppPageRoute<void>(
+        builder: (_) => ContentReviewScreen(
+          items: _announcements
+              .where(
+                (item) => BoardSafetyStore.reviewKeys.contains(
+                  _announcementKey(item),
+                ),
+              )
+              .toList(),
+          reportCount: (item) =>
+              BoardSafetyStore.reportCount(_announcementKey(item)),
+          onOpen: (item) {
+            Navigator.of(context).pop();
+            _openAnnouncementDetails(item);
+          },
+          onRestore: (item) {
+            final key = _announcementKey(item);
+            unawaited(BoardSafetyStore.restore(key));
+            setState(() {
+              _hiddenAnnouncementKeys.remove(key);
+              _blockedAnnouncementKeys = [
+                for (final entry in _blockedAnnouncementKeys)
+                  if (entry != key) entry,
+              ];
+            });
+            _persist();
+            Navigator.of(context).pop();
+          },
+          onKeepHidden: (item) {
+            unawaited(BoardSafetyStore.dismissReview(_announcementKey(item)));
+            setState(() {});
+            Navigator.of(context).pop();
+          },
+        ),
+      ),
+    );
+  }
+
+  Future<void> _loadBoardSafety() async {
+    await BoardSafetyStore.load();
+    if (!mounted) return;
     setState(() {
-      _hiddenAnnouncementKeys.add(key);
-      if (!_blockedAnnouncementKeys.contains(key)) {
-        _blockedAnnouncementKeys = [..._blockedAnnouncementKeys, key];
-      }
+      _hiddenAnnouncementKeys.addAll(BoardSafetyStore.reviewKeys);
     });
-    _persist();
+  }
+
+  bool _allowBoardPublish(String body) {
+    final gate = BoardSafety.publishGate(
+      BoardSafetyStore.publishTimes,
+      bypass: _inWidgetTest,
+    );
+    if (!gate.allowed) {
+      ScaffoldMessenger.of(context)
+        ..hideCurrentSnackBar()
+        ..showSnackBar(SnackBar(content: Text(gate.message)));
+      return false;
+    }
+    final filter = ContentFilter.inspect(body);
+    if (filter.blocked) {
+      ScaffoldMessenger.of(context)
+        ..hideCurrentSnackBar()
+        ..showSnackBar(SnackBar(content: Text(filter.message)));
+      return false;
+    }
+    return true;
   }
 
   void _setNeighborhoodNotifications(bool enabled) {
     setState(() => _neighborhoodNotificationsEnabled = enabled);
-    _persist();
-  }
-
-  void _setNotificationRadius(NotificationRadius radius) {
-    setState(() => _notificationRadius = radius);
+    unawaited(LocalPushService.setEnabled(enabled));
     _persist();
   }
 
@@ -7041,19 +7106,6 @@ class _MainTabScreenState extends State<MainTabScreen> {
     _scheduleReminder(title: event.title, body: 'Wydarzenie: ${event.place}');
   }
 
-  void _supportIssue(Announcement announcement) {
-    final index = _announcementIndex(announcement);
-    if (index == -1 || _announcements[index].isSupported) return;
-    setState(() {
-      final current = _announcements[index];
-      _announcements[index] = current.copyWith(
-        supportCount: current.supportCount + 1,
-        isSupported: true,
-      );
-    });
-    _persist();
-  }
-
   Future<void> _loadNeighborProfile() async {
     final loaded = await NeighborProfileStore.load();
     final marketplace = await TradespersonStore.load();
@@ -7092,13 +7144,15 @@ class _MainTabScreenState extends State<MainTabScreen> {
           report.authorName == _userName &&
           report.status == InfrastructureStatus.repaired,
     );
+    if (!_locationVerified) {
+      await BadgeService.revoke([BadgeIds.gpsVerified]);
+    }
     await BadgeService.unlock(
       BadgeManager.idsFromCurrentState(
         createdCount: _createdAnnouncementCount,
         ownAnnouncements: own,
         locationVerified: _locationVerified,
         neighborTrusted: false,
-        exploredSubDistricts: _exploredSubDistricts,
         helpedRepairJob: helpedRepairJob,
         solvedCityReport: solvedCityReport,
       ),
@@ -7539,30 +7593,34 @@ class _MainTabScreenState extends State<MainTabScreen> {
       fallbackDistrict: _defaultSubDistrict,
     );
     if (!mounted) return;
-    final verified = NeighborhoodGeo.isInWidzew(fix.latitude, fix.longitude);
-    setState(() {
-      _locationVerified = verified;
-      if (verified) {
-        _defaultSubDistrict = fix.subDistrict;
-      }
-    });
-    unawaited(NeighborProfileStore.saveLocationVerified(verified));
-    _persist();
-    if (!mounted) return;
-    if (verified) {
-      final newly = await _unlockBadges([BadgeIds.gpsVerified]);
-      if (!mounted) return;
-      if (newly.isEmpty) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Lokalizacja potwierdzona: ${fix.subDistrict}.'),
-          ),
-        );
-      }
-    } else {
+    final gpsOk =
+        fix.success && NeighborhoodGeo.isInWidzew(fix.latitude, fix.longitude);
+    if (!gpsOk) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Nie udało się potwierdzić lokalizacji na Widzewie.'),
+        ),
+      );
+      return;
+    }
+    setState(() {
+      _locationVerified = true;
+      _defaultSubDistrict = fix.subDistrict;
+    });
+    unawaited(
+      NeighborProfileStore.saveVerifiedLocationFix(
+        latitude: fix.latitude,
+        longitude: fix.longitude,
+      ),
+    );
+    _persist();
+    if (!mounted) return;
+    final newly = await _unlockBadges([BadgeIds.gpsVerified]);
+    if (!mounted) return;
+    if (newly.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Lokalizacja potwierdzona: ${fix.subDistrict}.'),
         ),
       );
     }
@@ -7982,12 +8040,16 @@ class _MainTabScreenState extends State<MainTabScreen> {
       _activeConversationId = null;
     });
     widget.onSnapshotChanged(initial);
+    unawaited(
+      LocalPushService.setEnabled(initial.neighborhoodNotificationsEnabled),
+    );
     unawaited(NeighborProfileStore.clear());
     unawaited(TradespersonStore.clear());
     unawaited(BadgeService.clear());
+    unawaited(BoardSafetyStore.clear());
   }
 
-  Future<void> _editAnnouncement(Announcement announcement) async {
+  Future<Announcement?> _editAnnouncement(Announcement announcement) async {
     final updated = await Navigator.of(context).push<Announcement>(
       AppPageRoute(
         builder: (_) => AddAnnouncementScreen(
@@ -7997,11 +8059,12 @@ class _MainTabScreenState extends State<MainTabScreen> {
         ),
       ),
     );
-    if (updated == null || !mounted) return;
+    if (updated == null || !mounted) return null;
     final index = _announcementIndex(announcement);
-    if (index == -1) return;
+    if (index == -1) return null;
     setState(() => _announcements[index] = updated);
     _persist();
+    return updated;
   }
 
   void _deleteAnnouncement(Announcement announcement) {
@@ -8037,8 +8100,18 @@ class _MainTabScreenState extends State<MainTabScreen> {
   }
 
   void _commitLocalAnnouncement(Announcement announcement) {
+    final body = '${announcement.title}\n${announcement.description}';
+    if (!_allowBoardPublish(body)) return;
+    final filter = ContentFilter.inspect(body);
     final queued = !_isOnline;
-    final item = announcement.copyWith(pendingSync: queued);
+    final item = announcement.copyWith(
+      pendingSync: queued,
+      contentFlagged: filter.flagged || announcement.contentFlagged,
+    );
+    unawaited(BoardSafetyStore.recordPublish(DateTime.now()));
+    if (filter.flagged) {
+      unawaited(BoardSafetyStore.markFlagged(_announcementKey(item)));
+    }
     setState(() {
       _announcements.insert(0, item);
       _createdAnnouncementCount++;
@@ -8052,6 +8125,9 @@ class _MainTabScreenState extends State<MainTabScreen> {
           content: Text('Zapisano lokalnie. Wyśle się po powrocie sieci.'),
         ),
       );
+    } else if (filter.flagged) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(filter.message)));
     }
     if (item.isAlert) {
       unawaited(
@@ -8070,20 +8146,6 @@ class _MainTabScreenState extends State<MainTabScreen> {
         ),
       ),
     );
-  }
-
-  Future<void> _openSosAlert() async {
-    final announcement = await Navigator.of(context).push<Announcement>(
-      AppPageRoute(
-        builder: (_) => SosAlertScreen(
-          initialSubDistrict: _defaultSubDistrict,
-          authorName: _userName,
-        ),
-      ),
-    );
-    if (announcement != null && mounted) {
-      _commitLocalAnnouncement(announcement);
-    }
   }
 
   void _toggleEventGoing(String eventId) {
@@ -8289,6 +8351,17 @@ class _MainTabScreenState extends State<MainTabScreen> {
   }
 
   Future<void> _openSnapPost() async {
+    final gate = BoardSafety.publishGate(
+      BoardSafetyStore.publishTimes,
+      bypass: _inWidgetTest,
+    );
+    if (!gate.allowed) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context)
+        ..hideCurrentSnackBar()
+        ..showSnackBar(SnackBar(content: Text(gate.message)));
+      return;
+    }
     final announcement = await Navigator.of(context).push<Announcement>(
       AppPageRoute(
         builder: (_) => SnapPostScreen(
@@ -8303,6 +8376,17 @@ class _MainTabScreenState extends State<MainTabScreen> {
   }
 
   Future<void> _openAddAnnouncement({String? category}) async {
+    final gate = BoardSafety.publishGate(
+      BoardSafetyStore.publishTimes,
+      bypass: _inWidgetTest,
+    );
+    if (!gate.allowed) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context)
+        ..hideCurrentSnackBar()
+        ..showSnackBar(SnackBar(content: Text(gate.message)));
+      return;
+    }
     final announcement = await Navigator.of(context).push<Announcement>(
       AppPageRoute(
         builder: (_) => AddAnnouncementScreen(
@@ -8317,31 +8401,38 @@ class _MainTabScreenState extends State<MainTabScreen> {
     }
   }
 
+  bool _handleShellBack() {
+    if (_activeConversationId != null && _currentIndex == 2) {
+      _closeConversation();
+      return true;
+    }
+    if (_groupsLanding) {
+      setState(() => _groupsLanding = false);
+      return true;
+    }
+    if (_currentIndex != 0) {
+      setState(() {
+        _groupsLanding = false;
+        _currentIndex = 0;
+      });
+      return true;
+    }
+    return false;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        children: [
-          if (!_isOnline) const OfflineBanner(),
-          Expanded(
-            child: AnimatedSwitcher(
-              duration: _inWidgetTest
-                  ? Duration.zero
-                  : const Duration(milliseconds: 280),
-              switchInCurve: Curves.easeOutCubic,
-              switchOutCurve: Curves.easeInCubic,
-              transitionBuilder: (child, animation) {
-                return FadeTransition(
-                  opacity: animation,
-                  child: SlideTransition(
-                    position: Tween<Offset>(
-                      begin: const Offset(0, 0.03),
-                      end: Offset.zero,
-                    ).animate(animation),
-                    child: child,
-                  ),
-                );
-              },
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) {
+        if (didPop) return;
+        _handleShellBack();
+      },
+      child: Scaffold(
+        body: Column(
+          children: [
+            if (!_isOnline) const OfflineBanner(),
+            Expanded(
               child: KeyedSubtree(
                 key: ValueKey(
                   _groupsLanding && _currentIndex == 0
@@ -8358,39 +8449,39 @@ class _MainTabScreenState extends State<MainTabScreen> {
                     : _screens[_currentIndex.clamp(0, _screens.length - 1)],
               ),
             ),
-          ),
-        ],
-      ),
-      bottomNavigationBar: NavigationBar(
-        selectedIndex: _currentIndex.clamp(0, 3),
-        onDestinationSelected: (index) {
-          setState(() {
-            _groupsLanding = false;
-            _currentIndex = index.clamp(0, 3);
-          });
-        },
-        destinations: [
-          NavigationDestination(
-            icon: const Icon(Icons.home_outlined),
-            selectedIcon: Icon(Icons.home, color: _widzewSkin.seed),
-            label: context.tr('navHome'),
-          ),
-          NavigationDestination(
-            icon: const Icon(Icons.bookmark_border),
-            selectedIcon: Icon(Icons.bookmark, color: _widzewSkin.seed),
-            label: context.tr('navSaved'),
-          ),
-          NavigationDestination(
-            icon: const Icon(Icons.chat_bubble_outline),
-            selectedIcon: Icon(Icons.chat_bubble, color: _widzewSkin.seed),
-            label: context.tr('navMessages'),
-          ),
-          NavigationDestination(
-            icon: const Icon(Icons.person_outline),
-            selectedIcon: Icon(Icons.person, color: _widzewSkin.seed),
-            label: context.tr('navProfile'),
-          ),
-        ],
+          ],
+        ),
+        bottomNavigationBar: NavigationBar(
+          selectedIndex: _currentIndex.clamp(0, 3),
+          onDestinationSelected: (index) {
+            setState(() {
+              _groupsLanding = false;
+              _currentIndex = index.clamp(0, 3);
+            });
+          },
+          destinations: [
+            NavigationDestination(
+              icon: const Icon(Icons.home_outlined),
+              selectedIcon: Icon(Icons.home, color: _widzewSkin.seed),
+              label: context.tr('navHome'),
+            ),
+            NavigationDestination(
+              icon: const Icon(Icons.bookmark_border),
+              selectedIcon: Icon(Icons.bookmark, color: _widzewSkin.seed),
+              label: context.tr('navSaved'),
+            ),
+            NavigationDestination(
+              icon: const Icon(Icons.chat_bubble_outline),
+              selectedIcon: Icon(Icons.chat_bubble, color: _widzewSkin.seed),
+              label: context.tr('navMessages'),
+            ),
+            NavigationDestination(
+              icon: const Icon(Icons.person_outline),
+              selectedIcon: Icon(Icons.person, color: _widzewSkin.seed),
+              label: context.tr('navProfile'),
+            ),
+          ],
+        ),
       ),
     );
   }

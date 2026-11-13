@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/pet_bird.dart';
+import '../theme/widzew_ui.dart';
 
 class PetBirdScreen extends StatefulWidget {
   final List<PetBirdOffer> items;
@@ -30,6 +31,7 @@ class _PetBirdScreenState extends State<PetBirdScreen> {
   Future<void> _add() async {
     final created = await showDialog<PetBirdOffer>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _BirdDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _PetBirdScreenState extends State<PetBirdScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Ptaki ozdobne i papugi')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.flutter_dash),
         label: const Text('Wpis'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Karma, akcesoria i porady behawioralne dla hodowców ptaków domowych z osiedla.',

@@ -6,6 +6,7 @@ import '../models/announcement.dart';
 import '../models/borrow_terms.dart';
 import '../models/neighbor_trust.dart';
 import '../screens/report_announcement.dart';
+import '../services/board_safety.dart';
 import '../utils/lending_reservation.dart';
 import '../utils/neighbor_contact.dart';
 import '../utils/neighbor_share.dart';
@@ -24,7 +25,7 @@ class AnnouncementDetailScreen extends StatefulWidget {
   final ValueChanged<String> onAddComment;
   final ValueChanged<AnnouncementStatus> onStatusChanged;
   final String currentUserName;
-  final VoidCallback? onReport;
+  final ValueChanged<String>? onReport;
   final VoidCallback? onRemindTomorrow;
   final ValueChanged<String>? onReact;
   final VoidCallback? onWriteToAuthor;
@@ -96,6 +97,13 @@ class _AnnouncementDetailScreenState extends State<AnnouncementDetailScreen> {
   void _submitComment([String? preset]) {
     final comment = (preset ?? _commentController.text).trim();
     if (comment.isEmpty) return;
+    final filter = ContentFilter.inspect(comment);
+    if (filter.blocked) {
+      ScaffoldMessenger.of(context)
+        ..hideCurrentSnackBar()
+        ..showSnackBar(SnackBar(content: Text(filter.message)));
+      return;
+    }
     setState(() {
       _comments = [
         ..._comments,
@@ -113,9 +121,7 @@ class _AnnouncementDetailScreenState extends State<AnnouncementDetailScreen> {
     ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()
       ..showSnackBar(
-        const SnackBar(
-          content: Text('Zrealizowane – Dziękuję sąsiedzie!'),
-        ),
+        const SnackBar(content: Text('Zrealizowane – Dziękuję sąsiedzie!')),
       );
   }
 
@@ -132,23 +138,20 @@ class _AnnouncementDetailScreenState extends State<AnnouncementDetailScreen> {
             onPressed: _shareAnnouncement,
             icon: const Icon(Icons.share_outlined),
           ),
-          PopupMenuButton<String>(
-            tooltip: 'Więcej opcji',
-            onSelected: (value) async {
-              if (value != 'report') return;
-              final reason = await showAnnouncementReportDialog(context);
-              if (reason == null || !context.mounted) return;
-              showReportAcceptedMessage(context, reason);
-              widget.onReport?.call();
-              if (context.mounted) Navigator.of(context).pop();
-            },
-            itemBuilder: (context) => const [
-              PopupMenuItem(
-                value: 'report',
-                child: Text('Zgłoś ogłoszenie'),
-              ),
-            ],
-          ),
+          if (widget.onReport != null && !widget.announcement.isMine)
+            PopupMenuButton<String>(
+              tooltip: 'Zgłoś nadużycie',
+              onSelected: (value) async {
+                if (value != 'report') return;
+                final reason = await showAnnouncementReportDialog(context);
+                if (reason == null || !context.mounted) return;
+                widget.onReport?.call(reason);
+                if (context.mounted) Navigator.of(context).pop();
+              },
+              itemBuilder: (context) => const [
+                PopupMenuItem(value: 'report', child: Text('Zgłoś nadużycie')),
+              ],
+            ),
           IconButton(
             tooltip: _isFavorite ? 'Usuń z ulubionych' : 'Dodaj do ulubionych',
             onPressed: () {
@@ -182,9 +185,8 @@ class _AnnouncementDetailScreenState extends State<AnnouncementDetailScreen> {
               Hero(
                 tag: widget.announcement.heroTag,
                 child: CircleAvatar(
-                  backgroundColor: Theme.of(
-                    context,
-                  ).colorScheme.primary.withValues(alpha: 0.12),
+                  backgroundColor: Theme.of(context).colorScheme.primary
+                      .withValues(alpha: 0.12),
                   child: Icon(
                     widget.announcement.icon,
                     color: Theme.of(context).colorScheme.primary,
@@ -222,7 +224,12 @@ class _AnnouncementDetailScreenState extends State<AnnouncementDetailScreen> {
                   child: Stack(
                     fit: StackFit.expand,
                     children: [
-                      AnnouncementPhoto(announcement: widget.announcement),
+                      AnnouncementPhoto(
+                        announcement: widget.announcement,
+                        memCacheWidth: MediaQuery.sizeOf(context).width,
+                        memCacheHeight:
+                            MediaQuery.sizeOf(context).width * 9 / 16,
+                      ),
                       Material(
                         color: Colors.transparent,
                         child: InkWell(
@@ -307,10 +314,7 @@ class _AnnouncementDetailScreenState extends State<AnnouncementDetailScreen> {
             ),
           ],
           const SizedBox(height: 12),
-          AnnouncementReactionsBar(
-            announcement: _item,
-            onReact: _react,
-          ),
+          AnnouncementReactionsBar(announcement: _item, onReact: _react),
           const SizedBox(height: 24),
           Text('Opis', style: Theme.of(context).textTheme.titleMedium),
           const SizedBox(height: 8),
@@ -451,10 +455,7 @@ class _AnnouncementDetailScreenState extends State<AnnouncementDetailScreen> {
                       ),
                       OutlinedButton.icon(
                         onPressed: () => unawaited(
-                          NeighborContact.sendSms(
-                            context,
-                            widget.announcement,
-                          ),
+                          NeighborContact.sendSms(context, widget.announcement),
                         ),
                         icon: const Icon(Icons.sms_outlined),
                         label: const Text('Wyślij SMS'),

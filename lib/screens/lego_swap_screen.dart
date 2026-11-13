@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/lego_swap.dart';
+import '../theme/widzew_ui.dart';
 
 class LegoSwapScreen extends StatefulWidget {
   final List<LegoSwapItem> items;
@@ -30,6 +31,7 @@ class _LegoSwapScreenState extends State<LegoSwapScreen> {
   Future<void> _add() async {
     final created = await showDialog<LegoSwapItem>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _LegoDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _LegoSwapScreenState extends State<LegoSwapScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('LEGO i zabawki edukacyjne')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.extension_outlined),
         label: const Text('Wymiana'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Kompletne zestawy klocków, gry planszowe dla dzieci i zabawki dydaktyczne.',

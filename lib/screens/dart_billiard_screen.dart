@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/dart_billiard.dart';
+import '../theme/widzew_ui.dart';
 
 class DartBilliardScreen extends StatefulWidget {
   final List<DartBilliardMeetup> items;
@@ -30,6 +31,7 @@ class _DartBilliardScreenState extends State<DartBilliardScreen> {
   Future<void> _add() async {
     final created = await showDialog<DartBilliardMeetup>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _GameDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _DartBilliardScreenState extends State<DartBilliardScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Dart i bilard')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.sports_outlined),
         label: const Text('Rozgrywka'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Amatorskie rzutki i bilard w świetlicach, klubach osiedlowych i pubach na Widzewie.',

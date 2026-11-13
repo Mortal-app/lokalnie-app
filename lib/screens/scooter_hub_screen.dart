@@ -19,7 +19,7 @@ class ScooterHubScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('Hulajnogi miejskie')),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 80),
         children: [
           const Text(
             'Schemat najpopularniejszych stojaków i stacji hulajnóg elektrycznych na Widzewie.',

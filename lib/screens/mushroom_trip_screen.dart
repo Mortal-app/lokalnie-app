@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/mushroom_trip.dart';
+import '../theme/widzew_ui.dart';
 
 class MushroomTripScreen extends StatefulWidget {
   final List<MushroomTrip> items;
@@ -30,6 +31,7 @@ class _MushroomTripScreenState extends State<MushroomTripScreen> {
   Future<void> _add() async {
     final created = await showDialog<MushroomTrip>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _TripDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _MushroomTripScreenState extends State<MushroomTripScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Grzyby i Las Łagiewnicki')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.park_outlined),
         label: const Text('Nowy wypad'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Sezonowe wyjazdy na grzybobranie i spacery do kompleksów leśnych wokół Łodzi.',

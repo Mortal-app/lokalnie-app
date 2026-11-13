@@ -48,7 +48,7 @@ class _ClothesBinScreenState extends State<ClothesBinScreen> {
     return Scaffold(
       appBar: AppBar(title: const Text('Kontenery na odzież (PCK / Pecet)')),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 80),
         children: [
           const Text(
             'Lokalizacje kontenerów na odzież używaną. Zgłoś zapełnienie lub uszkodzenie pojemnika.',

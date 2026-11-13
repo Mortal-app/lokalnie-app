@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/jar_swap.dart';
+import '../theme/widzew_ui.dart';
 
 class JarSwapScreen extends StatefulWidget {
   final List<JarSwapOffer> items;
@@ -30,6 +31,7 @@ class _JarSwapScreenState extends State<JarSwapScreen> {
   Future<void> _add() async {
     final created = await showDialog<JarSwapOffer>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _JarDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _JarSwapScreenState extends State<JarSwapScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Przetwory i słoiki')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.inventory_2_outlined),
         label: const Text('Wymiana słoików'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Dam puste słoiki po konfiturach za słoik domowego dżemu lub kompotu.',

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/fruit_vinegar.dart';
+import '../theme/widzew_ui.dart';
 
 class FruitVinegarScreen extends StatefulWidget {
   final List<FruitVinegarRecipe> items;
@@ -30,6 +31,7 @@ class _FruitVinegarScreenState extends State<FruitVinegarScreen> {
   Future<void> _add() async {
     final created = await showDialog<FruitVinegarRecipe>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _VinegarDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _FruitVinegarScreenState extends State<FruitVinegarScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Octy owocowe i zakwasy')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.science_outlined),
         label: const Text('Przepis'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Fermentacja domowa, ocet z obierek jabłek i naturalne probiotyki — osobno od chleba i powideł.',

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../models/announcement.dart';
 import '../models/safety_alert.dart';
+import '../theme/widzew_ui.dart';
 
 class SafetyPatrolScreen extends StatefulWidget {
   final List<SafetyAlert> alerts;
@@ -35,6 +36,7 @@ class _SafetyPatrolScreenState extends State<SafetyPatrolScreen> {
   Future<void> _add() async {
     final created = await showDialog<SafetyAlert>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _SafetyDialog(
         userName: widget.userName,
         subDistrict: widget.defaultSubDistrict,
@@ -60,13 +62,15 @@ class _SafetyPatrolScreenState extends State<SafetyPatrolScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Patrol sąsiedzki')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.security_outlined),
         label: const Text('Zgłoś aktywność'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Podejrzane aktywności na osiedlu. Potwierdź, jeśli widziałeś to samo.',

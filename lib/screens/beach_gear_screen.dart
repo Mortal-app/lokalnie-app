@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/beach_gear.dart';
+import '../theme/widzew_ui.dart';
 
 class BeachGearScreen extends StatefulWidget {
   final List<BeachGearOffer> items;
@@ -30,6 +31,7 @@ class _BeachGearScreenState extends State<BeachGearScreen> {
   Future<void> _add() async {
     final created = await showDialog<BeachGearOffer>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _BeachDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _BeachGearScreenState extends State<BeachGearScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Sprzęt plażowy')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.beach_access_outlined),
         label: const Text('Oddaję'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Materace, parawany, piłki i akcesoria na letnie wyjazdy nad wodę.',

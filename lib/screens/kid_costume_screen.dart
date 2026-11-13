@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/kid_costume.dart';
+import '../theme/widzew_ui.dart';
 
 class KidCostumeScreen extends StatefulWidget {
   final List<KidCostumeOffer> items;
@@ -30,6 +31,7 @@ class _KidCostumeScreenState extends State<KidCostumeScreen> {
   Future<void> _add() async {
     final created = await showDialog<KidCostumeOffer>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _CostumeDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _KidCostumeScreenState extends State<KidCostumeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Kostiumy dla dzieci')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.checkroom_outlined),
         label: const Text('Stroje'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Wypożyczanie i wymiana strojów na bale, przedstawienia szkolne i Halloween.',

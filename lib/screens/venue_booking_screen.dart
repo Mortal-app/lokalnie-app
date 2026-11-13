@@ -50,7 +50,7 @@ class _VenueBookingScreenState extends State<VenueBookingScreen> {
     return Scaffold(
       appBar: AppBar(title: const Text('Grafik boisk i sal')),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 80),
         children: [
           const Text(
             'Zajętość Orlika, ping-ponga i sali osiedlowej. Kalendarz godzinowy — tapnij wolny slot.',

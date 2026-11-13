@@ -4,26 +4,40 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../models/announcement.dart';
+import '../theme/widzew_ui.dart';
 
 class AnnouncementPhoto extends StatelessWidget {
   final Announcement announcement;
   final BoxFit fit;
+  final double? memCacheWidth;
+  final double? memCacheHeight;
 
   const AnnouncementPhoto({
     super.key,
     required this.announcement,
     this.fit = BoxFit.cover,
+    this.memCacheWidth,
+    this.memCacheHeight,
   });
 
   @override
   Widget build(BuildContext context) {
+    final cacheWidth = WidzewUi.imageCachePixels(
+      context,
+      memCacheWidth ?? MediaQuery.sizeOf(context).width,
+    );
+    final cacheHeight = memCacheHeight == null
+        ? null
+        : WidzewUi.imageCachePixels(context, memCacheHeight!);
     final url = announcement.imageUrl;
     if (url != null && url.isNotEmpty) {
       return Image.network(
         url,
         fit: fit,
+        cacheWidth: cacheWidth,
+        cacheHeight: cacheHeight,
         gaplessPlayback: true,
-        filterQuality: FilterQuality.medium,
+        filterQuality: FilterQuality.low,
         errorBuilder: (_, _, _) => const _PhotoFallback(),
       );
     }
@@ -33,8 +47,10 @@ class AnnouncementPhoto extends StatelessWidget {
       return Image.file(
         File(path),
         fit: fit,
+        cacheWidth: cacheWidth,
+        cacheHeight: cacheHeight,
         gaplessPlayback: true,
-        filterQuality: FilterQuality.medium,
+        filterQuality: FilterQuality.low,
         errorBuilder: (_, _, _) => const _PhotoFallback(),
       );
     }

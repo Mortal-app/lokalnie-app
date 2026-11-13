@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
-const reportReasons = ['Spam', 'Nieodpowiednia treść', 'Zła kategoria'];
+import '../services/board_safety.dart';
+
+const reportReasons = BoardSafety.reportReasons;
 
 Future<String?> showAnnouncementReportDialog(BuildContext context) {
   return showDialog<String>(
@@ -11,7 +13,7 @@ Future<String?> showAnnouncementReportDialog(BuildContext context) {
       return StatefulBuilder(
         builder: (context, setState) {
           return AlertDialog(
-            title: const Text('Zgłoś ogłoszenie'),
+            title: const Text('Zgłoś nadużycie'),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -45,16 +47,10 @@ Future<String?> showAnnouncementReportDialog(BuildContext context) {
   );
 }
 
-void showReportAcceptedMessage(BuildContext context, String reason) {
+void showReportAcceptedMessage(BuildContext context, String message) {
   ScaffoldMessenger.of(context)
     ..hideCurrentSnackBar()
-    ..showSnackBar(
-      SnackBar(
-        content: Text(
-          'Dziękujemy. Zgłoszenie ($reason) przyjęte. Ogłoszenie ukryto.',
-        ),
-      ),
-    );
+    ..showSnackBar(SnackBar(content: Text(message)));
 }
 
 void showReportSentThanks(BuildContext context) {

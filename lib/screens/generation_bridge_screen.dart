@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/generation_bridge.dart';
+import '../theme/widzew_ui.dart';
 
 class GenerationBridgeScreen extends StatefulWidget {
   final List<GenerationBridgeOffer> items;
@@ -30,6 +31,7 @@ class _GenerationBridgeScreenState extends State<GenerationBridgeScreen> {
   Future<void> _add() async {
     final created = await showDialog<GenerationBridgeOffer>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _BridgeDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _GenerationBridgeScreenState extends State<GenerationBridgeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Most pokoleń')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.groups_outlined),
         label: const Text('Wymiana umiejętności'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Młodzież: smartfon i komputer. Seniorzy: historie, kuchnia, szydełko.',

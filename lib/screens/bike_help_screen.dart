@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/bike_help.dart';
+import '../theme/widzew_ui.dart';
 
 class BikeHelpScreen extends StatefulWidget {
   final List<BikeHelpRequest> requests;
@@ -34,6 +35,7 @@ class _BikeHelpScreenState extends State<BikeHelpScreen> {
   Future<void> _add() async {
     final created = await showDialog<BikeHelpRequest>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _BikeDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -58,13 +60,15 @@ class _BikeHelpScreenState extends State<BikeHelpScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Pogotowie rowerowe')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.pedal_bike_outlined),
         label: const Text('Potrzebuję pomocy'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Kto pożyczy pompkę / klucz do suportu / pomoże w centrowaniu koła — serwis na klatce.',

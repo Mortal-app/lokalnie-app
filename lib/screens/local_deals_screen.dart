@@ -13,7 +13,7 @@ class LocalDealsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('Okazje i rabaty')),
       body: ListView.builder(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 80),
         itemCount: deals.length,
         itemBuilder: (context, index) {
           final deal = deals[index];

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/time_capsule.dart';
+import '../theme/widzew_ui.dart';
 
 class TimeCapsuleScreen extends StatefulWidget {
   final List<TimeCapsuleEntry> items;
@@ -30,6 +31,7 @@ class _TimeCapsuleScreenState extends State<TimeCapsuleScreen> {
   Future<void> _add() async {
     final created = await showDialog<TimeCapsuleEntry>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _CapsuleDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _TimeCapsuleScreenState extends State<TimeCapsuleScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Kapsuła czasu Widzewa')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.hourglass_empty),
         label: const Text('Wspomnienie'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Księga wspomnień i zdjęć osiedla. Wspólny list do przyszłych pokoleń otworzy się za 10 lat.',

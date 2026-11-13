@@ -51,7 +51,7 @@ class _FoundPlatesScreenState extends State<FoundPlatesScreen> {
     return Scaffold(
       appBar: AppBar(title: const Text('Tablice i kluczyki')),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 80),
         children: [
           const Text(
             'Szybki alert o tablicach rejestracyjnych i kluczykach znalezionych po ulewach lub śniegu.',

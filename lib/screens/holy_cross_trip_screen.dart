@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/holy_cross_trip.dart';
+import '../theme/widzew_ui.dart';
 
 class HolyCrossTripScreen extends StatefulWidget {
   final List<HolyCrossTrip> items;
@@ -30,6 +31,7 @@ class _HolyCrossTripScreenState extends State<HolyCrossTripScreen> {
   Future<void> _add() async {
     final created = await showDialog<HolyCrossTrip>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _TripDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _HolyCrossTripScreenState extends State<HolyCrossTripScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Góry Świętokrzyskie')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.landscape_outlined),
         label: const Text('Wyjazd'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Wspólne weekendy i carpooling na piesze wędrówki poza województwo łódzkie.',

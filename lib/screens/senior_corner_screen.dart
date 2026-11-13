@@ -40,6 +40,7 @@ class _SeniorCornerScreenState extends State<SeniorCornerScreen> {
   Future<void> _add({required bool volunteer}) async {
     final created = await showDialog<SeniorOffer>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _SeniorDialog(
         userName: widget.userName,
         subDistrict: widget.defaultSubDistrict,
@@ -77,7 +78,7 @@ class _SeniorCornerScreenState extends State<SeniorCornerScreen> {
     return Scaffold(
       appBar: AppBar(title: const Text('Kącik Seniora z Widzewa')),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
+        padding: const EdgeInsets.fromLTRB(16, 16, 16, 80),
         children: [
           const Text(
             'Duże przyciski, proste ogłoszenia. Spacer, kawa, szachy i pomoc w urzędzie.',

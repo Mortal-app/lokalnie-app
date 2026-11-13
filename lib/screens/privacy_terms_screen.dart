@@ -12,7 +12,7 @@ class PrivacyTermsScreen extends StatelessWidget {
       appBar: AppBar(title: const Text('Polityka prywatności i regulamin')),
       body: ListView(
         key: const ValueKey('privacy-list'),
-        padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
+        padding: const EdgeInsets.fromLTRB(16, 16, 16, 80),
         children: [
           Text('Polityka prywatności', style: titleStyle),
           const SizedBox(height: 8),

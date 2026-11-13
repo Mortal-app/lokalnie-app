@@ -12,7 +12,7 @@ class SchoolPhotoScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('Dawne szkoły Widzewa')),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 80),
         children: [
           const Text(
             'Galeria opisów historycznych zdjęć budynków szkół podstawowych i liceów wschodniej Łodzi — bez plików graficznych.',

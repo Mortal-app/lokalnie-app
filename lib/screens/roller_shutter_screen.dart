@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/roller_shutter.dart';
+import '../theme/widzew_ui.dart';
 
 class RollerShutterScreen extends StatefulWidget {
   final List<RollerShutterTip> items;
@@ -30,6 +31,7 @@ class _RollerShutterScreenState extends State<RollerShutterScreen> {
   Future<void> _add() async {
     final created = await showDialog<RollerShutterTip>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _ShutDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _RollerShutterScreenState extends State<RollerShutterScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Rolety zewnętrzne')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.blinds_outlined),
         label: const Text('Porada / pomoc'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Regulacja pancerzy i wymiana zerwanych taśm zwijaczy — osobno od okuć PCV.',

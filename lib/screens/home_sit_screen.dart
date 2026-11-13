@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/home_sit.dart';
+import '../theme/widzew_ui.dart';
 
 class HomeSitScreen extends StatefulWidget {
   final List<HomeSitRequest> items;
@@ -30,6 +31,7 @@ class _HomeSitScreenState extends State<HomeSitScreen> {
   Future<void> _add() async {
     final created = await showDialog<HomeSitRequest>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _SitDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _HomeSitScreenState extends State<HomeSitScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Doglądanie mieszkania')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.home_outlined),
         label: const Text('Bezpieczne ogłoszenie'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Szukam zaufanego sąsiada do wybrania poczty i podlania kwiatów podczas wyjazdu. Bez adresu w tytule — umowa na klatce.',

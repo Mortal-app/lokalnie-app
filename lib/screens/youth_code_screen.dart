@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/youth_code.dart';
+import '../theme/widzew_ui.dart';
 
 class YouthCodeScreen extends StatefulWidget {
   final List<YouthCodeWorkshop> items;
@@ -30,6 +31,7 @@ class _YouthCodeScreenState extends State<YouthCodeScreen> {
   Future<void> _add() async {
     final created = await showDialog<YouthCodeWorkshop>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _CodeDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _YouthCodeScreenState extends State<YouthCodeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Klub młodego programisty')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.smart_toy_outlined),
         label: const Text('Warsztat'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Kodowanie, roboty i druk 3D dla dzieci i młodzieży na Widzewie.',

@@ -13,7 +13,7 @@ class NeighborQuestBadge {
     NeighborQuestBadge(
       id: 'nq-dlon',
       title: 'Pomocna Dłoń',
-      description: 'Interwencja domowa, pomoc na klatce albo zgłoszenie SOS.',
+      description: 'Interwencja domowa albo pomoc na klatce.',
     ),
     NeighborQuestBadge(
       id: 'nq-eko',

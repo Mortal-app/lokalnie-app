@@ -19,7 +19,7 @@ class PhoneChargeScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('Ładowanie telefonu')),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 80),
         children: [
           const Text(
             'Punkty awaryjnego podładowania smartfona — biblioteki, domy kultury i przestrzeń publiczna Widzewa.',

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../models/announcement.dart';
 import '../models/fauna_sighting.dart';
+import '../theme/widzew_ui.dart';
 
 class FaunaAlertsScreen extends StatefulWidget {
   final List<FaunaSighting> items;
@@ -33,6 +34,7 @@ class _FaunaAlertsScreenState extends State<FaunaAlertsScreen> {
   Future<void> _add() async {
     final created = await showDialog<FaunaSighting>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _FaunaDialog(
         userName: widget.userName,
         subDistrict: widget.defaultSubDistrict,
@@ -58,13 +60,15 @@ class _FaunaAlertsScreenState extends State<FaunaAlertsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Alert fauny miejskiej')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.pets),
         label: const Text('Zgłoś dzika / zwierzę'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Zgłoszenia dzików i dzikich zwierząt przy parkach i blokowiskach Widzewa. Nie dokarmiać.',

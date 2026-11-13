@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/kayak_trip.dart';
+import '../theme/widzew_ui.dart';
 
 class KayakTripScreen extends StatefulWidget {
   final List<KayakTrip> items;
@@ -30,6 +31,7 @@ class _KayakTripScreenState extends State<KayakTripScreen> {
   Future<void> _add() async {
     final created = await showDialog<KayakTrip>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _KayakDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _KayakTripScreenState extends State<KayakTripScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Spływy kajakowe')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.directions_boat_outlined),
         label: const Text('Spływ'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Carpooling na Pilicę i Wartę — miejsca w aucie i podział kosztów sprzętu.',

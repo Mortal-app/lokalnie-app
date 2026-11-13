@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/school_gear.dart';
+import '../theme/widzew_ui.dart';
 
 class SchoolGearScreen extends StatefulWidget {
   final List<SchoolGearOffer> items;
@@ -30,6 +31,7 @@ class _SchoolGearScreenState extends State<SchoolGearScreen> {
   Future<void> _add() async {
     final created = await showDialog<SchoolGearOffer>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _GearDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _SchoolGearScreenState extends State<SchoolGearScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Sprzęt szkolny i plecaki')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.school_outlined),
         label: const Text('Oddaję'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Piórniki, tornistry, plastyczne i zestawy geometryczne przed nowym rokiem szkolnym.',

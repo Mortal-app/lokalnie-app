@@ -4,16 +4,18 @@ class NeighborProfileStore {
   static const avatarIndexKey = 'neighbor_avatar_index';
   static const avatarPhotoKey = 'neighbor_avatar_photo_path';
   static const locationVerifiedKey = 'location_verified_widzew';
+  static const locationLatKey = 'location_verified_lat';
+  static const locationLngKey = 'location_verified_lng';
   static const exploredDistrictsKey = 'explored_subdistricts';
 
   static Future<(int avatarIndex, bool locationVerified, String? photoPath)>
-      load() async {
+  load() async {
     try {
       final preferences = await SharedPreferences.getInstance();
       final photo = preferences.getString(avatarPhotoKey);
       return (
         preferences.getInt(avatarIndexKey) ?? 0,
-        preferences.getBool(locationVerifiedKey) ?? false,
+        _isStoredLocationVerified(preferences),
         photo == null || photo.isEmpty ? null : photo,
       );
     } catch (_) {
@@ -42,10 +44,24 @@ class NeighborProfileStore {
     }
   }
 
-  static Future<bool> saveLocationVerified(bool verified) async {
+  static bool _isStoredLocationVerified(SharedPreferences preferences) {
+    final flagged = preferences.getBool(locationVerifiedKey) ?? false;
+    if (!flagged) return false;
+    final lat = preferences.getDouble(locationLatKey);
+    final lng = preferences.getDouble(locationLngKey);
+    return lat != null && lng != null;
+  }
+
+  static Future<bool> saveVerifiedLocationFix({
+    required double latitude,
+    required double longitude,
+  }) async {
     try {
       final preferences = await SharedPreferences.getInstance();
-      return await preferences.setBool(locationVerifiedKey, verified);
+      final flagged = await preferences.setBool(locationVerifiedKey, true);
+      final latOk = await preferences.setDouble(locationLatKey, latitude);
+      final lngOk = await preferences.setDouble(locationLngKey, longitude);
+      return flagged && latOk && lngOk;
     } catch (_) {
       return false;
     }
@@ -63,10 +79,7 @@ class NeighborProfileStore {
   static Future<bool> saveExploredDistricts(List<String> districts) async {
     try {
       final preferences = await SharedPreferences.getInstance();
-      return await preferences.setStringList(
-        exploredDistrictsKey,
-        districts,
-      );
+      return await preferences.setStringList(exploredDistrictsKey, districts);
     } catch (_) {
       return false;
     }
@@ -78,6 +91,8 @@ class NeighborProfileStore {
       await preferences.remove(avatarIndexKey);
       await preferences.remove(avatarPhotoKey);
       await preferences.remove(locationVerifiedKey);
+      await preferences.remove(locationLatKey);
+      await preferences.remove(locationLngKey);
       await preferences.remove(exploredDistrictsKey);
     } catch (_) {}
   }

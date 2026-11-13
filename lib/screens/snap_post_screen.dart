@@ -6,8 +6,10 @@ import 'package:flutter/material.dart';
 
 import '../models/announcement.dart';
 import '../services/app_image_picker.dart';
+import '../services/board_safety.dart';
 import '../services/form_draft_store.dart';
 import '../services/widzew_location.dart';
+import '../theme/widzew_ui.dart';
 
 class SnapPostScreen extends StatefulWidget {
   final String initialSubDistrict;
@@ -34,7 +36,9 @@ class _SnapPostScreenState extends State<SnapPostScreen> {
   bool get _showFilePreview {
     final path = _imagePath;
     if (kIsWeb || path == null || path.isEmpty) return false;
-    if (WidgetsBinding.instance.runtimeType.toString().contains('TestWidgets')) {
+    if (WidgetsBinding.instance.runtimeType.toString().contains(
+      'TestWidgets',
+    )) {
       return false;
     }
     return true;
@@ -102,14 +106,19 @@ class _SnapPostScreenState extends State<SnapPostScreen> {
       );
       return;
     }
+    final filter = ContentFilter.inspect(description);
+    if (filter.blocked) {
+      ScaffoldMessenger.of(context)
+        ..hideCurrentSnackBar()
+        ..showSnackBar(SnackBar(content: Text(filter.message)));
+      return;
+    }
     final fix = _fix;
     final district = fix?.subDistrict ?? widget.initialSubDistrict;
     FormDraftStore.clear(FormDraftStore.snapPost);
     Navigator.of(context).pop(
       Announcement(
-        title: description.isEmpty
-            ? 'Usterka na $district'
-            : description,
+        title: description.isEmpty ? 'Usterka na $district' : description,
         category: 'Uwaga/Ostrzeżenie',
         subDistrict: district,
         time: 'Teraz',
@@ -138,7 +147,7 @@ class _SnapPostScreenState extends State<SnapPostScreen> {
     return Scaffold(
       appBar: AppBar(title: const Text('Szybkie zgłoszenie')),
       body: ListView(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.fromLTRB(16, 16, 16, 120),
         children: [
           Text(
             'Jeden przycisk, GPS i zdjęcie. Bez długiego formularza — usterka trafia na tablicę Widzewa / Olechowa.',
@@ -186,7 +195,18 @@ class _SnapPostScreenState extends State<SnapPostScreen> {
                   : ClipRRect(
                       borderRadius: BorderRadius.circular(12),
                       child: _showFilePreview
-                          ? Image.file(File(_imagePath!), fit: BoxFit.cover)
+                          ? Image.file(
+                              File(_imagePath!),
+                              fit: BoxFit.cover,
+                              cacheWidth: WidzewUi.imageCachePixels(
+                                context,
+                                MediaQuery.sizeOf(context).width,
+                              ),
+                              cacheHeight: WidzewUi.imageCachePixels(
+                                context,
+                                MediaQuery.sizeOf(context).width * 9 / 16,
+                              ),
+                            )
                           : ColoredBox(
                               color: previewFill,
                               child: Center(

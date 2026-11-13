@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/tennis_squash.dart';
+import '../theme/widzew_ui.dart';
 
 class TennisSquashScreen extends StatefulWidget {
   final List<TennisSquashMeetup> items;
@@ -30,6 +31,7 @@ class _TennisSquashScreenState extends State<TennisSquashScreen> {
   Future<void> _add() async {
     final created = await showDialog<TennisSquashMeetup>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _RacketDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _TennisSquashScreenState extends State<TennisSquashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Tenis i squash')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.sports),
         label: const Text('Sparing'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Amatorskie sparingi tenisowe i squash na obiektach sportowych w okolicy Widzewa i Olechowa.',

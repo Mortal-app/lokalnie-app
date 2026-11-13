@@ -77,7 +77,7 @@ class _BlockPushScreenState extends State<BlockPushScreen> {
     return Scaffold(
       appBar: AppBar(title: const Text('Powiadomienia blokowe')),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 80),
         children: [
           const Text(
             'Filtr push dokładnie na numer bloku i klatkę. Puste pola = wszystkie powiadomienia.',

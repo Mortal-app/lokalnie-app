@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/aquarium_swap.dart';
+import '../theme/widzew_ui.dart';
 
 class AquariumSwapScreen extends StatefulWidget {
   final List<AquariumSwapOffer> items;
@@ -30,6 +31,7 @@ class _AquariumSwapScreenState extends State<AquariumSwapScreen> {
   Future<void> _add() async {
     final created = await showDialog<AquariumSwapOffer>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _AquaDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _AquariumSwapScreenState extends State<AquariumSwapScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Akwaria i terraria')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.water_outlined),
         label: const Text('Wymiana'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Roślinki, krewetki, nadwyżki filtrów i terraria — forum akwarystów z osiedla.',

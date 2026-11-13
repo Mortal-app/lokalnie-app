@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/upcycle_craft.dart';
+import '../theme/widzew_ui.dart';
 
 class UpcycleCraftScreen extends StatefulWidget {
   final List<UpcycleOffer> items;
@@ -30,6 +31,7 @@ class _UpcycleCraftScreenState extends State<UpcycleCraftScreen> {
   Future<void> _add() async {
     final created = await showDialog<UpcycleOffer>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _UpcycleDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _UpcycleCraftScreenState extends State<UpcycleCraftScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Krawiectwo i upcycling')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.content_cut),
         label: const Text('Ogłoszenie'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Przeróbki starych ubrań, torby z bannerów i dekoracje z odzysku.',

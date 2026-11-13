@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../models/announcement.dart';
 import '../models/barter_offer.dart';
+import '../theme/widzew_ui.dart';
 
 class BarterScreen extends StatefulWidget {
   final List<BarterOffer> offers;
@@ -33,6 +34,7 @@ class _BarterScreenState extends State<BarterScreen> {
   Future<void> _add() async {
     final created = await showDialog<BarterOffer>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _BarterDialog(
         userName: widget.userName,
         subDistrict: widget.defaultSubDistrict,
@@ -47,13 +49,15 @@ class _BarterScreenState extends State<BarterScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Sąsiedzki Barter')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.swap_horiz),
         label: const Text('Nowa wymiana'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Wymiana rzecz za rzecz, bez gotówki. Na karcie widać, co dajesz i czego szukasz.',

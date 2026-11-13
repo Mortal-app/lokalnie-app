@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/plant_hotel.dart';
+import '../theme/widzew_ui.dart';
 
 class PlantHotelScreen extends StatefulWidget {
   final List<PlantHotelStay> items;
@@ -30,6 +31,7 @@ class _PlantHotelScreenState extends State<PlantHotelScreen> {
   Future<void> _add() async {
     final created = await showDialog<PlantHotelStay>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _HotelDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _PlantHotelScreenState extends State<PlantHotelScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Hotel dla kwiatów')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.local_florist_outlined),
         label: const Text('Opieka'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Tymczasowa opieka nad kwiatami doniczkowymi na czas urlopu sąsiadów.',

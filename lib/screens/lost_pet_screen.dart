@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/lost_pet.dart';
+import '../theme/widzew_ui.dart';
 
 class LostPetScreen extends StatefulWidget {
   final List<LostPetAlert> items;
@@ -32,6 +33,7 @@ class _LostPetScreenState extends State<LostPetScreen> {
   Future<void> _add() async {
     final created = await showDialog<LostPetAlert>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _PetDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -44,13 +46,15 @@ class _LostPetScreenState extends State<LostPetScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Zagubione zwierzęta')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.pets),
         label: const Text('Zdjęcie i alert'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Pies lub kot — opis zdjęcia i push do sąsiadów w promieniu kilku bloków.',

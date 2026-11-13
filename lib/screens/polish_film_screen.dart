@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/polish_film.dart';
+import '../theme/widzew_ui.dart';
 
 class PolishFilmScreen extends StatefulWidget {
   final List<PolishFilmPost> items;
@@ -30,6 +31,7 @@ class _PolishFilmScreenState extends State<PolishFilmScreen> {
   Future<void> _add() async {
     final created = await showDialog<PolishFilmPost>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _FilmDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _PolishFilmScreenState extends State<PolishFilmScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Film polski i Teatr TV')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.movie_outlined),
         label: const Text('Wpis'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Wymiana płyt DVD, klasyka polskiej kinematografii, Teatr TV i seanse w osiedlowych domach kultury.',

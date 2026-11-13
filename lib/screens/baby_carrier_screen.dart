@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/baby_carrier.dart';
+import '../theme/widzew_ui.dart';
 
 class BabyCarrierScreen extends StatefulWidget {
   final List<BabyCarrierOffer> items;
@@ -30,6 +31,7 @@ class _BabyCarrierScreenState extends State<BabyCarrierScreen> {
   Future<void> _add() async {
     final created = await showDialog<BabyCarrierOffer>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _CarrierDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _BabyCarrierScreenState extends State<BabyCarrierScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Nosidełka i chusty')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.child_care_outlined),
         label: const Text('Oferta'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Giełda chust tkanych, elastycznych i nosidełek troczonych między młodymi rodzicami — bez wózków.',

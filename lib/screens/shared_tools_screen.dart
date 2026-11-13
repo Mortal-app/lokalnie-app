@@ -54,7 +54,7 @@ class _SharedToolsScreenState extends State<SharedToolsScreen> {
     return Scaffold(
       appBar: AppBar(title: const Text('Magazyn narzędzi spółdzielni')),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 80),
         children: [
           const Text(
             'Sprzęt klubu mieszkańca: drabina, odkurzacz piorący, myjka. Rezerwacja na dzień.',

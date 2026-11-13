@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/trailer_share.dart';
+import '../theme/widzew_ui.dart';
 
 class TrailerShareScreen extends StatefulWidget {
   final List<TrailerShare> items;
@@ -30,6 +31,7 @@ class _TrailerShareScreenState extends State<TrailerShareScreen> {
   Future<void> _add() async {
     final created = await showDialog<TrailerShare>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => const _TrailDialog(),
     );
     if (created == null) return;
@@ -54,13 +56,15 @@ class _TrailerShareScreenState extends State<TrailerShareScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Przyczepki, boxy i lawety')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.airport_shuttle_outlined),
         label: const Text('Udostępniam'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Przyczepka, box dachowy i platforma rowerowa na hak — pożycz od sąsiada.',

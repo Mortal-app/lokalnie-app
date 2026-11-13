@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/model_fair.dart';
+import '../theme/widzew_ui.dart';
 
 class ModelFairScreen extends StatefulWidget {
   final List<ModelFairItem> items;
@@ -30,6 +31,7 @@ class _ModelFairScreenState extends State<ModelFairScreen> {
   Future<void> _add() async {
     final created = await showDialog<ModelFairItem>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _ModelDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _ModelFairScreenState extends State<ModelFairScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Giełda modelarska')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.precision_manufacturing_outlined),
         label: const Text('Praca'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Modele redukcyjne, figurki i makiety — prezentacja prac z Widzewa.',

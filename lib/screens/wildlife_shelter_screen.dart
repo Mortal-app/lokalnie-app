@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../models/bike_station.dart';
 import '../models/wildlife_shelter.dart';
+import '../theme/widzew_ui.dart';
 
 class WildlifeShelterScreen extends StatefulWidget {
   final List<WildlifeShelter> items;
@@ -37,6 +38,7 @@ class _WildlifeShelterScreenState extends State<WildlifeShelterScreen> {
   Future<void> _add() async {
     final created = await showDialog<WildlifeShelter>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _ShelterDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -48,13 +50,15 @@ class _WildlifeShelterScreenState extends State<WildlifeShelterScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Domki owadów i budki')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.hive_outlined),
         label: const Text('Nowe schronienie'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Schronienia dla ptaków i owadów pożytecznych na zieleni Widzewa.',

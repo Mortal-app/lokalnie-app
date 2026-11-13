@@ -19,7 +19,7 @@ class SodaCo2Screen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('Wymiana butli SodaStream / CO2')),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 80),
         children: [
           const Text(
             'Punkty nabijania i wymiany różowych oraz niebieskich cylindrów CO2 do syfonów i saturatorów na Widzewie.',

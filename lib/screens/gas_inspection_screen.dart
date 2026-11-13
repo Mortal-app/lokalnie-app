@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/gas_inspection.dart';
+import '../theme/widzew_ui.dart';
 
 class GasInspectionScreen extends StatefulWidget {
   final List<GasInspection> items;
@@ -30,6 +31,7 @@ class _GasInspectionScreenState extends State<GasInspectionScreen> {
   Future<void> _add() async {
     final created = await showDialog<GasInspection>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _GasDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -47,13 +49,15 @@ class _GasInspectionScreenState extends State<GasInspectionScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Przeglądy gazu i komin')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.local_fire_department_outlined),
         label: const Text('Termin'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Harmonogram wizyt kominiarzy i kontroli szczelności gazu w blokach wielorodzinnych.',

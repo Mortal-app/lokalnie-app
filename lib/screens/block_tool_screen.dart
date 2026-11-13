@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/block_tool.dart';
+import '../theme/widzew_ui.dart';
 
 class BlockToolScreen extends StatefulWidget {
   final List<BlockToolItem> items;
@@ -32,6 +33,7 @@ class _BlockToolScreenState extends State<BlockToolScreen> {
   Future<void> _add() async {
     final created = await showDialog<BlockToolItem>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _ToolDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -54,13 +56,15 @@ class _BlockToolScreenState extends State<BlockToolScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Inwentarz narzędzi blokowych')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.add),
         label: const Text('Narzędzie ze składek'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Myjki, zagęszczarki i wiertarki udarowe kupione ze składek klatkowych — wypożycz i oddaj.',

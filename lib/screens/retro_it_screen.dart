@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/retro_it_offer.dart';
+import '../theme/widzew_ui.dart';
 
 class RetroItScreen extends StatefulWidget {
   final List<RetroItOffer> items;
@@ -30,6 +31,7 @@ class _RetroItScreenState extends State<RetroItScreen> {
   Future<void> _add() async {
     final created = await showDialog<RetroItOffer>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _ItDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _RetroItScreenState extends State<RetroItScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Retro-IT i warsztat komputerowy')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.memory_outlined),
         label: const Text('Dodaj ogłoszenie'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Podzespoły, czyszczenie układów chłodzenia i serwis laptopów/PC w sąsiedztwie.',

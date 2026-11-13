@@ -1,10 +1,51 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../models/widzew_skin.dart';
 import 'widzew_colors.dart';
 import 'widzew_ui.dart';
 
 class WidzewTheme {
+  static Color systemNavigationBarColor({
+    required Brightness brightness,
+    required Color accent,
+  }) {
+    final ink = brightness == Brightness.dark
+        ? const Color(0xFF050505)
+        : const Color(0xFF1A1A1A);
+    return Color.lerp(
+      ink,
+      accent,
+      brightness == Brightness.dark ? 0.18 : 0.24,
+    )!;
+  }
+
+  static SystemUiOverlayStyle overlayStyle({
+    required Brightness brightness,
+    required Color accent,
+  }) {
+    final navColor = systemNavigationBarColor(
+      brightness: brightness,
+      accent: accent,
+    );
+    return SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.light,
+      statusBarBrightness: Brightness.dark,
+      systemNavigationBarColor: navColor,
+      systemNavigationBarDividerColor: Color.lerp(navColor, Colors.white, 0.16),
+      systemNavigationBarIconBrightness: Brightness.light,
+      systemNavigationBarContrastEnforced: true,
+    );
+  }
+
+  static SystemUiOverlayStyle overlayStyleFor(ThemeData theme) {
+    return overlayStyle(
+      brightness: theme.brightness,
+      accent: theme.colorScheme.primary,
+    );
+  }
+
   static ThemeData light({
     bool seniorMode = false,
     bool driverMode = false,
@@ -56,7 +97,9 @@ class WidzewTheme {
     }
     scheme = scheme.copyWith(
       onSurface: isDark ? WidzewColors.inkOnDark : WidzewColors.ink,
-      onSurfaceVariant: isDark ? const Color(0xFFE0E0E0) : WidzewColors.inkMuted,
+      onSurfaceVariant: isDark
+          ? const Color(0xFFE0E0E0)
+          : WidzewColors.inkMuted,
       onSecondaryContainer: isDark ? WidzewColors.inkOnDark : WidzewColors.ink,
       onTertiaryContainer: isDark ? WidzewColors.inkOnDark : WidzewColors.ink,
       secondaryContainer: isDark ? mixDark(0.22) : skin.soft,
@@ -80,11 +123,7 @@ class WidzewTheme {
       visualDensity: largeType
           ? VisualDensity.comfortable
           : VisualDensity.standard,
-      textTheme: _textTheme(
-        brightness,
-        largeType,
-        extraLarge: driverMode,
-      ),
+      textTheme: _textTheme(brightness, largeType, extraLarge: driverMode),
       primaryTextTheme: _textTheme(
         brightness,
         largeType,
@@ -127,10 +166,16 @@ class WidzewTheme {
         backgroundColor: accent,
         foregroundColor: WidzewColors.white,
         elevation: 0,
+        systemOverlayStyle: overlayStyle(
+          brightness: brightness,
+          accent: accent,
+        ),
       ),
       snackBarTheme: SnackBarThemeData(
         backgroundColor: isDark ? mixDark(0.28) : null,
-        contentTextStyle: TextStyle(color: isDark ? WidzewColors.inkOnDark : null),
+        contentTextStyle: TextStyle(
+          color: isDark ? WidzewColors.inkOnDark : null,
+        ),
       ),
       cardTheme: CardThemeData(
         color: isDark ? mixDark(0.16) : scheme.surface,
@@ -140,9 +185,7 @@ class WidzewTheme {
       chipTheme: ChipThemeData(
         shape: WidzewUi.shape,
         backgroundColor: isDark ? mixDark(0.22) : WidzewColors.chipFill,
-        selectedColor: isDark
-            ? accent.withValues(alpha: 0.45)
-            : skin.soft,
+        selectedColor: isDark ? accent.withValues(alpha: 0.45) : skin.soft,
         surfaceTintColor: Colors.transparent,
         labelStyle: TextStyle(
           color: ink,
@@ -150,10 +193,7 @@ class WidzewTheme {
           height: 1.2,
           overflow: TextOverflow.visible,
         ),
-        secondaryLabelStyle: TextStyle(
-          color: ink,
-          fontWeight: FontWeight.w600,
-        ),
+        secondaryLabelStyle: TextStyle(color: ink, fontWeight: FontWeight.w600),
         iconTheme: IconThemeData(color: ink, size: 18),
         deleteIconColor: ink,
         checkmarkColor: isDark ? WidzewColors.inkOnDark : WidzewColors.ink,
@@ -172,7 +212,9 @@ class WidzewTheme {
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
         textColor: ink,
         iconColor: ink,
-        subtitleTextStyle: TextStyle(color: isDark ? const Color(0xFFE0E0E0) : WidzewColors.inkMuted),
+        subtitleTextStyle: TextStyle(
+          color: isDark ? const Color(0xFFE0E0E0) : WidzewColors.inkMuted,
+        ),
       ),
       segmentedButtonTheme: SegmentedButtonThemeData(
         style: ButtonStyle(
@@ -188,27 +230,21 @@ class WidzewTheme {
       inputDecorationTheme: InputDecorationTheme(
         filled: isDark,
         fillColor: isDark ? mixDark(0.18) : null,
-        labelStyle: TextStyle(color: isDark ? const Color(0xFFE0E0E0) : WidzewColors.inkMuted),
-        hintStyle: TextStyle(color: isDark ? const Color(0xFFBDBDBD) : WidzewColors.grey),
+        labelStyle: TextStyle(
+          color: isDark ? const Color(0xFFE0E0E0) : WidzewColors.inkMuted,
+        ),
+        hintStyle: TextStyle(
+          color: isDark ? const Color(0xFFBDBDBD) : WidzewColors.grey,
+        ),
         border: OutlineInputBorder(borderRadius: WidzewUi.borderRadius),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: WidzewUi.borderRadius,
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: WidzewUi.borderRadius,
-        ),
+        enabledBorder: OutlineInputBorder(borderRadius: WidzewUi.borderRadius),
+        focusedBorder: OutlineInputBorder(borderRadius: WidzewUi.borderRadius),
       ),
       navigationBarTheme: NavigationBarThemeData(
-        backgroundColor: isDark ? mixDark(0.10) : null,
-        indicatorColor: isDark
-            ? accent.withValues(alpha: 0.28)
-            : skin.soft,
+        backgroundColor: isDark ? mixDark(0.10) : scheme.surface,
+        indicatorColor: isDark ? accent.withValues(alpha: 0.28) : skin.soft,
         labelTextStyle: WidgetStatePropertyAll(
-          TextStyle(
-            color: ink,
-            fontSize: 12,
-            fontWeight: FontWeight.w600,
-          ),
+          TextStyle(color: ink, fontSize: 12, fontWeight: FontWeight.w600),
         ),
         iconTheme: WidgetStateProperty.resolveWith((states) {
           if (states.contains(WidgetState.selected)) {
@@ -248,7 +284,10 @@ class WidzewTheme {
     final bump = extraLarge ? 4.0 : 0.0;
     return themed.copyWith(
       bodyLarge: themed.bodyLarge?.copyWith(fontSize: 18 + bump, height: 1.35),
-      bodyMedium: themed.bodyMedium?.copyWith(fontSize: 16 + bump, height: 1.35),
+      bodyMedium: themed.bodyMedium?.copyWith(
+        fontSize: 16 + bump,
+        height: 1.35,
+      ),
       titleMedium: themed.titleMedium?.copyWith(fontSize: 20 + bump),
       titleLarge: themed.titleLarge?.copyWith(fontSize: 24 + bump),
       labelLarge: themed.labelLarge?.copyWith(fontSize: 16 + bump),

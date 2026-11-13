@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/workshop_tool.dart';
+import '../theme/widzew_ui.dart';
 
 class WorkshopGarageScreen extends StatefulWidget {
   final List<WorkshopTool> items;
@@ -30,6 +31,7 @@ class _WorkshopGarageScreenState extends State<WorkshopGarageScreen> {
   Future<void> _add() async {
     final created = await showDialog<WorkshopTool>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => const _ToolDialog(),
     );
     if (created == null) return;
@@ -54,13 +56,15 @@ class _WorkshopGarageScreenState extends State<WorkshopGarageScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Garaż i stacja majsterkowicza')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.handyman_outlined),
         label: const Text('Udostępniam narzędzie'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Klucze dynamometryczne, lutownice, spawarki i prostowniki — pasjonaci z osiedla.',

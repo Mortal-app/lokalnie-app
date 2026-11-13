@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/eco_cleaner.dart';
+import '../theme/widzew_ui.dart';
 
 class EcoCleanerScreen extends StatefulWidget {
   final List<EcoCleanRecipe> items;
@@ -30,6 +31,7 @@ class _EcoCleanerScreenState extends State<EcoCleanerScreen> {
   Future<void> _add() async {
     final created = await showDialog<EcoCleanRecipe>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _RecipeDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _EcoCleanerScreenState extends State<EcoCleanerScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Eko-środki czystości')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.local_laundry_service_outlined),
         label: const Text('Przepis'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Domowe tabletki do zmywarki, płyny z octu i sody oraz pasty polerskie.',

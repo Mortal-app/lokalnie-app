@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/console_tourney.dart';
+import '../theme/widzew_ui.dart';
 
 class ConsoleTourneyScreen extends StatefulWidget {
   final List<ConsoleTourney> items;
@@ -30,6 +31,7 @@ class _ConsoleTourneyScreenState extends State<ConsoleTourneyScreen> {
   Future<void> _add() async {
     final created = await showDialog<ConsoleTourney>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _CupDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _ConsoleTourneyScreenState extends State<ConsoleTourneyScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Turnieje konsolowe')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.sports_esports_outlined),
         label: const Text('Nowy turniej'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'FC, Tekken, Mortal Kombat — PS / Xbox / PC na telewizorach w klubach osiedlowych.',

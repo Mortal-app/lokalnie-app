@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/lang_book.dart';
+import '../theme/widzew_ui.dart';
 
 class LangBookScreen extends StatefulWidget {
   final List<LangBookOffer> items;
@@ -30,6 +31,7 @@ class _LangBookScreenState extends State<LangBookScreen> {
   Future<void> _add() async {
     final created = await showDialog<LangBookOffer>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _BookDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _LangBookScreenState extends State<LangBookScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Książki obcojęzyczne')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.menu_book_outlined),
         label: const Text('Podręcznik'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Literatura EN / DE / IT i słowniki dla uczniów i studentów z osiedla.',

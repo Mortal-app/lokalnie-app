@@ -89,7 +89,7 @@ class _TradespersonCardScreenState extends State<TradespersonCardScreen>
     return Scaffold(
       appBar: AppBar(title: const Text('Wizytówka fachowca')),
       body: ListView(
-        padding: WidzewUi.insetsWide,
+        padding: WidzewUi.insetsWide.copyWith(bottom: 100),
         children: [
           const Text(
             'Konto Fachowca (Złota Rączka) — te dane trafią do katalogu po opłaceniu abonamentu PRO.',
@@ -98,9 +98,7 @@ class _TradespersonCardScreenState extends State<TradespersonCardScreen>
           TextField(
             controller: _name,
             textCapitalization: TextCapitalization.words,
-            decoration: const InputDecoration(
-              labelText: 'Nazwa firmy / imię',
-            ),
+            decoration: const InputDecoration(labelText: 'Nazwa firmy / imię'),
           ),
           const SizedBox(height: 12),
           DropdownButtonFormField<String>(
@@ -120,9 +118,7 @@ class _TradespersonCardScreenState extends State<TradespersonCardScreen>
             controller: _description,
             minLines: 3,
             maxLines: 5,
-            decoration: const InputDecoration(
-              labelText: 'Krótki opis oferty',
-            ),
+            decoration: const InputDecoration(labelText: 'Krótki opis oferty'),
           ),
           const SizedBox(height: 12),
           TextField(
@@ -155,6 +151,7 @@ class _TradespersonCardScreenState extends State<TradespersonCardScreen>
             onPressed: submitLocked ? null : _submit,
             child: const Text('Zapisz wizytówkę'),
           ),
+          const SizedBox(height: 80),
         ],
       ),
     );

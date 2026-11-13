@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/badminton_meetup.dart';
+import '../theme/widzew_ui.dart';
 
 class BadmintonMeetupScreen extends StatefulWidget {
   final List<BadmintonMeetup> items;
@@ -30,6 +31,7 @@ class _BadmintonMeetupScreenState extends State<BadmintonMeetupScreen> {
   Future<void> _add() async {
     final created = await showDialog<BadmintonMeetup>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _BadDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _BadmintonMeetupScreenState extends State<BadmintonMeetupScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Badminton i korty')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.sports_tennis_outlined),
         label: const Text('Sparing'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Amatorski badminton na trawnikach, boiskach i kortach otwartych — osobno od ping-ponga.',

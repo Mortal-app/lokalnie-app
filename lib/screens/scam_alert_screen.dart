@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/scam_alert.dart';
+import '../theme/widzew_ui.dart';
 
 class ScamAlertScreen extends StatefulWidget {
   final List<ScamAlert> items;
@@ -32,6 +33,7 @@ class _ScamAlertScreenState extends State<ScamAlertScreen> {
   Future<void> _add() async {
     final created = await showDialog<ScamAlert>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _ScamDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -43,13 +45,15 @@ class _ScamAlertScreenState extends State<ScamAlertScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Ostrzeżenia o oszustwach')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.report_outlined),
         label: const Text('Pilne ostrzeżenie'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Próby wyłudzeń „na wnuczka” i „na urzędnika” — natychmiastowe powiadomienie sąsiadów.',

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/parking_share.dart';
+import '../theme/widzew_ui.dart';
 
 class ParkingShareScreen extends StatefulWidget {
   final List<ParkingShareOffer> items;
@@ -30,6 +31,7 @@ class _ParkingShareScreenState extends State<ParkingShareScreen> {
   Future<void> _add() async {
     final created = await showDialog<ParkingShareOffer>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _ParkDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _ParkingShareScreenState extends State<ParkingShareScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Współdzielenie miejsc postojowych')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.local_parking),
         label: const Text('Oddaję miejsce'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Gdy wyjeżdżasz autem z osiedla w godzinach pracy — udostępnij miejsce sąsiadowi.',

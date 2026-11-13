@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/animal_patrol.dart';
+import '../theme/widzew_ui.dart';
 
 class AnimalPatrolScreen extends StatefulWidget {
   final List<AnimalPatrolReport> items;
@@ -30,6 +31,7 @@ class _AnimalPatrolScreenState extends State<AnimalPatrolScreen> {
   Future<void> _add() async {
     final created = await showDialog<AnimalPatrolReport>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _PatrolDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _AnimalPatrolScreenState extends State<AnimalPatrolScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Patrol ochrony zwierząt')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.pets),
         label: const Text('Zgłoszenie'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Interwencje, schroniska i dokarmianie kotów wolno żyjących. Krótki opis — bez alarmowych tytułów SOS.',

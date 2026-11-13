@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/heat_alert.dart';
+import '../theme/widzew_ui.dart';
 
 class HeatAlertScreen extends StatefulWidget {
   final List<HeatAlert> items;
@@ -30,6 +31,7 @@ class _HeatAlertScreenState extends State<HeatAlertScreen> {
   Future<void> _add() async {
     final created = await showDialog<HeatAlert>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _HeatDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _HeatAlertScreenState extends State<HeatAlertScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('C.O. i ciepła woda')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.thermostat_outlined),
         label: const Text('Zgłoś'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Wychłodzone kaloryfery i zaplanowane prace Veolii na Widzewie.',

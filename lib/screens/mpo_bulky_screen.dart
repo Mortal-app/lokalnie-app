@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/mpo_bulky.dart';
+import '../theme/widzew_ui.dart';
 
 class MpoBulkyScreen extends StatefulWidget {
   final List<MpoBulkySlot> items;
@@ -30,6 +31,7 @@ class _MpoBulkyScreenState extends State<MpoBulkyScreen> {
   Future<void> _add() async {
     final created = await showDialog<MpoBulkySlot>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _MpoDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _MpoBulkyScreenState extends State<MpoBulkyScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Gabaryty i MPO')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.weekend_outlined),
         label: const Text('Termin ulicy'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Wystawianie i odbiór gabarytów przez MPO — Widzew Wschód i Olechów, ulica po ulicy.',

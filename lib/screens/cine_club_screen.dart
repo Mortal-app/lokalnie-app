@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/cine_club.dart';
+import '../theme/widzew_ui.dart';
 
 class CineClubScreen extends StatefulWidget {
   final List<CineScreening> items;
@@ -30,6 +31,7 @@ class _CineClubScreenState extends State<CineClubScreen> {
   Future<void> _add() async {
     final created = await showDialog<CineScreening>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => const _CineDialog(),
     );
     if (created == null) return;
@@ -55,13 +57,15 @@ class _CineClubScreenState extends State<CineClubScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Kino studyjne i DKF')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.theaters_outlined),
         label: const Text('Nowy seans'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Seanse w świetlicy i kino niezależne w plenerze. Rezerwacja darmowego miejsca.',

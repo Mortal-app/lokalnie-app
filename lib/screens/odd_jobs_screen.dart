@@ -4,6 +4,7 @@ import '../models/announcement.dart';
 import '../models/odd_job.dart';
 import '../utils/submit_guard.dart';
 import '../utils/utf8_text_guard.dart';
+import '../theme/widzew_ui.dart';
 
 class OddJobsScreen extends StatefulWidget {
   final List<OddJob> jobs;
@@ -44,6 +45,7 @@ class _OddJobsScreenState extends State<OddJobsScreen> with SubmitGuard {
     await runExclusive(() async {
       final created = await showDialog<OddJob>(
         context: context,
+        barrierDismissible: true,
         builder: (_) => _JobDialog(
           userName: widget.userName,
           subDistrict: widget.defaultSubDistrict,
@@ -59,13 +61,15 @@ class _OddJobsScreenState extends State<OddJobsScreen> with SubmitGuard {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Praca i drobne zlecenia')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: submitLocked ? null : _add,
         icon: const Icon(Icons.work_outline),
         label: const Text('Dodaj zlecenie'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Szukam / oferuję pracę doraźną: ROD, przeprowadzka, pies.',

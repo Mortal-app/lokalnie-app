@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/home_duty.dart';
+import '../theme/widzew_ui.dart';
 
 class HomeAssistantScreen extends StatefulWidget {
   final List<HomeDuty> duties;
@@ -30,6 +31,7 @@ class _HomeAssistantScreenState extends State<HomeAssistantScreen> {
   Future<void> _add() async {
     final created = await showDialog<HomeDuty>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => const _DutyDialog(),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _HomeAssistantScreenState extends State<HomeAssistantScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Asystent domowy')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.event_note_outlined),
         label: const Text('Dodaj termin'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Liczniki wody, gazu i prądu oraz przegląd piecyków. Przypomnienie trafia do powiadomień lokalnych.',

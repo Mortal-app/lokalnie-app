@@ -5,10 +5,7 @@ import '../theme/widzew_ui.dart';
 class TradespersonProBenefitsScreen extends StatelessWidget {
   final VoidCallback onBecomePro;
 
-  const TradespersonProBenefitsScreen({
-    super.key,
-    required this.onBecomePro,
-  });
+  const TradespersonProBenefitsScreen({super.key, required this.onBecomePro});
 
   static const _benefits = [
     (
@@ -42,38 +39,42 @@ class TradespersonProBenefitsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Dlaczego warto zostać Fachowcem PRO')),
-      body: ListView(
-        padding: WidzewUi.insetsWide,
-        children: [
-          Text(
-            'Pakiet abonamentowy dla wykonawców z Widzewa',
-            style: Theme.of(context).textTheme.titleLarge,
-          ),
-          const SizedBox(height: 8),
-          const Text(
-            'Konto klienta jest darmowe. Konto Fachowca (Złota Rączka) z aktywnym PRO otwiera katalog, giełdę zleceń i zaufanie sąsiadów — bez prowizji od każdej naprawy, tylko prosty abonament.',
-          ),
-          const SizedBox(height: 16),
-          for (final item in _benefits)
-            Card(
-              child: ListTile(
-                leading: Icon(item.$1),
-                title: Text(item.$2),
-                subtitle: Text(item.$3),
-                isThreeLine: true,
-              ),
+      body: SingleChildScrollView(
+        padding: WidzewUi.insetsWide.copyWith(bottom: 100),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text(
+              'Pakiet abonamentowy dla wykonawców z Widzewa',
+              style: Theme.of(context).textTheme.titleLarge,
             ),
-          const SizedBox(height: 12),
-          const Text(
-            'Symulacja płatności Blik lub kartą przedłuża pakiet o 30 dni. Status i datę ważności zawsze sprawdzisz w Profilu.',
-          ),
-          const SizedBox(height: 20),
-          FilledButton.icon(
-            onPressed: onBecomePro,
-            icon: const Icon(Icons.workspace_premium_outlined),
-            label: const Text('Chcę pakiet PRO'),
-          ),
-        ],
+            const SizedBox(height: 8),
+            const Text(
+              'Konto klienta jest darmowe. Konto Fachowca (Złota Rączka) z aktywnym PRO otwiera katalog, giełdę zleceń i zaufanie sąsiadów — bez prowizji od każdej naprawy, tylko prosty abonament.',
+            ),
+            const SizedBox(height: 16),
+            for (final item in _benefits)
+              Card(
+                child: ListTile(
+                  leading: Icon(item.$1),
+                  title: Text(item.$2),
+                  subtitle: Text(item.$3),
+                  isThreeLine: true,
+                ),
+              ),
+            const SizedBox(height: 12),
+            const Text(
+              'Symulacja płatności Blik lub kartą przedłuża pakiet o 30 dni. Status i datę ważności zawsze sprawdzisz w Profilu.',
+            ),
+            const SizedBox(height: 20),
+            FilledButton.icon(
+              onPressed: onBecomePro,
+              icon: const Icon(Icons.workspace_premium_outlined),
+              label: const Text('Chcę pakiet PRO'),
+            ),
+            const SizedBox(height: 80),
+          ],
+        ),
       ),
     );
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/bulk_buy.dart';
+import '../theme/widzew_ui.dart';
 
 class BulkBuyScreen extends StatefulWidget {
   final List<BulkBuy> buys;
@@ -30,6 +31,7 @@ class _BulkBuyScreenState extends State<BulkBuyScreen> {
   Future<void> _add() async {
     final created = await showDialog<BulkBuy>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => const _BulkDialog(),
     );
     if (created == null) return;
@@ -49,13 +51,15 @@ class _BulkBuyScreenState extends State<BulkBuyScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Wspólne zakupy hurtowe')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.groups_outlined),
         label: const Text('Nowe skrzykniecie'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Pellet, ziemia, artykuły dziecięce — licznik chętnych i łączne zamówienie.',

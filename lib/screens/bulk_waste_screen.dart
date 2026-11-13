@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/bulk_waste.dart';
+import '../theme/widzew_ui.dart';
 
 class BulkWasteScreen extends StatefulWidget {
   final List<BulkWasteReport> items;
@@ -30,6 +31,7 @@ class _BulkWasteScreenState extends State<BulkWasteScreen> {
   Future<void> _add() async {
     final created = await showDialog<BulkWasteReport>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _WasteDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _BulkWasteScreenState extends State<BulkWasteScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Gabaryty i stare meble')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.chair_outlined),
         label: const Text('Zgłoś gabaryt'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Wystawione gabaryty na osiedlu i harmonogram odbioru MPO Łódź (zwykle pierwszy wtorek miesiąca).',

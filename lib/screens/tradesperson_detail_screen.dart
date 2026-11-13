@@ -80,6 +80,7 @@ class _TradespersonDetailScreenState extends State<TradespersonDetailScreen> {
     final text = TextEditingController();
     final created = await showDialog<TradespersonReview>(
       context: context,
+      barrierDismissible: true,
       builder: (dialogContext) {
         return StatefulBuilder(
           builder: (context, setDialogState) {
@@ -182,7 +183,7 @@ class _TradespersonDetailScreenState extends State<TradespersonDetailScreen> {
         ],
       ),
       body: ListView(
-        padding: WidzewUi.insetsWide,
+        padding: WidzewUi.insetsWide.copyWith(bottom: WidzewUi.fabScrollBottom),
         children: [
           Text(
             listing.displayName,

@@ -49,14 +49,6 @@ class TradespersonCatalogScreen extends StatefulWidget {
     this.onOpenPriceList,
   });
 
-  static const districtFilters = [
-    'Wszystkie',
-    'Stary Widzew',
-    'Widzew Wschód',
-    'Olechów',
-    'Janów',
-  ];
-
   @override
   State<TradespersonCatalogScreen> createState() =>
       _TradespersonCatalogScreenState();
@@ -64,8 +56,6 @@ class TradespersonCatalogScreen extends StatefulWidget {
 
 class _TradespersonCatalogScreenState extends State<TradespersonCatalogScreen>
     with SingleTickerProviderStateMixin {
-  String? _trade;
-  String _district = 'Wszystkie';
   String _searchQuery = '';
   late final TextEditingController _search;
   late final TabController _tabs;
@@ -100,28 +90,26 @@ class _TradespersonCatalogScreenState extends State<TradespersonCatalogScreen>
     super.dispose();
   }
 
-  List<TradespersonListing> get _allListings {
+  List<TradespersonListing> _visibleListings() {
     return TradespersonCatalog.visible(
       widget.account,
       extraReviews: widget.reviews,
     );
   }
 
-  List<TradespersonListing> get _listings {
+  List<TradespersonListing> _filterListings(List<TradespersonListing> all) {
     final query = _searchQuery.trim().toLowerCase();
-    return _allListings.where((item) {
-      final matchesTrade = _trade == null || item.trade == _trade;
-      final matchesDistrict = item.servesDistrict(_district);
+    if (query.isEmpty) return all;
+    return all.where((item) {
       final haystack =
           '${item.displayName} ${item.trade} ${item.description} ${item.subDistrict}'
               .toLowerCase();
-      final matchesQuery = query.isEmpty || haystack.contains(query);
-      return matchesTrade && matchesDistrict && matchesQuery;
+      return haystack.contains(query);
     }).toList();
   }
 
-  List<TradespersonListing> get _favorites {
-    return _allListings
+  List<TradespersonListing> _favoriteListings(List<TradespersonListing> all) {
+    return all
         .where((item) => widget.favoriteListingIds.contains(item.id))
         .toList();
   }
@@ -169,14 +157,35 @@ class _TradespersonCatalogScreenState extends State<TradespersonCatalogScreen>
 
   @override
   Widget build(BuildContext context) {
-    final listings = _listings;
-    final favorites = _favorites;
+    final allListings = _visibleListings();
+    final listings = _filterListings(allListings);
+    final favorites = _favoriteListings(allListings);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Katalog Fachowców'),
         bottom: TabBar(
           controller: _tabs,
           isScrollable: true,
+          tabAlignment: TabAlignment.start,
+          labelColor: Colors.white,
+          unselectedLabelColor: Colors.white,
+          indicatorColor: Colors.white,
+          indicatorWeight: 3,
+          dividerColor: Colors.transparent,
+          labelPadding: const EdgeInsets.symmetric(horizontal: 16),
+          labelStyle: const TextStyle(
+            fontWeight: FontWeight.w700,
+            fontSize: 14,
+            color: Colors.white,
+          ),
+          unselectedLabelStyle: const TextStyle(
+            fontWeight: FontWeight.w600,
+            fontSize: 14,
+            color: Colors.white,
+          ),
+          overlayColor: WidgetStatePropertyAll(
+            Colors.white.withValues(alpha: 0.16),
+          ),
           tabs: const [
             Tab(text: 'Katalog'),
             Tab(text: 'Szukam Fachowca'),
@@ -184,136 +193,131 @@ class _TradespersonCatalogScreenState extends State<TradespersonCatalogScreen>
           ],
         ),
       ),
-      floatingActionButton: _tabs.index == 0 && widget.account.isTradesperson
-          ? FloatingActionButton.extended(
-              onPressed: widget.account.canPublishListing
-                  ? widget.onPublishMine
-                  : widget.onOpenSubscription,
-              icon: const Icon(Icons.add),
-              label: const Text('Publikuj ofertę'),
-            )
-          : null,
+      floatingActionButton: WidzewUi.maybeSafeFab(
+        _tabs.index == 0 && widget.account.isTradesperson
+            ? FloatingActionButton.extended(
+                onPressed: widget.account.canPublishListing
+                    ? widget.onPublishMine
+                    : widget.onOpenSubscription,
+                icon: const Icon(Icons.add),
+                label: const Text('Publikuj ofertę'),
+              )
+            : null,
+      ),
       body: TabBarView(
         controller: _tabs,
         children: [
-          ListView(
-            padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
-            children: [
-              const Text(
-                'Usługi remontowo-naprawcze na Widzewie. W katalogu tylko fachowcy z aktywnym abonamentem PRO.',
-              ),
-              const SizedBox(height: 12),
-              TextField(
-                controller: _search,
-                textInputAction: TextInputAction.search,
-                decoration: InputDecoration(
-                  hintText: 'Szukaj fachowca (np. hydraulik, zamek)',
-                  prefixIcon: const Icon(Icons.search),
-                  suffixIcon: _searchQuery.isEmpty
-                      ? null
-                      : IconButton(
-                          tooltip: 'Wyczyść',
-                          icon: const Icon(Icons.close),
-                          onPressed: () => _applySearch(''),
-                        ),
+          CustomScrollView(
+            scrollCacheExtent: WidzewUi.listCacheExtent,
+            shrinkWrap: false,
+            physics: const ClampingScrollPhysics(),
+            slivers: [
+              const SliverPadding(
+                padding: EdgeInsets.fromLTRB(16, 12, 16, 0),
+                sliver: SliverToBoxAdapter(
+                  child: Text(
+                    'Usługi remontowo-naprawcze na Widzewie. W katalogu tylko fachowcy z aktywnym abonamentem PRO.',
+                  ),
                 ),
-                onChanged: (value) => setState(() => _searchQuery = value),
-                onSubmitted: (value) => _applySearch(value, record: true),
+              ),
+              SliverPadding(
+                padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
+                sliver: SliverToBoxAdapter(
+                  child: TextField(
+                    controller: _search,
+                    textInputAction: TextInputAction.search,
+                    decoration: InputDecoration(
+                      hintText: 'Szukaj fachowca (np. hydraulik, zamek)',
+                      prefixIcon: const Icon(Icons.search),
+                      suffixIcon: _searchQuery.isEmpty
+                          ? null
+                          : IconButton(
+                              tooltip: 'Wyczyść',
+                              icon: const Icon(Icons.close),
+                              onPressed: () => _applySearch(''),
+                            ),
+                    ),
+                    onChanged: (value) => setState(() => _searchQuery = value),
+                    onSubmitted: (value) => _applySearch(value, record: true),
+                  ),
+                ),
               ),
               if (widget.searchHistory.isNotEmpty &&
-                  _searchQuery.trim().isEmpty) ...[
-                const SizedBox(height: 8),
-                Text(
-                  'Ostatnie wyszukiwania',
-                  style: Theme.of(context).textTheme.labelLarge,
-                ),
-                const SizedBox(height: 4),
-                Wrap(
-                  spacing: 8,
-                  runSpacing: 4,
-                  children: [
-                    for (final phrase in widget.searchHistory.take(5))
-                      InputChip(
-                        label: Text(phrase),
-                        onPressed: () => _applySearch(phrase, record: true),
-                        onDeleted: widget.onRemoveSearch == null
-                            ? null
-                            : () => widget.onRemoveSearch!(phrase),
-                      ),
-                  ],
-                ),
-              ],
-              if (widget.account.isTradesperson) ...[
-                const SizedBox(height: 8),
-                ListTile(
-                  contentPadding: EdgeInsets.zero,
-                  leading: const Icon(Icons.workspace_premium_outlined),
-                  title: Text(
-                    'Twój status PRO: ${widget.account.subscriptionStatusLabel}',
-                  ),
-                  subtitle: Text(
-                    widget.account.isProActive
-                        ? (widget.account.listingPublished
-                            ? 'Oferta jest widoczna w katalogu'
-                            : 'Możesz opublikować ofertę')
-                        : 'Kontakt i wysoka pozycja wymagają aktywnego PRO',
-                  ),
-                  trailing: const Icon(Icons.chevron_right),
-                  onTap: widget.onOpenSubscription,
-                ),
-              ],
-              const SizedBox(height: 8),
-              Text(
-                'Osiedle',
-                style: Theme.of(context).textTheme.titleSmall,
-              ),
-              const SizedBox(height: 6),
-              Wrap(
-                spacing: 8,
-                runSpacing: 4,
-                children: [
-                  for (final district
-                      in TradespersonCatalogScreen.districtFilters)
-                    FilterChip(
-                      key: ValueKey('district-filter-$district'),
-                      label: Text(district),
-                      selected: _district == district,
-                      onSelected: (_) => setState(() => _district = district),
+                  _searchQuery.trim().isEmpty)
+                SliverPadding(
+                  padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+                  sliver: SliverToBoxAdapter(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Ostatnie wyszukiwania',
+                          style: Theme.of(context).textTheme.labelLarge,
+                        ),
+                        const SizedBox(height: 4),
+                        Wrap(
+                          spacing: 8,
+                          runSpacing: 4,
+                          children: [
+                            for (final phrase in widget.searchHistory.take(5))
+                              InputChip(
+                                label: Text(phrase),
+                                onPressed: () =>
+                                    _applySearch(phrase, record: true),
+                                onDeleted: widget.onRemoveSearch == null
+                                    ? null
+                                    : () => widget.onRemoveSearch!(phrase),
+                              ),
+                          ],
+                        ),
+                      ],
                     ),
-                ],
-              ),
-              const SizedBox(height: 8),
-              Wrap(
-                spacing: 8,
-                runSpacing: 4,
-                children: [
-                  FilterChip(
-                    label: const Text('Wszystkie branże'),
-                    selected: _trade == null,
-                    onSelected: (_) => setState(() => _trade = null),
                   ),
-                  for (final trade in TradespersonTrade.values.take(3))
-                    FilterChip(
-                      label: Text(trade),
-                      selected: _trade == trade,
-                      onSelected: (_) => setState(
-                        () => _trade = _trade == trade ? null : trade,
+                ),
+              if (widget.account.isTradesperson)
+                SliverPadding(
+                  padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+                  sliver: SliverToBoxAdapter(
+                    child: ListTile(
+                      contentPadding: EdgeInsets.zero,
+                      leading: const Icon(Icons.workspace_premium_outlined),
+                      title: Text(
+                        'Twój status PRO: ${widget.account.subscriptionStatusLabel}',
                       ),
+                      subtitle: Text(
+                        widget.account.isProActive
+                            ? (widget.account.listingPublished
+                                  ? 'Oferta jest widoczna w katalogu'
+                                  : 'Możesz opublikować ofertę')
+                            : 'Kontakt i wysoka pozycja wymagają aktywnego PRO',
+                      ),
+                      trailing: const Icon(Icons.chevron_right),
+                      onTap: widget.onOpenSubscription,
                     ),
-                ],
-              ),
-              const SizedBox(height: 12),
+                  ),
+                ),
+              const SliverToBoxAdapter(child: SizedBox(height: 12)),
               if (listings.isEmpty)
-                Padding(
+                const SliverPadding(
                   padding: WidzewUi.insetsWide,
-                  child: Text(
-                    _district == 'Wszystkie'
-                        ? 'Brak zweryfikowanych fachowców PRO w tej branży.'
-                        : 'Brak fachowców obsługujących osiedle $_district.',
+                  sliver: SliverToBoxAdapter(
+                    child: Text(
+                      'Brak zweryfikowanych fachowców PRO w katalogu.',
+                    ),
                   ),
                 )
               else
-                for (final listing in listings) _listingCard(listing),
+                SliverPadding(
+                  padding: const EdgeInsets.fromLTRB(16, 0, 16, 120),
+                  sliver: SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) => _listingCard(listings[index]),
+                      childCount: listings.length,
+                      addAutomaticKeepAlives: false,
+                      addRepaintBoundaries: true,
+                    ),
+                  ),
+                ),
             ],
           ),
           NeighborHelpBoardScreen(
@@ -327,22 +331,40 @@ class _TradespersonCatalogScreenState extends State<TradespersonCatalogScreen>
             onAccept: widget.onAcceptHelpPost,
             onNeedSubscription: widget.onOpenSubscription,
           ),
-          ListView(
-            padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
-            children: [
-              const Text(
-                'Ulubieni Fachowcy — Twoi zapisani, zaufani wykonawcy z Widzewa.',
-              ),
-              const SizedBox(height: 12),
-              if (favorites.isEmpty)
-                const Padding(
-                  padding: WidzewUi.insetsWide,
+          CustomScrollView(
+            scrollCacheExtent: WidzewUi.listCacheExtent,
+            shrinkWrap: false,
+            physics: const ClampingScrollPhysics(),
+            slivers: [
+              const SliverPadding(
+                padding: EdgeInsets.fromLTRB(16, 12, 16, 12),
+                sliver: SliverToBoxAdapter(
                   child: Text(
-                    'Brak ulubionych. Dodaj fachowca serduszkiem na karcie lub w profilu.',
+                    'Ulubieni Fachowcy — Twoi zapisani, zaufani wykonawcy z Widzewa.',
+                  ),
+                ),
+              ),
+              if (favorites.isEmpty)
+                const SliverPadding(
+                  padding: WidzewUi.insetsWide,
+                  sliver: SliverToBoxAdapter(
+                    child: Text(
+                      'Brak ulubionych. Dodaj fachowca serduszkiem na karcie lub w profilu.',
+                    ),
                   ),
                 )
               else
-                for (final listing in favorites) _listingCard(listing),
+                SliverPadding(
+                  padding: const EdgeInsets.fromLTRB(16, 0, 16, 120),
+                  sliver: SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) => _listingCard(favorites[index]),
+                      childCount: favorites.length,
+                      addAutomaticKeepAlives: false,
+                      addRepaintBoundaries: true,
+                    ),
+                  ),
+                ),
             ],
           ),
         ],

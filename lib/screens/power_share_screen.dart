@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/power_share.dart';
+import '../theme/widzew_ui.dart';
 
 class PowerShareScreen extends StatefulWidget {
   final List<PowerShareOffer> items;
@@ -30,6 +31,7 @@ class _PowerShareScreenState extends State<PowerShareScreen> {
   Future<void> _add() async {
     final created = await showDialog<PowerShareOffer>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _PowerDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _PowerShareScreenState extends State<PowerShareScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Bank awaryjnego zasilania')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.battery_charging_full),
         label: const Text('Pożyczam sprzęt'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Agregat, duży powerbank i latarki czołowe — na wypadek awarii prądu.',

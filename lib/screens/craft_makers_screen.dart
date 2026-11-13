@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../models/announcement.dart';
 import '../models/craft_maker.dart';
+import '../theme/widzew_ui.dart';
 
 class CraftMakersScreen extends StatefulWidget {
   final List<CraftMaker> makers;
@@ -33,6 +34,7 @@ class _CraftMakersScreenState extends State<CraftMakersScreen> {
   Future<void> _add() async {
     final created = await showDialog<CraftMaker>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _MakerDialog(
         userName: widget.userName,
         subDistrict: widget.defaultSubDistrict,
@@ -47,13 +49,15 @@ class _CraftMakersScreenState extends State<CraftMakersScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Rzemiosło i rękodzieło z Widzewa')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.handshake_outlined),
         label: const Text('Jestem lokalnym twórcą z Widzewa'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Szydełkowanie, stolarstwo, wypieki i biżuteria od sąsiadów.',

@@ -41,7 +41,7 @@ class _AppDiagnosticsScreenState extends State<AppDiagnosticsScreen> {
     return Scaffold(
       appBar: AppBar(title: const Text('Konsola diagnostyczna')),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 80),
         children: [
           const Text(
             'Ukryty panel admina: stan lokalnej bazy (SharedPreferences), liczba ogłoszeń i logi. Bez haseł i tokenów.',

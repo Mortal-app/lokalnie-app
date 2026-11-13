@@ -33,7 +33,6 @@ class AnnouncementComment {
 
 class Announcement {
   static const wildlifeCategory = 'Dziki / Zwierzęta w mieście';
-  static const sosCategory = 'Alert SOS';
   static const helpCategory = 'Potrzebuję pomocy / Zaoferuj pomoc';
   static const lendingCategory = 'Wypożyczalnia / Dzielenie się';
   static const subDistricts = [
@@ -71,6 +70,7 @@ class Announcement {
   final Map<String, int> reactions;
   final String myReaction;
   final DateTime? resolvedAt;
+  final bool contentFlagged;
 
   static const reactionEmojis = ['👍', '❤️', '🤝'];
 
@@ -83,11 +83,8 @@ class Announcement {
   bool get isAlert {
     final normalizedCategory = category.toLowerCase();
     return normalizedCategory == wildlifeCategory.toLowerCase() ||
-        normalizedCategory == sosCategory.toLowerCase() ||
         normalizedCategory.contains('uwaga') ||
-        normalizedCategory.contains('ostrze') ||
-        normalizedCategory.contains('sos') ||
-        normalizedCategory.contains('pilne');
+        normalizedCategory.contains('ostrze');
   }
 
   bool get isHelp {
@@ -172,6 +169,7 @@ class Announcement {
     this.reactions = const {},
     this.myReaction = '',
     this.resolvedAt,
+    this.contentFlagged = false,
   });
 
   String get heroTag =>
@@ -204,6 +202,7 @@ class Announcement {
     String? myReaction,
     DateTime? resolvedAt,
     bool clearResolvedAt = false,
+    bool? contentFlagged,
   }) {
     return Announcement(
       title: title ?? this.title,
@@ -233,6 +232,7 @@ class Announcement {
       reactions: reactions ?? this.reactions,
       myReaction: myReaction ?? this.myReaction,
       resolvedAt: clearResolvedAt ? null : (resolvedAt ?? this.resolvedAt),
+      contentFlagged: contentFlagged ?? this.contentFlagged,
     );
   }
 
@@ -290,6 +290,7 @@ class Announcement {
     'reactions': reactions,
     'myReaction': myReaction,
     'resolvedAt': resolvedAt?.toIso8601String(),
+    'contentFlagged': contentFlagged,
   };
 
   factory Announcement.fromJson(Map<String, dynamic> json) {
@@ -308,7 +309,7 @@ class Announcement {
         'build' => Icons.build,
         'search' => Icons.search,
         'gift' => Icons.card_giftcard,
-        'sos' => Icons.sos,
+        'sos' => Icons.warning_amber_rounded,
         'handyman' => Icons.handyman_outlined,
         _ => Icons.campaign,
       },
@@ -334,14 +335,16 @@ class Announcement {
       latitude: (json['latitude'] as num?)?.toDouble(),
       longitude: (json['longitude'] as num?)?.toDouble(),
       reactions: {
-        for (final entry in (json['reactions'] is Map
-            ? Map<Object?, Object?>.from(json['reactions'] as Map)
-            : const <Object?, Object?>{})
-            .entries)
+        for (final entry
+            in (json['reactions'] is Map
+                    ? Map<Object?, Object?>.from(json['reactions'] as Map)
+                    : const <Object?, Object?>{})
+                .entries)
           '${entry.key}': (entry.value as num?)?.toInt() ?? 0,
       },
       myReaction: json['myReaction'] as String? ?? '',
       resolvedAt: DateTime.tryParse(json['resolvedAt'] as String? ?? ''),
+      contentFlagged: json['contentFlagged'] as bool? ?? false,
     );
   }
 
@@ -352,7 +355,6 @@ class Announcement {
     if (icon.codePoint == Icons.build.codePoint) return 'build';
     if (icon.codePoint == Icons.search.codePoint) return 'search';
     if (icon.codePoint == Icons.card_giftcard.codePoint) return 'gift';
-    if (icon.codePoint == Icons.sos.codePoint) return 'sos';
     if (icon.codePoint == Icons.handyman_outlined.codePoint) return 'handyman';
     return 'campaign';
   }

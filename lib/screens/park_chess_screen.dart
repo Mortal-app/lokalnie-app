@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/park_chess.dart';
+import '../theme/widzew_ui.dart';
 
 class ParkChessScreen extends StatefulWidget {
   final List<ParkChessMeetup> items;
@@ -30,6 +31,7 @@ class _ParkChessScreenState extends State<ParkChessScreen> {
   Future<void> _add() async {
     final created = await showDialog<ParkChessMeetup>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _ParkDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _ParkChessScreenState extends State<ParkChessScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Szachy parkowe')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.event_seat_outlined),
         label: const Text('Umawiam partię'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Partie pod chmurką przy stolikach parkowych na Widzewie Wschodzie.',

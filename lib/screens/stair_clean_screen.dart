@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/stair_clean.dart';
+import '../theme/widzew_ui.dart';
 
 class StairCleanScreen extends StatefulWidget {
   final List<StairCleanSlot> items;
@@ -30,6 +31,7 @@ class _StairCleanScreenState extends State<StairCleanScreen> {
   Future<void> _add() async {
     final created = await showDialog<StairCleanSlot>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _CleanDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _StairCleanScreenState extends State<StairCleanScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Mycie klatek i okien')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.cleaning_services_outlined),
         label: const Text('Zapisuję się'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Harmonogram społecznych porządków: okna na klatkach i wspólne przestrzenie.',

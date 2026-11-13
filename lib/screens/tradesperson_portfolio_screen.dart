@@ -28,6 +28,7 @@ class TradespersonPortfolioScreen extends StatelessWidget {
     final caption = TextEditingController();
     final photo = await showDialog<PortfolioPhoto>(
       context: context,
+      barrierDismissible: true,
       builder: (dialogContext) {
         return StatefulBuilder(
           builder: (context, setDialogState) {
@@ -91,19 +92,21 @@ class TradespersonPortfolioScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Zdjęcia moich prac')),
-      floatingActionButton: canEdit
+      floatingActionButton: WidzewUi.maybeSafeFab(
+        canEdit
           ? FloatingActionButton.extended(
               onPressed: () => _add(context),
               icon: const Icon(Icons.add_a_photo_outlined),
               label: const Text('Dodaj zdjęcie'),
             )
           : null,
+      ),
       body: photos.isEmpty
           ? const Center(
               child: Text('Brak zdjęć realizacji. Dodaj pary Przed / Po.'),
             )
           : GridView.builder(
-              padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+              padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
                 mainAxisSpacing: 10,

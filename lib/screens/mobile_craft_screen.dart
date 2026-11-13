@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/mobile_craft.dart';
+import '../theme/widzew_ui.dart';
 
 class MobileCraftScreen extends StatefulWidget {
   final List<MobileCraftPro> items;
@@ -28,6 +29,7 @@ class _MobileCraftScreenState extends State<MobileCraftScreen> {
   Future<void> _add() async {
     final created = await showDialog<MobileCraftPro>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => const _CraftDialog(),
     );
     if (created == null) return;
@@ -39,13 +41,15 @@ class _MobileCraftScreenState extends State<MobileCraftScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Rzemiosło i usługi mobilne')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.miscellaneous_services_outlined),
         label: const Text('Poleć fachowca'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Ślusarz 24h, mobilny serwis opon i elektryk z polecenia sąsiadów — bezpośrednio na Widzewie.',

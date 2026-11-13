@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/medicine_chest.dart';
+import '../theme/widzew_ui.dart';
 
 class MedicineChestScreen extends StatefulWidget {
   final List<MedicineOffer> items;
@@ -30,6 +31,7 @@ class _MedicineChestScreenState extends State<MedicineChestScreen> {
   Future<void> _add() async {
     final created = await showDialog<MedicineOffer>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _MedDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _MedicineChestScreenState extends State<MedicineChestScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Apteczki i data ważności')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.medical_services_outlined),
         label: const Text('Opakowanie zamknięte'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Tylko nienaruszone, fabrycznie zamknięte opakowania z ważną datą — wymiana lub oddanie potrzebującym / punktowi. Nie przyjmujemy otwartych blistrów.',

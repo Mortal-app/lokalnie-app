@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/airport_ride.dart';
+import '../theme/widzew_ui.dart';
 
 class AirportRideScreen extends StatefulWidget {
   final List<AirportRide> items;
@@ -30,6 +31,7 @@ class _AirportRideScreenState extends State<AirportRideScreen> {
   Future<void> _add() async {
     final created = await showDialog<AirportRide>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _AirDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _AirportRideScreenState extends State<AirportRideScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Carpooling na lotnisko')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.flight_takeoff_outlined),
         label: const Text('Kurs'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Modlin, Okęcie i Łódź-Lublinek — podział kosztów autostrady i parkingu.',

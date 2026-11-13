@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/filament_share.dart';
+import '../theme/widzew_ui.dart';
 
 class FilamentShareScreen extends StatefulWidget {
   final List<FilamentShareOffer> items;
@@ -30,6 +31,7 @@ class _FilamentShareScreenState extends State<FilamentShareScreen> {
   Future<void> _add() async {
     final created = await showDialog<FilamentShareOffer>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _FilDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _FilamentShareScreenState extends State<FilamentShareScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Filament i druk 3D')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.linear_scale),
         label: const Text('Zapas filamentu'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'PLA i PETG na szybkie, awaryjne wydruki części u sąsiadów z drukarką.',

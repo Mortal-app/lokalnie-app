@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/thermal_trip.dart';
+import '../theme/widzew_ui.dart';
 
 class ThermalTripScreen extends StatefulWidget {
   final List<ThermalTrip> items;
@@ -30,6 +31,7 @@ class _ThermalTripScreenState extends State<ThermalTripScreen> {
   Future<void> _add() async {
     final created = await showDialog<ThermalTrip>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _TermDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _ThermalTripScreenState extends State<ThermalTripScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Termy i baseny')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.hot_tub_outlined),
         label: const Text('Wyjazd'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Carpooling do Uniejowa i Mszczonowa — miejsca w aucie i podział kosztów.',

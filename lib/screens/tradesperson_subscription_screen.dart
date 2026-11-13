@@ -23,7 +23,7 @@ class TradespersonSubscriptionScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('Abonament Fachowca')),
       body: ListView(
-        padding: WidzewUi.insetsWide,
+        padding: WidzewUi.insetsWide.copyWith(bottom: WidzewUi.scrollBottom),
         children: [
           SubscriptionStatusPanel(account: account, onRenew: onRenew),
           const SizedBox(height: 12),
@@ -88,6 +88,7 @@ class TradespersonPaymentSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
+      minimum: const EdgeInsets.only(bottom: 8),
       child: Padding(
         padding: WidzewUi.insetsWide,
         child: Column(

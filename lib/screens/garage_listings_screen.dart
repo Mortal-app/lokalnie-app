@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/garage_listing.dart';
+import '../theme/widzew_ui.dart';
 
 class GarageListingsScreen extends StatefulWidget {
   final List<GarageListing> items;
@@ -30,6 +31,7 @@ class _GarageListingsScreenState extends State<GarageListingsScreen> {
   Future<void> _add() async {
     final created = await showDialog<GarageListing>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _GarageDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _GarageListingsScreenState extends State<GarageListingsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Garaże, miejsca i piwnice')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.garage_outlined),
         label: const Text('Dodaj ogłoszenie'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Wynajmę / dam w użytkowanie miejsce w garażu podziemnym lub box w piwnicy na Widzewie.',

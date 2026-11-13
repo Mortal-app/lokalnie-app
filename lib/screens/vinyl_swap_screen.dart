@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/vinyl_swap.dart';
+import '../theme/widzew_ui.dart';
 
 class VinylSwapScreen extends StatefulWidget {
   final List<VinylSwapItem> items;
@@ -30,6 +31,7 @@ class _VinylSwapScreenState extends State<VinylSwapScreen> {
   Future<void> _add() async {
     final created = await showDialog<VinylSwapItem>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _VinylDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _VinylSwapScreenState extends State<VinylSwapScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Giełda winyli i kaset')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.album_outlined),
         label: const Text('Dodaj płytę / kasetę'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Wymiana i sprzedaż winyli, CD i kaset magnetofonowych — kolekcjonerzy z Widzewa.',

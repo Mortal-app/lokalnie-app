@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/smoke_alarm.dart';
+import '../theme/widzew_ui.dart';
 
 class SmokeAlarmScreen extends StatefulWidget {
   final List<SmokeAlarmReminder> items;
@@ -30,6 +31,7 @@ class _SmokeAlarmScreenState extends State<SmokeAlarmScreen> {
   Future<void> _add() async {
     final created = await showDialog<SmokeAlarmReminder>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _SmokeDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -51,13 +53,15 @@ class _SmokeAlarmScreenState extends State<SmokeAlarmScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Czujniki dymu i czadu')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.sensors_outlined),
         label: const Text('Czujnik'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Kontrola i wymiana baterii w czujnikach dymu oraz czadu.',

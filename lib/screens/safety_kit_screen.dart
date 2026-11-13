@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/safety_kit.dart';
+import '../theme/widzew_ui.dart';
 
 class SafetyKitScreen extends StatefulWidget {
   final List<SafetyKitLog> items;
@@ -32,6 +33,7 @@ class _SafetyKitScreenState extends State<SafetyKitScreen> {
   Future<void> _add() async {
     final created = await showDialog<SafetyKitLog>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _KitDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -83,13 +85,15 @@ class _SafetyKitScreenState extends State<SafetyKitScreen> {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.health_and_safety_outlined),
         label: const Text('Wpis'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Daty ważności legalizacji gaśnic samochodowych i domowych oraz wyposażenia apteczek pierwszej pomocy.',

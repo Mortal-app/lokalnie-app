@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/diy_workshop.dart';
+import '../theme/widzew_ui.dart';
 
 class DiyAcademyScreen extends StatefulWidget {
   final List<DiyWorkshop> items;
@@ -30,6 +31,7 @@ class _DiyAcademyScreenState extends State<DiyAcademyScreen> {
   Future<void> _add() async {
     final created = await showDialog<DiyWorkshop>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _DiyDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _DiyAcademyScreenState extends State<DiyAcademyScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Akademia DIY')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.school_outlined),
         label: const Text('Chętnie nauczę'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Darmowe warsztaty w klubie osiedlowym: lutowanie, szycie, programowanie, gotowanie.',

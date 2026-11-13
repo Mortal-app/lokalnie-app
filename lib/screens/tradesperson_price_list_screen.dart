@@ -21,6 +21,7 @@ class TradespersonPriceListScreen extends StatelessWidget {
   Future<void> _add(BuildContext context) async {
     final created = await showDialog<PriceListItem>(
       context: context,
+      barrierDismissible: true,
       builder: (dialogContext) => const _PriceListItemDialog(),
     );
     if (created == null || !context.mounted) return;
@@ -31,15 +32,17 @@ class TradespersonPriceListScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Orientacyjny Cennik')),
-      floatingActionButton: canEdit
+      floatingActionButton: WidzewUi.maybeSafeFab(
+        canEdit
           ? FloatingActionButton.extended(
               onPressed: () => _add(context),
               icon: const Icon(Icons.add),
               label: const Text('Dodaj stawkę'),
             )
           : null,
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Stawki orientacyjne — dokładna wycena po oględzinach na Widzewie.',

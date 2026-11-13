@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/home_safe.dart';
+import '../theme/widzew_ui.dart';
 
 class HomeSafeScreen extends StatefulWidget {
   final List<HomeSafeTip> items;
@@ -30,6 +31,7 @@ class _HomeSafeScreenState extends State<HomeSafeScreen> {
   Future<void> _add() async {
     final created = await showDialog<HomeSafeTip>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _SafeDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _HomeSafeScreenState extends State<HomeSafeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Sejfy i skrytki')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.lock_outline),
         label: const Text('Porada / pomoc'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Montaż małych sejfów ściennych i podłogowych w wielkiej płycie — ostrożnie ze zbrojeniem.',

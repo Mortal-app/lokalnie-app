@@ -24,6 +24,7 @@ class NeighborTemplatesScreen extends StatelessWidget {
   void _preview(BuildContext context, NeighborTemplate template) {
     showDialog<void>(
       context: context,
+      barrierDismissible: true,
       builder: (dialogContext) {
         return AlertDialog(
           title: Text(template.title),
@@ -51,7 +52,7 @@ class NeighborTemplatesScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('Wzory umów i oświadczeń')),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 80),
         children: [
           const Text(
             'Gotowe szablony do podglądu i skopiowania: użyczenie sprzętu, zalanie, zgłoszenie do spółdzielni.',

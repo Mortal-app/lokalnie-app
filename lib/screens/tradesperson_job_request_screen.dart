@@ -78,7 +78,7 @@ class _TradespersonJobRequestScreenState
     return Scaffold(
       appBar: AppBar(title: const Text('Zlecenie wewnętrzne')),
       body: ListView(
-        padding: WidzewUi.insetsWide,
+        padding: WidzewUi.insetsWide.copyWith(bottom: WidzewUi.fabScrollBottom),
         children: [
           Text(
             'Zapytanie do: ${widget.listing.displayName}',
@@ -115,6 +115,7 @@ class _TradespersonJobRequestScreenState
             onPressed: submitLocked ? null : _submit,
             child: const Text('Wyślij zlecenie'),
           ),
+          const SizedBox(height: 80),
         ],
       ),
     );

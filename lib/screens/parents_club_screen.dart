@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../models/announcement.dart';
 import '../models/parent_meetup.dart';
+import '../theme/widzew_ui.dart';
 
 class ParentsClubScreen extends StatefulWidget {
   final List<ParentMeetup> meetups;
@@ -38,6 +39,7 @@ class _ParentsClubScreenState extends State<ParentsClubScreen> {
   Future<void> _add() async {
     final created = await showDialog<ParentMeetup>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _ParentDialog(
         userName: widget.userName,
         subDistrict: widget.defaultSubDistrict,
@@ -52,13 +54,15 @@ class _ParentsClubScreenState extends State<ParentsClubScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Dzieciaki z Widzewa / Rodzice Razem')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.child_care_outlined),
         label: const Text('Dodaj ogłoszenie'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Plac zabaw, wymiana ubranek i sąsiedzkie zastępstwo przy odbiorze ze szkoły.',

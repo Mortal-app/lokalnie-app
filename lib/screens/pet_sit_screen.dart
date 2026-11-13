@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../models/announcement.dart';
 import '../models/pet_sit_offer.dart';
+import '../theme/widzew_ui.dart';
 
 class PetSitScreen extends StatefulWidget {
   final List<PetSitOffer> offers;
@@ -39,6 +40,7 @@ class _PetSitScreenState extends State<PetSitScreen> {
   Future<void> _add() async {
     final created = await showDialog<PetSitOffer>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _PetDialog(
         userName: widget.userName,
         subDistrict: widget.defaultSubDistrict,
@@ -53,13 +55,15 @@ class _PetSitScreenState extends State<PetSitScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Sąsiedzki Patrol Zwierzaków')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.pets),
         label: const Text('Dodaj ogłoszenie'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Opieka, wyprowadzanie i znalezione zwierzaki w okolicy.',

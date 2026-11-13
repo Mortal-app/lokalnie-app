@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/rod_share.dart';
+import '../theme/widzew_ui.dart';
 
 class RodShareScreen extends StatefulWidget {
   final List<RodShare> items;
@@ -30,6 +31,7 @@ class _RodShareScreenState extends State<RodShareScreen> {
   Future<void> _add() async {
     final created = await showDialog<RodShare>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _RodDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _RodShareScreenState extends State<RodShareScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('ROD i ogródki działkowe')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.yard_outlined),
         label: const Text('Dodaj ogłoszenie'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Narzędzia ogrodowe, nadwyżki plonów i kostka brukowa — ROD im. Władysława Reymonta i okolice Widzewa.',

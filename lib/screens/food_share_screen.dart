@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/food_share.dart';
+import '../theme/widzew_ui.dart';
 
 class FoodShareScreen extends StatefulWidget {
   final List<FoodShareOffer> items;
@@ -30,6 +31,7 @@ class _FoodShareScreenState extends State<FoodShareScreen> {
   Future<void> _add() async {
     final created = await showDialog<FoodShareOffer>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _FoodDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _FoodShareScreenState extends State<FoodShareScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Jadłodzielnia sąsiedzka')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.restaurant_outlined),
         label: const Text('Podzielę się jedzeniem'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Nadmiar po imprezach i domowy obiad dla potrzebującego sąsiada.',

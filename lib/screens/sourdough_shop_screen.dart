@@ -19,7 +19,7 @@ class SourdoughShopScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('Pieczywo na zakwasie')),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 80),
         children: [
           const Text(
             'Piekarnie i sklepiki rzemieślnicze z chlebem na zakwasie, bez sztucznych ulepszaczy — osobno od domowych przepisów.',

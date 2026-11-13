@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/table_sport.dart';
+import '../theme/widzew_ui.dart';
 
 class TableSportScreen extends StatefulWidget {
   final List<TableSportMeetup> items;
@@ -30,6 +31,7 @@ class _TableSportScreenState extends State<TableSportScreen> {
   Future<void> _add() async {
     final created = await showDialog<TableSportMeetup>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _SportDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _TableSportScreenState extends State<TableSportScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Ping-pong i piłkarzyki')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.sports_tennis_outlined),
         label: const Text('Sparing'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Amatorskie sparingi w świetlicach spółdzielni i klubach osiedlowych.',

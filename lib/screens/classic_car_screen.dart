@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/classic_car.dart';
+import '../theme/widzew_ui.dart';
 
 class ClassicCarScreen extends StatefulWidget {
   final List<ClassicCarMeetup> items;
@@ -30,6 +31,7 @@ class _ClassicCarScreenState extends State<ClassicCarScreen> {
   Future<void> _add() async {
     final created = await showDialog<ClassicCarMeetup>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _CarDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _ClassicCarScreenState extends State<ClassicCarScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Klasyki PRL i motoryzacja')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.directions_car_outlined),
         label: const Text('Spot'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Fiat 126p, Polonez, Duży Fiat i klasyczne Mercedesy — lokalne spoty na Widzewie.',

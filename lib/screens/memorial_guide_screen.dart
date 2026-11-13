@@ -19,7 +19,7 @@ class _MemorialGuideScreenState extends State<MemorialGuideScreen> {
     return Scaffold(
       appBar: AppBar(title: const Text('Cmentarze i miejsca pamięci')),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 80),
         children: [
           const Text(
             'Historyczne cmentarze i miejsca pamięci narodowej we wschodniej Łodzi. Dotknij, by rozwinąć.',

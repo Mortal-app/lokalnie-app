@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/smog_filter.dart';
+import '../theme/widzew_ui.dart';
 
 class SmogFilterScreen extends StatefulWidget {
   final List<SmogFilterOffer> items;
@@ -30,6 +31,7 @@ class _SmogFilterScreenState extends State<SmogFilterScreen> {
   Future<void> _add() async {
     final created = await showDialog<SmogFilterOffer>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _FilterDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _SmogFilterScreenState extends State<SmogFilterScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Filtry antysmogowe')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.filter_alt_outlined),
         label: const Text('Wymiana / zakup'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Wspólny zakup i wymiana filtrów do oczyszczaczy oraz masek antysmogowych.',

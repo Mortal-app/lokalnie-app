@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/sudety_trip.dart';
+import '../theme/widzew_ui.dart';
 
 class SudetyTripScreen extends StatefulWidget {
   final List<SudetyTrip> items;
@@ -30,6 +31,7 @@ class _SudetyTripScreenState extends State<SudetyTripScreen> {
   Future<void> _add() async {
     final created = await showDialog<SudetyTrip>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _SudDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _SudetyTripScreenState extends State<SudetyTripScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Sudety i Karkonosze')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.landscape_outlined),
         label: const Text('Wyjazd'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Dłuższe wyprawy z Widzewa na południe — Sudety i Karkonosze, podział paliwa.',

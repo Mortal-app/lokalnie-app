@@ -14,7 +14,7 @@ class AnnouncementService {
   Future<AppSnapshot> load() async {
     final data = await _backend.read(snapshotDocumentId);
     if (data == null) {
-      return AppSnapshot.initial().copyWith(onboardingCompleted: false);
+      return AppSnapshot.initial();
     }
     try {
       return AppSnapshot.fromJson(data);

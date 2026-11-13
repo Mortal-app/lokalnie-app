@@ -7,9 +7,12 @@ class LocalPushService {
   static final FlutterLocalNotificationsPlugin _plugin =
       FlutterLocalNotificationsPlugin();
   static var _ready = false;
+  static var _enabled = true;
 
   static bool get _inTest =>
       WidgetsBinding.instance.runtimeType.toString().contains('TestWidgets');
+
+  static bool get enabled => _enabled;
 
   static Future<void> init() async {
     if (_inTest || _ready) return;
@@ -26,12 +29,20 @@ class LocalPushService {
     _ready = true;
   }
 
+  static Future<void> setEnabled(bool enabled) async {
+    _enabled = enabled;
+    if (_inTest) return;
+    if (enabled) return;
+    await init();
+    await _plugin.cancelAll();
+  }
+
   static Future<void> show({
     required String title,
     required String body,
     int id = 0,
   }) async {
-    if (_inTest) return;
+    if (_inTest || !_enabled) return;
     await init();
     await _plugin.show(
       id,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../models/announcement.dart';
 import '../models/carpool_ride.dart';
+import '../theme/widzew_ui.dart';
 
 class CarpoolScreen extends StatefulWidget {
   final List<CarpoolRide> rides;
@@ -33,6 +34,7 @@ class _CarpoolScreenState extends State<CarpoolScreen> {
   Future<void> _add() async {
     final created = await showDialog<CarpoolRide>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _RideDialog(
         userName: widget.userName,
         subDistrict: widget.defaultSubDistrict,
@@ -47,13 +49,15 @@ class _CarpoolScreenState extends State<CarpoolScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Jedziemy Razem / Carpooling Widzew')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.directions_car_outlined),
         label: const Text('Dodaj trasę'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Wspólne dojazdy: wolne miejsca w aucie, stałe trasy do centrum i z powrotem na osiedle.',

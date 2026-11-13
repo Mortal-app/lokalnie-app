@@ -1,12 +1,8 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../app_info.dart';
 import '../l10n/app_localizations.dart';
 import '../models/widzew_skin.dart';
-import '../services/change_proposal_store.dart';
 import '../theme/widzew_ui.dart';
 import '../widgets/app_page_route.dart';
 import 'about_screen.dart';
@@ -17,7 +13,6 @@ class SettingsScreen extends StatelessWidget {
   final ValueChanged<bool> onThemeChanged;
   final WidzewSkin widzewSkin;
   final ValueChanged<WidzewSkin> onWidzewSkinChanged;
-  final String userName;
   final VoidCallback onRestoreDefaults;
   final VoidCallback onVersionTileTap;
 
@@ -27,7 +22,6 @@ class SettingsScreen extends StatelessWidget {
     required this.onThemeChanged,
     required this.widzewSkin,
     required this.onWidzewSkinChanged,
-    required this.userName,
     required this.onRestoreDefaults,
     required this.onVersionTileTap,
   });
@@ -55,64 +49,6 @@ class SettingsScreen extends StatelessWidget {
     onRestoreDefaults();
   }
 
-  Future<void> _openProposalDialog(BuildContext context) async {
-    final controller = TextEditingController();
-    final sent = await showDialog<bool>(
-      context: context,
-      barrierDismissible: true,
-      builder: (dialogContext) => AlertDialog(
-        title: Text(dialogContext.tr('proposeChangeTitle')),
-        content: TextField(
-          controller: controller,
-          maxLines: 5,
-          minLines: 3,
-          textCapitalization: TextCapitalization.sentences,
-          decoration: InputDecoration(
-            hintText: dialogContext.tr('proposeChangeField'),
-            border: const OutlineInputBorder(),
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(dialogContext).pop(false),
-            child: Text(dialogContext.tr('cancel')),
-          ),
-          FilledButton(
-            onPressed: () {
-              if (controller.text.trim().isEmpty) return;
-              Navigator.of(dialogContext).pop(true);
-            },
-            child: Text(dialogContext.tr('send')),
-          ),
-        ],
-      ),
-    );
-    final text = controller.text.trim();
-    controller.dispose();
-    if (!context.mounted) return;
-    if (sent != true) return;
-    if (text.isEmpty) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(context.tr('proposalEmpty'))));
-      return;
-    }
-    await ChangeProposalStore.add(text, userName: userName);
-    final uri = Uri(
-      scheme: 'mailto',
-      path: AppInfo.adminEmail,
-      queryParameters: {
-        'subject': 'Propozycja zmiany — Lokalnie Widzew',
-        'body': '$userName:\n$text',
-      },
-    );
-    try {
-      await launchUrl(uri);
-    } catch (_) {}
-    if (!context.mounted) return;
-    ScaffoldMessenger.of(context)
-        .showSnackBar(SnackBar(content: Text(context.tr('proposalSent'))));
-  }
-
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -125,6 +61,7 @@ class SettingsScreen extends StatelessWidget {
       appBar: AppBar(title: Text(context.tr('settingsTitle'))),
       body: ListView(
         key: const ValueKey('settings-list'),
+        padding: const EdgeInsets.only(bottom: 80),
         children: [
           SwitchListTile(
             key: const ValueKey('dark-mode-switch'),
@@ -171,13 +108,6 @@ class SettingsScreen extends StatelessWidget {
                   ),
               ],
             ),
-          ),
-          ListTile(
-            leading: const Icon(Icons.lightbulb_outline),
-            title: Text(context.tr('proposeChange')),
-            subtitle: Text(context.tr('proposeChangeHint')),
-            trailing: const Icon(Icons.chevron_right),
-            onTap: () => unawaited(_openProposalDialog(context)),
           ),
           ListTile(
             leading: const Icon(Icons.cleaning_services_outlined),

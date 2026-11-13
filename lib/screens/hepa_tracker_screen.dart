@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/hepa_tracker.dart';
+import '../theme/widzew_ui.dart';
 
 class HepaTrackerScreen extends StatefulWidget {
   final List<HepaTracker> items;
@@ -30,6 +31,7 @@ class _HepaTrackerScreenState extends State<HepaTrackerScreen> {
   Future<void> _add() async {
     final created = await showDialog<HepaTracker>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _HepaDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -51,13 +53,15 @@ class _HepaTrackerScreenState extends State<HepaTrackerScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Oczyszczacze i filtry HEPA')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.air_outlined),
         label: const Text('Urządzenie'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Zużycie filtrów HEPA w domu — przypomnienie o zakupie lub czyszczeniu.',

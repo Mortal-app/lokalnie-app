@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../models/announcement.dart';
 import '../models/parcel_locker.dart';
+import '../theme/widzew_ui.dart';
 
 class ParcelLockerScreen extends StatefulWidget {
   final List<ParcelLocker> lockers;
@@ -35,6 +36,7 @@ class _ParcelLockerScreenState extends State<ParcelLockerScreen> {
   Future<void> _add() async {
     final created = await showDialog<ParcelLocker>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _LockerDialog(
         userName: widget.userName,
         subDistrict: widget.defaultSubDistrict,
@@ -62,13 +64,15 @@ class _ParcelLockerScreenState extends State<ParcelLockerScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Bezpieczny Punkt Odbioru')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.home_outlined),
         label: const Text('Zgłoś dostępność'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Sąsiedzki locker: tymczasowe przechowanie paczki kurierskiej, gdy nikogo nie ma w domu.',

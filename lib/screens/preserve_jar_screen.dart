@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/preserve_jar.dart';
+import '../theme/widzew_ui.dart';
 
 class PreserveJarScreen extends StatefulWidget {
   final List<PreserveJarOffer> items;
@@ -30,6 +31,7 @@ class _PreserveJarScreenState extends State<PreserveJarScreen> {
   Future<void> _add() async {
     final created = await showDialog<PreserveJarOffer>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _JarDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _PreserveJarScreenState extends State<PreserveJarScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Przetwory i słoiki')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.kitchen_outlined),
         label: const Text('Ogłoszenie'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Dżemy, ogórki kiszone i zwrot pustych słoików między sąsiadami.',

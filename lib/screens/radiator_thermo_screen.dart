@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/radiator_thermo.dart';
+import '../theme/widzew_ui.dart';
 
 class RadiatorThermoScreen extends StatefulWidget {
   final List<RadiatorThermoTip> items;
@@ -30,6 +31,7 @@ class _RadiatorThermoScreenState extends State<RadiatorThermoScreen> {
   Future<void> _add() async {
     final created = await showDialog<RadiatorThermoTip>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _RadiatorDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _RadiatorThermoScreenState extends State<RadiatorThermoScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Termostaty i kaloryfery')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.thermostat_outlined),
         label: const Text('Porada'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Odblokowywanie iglic w głowicach termostatycznych i odpowietrzanie kaloryferów w bloku.',

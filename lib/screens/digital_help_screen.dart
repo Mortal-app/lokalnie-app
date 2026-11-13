@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/digital_help.dart';
+import '../theme/widzew_ui.dart';
 
 class DigitalHelpScreen extends StatefulWidget {
   final List<DigitalHelpOffer> items;
@@ -30,6 +31,7 @@ class _DigitalHelpScreenState extends State<DigitalHelpScreen> {
   Future<void> _add() async {
     final created = await showDialog<DigitalHelpOffer>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _HelpDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _DigitalHelpScreenState extends State<DigitalHelpScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Bank pomocy cyfrowej')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.smartphone_outlined),
         label: const Text('Oferuję pomoc'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Młodsi sąsiedzi pomagają seniorom: smartfon, profil zaufany, aplikacje miejskie.',

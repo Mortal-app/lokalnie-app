@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/cost_split.dart';
+import '../theme/widzew_ui.dart';
 
 class CostSplitScreen extends StatefulWidget {
   final List<CostSplit> items;
@@ -28,6 +29,7 @@ class _CostSplitScreenState extends State<CostSplitScreen> {
   Future<void> _add() async {
     final created = await showDialog<CostSplit>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => const _SplitDialog(),
     );
     if (created == null) return;
@@ -39,13 +41,15 @@ class _CostSplitScreenState extends State<CostSplitScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Podział kosztów i rozliczenia')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.receipt_long_outlined),
         label: const Text('Nowe rozliczenie'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Transport, materiały budowlane i imprezy osiedlowe — podsumowanie na kartę.',

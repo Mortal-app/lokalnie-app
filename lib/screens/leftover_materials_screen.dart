@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/leftover_material.dart';
+import '../theme/widzew_ui.dart';
 
 class LeftoverMaterialsScreen extends StatefulWidget {
   final List<LeftoverMaterial> items;
@@ -31,6 +32,7 @@ class _LeftoverMaterialsScreenState extends State<LeftoverMaterialsScreen> {
   Future<void> _add() async {
     final created = await showDialog<LeftoverMaterial>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _MaterialDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -42,13 +44,15 @@ class _LeftoverMaterialsScreenState extends State<LeftoverMaterialsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Resztki po remoncie')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.format_paint_outlined),
         label: const Text('Zostało mi po remoncie'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Klej, panele, farba i płytki — oddanie lub odsprzedaż za grosze.',

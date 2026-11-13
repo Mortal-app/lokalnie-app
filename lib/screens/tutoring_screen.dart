@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../models/announcement.dart';
 import '../models/tutoring_offer.dart';
+import '../theme/widzew_ui.dart';
 
 class TutoringScreen extends StatefulWidget {
   final List<TutoringOffer> offers;
@@ -41,6 +42,7 @@ class _TutoringScreenState extends State<TutoringScreen> {
   Future<void> _add() async {
     final created = await showDialog<TutoringOffer>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _TutorDialog(
         userName: widget.userName,
         subDistrict: widget.defaultSubDistrict,
@@ -55,13 +57,15 @@ class _TutoringScreenState extends State<TutoringScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Korepetycje i nauka sąsiedzka')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.school_outlined),
         label: const Text('Dodaj zajęcia'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Matematyka, języki, gitara, programowanie — wiedza za wiedzę albo za przysługę.',

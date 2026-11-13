@@ -20,7 +20,7 @@ class AirQualityScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('Jakość powietrza i smog')),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 80),
         children: [
           const Text(
             'Odczyty czujników PM2.5 / PM10 na Widzewie. Alert przy przekroczeniu norm.',

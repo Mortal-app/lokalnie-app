@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/camp_gear.dart';
+import '../theme/widzew_ui.dart';
 
 class CampGearScreen extends StatefulWidget {
   final List<CampGearItem> items;
@@ -30,6 +31,7 @@ class _CampGearScreenState extends State<CampGearScreen> {
   Future<void> _add() async {
     final created = await showDialog<CampGearItem>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => const _CampDialog(),
     );
     if (created == null) return;
@@ -54,13 +56,15 @@ class _CampGearScreenState extends State<CampGearScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Sprzęt turystyczny')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.luggage_outlined),
         label: const Text('Udostępniam sprzęt'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Namioty, śpiwory, plecaki i lodówki turystyczne na wakacyjne wyjazdy.',

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/smile_tutor.dart';
+import '../theme/widzew_ui.dart';
 
 class SmileTutorScreen extends StatefulWidget {
   final List<SmileTutorOffer> items;
@@ -30,6 +31,7 @@ class _SmileTutorScreenState extends State<SmileTutorScreen> {
   Future<void> _add() async {
     final created = await showDialog<SmileTutorOffer>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _TutorDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _SmileTutorScreenState extends State<SmileTutorScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Korepetycje Za Uśmiech')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.school_outlined),
         label: const Text('Oferuję pomoc'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Darmowa pomoc w nauce dla dzieci ze szkoły podstawowej — od starszych uczniów i studentów z osiedla.',

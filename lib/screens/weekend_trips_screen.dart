@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/weekend_trip.dart';
+import '../theme/widzew_ui.dart';
 
 class WeekendTripsScreen extends StatefulWidget {
   final List<WeekendTrip> items;
@@ -32,6 +33,7 @@ class _WeekendTripsScreenState extends State<WeekendTripsScreen> {
   Future<void> _add() async {
     final created = await showDialog<WeekendTrip>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _TripDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -55,13 +57,15 @@ class _WeekendTripsScreenState extends State<WeekendTripsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Turystyka weekendowa')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.hiking),
         label: const Text('Nowy wypad'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Autokar lub rower: Mokra Lewa, Zalew Sulejowski, Łagiewniki.',

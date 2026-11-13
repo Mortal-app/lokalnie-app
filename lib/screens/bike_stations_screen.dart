@@ -60,7 +60,7 @@ class _BikeStationsScreenState extends State<BikeStationsScreen> {
     return Scaffold(
       appBar: AppBar(title: const Text('Stacje napraw rowerów')),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 80),
         children: [
           const Text(
             'Ogólnodostępne stacje: narzędzia i pompki stacjonarne na Widzewie.',

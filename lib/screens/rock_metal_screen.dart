@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/rock_metal.dart';
+import '../theme/widzew_ui.dart';
 
 class RockMetalScreen extends StatefulWidget {
   final List<RockMetalPost> items;
@@ -30,6 +31,7 @@ class _RockMetalScreenState extends State<RockMetalScreen> {
   Future<void> _add() async {
     final created = await showDialog<RockMetalPost>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _RockDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _RockMetalScreenState extends State<RockMetalScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Rock i metal')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.album_outlined),
         label: const Text('Wpis'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Wymiana płyt, koncerty (Atlas Arena, Wytwórnia) i wspólne wyjazdy na festiwale.',

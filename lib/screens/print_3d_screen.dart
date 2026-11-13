@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/print_3d.dart';
+import '../theme/widzew_ui.dart';
 
 class Print3dScreen extends StatefulWidget {
   final List<Print3dOffer> items;
@@ -30,6 +31,7 @@ class _Print3dScreenState extends State<Print3dScreen> {
   Future<void> _add() async {
     final created = await showDialog<Print3dOffer>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _PrintDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _Print3dScreenState extends State<Print3dScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Druk 3D w sąsiedztwie')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.view_in_ar_outlined),
         label: const Text('Oferuję druk'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Uchwyty, uszczelki i brakujące elementy AGD z drukarek 3D sąsiadów.',

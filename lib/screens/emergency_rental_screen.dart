@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/emergency_rental.dart';
+import '../theme/widzew_ui.dart';
 
 class EmergencyRentalScreen extends StatefulWidget {
   final List<EmergencyRentalItem> items;
@@ -30,6 +31,7 @@ class _EmergencyRentalScreenState extends State<EmergencyRentalScreen> {
   Future<void> _add() async {
     final created = await showDialog<EmergencyRentalItem>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _RentDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _EmergencyRentalScreenState extends State<EmergencyRentalScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Sprzęt na wynajem awaryjny')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.inventory_2_outlined),
         label: const Text('Dodaj sprzęt'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Osuszacze, odkurzacze piorące i projektory u sąsiadów — symboliczna opłata albo przysługa.',

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/eco_collection.dart';
+import '../theme/widzew_ui.dart';
 
 class EcoCollectionScreen extends StatefulWidget {
   final List<EcoCollectionDrive> items;
@@ -30,6 +31,7 @@ class _EcoCollectionScreenState extends State<EcoCollectionScreen> {
   Future<void> _add() async {
     final created = await showDialog<EcoCollectionDrive>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => const _DriveDialog(),
     );
     if (created == null) return;
@@ -50,13 +52,15 @@ class _EcoCollectionScreenState extends State<EcoCollectionScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Eko-zbiórka surowców')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.recycling),
         label: const Text('Nowa zbiórka'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Makulatura, elektrośmieci i puszki — licznik kilogramów dla bloku.',

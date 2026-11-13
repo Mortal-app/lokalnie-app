@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/baby_gear.dart';
+import '../theme/widzew_ui.dart';
 
 class BabyGearScreen extends StatefulWidget {
   final List<BabyGearItem> items;
@@ -30,6 +31,7 @@ class _BabyGearScreenState extends State<BabyGearScreen> {
   Future<void> _add() async {
     final created = await showDialog<BabyGearItem>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _BabyDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _BabyGearScreenState extends State<BabyGearScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Wózki i foteliki')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.child_friendly_outlined),
         label: const Text('Oddaj / sprzedaj'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Foteliki samochodowe, wózki głębokie, spacerówki i nosidełka — dla rodziców z Widzewa.',

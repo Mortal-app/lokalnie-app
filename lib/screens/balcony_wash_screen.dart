@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/balcony_wash.dart';
+import '../theme/widzew_ui.dart';
 
 class BalconyWashScreen extends StatefulWidget {
   final List<BalconyWashSlot> items;
@@ -30,6 +31,7 @@ class _BalconyWashScreenState extends State<BalconyWashScreen> {
   Future<void> _add() async {
     final created = await showDialog<BalconyWashSlot>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _WashDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _BalconyWashScreenState extends State<BalconyWashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Mycie balkonów i elewacji')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.deck_outlined),
         label: const Text('Termin'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Wspólne porządki loggii, szyb od zewnątrz i elewacji na wyższych piętrach.',

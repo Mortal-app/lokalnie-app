@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/seasonal_skate.dart';
+import '../theme/widzew_ui.dart';
 
 class SeasonalSkateScreen extends StatefulWidget {
   final List<SeasonalSkateOffer> items;
@@ -30,6 +31,7 @@ class _SeasonalSkateScreenState extends State<SeasonalSkateScreen> {
   Future<void> _add() async {
     final created = await showDialog<SeasonalSkateOffer>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _SkateDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _SeasonalSkateScreenState extends State<SeasonalSkateScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Rolki, łyżwy i kaski')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.sports_outlined),
         label: const Text('Oddaję'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Łyżwy hokejowe, wrotki, rolki i kaski, z których wyrastają dzieci na osiedlu.',

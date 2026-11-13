@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/classical_opera.dart';
+import '../theme/widzew_ui.dart';
 
 class ClassicalOperaScreen extends StatefulWidget {
   final List<ClassicalOperaPost> items;
@@ -30,6 +31,7 @@ class _ClassicalOperaScreenState extends State<ClassicalOperaScreen> {
   Future<void> _add() async {
     final created = await showDialog<ClassicalOperaPost>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _OperaDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _ClassicalOperaScreenState extends State<ClassicalOperaScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Muzyka klasyczna i opera')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.music_note_outlined),
         label: const Text('Wpis'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Wymiana nagrań płytowych, zapowiedzi spektakli w Teatrze Wielkim w Łodzi oraz wspólne wyjścia kulturalne.',

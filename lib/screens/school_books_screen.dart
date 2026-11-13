@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/school_book.dart';
+import '../theme/widzew_ui.dart';
 
 class SchoolBooksScreen extends StatefulWidget {
   final List<SchoolBookListing> items;
@@ -37,6 +38,7 @@ class _SchoolBooksScreenState extends State<SchoolBooksScreen> {
   Future<void> _add() async {
     final created = await showDialog<SchoolBookListing>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _BookDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -48,13 +50,15 @@ class _SchoolBooksScreenState extends State<SchoolBooksScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Kiermasz podręczników')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.menu_book_outlined),
         label: const Text('Dodaj książkę'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Wymiana i odkup używanych książek szkolnych — według szkoły i klasy.',

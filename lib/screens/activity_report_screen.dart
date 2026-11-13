@@ -15,7 +15,7 @@ class ActivityReportScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('Eksport historii zgłoszeń')),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 80),
         children: [
           const Text(
             'Pełny raport aktywności w aplikacji — CSV lub tekst w układzie dokumentu do zapisu w pamięci telefonu (schowek).',

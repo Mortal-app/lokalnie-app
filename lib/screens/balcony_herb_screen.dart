@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/balcony_herb.dart';
+import '../theme/widzew_ui.dart';
 
 class BalconyHerbScreen extends StatefulWidget {
   final List<BalconyHerbOffer> items;
@@ -30,6 +31,7 @@ class _BalconyHerbScreenState extends State<BalconyHerbScreen> {
   Future<void> _add() async {
     final created = await showDialog<BalconyHerbOffer>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _HerbDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _BalconyHerbScreenState extends State<BalconyHerbScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Zioła balkonowe')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.local_florist_outlined),
         label: const Text('Szczepka'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Mięta, bazylia, rozmaryn — katalog i giełda szczepek oraz nasion z balkonów.',

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/caretaker_note.dart';
+import '../theme/widzew_ui.dart';
 
 class CaretakerNotesScreen extends StatefulWidget {
   final List<CaretakerNote> items;
@@ -28,6 +29,7 @@ class _CaretakerNotesScreenState extends State<CaretakerNotesScreen> {
   Future<void> _add() async {
     final created = await showDialog<CaretakerNote>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => const _NoteDialog(),
     );
     if (created == null) return;
@@ -39,13 +41,15 @@ class _CaretakerNotesScreenState extends State<CaretakerNotesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Notes gospodarza klatki')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.note_add_outlined),
         label: const Text('Nowa notatka'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Usterki, plan sprzątania i przeglądy techniczne — panel gospodarza domu.',

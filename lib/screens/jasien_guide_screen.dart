@@ -18,7 +18,7 @@ class JasienGuideScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('Park nad Jasieniem')),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 80),
         children: [
           const Text(
             'Mini-przewodnik po zieleni Widzewa: ścieżki rowerowe i miejsca wypoczynku.',

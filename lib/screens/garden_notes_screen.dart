@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/garden_note.dart';
+import '../theme/widzew_ui.dart';
 
 class GardenNotesScreen extends StatefulWidget {
   final List<GardenNote> items;
@@ -28,6 +29,7 @@ class _GardenNotesScreenState extends State<GardenNotesScreen> {
   Future<void> _add() async {
     final created = await showDialog<GardenNote>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => const _GardenDialog(),
     );
     if (created == null) return;
@@ -39,13 +41,15 @@ class _GardenNotesScreenState extends State<GardenNotesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Notes ogrodnika')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.local_florist_outlined),
         label: const Text('Przypomnienie'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Kalendarz prac, podlewanie ziół na balkonie i wysiew warzyw w klimacie łódzkim.',

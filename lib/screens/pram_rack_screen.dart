@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/pram_rack.dart';
+import '../theme/widzew_ui.dart';
 
 class PramRackScreen extends StatefulWidget {
   final List<PramRackNotice> items;
@@ -30,6 +31,7 @@ class _PramRackScreenState extends State<PramRackScreen> {
   Future<void> _add() async {
     final created = await showDialog<PramRackNotice>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _RackDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _PramRackScreenState extends State<PramRackScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Stojaki i wózkownie')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.pedal_bike_outlined),
         label: const Text('Zgłoś miejsce'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Wolne haki oraz porzucone rowery i wózki w osiedlowych wózkowniach.',

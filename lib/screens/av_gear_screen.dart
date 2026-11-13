@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/av_gear.dart';
+import '../theme/widzew_ui.dart';
 
 class AvGearScreen extends StatefulWidget {
   final List<AvGearItem> items;
@@ -30,6 +31,7 @@ class _AvGearScreenState extends State<AvGearScreen> {
   Future<void> _add() async {
     final created = await showDialog<AvGearItem>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => const _AvDialog(),
     );
     if (created == null) return;
@@ -54,13 +56,15 @@ class _AvGearScreenState extends State<AvGearScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Sprzęt AV i podcasty')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.mic_none_outlined),
         label: const Text('Udostępniam sprzęt'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Mikrofony pojemnościowe, statywy, ring-light i kamery do projektów amatorskich.',

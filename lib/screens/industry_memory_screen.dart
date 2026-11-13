@@ -19,7 +19,7 @@ class _IndustryMemoryScreenState extends State<IndustryMemoryScreen> {
     return Scaffold(
       appBar: AppBar(title: const Text('WiMa, Stomil i zakłady')),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 80),
         children: [
           const Text(
             'Dawne potęgi przemysłowe Łodzi, które dawały pracę mieszkańcom Widzewa.',

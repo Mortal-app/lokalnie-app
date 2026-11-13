@@ -73,7 +73,12 @@ class _PathPhotoGalleryScreenState extends State<PathPhotoGalleryScreen> {
             panEnabled: true,
             clipBehavior: Clip.none,
             child: Center(
-              child: PortfolioImage(photo: item, fit: BoxFit.contain),
+              child: PortfolioImage(
+                photo: item,
+                fit: BoxFit.contain,
+                memCacheWidth: MediaQuery.sizeOf(context).width,
+                memCacheHeight: MediaQuery.sizeOf(context).height,
+              ),
             ),
           );
         },
@@ -207,7 +212,11 @@ class _PhaseTile extends StatelessWidget {
           fit: StackFit.expand,
           children: [
             if (photo != null)
-              PortfolioImage(photo: photo!)
+              PortfolioImage(
+                photo: photo!,
+                memCacheWidth: MediaQuery.sizeOf(context).width / 2,
+                memCacheHeight: 160,
+              )
             else
               ColoredBox(
                 color: Theme.of(context).colorScheme.surfaceContainerHighest,
@@ -231,22 +240,38 @@ class _PhaseTile extends StatelessWidget {
 class PortfolioImage extends StatelessWidget {
   final PortfolioPhoto photo;
   final BoxFit fit;
+  final double? memCacheWidth;
+  final double? memCacheHeight;
 
   const PortfolioImage({
     super.key,
     required this.photo,
     this.fit = BoxFit.cover,
+    this.memCacheWidth,
+    this.memCacheHeight,
   });
 
   @override
-  Widget build(BuildContext context) => _PortfolioImage(photo: photo, fit: fit);
+  Widget build(BuildContext context) => _PortfolioImage(
+    photo: photo,
+    fit: fit,
+    memCacheWidth: memCacheWidth,
+    memCacheHeight: memCacheHeight,
+  );
 }
 
 class _PortfolioImage extends StatelessWidget {
   final PortfolioPhoto photo;
   final BoxFit fit;
+  final double? memCacheWidth;
+  final double? memCacheHeight;
 
-  const _PortfolioImage({required this.photo, required this.fit});
+  const _PortfolioImage({
+    required this.photo,
+    required this.fit,
+    this.memCacheWidth,
+    this.memCacheHeight,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -254,6 +279,14 @@ class _PortfolioImage extends StatelessWidget {
       return Image.file(
         File(photo.path),
         fit: fit,
+        cacheWidth: WidzewUi.imageCachePixels(
+          context,
+          memCacheWidth ?? MediaQuery.sizeOf(context).width,
+        ),
+        cacheHeight: memCacheHeight == null
+            ? null
+            : WidzewUi.imageCachePixels(context, memCacheHeight!),
+        filterQuality: FilterQuality.low,
         errorBuilder: (_, _, _) => _fallback(photo),
       );
     }

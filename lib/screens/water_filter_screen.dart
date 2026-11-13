@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/water_filter.dart';
+import '../theme/widzew_ui.dart';
 
 class WaterFilterScreen extends StatefulWidget {
   final List<WaterFilterReminder> items;
@@ -30,6 +31,7 @@ class _WaterFilterScreenState extends State<WaterFilterScreen> {
   Future<void> _add() async {
     final created = await showDialog<WaterFilterReminder>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _FilterDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -51,13 +53,15 @@ class _WaterFilterScreenState extends State<WaterFilterScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Filtry wody')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.water_drop_outlined),
         label: const Text('Wkład'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Wymiana wkładów w dzbankach filtrujących i systemach RO pod zlewem.',

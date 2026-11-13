@@ -27,6 +27,8 @@ class PhotoGalleryScreen extends StatelessWidget {
             child: AnnouncementPhoto(
               announcement: announcement,
               fit: BoxFit.contain,
+              memCacheWidth: MediaQuery.sizeOf(context).width,
+              memCacheHeight: MediaQuery.sizeOf(context).height,
             ),
           ),
         ),

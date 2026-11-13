@@ -20,6 +20,7 @@ class LocalPreferencesBackend implements StorageBackend {
   static const cachedMessagesKey = 'cached_messages';
   static const cachedSearchHistoryKey = 'cached_search_history';
   static const developmentNoticeSeenKey = 'development_notice_seen_v2';
+  static const notificationsEnabledKey = 'notifications_enabled';
 
   @override
   Future<Map<String, dynamic>?> read(String documentId) async {
@@ -65,12 +66,19 @@ class LocalPreferencesBackend implements StorageBackend {
     final cachedAnnouncements = preferences.getString(cachedAnnouncementsKey);
     final completed = preferences.getBool(hasCompletedOnboardingKey);
     final neighborhood = preferences.getString(userHomeNeighborhoodKey);
-    if (cachedAnnouncements == null && completed == null && neighborhood == null) {
+    final notificationsEnabled = preferences.getBool(notificationsEnabledKey);
+    if (cachedAnnouncements == null &&
+        completed == null &&
+        neighborhood == null &&
+        notificationsEnabled == null) {
       return null;
     }
     final data = <String, dynamic>{};
     if (completed != null) data['onboardingCompleted'] = completed;
     if (neighborhood != null) data['defaultSubDistrict'] = neighborhood;
+    if (notificationsEnabled != null) {
+      data['neighborhoodNotificationsEnabled'] = notificationsEnabled;
+    }
     if (cachedAnnouncements != null) {
       try {
         data['announcements'] = jsonDecode(cachedAnnouncements);
@@ -140,6 +148,10 @@ class LocalPreferencesBackend implements StorageBackend {
         }
       }
     }
+    final notificationsEnabled = preferences.getBool(notificationsEnabledKey);
+    if (notificationsEnabled != null) {
+      merged['neighborhoodNotificationsEnabled'] = notificationsEnabled;
+    }
     return merged;
   }
 
@@ -150,6 +162,10 @@ class LocalPreferencesBackend implements StorageBackend {
     final completed = data['onboardingCompleted'];
     if (completed is bool) {
       await preferences.setBool(hasCompletedOnboardingKey, completed);
+    }
+    final notificationsEnabled = data['neighborhoodNotificationsEnabled'];
+    if (notificationsEnabled is bool) {
+      await preferences.setBool(notificationsEnabledKey, notificationsEnabled);
     }
     final neighborhood = data['defaultSubDistrict'];
     if (neighborhood is String && neighborhood.isNotEmpty) {
@@ -166,7 +182,6 @@ class LocalPreferencesBackend implements StorageBackend {
         final category = (item['category'] ?? '').toString().toLowerCase();
         final pending = item['pendingSync'] == true;
         return pending ||
-            category.contains('sos') ||
             category.contains('dzik') ||
             category.contains('uwaga') ||
             category.contains('ostrze');
@@ -198,9 +213,7 @@ class LocalPreferencesBackend implements StorageBackend {
 /// Adapter pod Cloud Firestore. Po dodaniu `cloud_firestore` wystarczy
 /// podmienić backend w [AppStoreFactory.cloud].
 class FirestoreStorageBackend implements StorageBackend {
-  FirestoreStorageBackend({
-    this.collection = 'app_snapshots',
-  });
+  FirestoreStorageBackend({this.collection = 'app_snapshots'});
 
   final String collection;
 

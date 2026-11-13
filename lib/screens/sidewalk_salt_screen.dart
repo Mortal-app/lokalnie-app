@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/sidewalk_salt.dart';
+import '../theme/widzew_ui.dart';
 
 class SidewalkSaltScreen extends StatefulWidget {
   final List<SidewalkSaltReport> items;
@@ -30,6 +31,7 @@ class _SidewalkSaltScreenState extends State<SidewalkSaltScreen> {
   Future<void> _add() async {
     final created = await showDialog<SidewalkSaltReport>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _SaltDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _SidewalkSaltScreenState extends State<SidewalkSaltScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Ośnieżanie i posypywanie chodników')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.ac_unit),
         label: const Text('Zgłoszenie'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Koordynacja posypywania solą i piaskiem śliskich odcinków chodników przy klatkach — osobno od mycia kostki.',

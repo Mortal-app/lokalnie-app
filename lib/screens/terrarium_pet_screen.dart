@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/terrarium_pet.dart';
+import '../theme/widzew_ui.dart';
 
 class TerrariumPetScreen extends StatefulWidget {
   final List<TerrariumOffer> items;
@@ -30,6 +31,7 @@ class _TerrariumPetScreenState extends State<TerrariumPetScreen> {
   Future<void> _add() async {
     final created = await showDialog<TerrariumOffer>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _TerraDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _TerrariumPetScreenState extends State<TerrariumPetScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Terrarystyka i egzotyka')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.bug_report_outlined),
         label: const Text('Wpis'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Hodowcy gekonów, patyczaków i żółwi: podłoża, żywy pokarm i wyposażenie terrariów — osobno od akwarium i ptaków.',

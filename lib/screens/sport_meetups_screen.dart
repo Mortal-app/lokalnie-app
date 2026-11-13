@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../models/announcement.dart';
 import '../models/sport_meetup.dart';
+import '../theme/widzew_ui.dart';
 
 class SportMeetupsScreen extends StatefulWidget {
   final List<SportMeetup> meetups;
@@ -35,6 +36,7 @@ class _SportMeetupsScreenState extends State<SportMeetupsScreen> {
   Future<void> _add() async {
     final created = await showDialog<SportMeetup>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _SportDialog(
         userName: widget.userName,
         subDistrict: widget.defaultSubDistrict,
@@ -63,13 +65,15 @@ class _SportMeetupsScreenState extends State<SportMeetupsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Aktywny Widzew – Sport i Rekreacja')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.sports_soccer_outlined),
         label: const Text('Nowa ustawka'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Piłka na Orliku, bieganie w Parku Baden-Powella, rowerowa masa z Olechowa — z limitem miejsc.',

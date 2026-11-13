@@ -2,15 +2,9 @@ import 'package:flutter/material.dart';
 
 class DriverModeBar extends StatelessWidget {
   final VoidCallback? onRoadAlert;
-  final VoidCallback? onMap;
   final VoidCallback? onEco;
 
-  const DriverModeBar({
-    super.key,
-    this.onRoadAlert,
-    this.onMap,
-    this.onEco,
-  });
+  const DriverModeBar({super.key, this.onRoadAlert, this.onEco});
 
   @override
   Widget build(BuildContext context) {
@@ -25,19 +19,17 @@ class DriverModeBar extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           FilledButton(
-            style: FilledButton.styleFrom(minimumSize: const Size.fromHeight(56)),
+            style: FilledButton.styleFrom(
+              minimumSize: const Size.fromHeight(56),
+            ),
             onPressed: onRoadAlert,
-            child: const Text('Alert drogowy / SOS'),
-          ),
-          const SizedBox(height: 8),
-          FilledButton.tonal(
-            style: FilledButton.styleFrom(minimumSize: const Size.fromHeight(56)),
-            onPressed: onMap,
-            child: const Text('Mapa osiedli'),
+            child: const Text('Alert drogowy'),
           ),
           const SizedBox(height: 8),
           OutlinedButton(
-            style: OutlinedButton.styleFrom(minimumSize: const Size.fromHeight(56)),
+            style: OutlinedButton.styleFrom(
+              minimumSize: const Size.fromHeight(56),
+            ),
             onPressed: onEco,
             child: const Text('Eko-Patrol'),
           ),

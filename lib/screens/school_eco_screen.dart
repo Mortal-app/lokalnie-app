@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/school_eco_drive.dart';
+import '../theme/widzew_ui.dart';
 
 class SchoolEcoScreen extends StatefulWidget {
   final List<SchoolEcoDrive> items;
@@ -28,6 +29,7 @@ class _SchoolEcoScreenState extends State<SchoolEcoScreen> {
   Future<void> _add() async {
     final created = await showDialog<SchoolEcoDrive>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => const _EcoDialog(),
     );
     if (created == null) return;
@@ -39,13 +41,15 @@ class _SchoolEcoScreenState extends State<SchoolEcoScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Szkolne eko-zbiórki')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.recycling_outlined),
         label: const Text('Nowa akcja'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Puszki, nakrętki i makulatura — akcje szkół na Widzewie (SP 114, 34, 141).',

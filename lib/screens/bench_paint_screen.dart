@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/bench_paint.dart';
+import '../theme/widzew_ui.dart';
 
 class BenchPaintScreen extends StatefulWidget {
   final List<BenchPaintSlot> items;
@@ -30,6 +31,7 @@ class _BenchPaintScreenState extends State<BenchPaintScreen> {
   Future<void> _add() async {
     final created = await showDialog<BenchPaintSlot>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _BenchDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _BenchPaintScreenState extends State<BenchPaintScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Ławki, altany i trzepaki')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.format_paint_outlined),
         label: const Text('Termin'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Społeczne malowanie ławek parkowych, altan i trzepaków — mała architektura osiedla.',

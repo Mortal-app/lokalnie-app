@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/puzzle_swap.dart';
+import '../theme/widzew_ui.dart';
 
 class PuzzleSwapScreen extends StatefulWidget {
   final List<PuzzleSwapOffer> items;
@@ -30,6 +31,7 @@ class _PuzzleSwapScreenState extends State<PuzzleSwapScreen> {
   Future<void> _add() async {
     final created = await showDialog<PuzzleSwapOffer>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _PuzzleDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _PuzzleSwapScreenState extends State<PuzzleSwapScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Puzzle i układanki')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.extension_outlined),
         label: const Text('Oddaję'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Puzzle 500–3000 elementów i gry logiczne przekazywane po ułożeniu.',

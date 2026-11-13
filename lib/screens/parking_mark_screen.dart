@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/parking_mark.dart';
+import '../theme/widzew_ui.dart';
 
 class ParkingMarkScreen extends StatefulWidget {
   final List<ParkingMarkReport> items;
@@ -30,6 +31,7 @@ class _ParkingMarkScreenState extends State<ParkingMarkScreen> {
   Future<void> _add() async {
     final created = await showDialog<ParkingMarkReport>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _ParkingDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _ParkingMarkScreenState extends State<ParkingMarkScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Oznakowanie parkingów')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.format_paint_outlined),
         label: const Text('Zgłoszenie'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Planowanie odświeżania linii stanowisk postojowych i kopert dla osób niepełnosprawnych pod blokami.',

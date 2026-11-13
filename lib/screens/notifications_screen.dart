@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../models/neighborhood_notification.dart';
 import '../theme/widzew_colors.dart';
+import '../theme/widzew_ui.dart';
 
 class NotificationCenterScreen extends StatefulWidget {
   final List<NeighborhoodNotification> notifications;
@@ -48,11 +49,16 @@ class _NotificationCenterScreenState extends State<NotificationCenterScreen> {
           ? const Center(child: Text('Brak nowych powiadomień.'))
           : ListView.builder(
               padding: const EdgeInsets.symmetric(vertical: 8),
+              scrollCacheExtent: WidzewUi.listCacheExtent,
+              shrinkWrap: false,
               itemCount: _notifications.length,
+              addAutomaticKeepAlives: false,
+              addRepaintBoundaries: true,
               itemBuilder: (context, index) {
                 final notification = _notifications[index];
                 final isRead = notification.isRead;
                 return Card(
+                  elevation: 0,
                   margin: const EdgeInsets.symmetric(
                     horizontal: 16,
                     vertical: 5,
@@ -63,9 +69,7 @@ class _NotificationCenterScreenState extends State<NotificationCenterScreen> {
                   child: ListTile(
                     leading: Icon(
                       notification.icon,
-                      color: isRead
-                          ? Colors.grey
-                          : const Color(0xFFE65100),
+                      color: isRead ? Colors.grey : const Color(0xFFE65100),
                     ),
                     title: Text(
                       notification.title,
@@ -73,9 +77,7 @@ class _NotificationCenterScreenState extends State<NotificationCenterScreen> {
                         color: isRead
                             ? WidzewColors.inkMuted
                             : WidzewColors.ink,
-                        fontWeight: isRead
-                            ? FontWeight.w400
-                            : FontWeight.w600,
+                        fontWeight: isRead ? FontWeight.w400 : FontWeight.w600,
                       ),
                     ),
                     subtitle: Text(

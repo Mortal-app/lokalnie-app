@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/prl_furniture.dart';
+import '../theme/widzew_ui.dart';
 
 class PrlFurnitureScreen extends StatefulWidget {
   final List<PrlFurniturePost> items;
@@ -30,6 +31,7 @@ class _PrlFurnitureScreenState extends State<PrlFurnitureScreen> {
   Future<void> _add() async {
     final created = await showDialog<PrlFurniturePost>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _PrlDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _PrlFurnitureScreenState extends State<PrlFurnitureScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Renowacja mebli PRL')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.chair_outlined),
         label: const Text('Porada / mebel'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Fotele 366, komody, patyczaki — tapicerka i lakier. Nie wyrzucaj, odnów.',

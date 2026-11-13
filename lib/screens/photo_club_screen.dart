@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/photo_club.dart';
+import '../theme/widzew_ui.dart';
 
 class PhotoClubScreen extends StatefulWidget {
   final List<PhotoClubItem> items;
@@ -30,6 +31,7 @@ class _PhotoClubScreenState extends State<PhotoClubScreen> {
   Future<void> _add() async {
     final created = await showDialog<PhotoClubItem>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _PhotoDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _PhotoClubScreenState extends State<PhotoClubScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Klub fotograficzny Widzewa')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.camera_alt_outlined),
         label: const Text('Sprzęt / plener'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Fotografia miejska, obiektywy, Zenit i Praktica, wspólne plenery analog i cyfra.',

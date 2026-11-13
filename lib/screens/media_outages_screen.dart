@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/media_outage.dart';
+import '../theme/widzew_ui.dart';
 
 class MediaOutagesScreen extends StatefulWidget {
   final List<MediaOutage> outages;
@@ -32,6 +33,7 @@ class _MediaOutagesScreenState extends State<MediaOutagesScreen> {
   Future<void> _add() async {
     final created = await showDialog<MediaOutage>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => const _OutageDialog(),
     );
     if (created == null) return;
@@ -56,13 +58,15 @@ class _MediaOutagesScreenState extends State<MediaOutagesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Piła i woda – awarie mediów')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.warning_amber_outlined),
         label: const Text('Nowe ostrzeżenie'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Szybkie ostrzeżenia: brak wody, wyłączenie prądu. Aktywne idą na baner startu i do powiadomień lokalnych.',

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/small_appliance.dart';
+import '../theme/widzew_ui.dart';
 
 class SmallAppliancesScreen extends StatefulWidget {
   final List<SmallAppliance> items;
@@ -30,6 +31,7 @@ class _SmallAppliancesScreenState extends State<SmallAppliancesScreen> {
   Future<void> _add() async {
     final created = await showDialog<SmallAppliance>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _AppDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _SmallAppliancesScreenState extends State<SmallAppliancesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Drugie życie AGD')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.kitchen_outlined),
         label: const Text('Blender / toster'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Nie wyrzucaj — napraw z sąsiadem, który zna się na elektronice. Blender, toster, drobne AGD.',

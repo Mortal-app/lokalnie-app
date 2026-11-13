@@ -31,7 +31,7 @@ class ModeratorPanelScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('Panel moderatora')),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 80),
         children: [
           const Text(
             'Usuwanie wygasłych ogłoszeń, blokada spamu i przypinanie ogłoszeń społecznych.',

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/bike_trip.dart';
+import '../theme/widzew_ui.dart';
 
 class BikeTripsScreen extends StatefulWidget {
   final List<BikeTrip> items;
@@ -32,6 +33,7 @@ class _BikeTripsScreenState extends State<BikeTripsScreen> {
   Future<void> _add() async {
     final created = await showDialog<BikeTrip>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _TripDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -55,13 +57,15 @@ class _BikeTripsScreenState extends State<BikeTripsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Rowerem po Łodzi')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.directions_bike),
         label: const Text('Nowa trasa'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Wspólne trasy: rzeka Jasień, Łagiewniki, stawy — tablica wypraw.',

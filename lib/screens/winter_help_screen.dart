@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/winter_help.dart';
+import '../theme/widzew_ui.dart';
 
 class WinterHelpScreen extends StatefulWidget {
   final List<WinterHelpOffer> items;
@@ -30,6 +31,7 @@ class _WinterHelpScreenState extends State<WinterHelpScreen> {
   Future<void> _add() async {
     final created = await showDialog<WinterHelpOffer>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _WinterDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _WinterHelpScreenState extends State<WinterHelpScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Zima: carpool i odśnieżanie')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.ac_unit),
         label: const Text('Dodaj pomoc'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Odśnieżanie aut po nocnych opadach i zimowe dojazdy — wzajemna pomoc.',

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/pet_health.dart';
+import '../theme/widzew_ui.dart';
 
 class PetHealthScreen extends StatefulWidget {
   final List<PetVaccineReminder> reminders;
@@ -32,6 +33,7 @@ class _PetHealthScreenState extends State<PetHealthScreen> {
   Future<void> _add() async {
     final created = await showDialog<PetVaccineReminder>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => const _VaccineDialog(),
     );
     if (created == null) return;
@@ -59,13 +61,15 @@ class _PetHealthScreenState extends State<PetHealthScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Zdrowy zwierzak')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.vaccines_outlined),
         label: const Text('Termin szczepienia'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text('Kalendarz szczepień i polecane gabinety weterynaryjne.'),
           const SizedBox(height: 12),

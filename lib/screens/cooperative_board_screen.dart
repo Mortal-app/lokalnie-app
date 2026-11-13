@@ -30,7 +30,7 @@ class CooperativeBoardScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('Tablica zarządu / spółdzielni')),
       body: ListView.builder(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 80),
         itemCount: items.length,
         itemBuilder: (context, index) {
           final notice = items[index];

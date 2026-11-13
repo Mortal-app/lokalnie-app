@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/fishing_club.dart';
+import '../theme/widzew_ui.dart';
 
 class FishingClubScreen extends StatefulWidget {
   final List<FishingPost> items;
@@ -30,6 +31,7 @@ class _FishingClubScreenState extends State<FishingClubScreen> {
   Future<void> _add() async {
     final created = await showDialog<FishingPost>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _FishDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _FishingClubScreenState extends State<FishingClubScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Klub wędkarzy')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.water_outlined),
         label: const Text('Wpis'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Akweny na Olechowie i zbiorniki na Widzewie — przynęty i wspólne wyjazdy.',

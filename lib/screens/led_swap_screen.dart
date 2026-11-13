@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/led_swap.dart';
+import '../theme/widzew_ui.dart';
 
 class LedSwapScreen extends StatefulWidget {
   final List<LedSwapItem> items;
@@ -30,6 +31,7 @@ class _LedSwapScreenState extends State<LedSwapScreen> {
   Future<void> _add() async {
     final created = await showDialog<LedSwapItem>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _LedDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _LedSwapScreenState extends State<LedSwapScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Wymiana żarówek LED')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.lightbulb_outline),
         label: const Text('Oddaję żarówki'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Pozostałe materiały elektroinstalacyjne i energooszczędne żarówki po remontach.',

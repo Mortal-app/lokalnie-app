@@ -12,7 +12,7 @@ class ParkPhotoScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('Dawne parki i tereny zielone')),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 80),
         children: [
           const Text(
             'Opisy historycznych zdjęć z budowy Parku Podolskiego, Górki Widzewskiej i osiedlowych skwerów — bez plików graficznych.',

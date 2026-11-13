@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../models/neighborhood_club.dart';
 import '../theme/widzew_colors.dart';
+import '../widgets/app_page_route.dart';
 
 class NeighborhoodGroupsScreen extends StatelessWidget {
   final List<NeighborhoodClub> clubs;
@@ -22,7 +23,7 @@ class NeighborhoodGroupsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('Kluby i Grupy Widzewa')),
       body: ListView.separated(
-        padding: const EdgeInsets.fromLTRB(8, 8, 8, 24),
+        padding: const EdgeInsets.fromLTRB(8, 8, 8, 80),
         itemCount: clubs.length,
         separatorBuilder: (_, _) => const Divider(height: 1),
         itemBuilder: (context, index) {
@@ -40,7 +41,7 @@ class NeighborhoodGroupsScreen extends StatelessWidget {
               child: Text(club.isJoined ? 'Dołączono' : 'Dołącz'),
             ),
             onTap: () => Navigator.of(context).push(
-              MaterialPageRoute<void>(
+              AppPageRoute<void>(
                 builder: (_) => _ClubChatScreen(
                   club: club,
                   userName: userName,
@@ -113,7 +114,9 @@ class _ClubChatScreenState extends State<_ClubChatScreen> {
         children: [
           if (!widget.club.isJoined)
             MaterialBanner(
-              content: const Text('Dołącz do grupy, aby pisać na czacie klatki.'),
+              content: const Text(
+                'Dołącz do grupy, aby pisać na czacie klatki.',
+              ),
               actions: const [SizedBox.shrink()],
             ),
           Expanded(
@@ -124,8 +127,9 @@ class _ClubChatScreenState extends State<_ClubChatScreen> {
                 final message = messages[index];
                 final mine = message.isMine;
                 return Align(
-                  alignment:
-                      mine ? Alignment.centerRight : Alignment.centerLeft,
+                  alignment: mine
+                      ? Alignment.centerRight
+                      : Alignment.centerLeft,
                   child: Container(
                     margin: const EdgeInsets.only(bottom: 8),
                     padding: const EdgeInsets.symmetric(
@@ -135,7 +139,9 @@ class _ClubChatScreenState extends State<_ClubChatScreen> {
                     decoration: BoxDecoration(
                       color: mine
                           ? WidzewColors.redSoft
-                          : Theme.of(context).colorScheme.surfaceContainerHighest,
+                          : Theme.of(context)
+                                .colorScheme
+                                .surfaceContainerHighest,
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Column(

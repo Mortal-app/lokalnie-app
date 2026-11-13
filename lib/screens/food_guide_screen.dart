@@ -30,6 +30,7 @@ class _FoodGuideScreenState extends State<FoodGuideScreen> {
   Future<void> _review(FoodSpot spot) async {
     final review = await showDialog<FoodReview>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _TasteDialog(userName: widget.userName, place: spot.name),
     );
     if (review == null) return;
@@ -50,7 +51,7 @@ class _FoodGuideScreenState extends State<FoodGuideScreen> {
     return Scaffold(
       appBar: AppBar(title: const Text('Smaki Widzewa')),
       body: ListView.builder(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 80),
         itemCount: _spots.length,
         itemBuilder: (context, index) {
           final spot = _spots[index];

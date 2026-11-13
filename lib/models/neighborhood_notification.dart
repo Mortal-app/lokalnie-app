@@ -45,9 +45,7 @@ class NeighborhoodNotification {
   bool get isSosOrWildlife {
     final item = announcement;
     if (item != null && item.isAlert) return true;
-    return _haystack.contains('sos') ||
-        _haystack.contains('dzik') ||
-        _haystack.contains('alert');
+    return _haystack.contains('dzik') || _haystack.contains('alert');
   }
 
   NeighborhoodNotification copyWith({bool? isRead}) {
@@ -95,8 +93,7 @@ class LocalNotificationMock {
               .toLowerCase();
       return categoryFilters.any((filter) {
         if (filter == NotificationCategoryFilter.sos) {
-          return announcement.isAlert ||
-              announcement.category == Announcement.sosCategory;
+          return announcement.isAlert;
         }
         if (filter == NotificationCategoryFilter.garageSale) {
           return haystack.contains('garaż') ||
@@ -110,19 +107,20 @@ class LocalNotificationMock {
     }
 
     if (neighborhoodEnabled) {
-      final alerts = announcements.where((announcement) {
-        return inRadius(announcement) &&
-            NeighborhoodStreet.matchesAnnouncement(
-              announcement,
-              favoriteStreets,
-            ) &&
-            matchesCategoryFilter(announcement) &&
-            (announcement.isAlert ||
-                announcement.title.toLowerCase().contains('awaria') ||
-                announcement.description.toLowerCase().contains('awaria'));
-      }).toList()..sort(
-        (first, second) => second.publishedAt.compareTo(first.publishedAt),
-      );
+      final alerts =
+          announcements.where((announcement) {
+            return inRadius(announcement) &&
+                NeighborhoodStreet.matchesAnnouncement(
+                  announcement,
+                  favoriteStreets,
+                ) &&
+                matchesCategoryFilter(announcement) &&
+                (announcement.isAlert ||
+                    announcement.title.toLowerCase().contains('awaria') ||
+                    announcement.description.toLowerCase().contains('awaria'));
+          }).toList()..sort(
+            (first, second) => second.publishedAt.compareTo(first.publishedAt),
+          );
       for (final announcement in alerts.take(10)) {
         items.add(
           NeighborhoodNotification(

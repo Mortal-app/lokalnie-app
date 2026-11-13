@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/car_policy.dart';
+import '../theme/widzew_ui.dart';
 
 class CarPolicyScreen extends StatefulWidget {
   final List<CarPolicyReminder> items;
@@ -30,6 +31,7 @@ class _CarPolicyScreenState extends State<CarPolicyScreen> {
   Future<void> _add() async {
     final created = await showDialog<CarPolicyReminder>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _PolicyDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -51,13 +53,15 @@ class _CarPolicyScreenState extends State<CarPolicyScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('OC/AC i przegląd auta')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.directions_car_outlined),
         label: const Text('Polisa'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Daty ważności OC/AC i przeglądów rejestracyjnych aut parkujących pod blokiem.',

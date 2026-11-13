@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/market_stall.dart';
+import '../theme/widzew_ui.dart';
 
 class MarketStallsScreen extends StatefulWidget {
   final List<MarketStall> stalls;
@@ -35,6 +36,7 @@ class _MarketStallsScreenState extends State<MarketStallsScreen> {
   Future<void> _add() async {
     final created = await showDialog<MarketStall>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _StallDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -46,13 +48,15 @@ class _MarketStallsScreenState extends State<MarketStallsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Prosto z Ryneczku')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.storefront_outlined),
         label: const Text('Dodaj wystawcę'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Rolnicy i wystawcy z Ryneczku Batory / Widzew: jaja, miody, warzywa. Filtr dnia dostawy.',

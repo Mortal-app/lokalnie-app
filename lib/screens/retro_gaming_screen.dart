@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/retro_gaming.dart';
+import '../theme/widzew_ui.dart';
 
 class RetroGamingScreen extends StatefulWidget {
   final List<RetroGamingEvent> items;
@@ -30,6 +31,7 @@ class _RetroGamingScreenState extends State<RetroGamingScreen> {
   Future<void> _add() async {
     final created = await showDialog<RetroGamingEvent>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _RetroDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _RetroGamingScreenState extends State<RetroGamingScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Klub retro-gamingu')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.sports_esports_outlined),
         label: const Text('Turniej / wieczór'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Commodore, Amiga, stary PeCet i retro-konsole — wspólne turnieje na osiedlu.',

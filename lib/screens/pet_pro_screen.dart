@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/pet_pro.dart';
+import '../theme/widzew_ui.dart';
 
 class PetProScreen extends StatefulWidget {
   final List<PetProReview> items;
@@ -30,6 +31,7 @@ class _PetProScreenState extends State<PetProScreen> {
   Future<void> _add() async {
     final created = await showDialog<PetProReview>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _ProDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _PetProScreenState extends State<PetProScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Weterynarze i groomerzy')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.pets),
         label: const Text('Opinia'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Rekomendacje gabinetów weterynaryjnych i salonów pielęgnacji psów na dzielnicy.',

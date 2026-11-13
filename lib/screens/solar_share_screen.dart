@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/solar_share.dart';
+import '../theme/widzew_ui.dart';
 
 class SolarShareScreen extends StatefulWidget {
   final List<SolarSharePost> items;
@@ -30,6 +31,7 @@ class _SolarShareScreenState extends State<SolarShareScreen> {
   Future<void> _add() async {
     final created = await showDialog<SolarSharePost>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _SolarDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _SolarShareScreenState extends State<SolarShareScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Giełda solarna')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.wb_sunny_outlined),
         label: const Text('Wpis PV'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Mikroinstalacje PV: doświadczenia i autokonsumpcja energii w sąsiedztwie.',

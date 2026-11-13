@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/amateur_theater.dart';
+import '../theme/widzew_ui.dart';
 
 class AmateurTheaterScreen extends StatefulWidget {
   final List<AmateurTheaterMeetup> items;
@@ -30,6 +31,7 @@ class _AmateurTheaterScreenState extends State<AmateurTheaterScreen> {
   Future<void> _add() async {
     final created = await showDialog<AmateurTheaterMeetup>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _TheaterDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _AmateurTheaterScreenState extends State<AmateurTheaterScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Teatr i recytacja')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.theater_comedy_outlined),
         label: const Text('Spotkanie'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Wieczory literackie, poezja i małe formy artystyczne w świetlicy.',

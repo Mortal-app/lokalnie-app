@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/wildlife_care.dart';
+import '../theme/widzew_ui.dart';
 
 class WildlifeCareScreen extends StatefulWidget {
   final List<WildlifeCareReport> items;
@@ -30,6 +31,7 @@ class _WildlifeCareScreenState extends State<WildlifeCareScreen> {
   Future<void> _add() async {
     final created = await showDialog<WildlifeCareReport>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _CareDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _WildlifeCareScreenState extends State<WildlifeCareScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Ratunek dla zwierząt')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.pets),
         label: const Text('Nowe zgłoszenie'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Zimowe dokarmianie ptaków w parkach i zgłoszenia rannych zwierząt. Nie dokarmiaj chlebem.',

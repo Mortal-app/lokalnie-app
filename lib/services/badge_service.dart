@@ -13,15 +13,12 @@ class BadgeIds {
   static const firstListing = 'first_listing';
   static const helpfulHand = 'helpful_hand';
   static const ecoResident = 'eco_resident';
-  static const localOrganizer = 'local_organizer';
   static const localExpert = 'local_expert';
-  static const nightGuard = 'night_guard';
   static const fastDeal = 'fast_deal';
   static const garageKing = 'garage_king';
   static const goldenHand = 'golden_hand';
   static const watchfulEye = 'watchful_eye';
   static const popularNeighbor = 'popular_neighbor';
-  static const wanderer = 'wanderer';
 }
 
 class BadgeService {
@@ -58,6 +55,15 @@ class BadgeService {
     return newly;
   }
 
+  static Future<void> revoke(Iterable<String> ids) async {
+    if (!_loaded) await load();
+    var changed = false;
+    for (final id in ids) {
+      if (_unlocked.remove(id)) changed = true;
+    }
+    if (changed) await _save();
+  }
+
   static Future<void> clear() async {
     _unlocked.clear();
     _loaded = true;
@@ -76,11 +82,6 @@ class BadgeService {
 }
 
 class BadgeManager {
-  static bool isNightHour([DateTime? now]) {
-    final hour = (now ?? DateTime.now()).hour;
-    return hour >= 22 || hour < 6;
-  }
-
   static List<String> idsForAnnouncement({
     required Announcement item,
     required int createdCount,
@@ -89,16 +90,9 @@ class BadgeManager {
     if (createdCount >= 1) ids.add(BadgeIds.firstListing);
     if (createdCount >= 5) ids.add(BadgeIds.localExpert);
     if (NeighborAchievements.isGarageKing(item)) ids.add(BadgeIds.garageKing);
-    if (item.isAlert &&
-        (NeighborAchievements.isNightWatch(item) || isNightHour())) {
-      ids.add(BadgeIds.nightGuard);
-    }
     if (item.isHelp) ids.add(BadgeIds.helpfulHand);
     if (NeighborAchievements.isGoldenHand(item)) ids.add(BadgeIds.goldenHand);
     if (item.isFree) ids.add(BadgeIds.ecoResident);
-    if (item.category.toLowerCase().contains('wydarzen')) {
-      ids.add(BadgeIds.localOrganizer);
-    }
     return ids;
   }
 
@@ -106,9 +100,6 @@ class BadgeManager {
     final ids = <String>[BadgeIds.helpfulHand];
     if (related != null && NeighborAchievements.isGoldenHand(related)) {
       ids.add(BadgeIds.goldenHand);
-    }
-    if (related != null && related.isAlert && isNightHour()) {
-      ids.add(BadgeIds.nightGuard);
     }
     return ids;
   }
@@ -126,7 +117,6 @@ class BadgeManager {
     required List<Announcement> ownAnnouncements,
     required bool locationVerified,
     required bool neighborTrusted,
-    required List<String> exploredSubDistricts,
     required bool helpedRepairJob,
     required bool solvedCityReport,
   }) {
@@ -141,27 +131,19 @@ class BadgeManager {
     if (neighborTrusted) ids.add(BadgeIds.verifiedNeighbor);
     final achievements = NeighborAchievements.evaluate(
       ownAnnouncements: ownAnnouncements,
-      exploredSubDistricts: exploredSubDistricts,
       helpedRepairJob: helpedRepairJob,
       solvedCityReport: solvedCityReport,
     );
-    if (achievements.nightWatch) ids.add(BadgeIds.nightGuard);
     if (achievements.fastDeal) ids.add(BadgeIds.fastDeal);
     if (achievements.garageKing) ids.add(BadgeIds.garageKing);
     if (achievements.goldenHand) ids.add(BadgeIds.goldenHand);
     if (achievements.watchfulEye) ids.add(BadgeIds.watchfulEye);
     if (achievements.popularNeighbor) ids.add(BadgeIds.popularNeighbor);
-    if (achievements.wanderer) ids.add(BadgeIds.wanderer);
     if (ownAnnouncements.any((item) => item.isHelp)) {
       ids.add(BadgeIds.helpfulHand);
     }
     if (ownAnnouncements.any((item) => item.isFree)) {
       ids.add(BadgeIds.ecoResident);
-    }
-    if (ownAnnouncements.any(
-      (item) => item.category.toLowerCase().contains('wydarzen'),
-    )) {
-      ids.add(BadgeIds.localOrganizer);
     }
     return ids;
   }
@@ -173,16 +155,13 @@ class BadgeManager {
       BadgeIds.gpsVerified => context.tr('confirmedResident'),
       BadgeIds.firstListing => 'Pierwsze Ogłoszenie',
       BadgeIds.helpfulHand => context.tr('badgeHelpingTitle'),
-      BadgeIds.ecoResident => 'Eko-Mieszkaniec',
-      BadgeIds.localOrganizer => 'Lokalny Organizator',
+      BadgeIds.ecoResident => context.tr('badgeEcoTitle'),
       BadgeIds.localExpert => context.tr('badgeExpertTitle'),
-      BadgeIds.nightGuard => context.tr('badgeNightWatchTitle'),
       BadgeIds.fastDeal => context.tr('badgeFastDealTitle'),
       BadgeIds.garageKing => context.tr('badgeGarageKingTitle'),
       BadgeIds.goldenHand => context.tr('badgeGoldenHandTitle'),
       BadgeIds.watchfulEye => context.tr('badgeWatchfulEyeTitle'),
       BadgeIds.popularNeighbor => context.tr('badgePopularTitle'),
-      BadgeIds.wanderer => context.tr('badgeWandererTitle'),
       _ => id,
     };
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/garden_tool_care.dart';
+import '../theme/widzew_ui.dart';
 
 class GardenToolCareScreen extends StatefulWidget {
   final List<GardenToolCareOffer> items;
@@ -30,6 +31,7 @@ class _GardenToolCareScreenState extends State<GardenToolCareScreen> {
   Future<void> _add() async {
     final created = await showDialog<GardenToolCareOffer>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _ToolDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _GardenToolCareScreenState extends State<GardenToolCareScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Renowacja narzędzi ogrodowych')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.hardware_outlined),
         label: const Text('Oferuję ostrzenie'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Ostrzenie sekatorów, nożyc do żywopłotu i konserwacja kosiarek przed sezonem.',

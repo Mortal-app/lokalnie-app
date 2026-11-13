@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/cargo_carpool.dart';
+import '../theme/widzew_ui.dart';
 
 class CargoCarpoolScreen extends StatefulWidget {
   final List<CargoCarpoolOffer> items;
@@ -30,6 +31,7 @@ class _CargoCarpoolScreenState extends State<CargoCarpoolScreen> {
   Future<void> _add() async {
     final created = await showDialog<CargoCarpoolOffer>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _CargoDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _CargoCarpoolScreenState extends State<CargoCarpoolScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Carpooling bagażowy')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.local_shipping_outlined),
         label: const Text('Kombi / dostawczak'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Kombi i busy — pomoc w przewiezieniu dużego zakupu ze sklepu meblowego.',

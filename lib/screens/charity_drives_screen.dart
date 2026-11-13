@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/charity_drive.dart';
+import '../theme/widzew_ui.dart';
 
 class CharityDrivesScreen extends StatefulWidget {
   final List<CharityDrive> drives;
@@ -30,6 +31,7 @@ class _CharityDrivesScreenState extends State<CharityDrivesScreen> {
   Future<void> _add() async {
     final created = await showDialog<CharityDrive>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => const _DriveDialog(),
     );
     if (created == null) return;
@@ -40,6 +42,7 @@ class _CharityDrivesScreenState extends State<CharityDrivesScreen> {
   Future<void> _contribute(CharityDrive drive) async {
     final amount = await showDialog<int>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _ContributeDialog(unit: drive.unit),
     );
     if (amount == null || amount <= 0) return;
@@ -59,13 +62,15 @@ class _CharityDrivesScreenState extends State<CharityDrivesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Sąsiedzka Pomoc Rodzinom')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.volunteer_activism_outlined),
         label: const Text('Nowa zbiórka'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Zbiórki rzeczowe i finansowe: karma dla schronisk, wyprawka szkolna, pomoc sąsiadom.',

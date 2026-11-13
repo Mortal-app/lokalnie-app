@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/fitness_gear.dart';
+import '../theme/widzew_ui.dart';
 
 class FitnessGearScreen extends StatefulWidget {
   final List<FitnessGearItem> items;
@@ -30,6 +31,7 @@ class _FitnessGearScreenState extends State<FitnessGearScreen> {
   Future<void> _add() async {
     final created = await showDialog<FitnessGearItem>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => const _FitDialog(),
     );
     if (created == null) return;
@@ -54,13 +56,15 @@ class _FitnessGearScreenState extends State<FitnessGearScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Sąsiedzki sprzęt fitness')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.fitness_center_outlined),
         label: const Text('Udostępniam sprzęt'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Hantle, maty, gumy oporowe i rowery stacjonarne — barwny fitness na klatce.',

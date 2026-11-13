@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/blood_drive.dart';
+import '../theme/widzew_ui.dart';
 
 class BloodClubScreen extends StatefulWidget {
   final List<BloodDrive> items;
@@ -28,6 +29,7 @@ class _BloodClubScreenState extends State<BloodClubScreen> {
   Future<void> _add() async {
     final created = await showDialog<BloodDrive>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => const _BloodDialog(),
     );
     if (created == null) return;
@@ -40,13 +42,15 @@ class _BloodClubScreenState extends State<BloodClubScreen> {
     final urgent = _items.where((item) => item.urgent).toList();
     return Scaffold(
       appBar: AppBar(title: const Text('Klub Honorowego Dawcy Krwi')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.add),
         label: const Text('Dodaj krwiobus'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Mobilne punkty poboru przy centrach handlowych na Widzewie i pilne zapotrzebowania.',

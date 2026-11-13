@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/kids_creation.dart';
+import '../theme/widzew_ui.dart';
 
 class KidsCreationsScreen extends StatefulWidget {
   final List<KidsCreation> items;
@@ -30,6 +31,7 @@ class _KidsCreationsScreenState extends State<KidsCreationsScreen> {
   Future<void> _add() async {
     final created = await showDialog<KidsCreation>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _KidsDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _KidsCreationsScreenState extends State<KidsCreationsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Strefa twórczości dziecięcej')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.child_care_outlined),
         label: const Text('Dodaj pracę'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Rysunki, projekty z klocków i prace szkolne młodych mieszkańców osiedla.',

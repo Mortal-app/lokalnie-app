@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/compost_swap.dart';
+import '../theme/widzew_ui.dart';
 
 class CompostSwapScreen extends StatefulWidget {
   final List<CompostSwap> items;
@@ -30,6 +31,7 @@ class _CompostSwapScreenState extends State<CompostSwapScreen> {
   Future<void> _add() async {
     final created = await showDialog<CompostSwap>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _CompDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _CompostSwapScreenState extends State<CompostSwapScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Kompost i bio-odpad')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.eco_outlined),
         label: const Text('Wymiana'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Kompostowniki, dżdżownice kalifornijskie i wiaderka na bio — ogródki i ROD z Widzewa.',

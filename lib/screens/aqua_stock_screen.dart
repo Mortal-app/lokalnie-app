@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/aqua_stock.dart';
+import '../theme/widzew_ui.dart';
 
 class AquaStockScreen extends StatefulWidget {
   final List<AquaStockOffer> items;
@@ -30,6 +31,7 @@ class _AquaStockScreenState extends State<AquaStockScreen> {
   Future<void> _add() async {
     final created = await showDialog<AquaStockOffer>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _AquaDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _AquaStockScreenState extends State<AquaStockScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Ryby, krewetki i narybek')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.water),
         label: const Text('Wpis'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Katalog akwarystów z osiedla: narybek, rośliny szybko rosnące i podłoże aktywne — osobno od wymiany sprzętu.',

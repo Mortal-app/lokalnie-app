@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/local_art.dart';
+import '../theme/widzew_ui.dart';
 
 class LocalArtScreen extends StatefulWidget {
   final List<LocalArtWork> items;
@@ -30,6 +31,7 @@ class _LocalArtScreenState extends State<LocalArtScreen> {
   Future<void> _add() async {
     final created = await showDialog<LocalArtWork>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _ArtDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _LocalArtScreenState extends State<LocalArtScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Galeria sztuki lokalnej')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.palette_outlined),
         label: const Text('Dzieło'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Malarze, graficy i fotografowie z Widzewa — wystawa i kontakt.',

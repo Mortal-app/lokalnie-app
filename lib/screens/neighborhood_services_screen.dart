@@ -4,6 +4,7 @@ import '../models/announcement.dart';
 import '../models/neighbor_service.dart';
 import '../utils/submit_guard.dart';
 import '../utils/utf8_text_guard.dart';
+import '../theme/widzew_ui.dart';
 
 class NeighborhoodServicesScreen extends StatefulWidget {
   final List<NeighborService> services;
@@ -68,6 +69,7 @@ class _NeighborhoodServicesScreenState
     }
     final created = await showDialog<NeighborService>(
       context: context,
+      barrierDismissible: true,
       builder: (dialogContext) => _AddServiceDialog(
         userName: widget.userName,
         defaultSubDistrict: widget.defaultSubDistrict,
@@ -81,6 +83,7 @@ class _NeighborhoodServicesScreenState
   Future<void> _recommend(NeighborService service) async {
     final review = await showDialog<ServiceReview>(
       context: context,
+      barrierDismissible: true,
       builder: (dialogContext) => _RecommendDialog(
         userName: widget.userName,
         serviceTitle: service.title,
@@ -112,13 +115,15 @@ class _NeighborhoodServicesScreenState
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _addService,
         icon: const Icon(Icons.handyman_outlined),
         label: const Text('Dodaj usługę'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           Wrap(
             spacing: 8,

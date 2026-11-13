@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/mall_carpool.dart';
+import '../theme/widzew_ui.dart';
 
 class MallCarpoolScreen extends StatefulWidget {
   final List<MallCarpoolRide> items;
@@ -30,6 +31,7 @@ class _MallCarpoolScreenState extends State<MallCarpoolScreen> {
   Future<void> _add() async {
     final created = await showDialog<MallCarpoolRide>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _MallDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _MallCarpoolScreenState extends State<MallCarpoolScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Carpooling do galerii')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.shopping_cart_outlined),
         label: const Text('Zabiorę sąsiada'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Wspólne wyjazdy do Tulipana, CH Batory i Castoramy — miejsce dla sąsiada bez auta.',

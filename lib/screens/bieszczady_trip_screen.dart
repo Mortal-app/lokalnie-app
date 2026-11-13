@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/bieszczady_trip.dart';
+import '../theme/widzew_ui.dart';
 
 class BieszczadyTripScreen extends StatefulWidget {
   final List<BieszczadyTrip> items;
@@ -30,6 +31,7 @@ class _BieszczadyTripScreenState extends State<BieszczadyTripScreen> {
   Future<void> _add() async {
     final created = await showDialog<BieszczadyTrip>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _TripDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _BieszczadyTripScreenState extends State<BieszczadyTripScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Carpooling: Bieszczady i Solina')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.directions_car_outlined),
         label: const Text('Wyjazd'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Wspólne dalekie wyprawy z Widzewa w Bieszczady i nad Solinę — miejsca w aucie i koordynacja załadunku bagaży.',

@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import '../models/announcement.dart';
 import '../models/borrow_terms.dart';
 import '../services/app_image_picker.dart';
+import '../services/board_safety.dart';
 import '../services/form_draft_store.dart';
 import '../theme/widzew_ui.dart';
 import '../widgets/fade_slide_in.dart';
@@ -157,6 +158,15 @@ class _AddAnnouncementScreenState extends State<AddAnnouncementScreen> {
 
   void _submit() {
     if (!_formKey.currentState!.validate()) return;
+    final filter = ContentFilter.inspect(
+      '${_titleController.text} ${_descriptionController.text} ${_priceController.text}',
+    );
+    if (filter.blocked) {
+      ScaffoldMessenger.of(context)
+        ..hideCurrentSnackBar()
+        ..showSnackBar(SnackBar(content: Text(filter.message)));
+      return;
+    }
     FormDraftStore.clear(FormDraftStore.addAnnouncement);
     final price = _priceController.text.trim();
     final existing = widget.existing;
@@ -196,7 +206,9 @@ class _AddAnnouncementScreenState extends State<AddAnnouncementScreen> {
   bool get _showFilePreview {
     final path = _imagePath;
     if (kIsWeb || path == null || path.isEmpty) return false;
-    if (WidgetsBinding.instance.runtimeType.toString().contains('TestWidgets')) {
+    if (WidgetsBinding.instance.runtimeType.toString().contains(
+      'TestWidgets',
+    )) {
       return false;
     }
     return true;
@@ -223,190 +235,212 @@ class _AddAnnouncementScreenState extends State<AddAnnouncementScreen> {
       ),
       body: FadeSlideIn(
         child: Form(
-        key: _formKey,
-        child: ListView(
-          padding: WidzewUi.insetsWide,
-          children: [
-            TextFormField(
-              controller: _titleController,
-              decoration: const InputDecoration(
-                labelText: 'Tytuł ogłoszenia',
-                border: OutlineInputBorder(borderRadius: WidzewUi.borderRadius),
-              ),
-              textCapitalization: TextCapitalization.sentences,
-              validator: (value) => value == null || value.trim().isEmpty
-                  ? 'Wpisz tytuł ogłoszenia'
-                  : null,
+          key: _formKey,
+          child: ListView(
+            padding: WidzewUi.insetsWide.copyWith(
+              bottom: WidzewUi.scrollBottom,
             ),
-            const SizedBox(height: 16),
-            DropdownButtonFormField<String>(
-              initialValue: _subDistrict,
-              decoration: const InputDecoration(
-                labelText: 'Mikro-osiedle',
-                border: OutlineInputBorder(borderRadius: WidzewUi.borderRadius),
-                prefixIcon: Icon(Icons.location_on_outlined),
-              ),
-              items: Announcement.subDistricts
-                  .map(
-                    (subDistrict) => DropdownMenuItem(
-                      value: subDistrict,
-                      child: Text(subDistrict),
-                    ),
-                  )
-                  .toList(),
-              onChanged: (value) {
-                setState(() => _subDistrict = value!);
-                _persistDraft();
-              },
-            ),
-            const SizedBox(height: 16),
-            DropdownButtonFormField<String>(
-              initialValue: _category,
-              decoration: const InputDecoration(
-                labelText: 'Kategoria',
-                border: OutlineInputBorder(borderRadius: WidzewUi.borderRadius),
-              ),
-              items: _categories
-                      .map(
-                        (category) => DropdownMenuItem(
-                          value: category,
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              if (category ==
-                                  Announcement.wildlifeCategory) ...[
-                                const Icon(
-                                  Icons.warning_amber_rounded,
-                                  color: Color(0xFFE65100),
-                                  size: 20,
-                                ),
-                                const SizedBox(width: 8),
-                              ],
-                              Text(category),
-                            ],
-                          ),
-                        ),
-                      )
-                      .toList(),
-              onChanged: (value) {
-                setState(() => _category = value!);
-                _persistDraft();
-              },
-            ),
-            if (_isLending) ...[
-              const SizedBox(height: 8),
-              Text(
-                'Np. wiertarka, drabina, bagażnik dachowy, kosiarka, gry planszowe.',
-                style: Theme.of(context).textTheme.bodySmall,
+            children: [
+              TextFormField(
+                controller: _titleController,
+                decoration: const InputDecoration(
+                  labelText: 'Tytuł ogłoszenia',
+                  border: OutlineInputBorder(
+                    borderRadius: WidzewUi.borderRadius,
+                  ),
+                ),
+                textCapitalization: TextCapitalization.sentences,
+                validator: (value) => value == null || value.trim().isEmpty
+                    ? 'Wpisz tytuł ogłoszenia'
+                    : null,
               ),
               const SizedBox(height: 16),
-              DropdownButtonFormField<BorrowTerms>(
-                initialValue: _borrowTerms,
+              DropdownButtonFormField<String>(
+                initialValue: _subDistrict,
                 decoration: const InputDecoration(
-                  labelText: 'Warunki wypożyczenia',
-                  border: OutlineInputBorder(borderRadius: WidzewUi.borderRadius),
+                  labelText: 'Mikro-osiedle',
+                  border: OutlineInputBorder(
+                    borderRadius: WidzewUi.borderRadius,
+                  ),
+                  prefixIcon: Icon(Icons.location_on_outlined),
                 ),
-                items: BorrowTerms.values
+                items: Announcement.subDistricts
                     .map(
-                      (terms) => DropdownMenuItem(
-                        value: terms,
-                        child: Text(terms.label),
+                      (subDistrict) => DropdownMenuItem(
+                        value: subDistrict,
+                        child: Text(subDistrict),
                       ),
                     )
                     .toList(),
                 onChanged: (value) {
-                  if (value != null) setState(() => _borrowTerms = value);
+                  setState(() => _subDistrict = value!);
+                  _persistDraft();
                 },
               ),
-            ],
-            const SizedBox(height: 16),
-            TextFormField(
-              controller: _priceController,
-              decoration: const InputDecoration(
-                labelText: 'Cena / warunki (opcjonalnie)',
-                border: OutlineInputBorder(borderRadius: WidzewUi.borderRadius),
+              const SizedBox(height: 16),
+              DropdownButtonFormField<String>(
+                initialValue: _category,
+                decoration: const InputDecoration(
+                  labelText: 'Kategoria',
+                  border: OutlineInputBorder(
+                    borderRadius: WidzewUi.borderRadius,
+                  ),
+                ),
+                items: _categories
+                    .map(
+                      (category) => DropdownMenuItem(
+                        value: category,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            if (category == Announcement.wildlifeCategory) ...[
+                              const Icon(
+                                Icons.warning_amber_rounded,
+                                color: Color(0xFFE65100),
+                                size: 20,
+                              ),
+                              const SizedBox(width: 8),
+                            ],
+                            Text(category),
+                          ],
+                        ),
+                      ),
+                    )
+                    .toList(),
+                onChanged: (value) {
+                  setState(() => _category = value!);
+                  _persistDraft();
+                },
               ),
-            ),
-            const SizedBox(height: 16),
-            TextFormField(
-              controller: _descriptionController,
-              decoration: const InputDecoration(
-                labelText: 'Opis',
-                alignLabelWithHint: true,
-                border: OutlineInputBorder(borderRadius: WidzewUi.borderRadius),
+              if (_isLending) ...[
+                const SizedBox(height: 8),
+                Text(
+                  'Np. wiertarka, drabina, bagażnik dachowy, kosiarka, gry planszowe.',
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+                const SizedBox(height: 16),
+                DropdownButtonFormField<BorrowTerms>(
+                  initialValue: _borrowTerms,
+                  decoration: const InputDecoration(
+                    labelText: 'Warunki wypożyczenia',
+                    border: OutlineInputBorder(
+                      borderRadius: WidzewUi.borderRadius,
+                    ),
+                  ),
+                  items: BorrowTerms.values
+                      .map(
+                        (terms) => DropdownMenuItem(
+                          value: terms,
+                          child: Text(terms.label),
+                        ),
+                      )
+                      .toList(),
+                  onChanged: (value) {
+                    if (value != null) setState(() => _borrowTerms = value);
+                  },
+                ),
+              ],
+              const SizedBox(height: 16),
+              TextFormField(
+                controller: _priceController,
+                decoration: const InputDecoration(
+                  labelText: 'Cena / warunki (opcjonalnie)',
+                  border: OutlineInputBorder(
+                    borderRadius: WidzewUi.borderRadius,
+                  ),
+                ),
               ),
-              minLines: 4,
-              maxLines: 7,
-              textCapitalization: TextCapitalization.sentences,
-            ),
-            const SizedBox(height: 16),
-            Text('Zdjęcie', style: Theme.of(context).textTheme.titleMedium),
-            const SizedBox(height: 8),
-            if (_imagePath != null) ...[
-              const Text('Podgląd zdjęcia'),
+              const SizedBox(height: 16),
+              TextFormField(
+                controller: _descriptionController,
+                decoration: const InputDecoration(
+                  labelText: 'Opis',
+                  alignLabelWithHint: true,
+                  border: OutlineInputBorder(
+                    borderRadius: WidzewUi.borderRadius,
+                  ),
+                ),
+                minLines: 4,
+                maxLines: 7,
+                textCapitalization: TextCapitalization.sentences,
+              ),
+              const SizedBox(height: 16),
+              Text('Zdjęcie', style: Theme.of(context).textTheme.titleMedium),
               const SizedBox(height: 8),
-              ClipRRect(
-                borderRadius: WidzewUi.borderRadius,
-                child: AspectRatio(
-                  aspectRatio: 16 / 9,
-                  child: Stack(
-                    fit: StackFit.expand,
-                    children: [
-                      _showFilePreview
-                          ? Image.file(
-                              File(_imagePath!),
-                              fit: BoxFit.cover,
-                              errorBuilder: (_, _, _) => const ColoredBox(
+              if (_imagePath != null) ...[
+                const Text('Podgląd zdjęcia'),
+                const SizedBox(height: 8),
+                ClipRRect(
+                  borderRadius: WidzewUi.borderRadius,
+                  child: AspectRatio(
+                    aspectRatio: 16 / 9,
+                    child: Stack(
+                      fit: StackFit.expand,
+                      children: [
+                        _showFilePreview
+                            ? Image.file(
+                                File(_imagePath!),
+                                fit: BoxFit.cover,
+                                cacheWidth: WidzewUi.imageCachePixels(
+                                  context,
+                                  MediaQuery.sizeOf(context).width,
+                                ),
+                                cacheHeight: WidzewUi.imageCachePixels(
+                                  context,
+                                  MediaQuery.sizeOf(context).width * 9 / 16,
+                                ),
+                                errorBuilder: (_, _, _) => const ColoredBox(
+                                  color: Color(0xFFFFEBEE),
+                                  child: Center(
+                                    child: Icon(Icons.image_outlined),
+                                  ),
+                                ),
+                              )
+                            : const ColoredBox(
                                 color: Color(0xFFFFEBEE),
                                 child: Center(
                                   child: Icon(Icons.image_outlined),
                                 ),
                               ),
-                            )
-                          : const ColoredBox(
-                              color: Color(0xFFFFEBEE),
-                              child: Center(child: Icon(Icons.image_outlined)),
-                            ),
-                      Align(
-                        alignment: Alignment.topRight,
-                        child: IconButton.filled(
-                          tooltip: 'Usuń wybrane zdjęcie',
-                          onPressed: () => setState(() => _imagePath = null),
-                          icon: const Icon(Icons.close),
+                        Align(
+                          alignment: Alignment.topRight,
+                          child: IconButton.filled(
+                            tooltip: 'Usuń wybrane zdjęcie',
+                            onPressed: () => setState(() => _imagePath = null),
+                            icon: const Icon(Icons.close),
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
+                const SizedBox(height: 8),
+              ],
+              OutlinedButton.icon(
+                onPressed: _pickImage,
+                icon: const Icon(Icons.photo_library_outlined),
+                label: Text(
+                  _imagePath == null ? 'Dodaj zdjęcie' : 'Zmień zdjęcie',
+                ),
               ),
-              const SizedBox(height: 8),
+              if (_imagePath != null)
+                TextButton.icon(
+                  onPressed: () => setState(() => _imagePath = null),
+                  icon: const Icon(Icons.delete_outline),
+                  label: const Text('Usuń zdjęcie'),
+                ),
             ],
-            OutlinedButton.icon(
-              onPressed: _pickImage,
-              icon: const Icon(Icons.photo_library_outlined),
-              label: Text(
-                _imagePath == null ? 'Dodaj zdjęcie' : 'Zmień zdjęcie',
-              ),
-            ),
-            if (_imagePath != null)
-              TextButton.icon(
-                onPressed: () => setState(() => _imagePath = null),
-                icon: const Icon(Icons.delete_outline),
-                label: const Text('Usuń zdjęcie'),
-              ),
-          ],
+          ),
         ),
       ),
-      ),
       bottomNavigationBar: SafeArea(
+        minimum: const EdgeInsets.only(bottom: 8),
         child: Padding(
           padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
           child: FilledButton.icon(
             onPressed: _submit,
             icon: const Icon(Icons.publish),
-            label: Text(
-              _isEditing ? 'Zapisz zmiany' : 'Opublikuj ogłoszenie',
-            ),
+            label: Text(_isEditing ? 'Zapisz zmiany' : 'Opublikuj ogłoszenie'),
           ),
         ),
       ),

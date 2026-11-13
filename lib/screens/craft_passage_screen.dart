@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/craft_passage.dart';
+import '../theme/widzew_ui.dart';
 
 class CraftPassageScreen extends StatefulWidget {
   final List<CraftPassageService> items;
@@ -28,6 +29,7 @@ class _CraftPassageScreenState extends State<CraftPassageScreen> {
   Future<void> _add() async {
     final created = await showDialog<CraftPassageService>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => const _PassageDialog(),
     );
     if (created == null) return;
@@ -39,13 +41,15 @@ class _CraftPassageScreenState extends State<CraftPassageScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Mały pasaż rzemieślniczy')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.storefront_outlined),
         label: const Text('Dodaj warsztat'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Szewc, dorabianie kluczy i ostrzenie noży na Widzewie — mobilnie i stacjonarnie.',

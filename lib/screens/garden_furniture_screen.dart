@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/garden_furniture.dart';
+import '../theme/widzew_ui.dart';
 
 class GardenFurnitureScreen extends StatefulWidget {
   final List<GardenFurnitureTip> items;
@@ -30,6 +31,7 @@ class _GardenFurnitureScreenState extends State<GardenFurnitureScreen> {
   Future<void> _add() async {
     final created = await showDialog<GardenFurnitureTip>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _FurnDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _GardenFurnitureScreenState extends State<GardenFurnitureScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Meble ogrodowe i balkonowe')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.weekend_outlined),
         label: const Text('Porada / pomoc'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Olejowanie teaku, odnawianie krzeseł i montaż osłon balkonowych.',

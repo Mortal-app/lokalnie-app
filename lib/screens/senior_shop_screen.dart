@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/senior_shop.dart';
+import '../theme/widzew_ui.dart';
 
 class SeniorShopScreen extends StatefulWidget {
   final List<SeniorShopOffer> items;
@@ -30,6 +31,7 @@ class _SeniorShopScreenState extends State<SeniorShopScreen> {
   Future<void> _add() async {
     final created = await showDialog<SeniorShopOffer>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _ShopDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _SeniorShopScreenState extends State<SeniorShopScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Zakupy na telefon')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.elderly_outlined),
         label: const Text('Zgłoszenie'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Patrol seniora: wolontariusze z klatki przynoszą ciężkie zakupy ze sklepu.',

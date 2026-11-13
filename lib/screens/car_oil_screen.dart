@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/car_oil.dart';
+import '../theme/widzew_ui.dart';
 
 class CarOilScreen extends StatefulWidget {
   final List<CarOilReminder> items;
@@ -30,6 +31,7 @@ class _CarOilScreenState extends State<CarOilScreen> {
   Future<void> _add() async {
     final created = await showDialog<CarOilReminder>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _OilDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -51,13 +53,15 @@ class _CarOilScreenState extends State<CarOilScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Olej i filtry w aucie')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.car_repair_outlined),
         label: const Text('Serwis'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Przebieg i zbliżająca się wymiana oleju oraz filtrów — osobno od OC/AC.',

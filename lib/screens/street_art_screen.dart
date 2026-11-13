@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../models/bike_station.dart';
 import '../models/street_art.dart';
+import '../theme/widzew_ui.dart';
 
 class StreetArtScreen extends StatefulWidget {
   final List<StreetArtSpot> items;
@@ -37,6 +38,7 @@ class _StreetArtScreenState extends State<StreetArtScreen> {
   Future<void> _add() async {
     final created = await showDialog<StreetArtSpot>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _ArtDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -48,13 +50,15 @@ class _StreetArtScreenState extends State<StreetArtScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Murale i street art')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.brush_outlined),
         label: const Text('Dodaj miejsce'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Murale, legalne ściany i instalacje artystyczne na Widzewie.',

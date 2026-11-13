@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../models/announcement.dart';
 import '../models/flea_market_item.dart';
+import '../theme/widzew_ui.dart';
 
 class FleaMarketScreen extends StatefulWidget {
   final List<FleaMarketItem> items;
@@ -42,6 +43,7 @@ class _FleaMarketScreenState extends State<FleaMarketScreen> {
   Future<void> _add() async {
     final created = await showDialog<FleaMarketItem>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _FleaDialog(
         userName: widget.userName,
         subDistrict: widget.defaultSubDistrict,
@@ -56,13 +58,15 @@ class _FleaMarketScreenState extends State<FleaMarketScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Lokalny Targ Staroci')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.storefront_outlined),
         label: const Text('Wystaw rzecz'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Giełda kolekcjonera: winyle, stare gry, meble z duszą i rzadkie zbiory.',

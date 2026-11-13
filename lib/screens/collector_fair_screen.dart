@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/collector_fair.dart';
+import '../theme/widzew_ui.dart';
 
 class CollectorFairScreen extends StatefulWidget {
   final List<CollectorItem> items;
@@ -30,6 +31,7 @@ class _CollectorFairScreenState extends State<CollectorFairScreen> {
   Future<void> _add() async {
     final created = await showDialog<CollectorItem>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _ColDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _CollectorFairScreenState extends State<CollectorFairScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Klub kolekcjonera')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.collections_outlined),
         label: const Text('Eksponat'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Monety, banknoty, znaczki i militaria z regionu łódzkiego.',

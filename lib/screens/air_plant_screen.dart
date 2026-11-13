@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/air_plant.dart';
+import '../theme/widzew_ui.dart';
 
 class AirPlantScreen extends StatefulWidget {
   final List<AirPlantGuide> items;
@@ -30,6 +31,7 @@ class _AirPlantScreenState extends State<AirPlantScreen> {
   Future<void> _add() async {
     final created = await showDialog<AirPlantGuide>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _PlantDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _AirPlantScreenState extends State<AirPlantScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Rośliny oczyszczające powietrze')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.local_florist_outlined),
         label: const Text('Roślina'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Katalog kwiatów doniczkowych do bloków z wielkiej płyty — skrzydłokwiat, sansewieria i pielęgnacja.',

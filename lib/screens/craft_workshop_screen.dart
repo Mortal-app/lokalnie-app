@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/craft_workshop.dart';
+import '../theme/widzew_ui.dart';
 
 class CraftWorkshopScreen extends StatefulWidget {
   final List<CraftWorkshopOffer> items;
@@ -30,6 +31,7 @@ class _CraftWorkshopScreenState extends State<CraftWorkshopScreen> {
   Future<void> _add() async {
     final created = await showDialog<CraftWorkshopOffer>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _CraftDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _CraftWorkshopScreenState extends State<CraftWorkshopScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Warsztat galanterii i rękodzieła')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.content_cut_outlined),
         label: const Text('Ogłoszenie twórcy'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Twórcy w skórze, drewnie i tkaninach artystycznych — Widzew Wschód i Olechów.',

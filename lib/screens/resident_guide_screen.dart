@@ -22,7 +22,7 @@ class _ResidentGuideScreenState extends State<ResidentGuideScreen> {
       body: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
+            padding: const EdgeInsets.fromLTRB(16, 12, 16, 80),
             child: TextField(
               onChanged: (value) => setState(() => _query = value),
               decoration: const InputDecoration(

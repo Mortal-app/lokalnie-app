@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/archery_gear.dart';
+import '../theme/widzew_ui.dart';
 
 class ArcheryGearScreen extends StatefulWidget {
   final List<ArcheryGearOffer> items;
@@ -30,6 +31,7 @@ class _ArcheryGearScreenState extends State<ArcheryGearScreen> {
   Future<void> _add() async {
     final created = await showDialog<ArcheryGearOffer>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _ArcheryDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _ArcheryGearScreenState extends State<ArcheryGearScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Łucznictwo i sprzęt terenowy')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.gps_fixed),
         label: const Text('Oferta'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Giełda tarcz, łuków rekreacyjnych, strzał i sprzętu outdoorowego dla pasjonatów z osiedla.',

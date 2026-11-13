@@ -41,7 +41,7 @@ class _HomeStatsConfigScreenState extends State<HomeStatsConfigScreen> {
     return Scaffold(
       appBar: AppBar(title: const Text('Widget statystyk na home')),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 80),
         children: [
           const Text(
             'Baner na górze ekranu głównego: statystyki osiedla, zgłoszenia wokół bloku i skrót do ulubionej kategorii.',

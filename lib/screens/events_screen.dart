@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../models/neighborhood_event.dart';
 import '../theme/widzew_colors.dart';
+import '../theme/widzew_ui.dart';
 
 class EventsScreen extends StatefulWidget {
   final List<NeighborhoodEvent> events;
@@ -50,57 +51,62 @@ class _EventsScreenState extends State<EventsScreen> {
     return Scaffold(
       appBar: AppBar(title: const Text('Wydarzenia na Widzewie')),
       body: ListView.separated(
-        padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
+        padding: const EdgeInsets.fromLTRB(16, 16, 16, 80),
+        scrollCacheExtent: WidzewUi.listCacheExtent,
+        shrinkWrap: false,
         itemCount: _events.length,
+        addAutomaticKeepAlives: false,
         separatorBuilder: (_, _) => const SizedBox(height: 12),
         itemBuilder: (context, index) {
           final event = _events[index];
-          return Card(
-            child: Padding(
-              padding: const EdgeInsets.all(12),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    event.title,
-                    style: const TextStyle(fontWeight: FontWeight.w700),
-                  ),
-                  const SizedBox(height: 4),
-                  Text('${_format(event.startsAt)} · ${event.place}'),
-                  const SizedBox(height: 8),
-                  Text(event.description),
-                  const SizedBox(height: 8),
-                  Text('${event.goingCount} sąsiadów: Wybieram się'),
-                  const SizedBox(height: 8),
-                  Wrap(
-                    spacing: 8,
-                    children: [
-                      FilledButton.tonal(
-                        key: ValueKey('event-going-${event.id}'),
-                        onPressed: () => _toggle(event.id),
-                        child: Text(
-                          event.isGoing ? 'Wypisuję się' : 'Wybieram się',
+          return RepaintBoundary(
+            child: Card(
+              elevation: 0,
+              child: Padding(
+                padding: const EdgeInsets.all(12),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      event.title,
+                      style: const TextStyle(fontWeight: FontWeight.w700),
+                    ),
+                    const SizedBox(height: 4),
+                    Text('${_format(event.startsAt)} · ${event.place}'),
+                    const SizedBox(height: 8),
+                    Text(event.description),
+                    const SizedBox(height: 8),
+                    Text('${event.goingCount} sąsiadów: Wybieram się'),
+                    const SizedBox(height: 8),
+                    Wrap(
+                      spacing: 8,
+                      children: [
+                        FilledButton.tonal(
+                          key: ValueKey('event-going-${event.id}'),
+                          onPressed: () => _toggle(event.id),
+                          child: Text(
+                            event.isGoing ? 'Wypisuję się' : 'Wybieram się',
+                          ),
                         ),
-                      ),
-                      OutlinedButton.icon(
-                        key: ValueKey('event-calendar-${event.id}'),
-                        onPressed: () => widget.onAddToCalendar(event),
-                        icon: const Icon(Icons.calendar_month_outlined),
-                        style: OutlinedButton.styleFrom(
-                          foregroundColor: WidzewColors.red,
+                        OutlinedButton.icon(
+                          key: ValueKey('event-calendar-${event.id}'),
+                          onPressed: () => widget.onAddToCalendar(event),
+                          icon: const Icon(Icons.calendar_month_outlined),
+                          style: OutlinedButton.styleFrom(
+                            foregroundColor: WidzewColors.red,
+                          ),
+                          label: const Text('Dodaj do kalendarza'),
                         ),
-                        label: const Text('Dodaj do kalendarza'),
-                      ),
-                      if (widget.onRemindTomorrow != null)
-                        TextButton.icon(
-                          onPressed: () =>
-                              widget.onRemindTomorrow!(event),
-                          icon: const Icon(Icons.alarm_add_outlined),
-                          label: const Text('Przypomnij mi jutro'),
-                        ),
-                    ],
-                  ),
-                ],
+                        if (widget.onRemindTomorrow != null)
+                          TextButton.icon(
+                            onPressed: () => widget.onRemindTomorrow!(event),
+                            icon: const Icon(Icons.alarm_add_outlined),
+                            label: const Text('Przypomnij mi jutro'),
+                          ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           );

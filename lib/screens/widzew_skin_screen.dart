@@ -17,7 +17,7 @@ class WidzewSkinScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('Motywy i skórki')),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 80),
         children: [
           const Text(
             'Kolorystyka nawiązująca do miejsc Widzewa. Tryb jasny/ciemny zostaje bez zmian.',

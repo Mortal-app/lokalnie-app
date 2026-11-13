@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/medical_gear.dart';
+import '../theme/widzew_ui.dart';
 
 class MedicalGearScreen extends StatefulWidget {
   final List<MedicalGearItem> items;
@@ -30,6 +31,7 @@ class _MedicalGearScreenState extends State<MedicalGearScreen> {
   Future<void> _add() async {
     final created = await showDialog<MedicalGearItem>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => const _GearDialog(),
     );
     if (created == null) return;
@@ -54,13 +56,15 @@ class _MedicalGearScreenState extends State<MedicalGearScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Sprzęt medyczny i rehab')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.accessible_forward),
         label: const Text('Udostępniam sprzęt'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Kule łokciowe, wózek i łóżko rehabilitacyjne — bezpłatnie od mieszkańców.',

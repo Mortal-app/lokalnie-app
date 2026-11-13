@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/bocce_meetup.dart';
+import '../theme/widzew_ui.dart';
 
 class BocceMeetupScreen extends StatefulWidget {
   final List<BocceMeetup> items;
@@ -30,6 +31,7 @@ class _BocceMeetupScreenState extends State<BocceMeetupScreen> {
   Future<void> _add() async {
     final created = await showDialog<BocceMeetup>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _BocceDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _BocceMeetupScreenState extends State<BocceMeetupScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Kule / pétanque')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.sports_outlined),
         label: const Text('Rozgrywka'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Amatorskie boule i bocce na skwerach i trawnikach Widzewa Wschodu.',

@@ -19,7 +19,7 @@ class _WidzewTimelineScreenState extends State<WidzewTimelineScreen> {
     return Scaffold(
       appBar: AppBar(title: const Text('Kapsuła czasu Widzewa')),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 80),
         children: [
           const Text(
             'Jak budowano osiedla na Widzewie — oś czasu dziesięcioleci. Dotknij epoki.',

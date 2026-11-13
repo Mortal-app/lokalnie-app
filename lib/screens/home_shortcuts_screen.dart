@@ -47,7 +47,7 @@ class _HomeShortcutsScreenState extends State<HomeShortcutsScreen> {
     return Scaffold(
       appBar: AppBar(title: const Text('Skróty ekranu głównego')),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 80),
         children: [
           const Text(
             'Ułóż kolejność ośmiu kafelków kategorii i przypnij ulubione narzędzia szybkiego dostępu. Pusta kolejność w ustawieniach oznacza układ domyślny.',

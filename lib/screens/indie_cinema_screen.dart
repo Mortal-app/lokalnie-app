@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/indie_cinema.dart';
+import '../theme/widzew_ui.dart';
 
 class IndieCinemaScreen extends StatefulWidget {
   final List<IndieCinemaPost> items;
@@ -30,6 +31,7 @@ class _IndieCinemaScreenState extends State<IndieCinemaScreen> {
   Future<void> _add() async {
     final created = await showDialog<IndieCinemaPost>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _IndieDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _IndieCinemaScreenState extends State<IndieCinemaScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Kino niezależne')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.theaters_outlined),
         label: const Text('Wpis / seans'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Filmy niszowe, Camerimage, Festiwal Form Dokumentalnych i seanse domowe.',

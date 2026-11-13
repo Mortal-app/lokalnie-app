@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/announcement.dart';
+import '../theme/widzew_ui.dart';
 import '../utils/neighbor_qr.dart';
 
 class QrScanScreen extends StatefulWidget {
@@ -67,62 +68,98 @@ class _QrScanScreenState extends State<QrScanScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Skanuj kod QR')),
-      body: ListView(
-        padding: const EdgeInsets.all(16),
-        children: [
-          const Text(
-            'Zeskanuj kod z ogłoszenia na klatce albo wklej treść kodu, aby otworzyć je w aplikacji.',
-          ),
-          const SizedBox(height: 16),
-          AspectRatio(
-            aspectRatio: 1.2,
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                color: Colors.black87,
-                borderRadius: BorderRadius.circular(12),
+      body: CustomScrollView(
+        scrollCacheExtent: WidzewUi.listCacheExtent,
+        shrinkWrap: false,
+        physics: const ClampingScrollPhysics(),
+        slivers: [
+          SliverPadding(
+            padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+            sliver: SliverToBoxAdapter(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  const Text(
+                    'Zeskanuj kod z ogłoszenia na klatce albo wklej treść kodu, aby otworzyć je w aplikacji.',
+                  ),
+                  const SizedBox(height: 16),
+                  AspectRatio(
+                    aspectRatio: 1.2,
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        color: Colors.black87,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: const Center(
+                        child: Icon(
+                          Icons.qr_code_scanner,
+                          color: Colors.white,
+                          size: 72,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  TextField(
+                    controller: _controller,
+                    decoration: const InputDecoration(
+                      labelText: 'Treść kodu QR',
+                      hintText: 'lokalniewidzew://ogloszenie/…',
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  FilledButton.icon(
+                    onPressed: () => _resolve(_controller.text),
+                    icon: const Icon(Icons.qr_code_scanner),
+                    label: const Text('Otwórz z kodu'),
+                  ),
+                  if (_status != null) ...[
+                    const SizedBox(height: 8),
+                    Text(_status!),
+                  ],
+                  const SizedBox(height: 20),
+                  Text(
+                    'Ogłoszenia z kodem na klatce',
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                  const SizedBox(height: 8),
+                ],
               ),
-              child: const Center(
-                child: Icon(Icons.qr_code_scanner, color: Colors.white, size: 72),
+            ),
+          ),
+          SliverPadding(
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 80),
+            sliver: SliverFixedExtentList(
+              itemExtent: 72,
+              delegate: SliverChildBuilderDelegate(
+                (context, index) {
+                  final announcement = widget.announcements[index];
+                  return ListTile(
+                    leading: const Icon(Icons.qr_code_2),
+                    title: Text(
+                      announcement.title,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    subtitle: Text(
+                      announcement.subDistrict,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    onTap: () {
+                      _controller.text = NeighborQr.announcementPayload(
+                        announcement.publishedAt,
+                      );
+                      widget.onOpenAnnouncement(announcement);
+                    },
+                  );
+                },
+                childCount: widget.announcements.length,
+                addAutomaticKeepAlives: false,
               ),
             ),
           ),
-          const SizedBox(height: 16),
-          TextField(
-            controller: _controller,
-            decoration: const InputDecoration(
-              labelText: 'Treść kodu QR',
-              hintText: 'lokalniewidzew://ogloszenie/…',
-              border: OutlineInputBorder(),
-            ),
-          ),
-          const SizedBox(height: 12),
-          FilledButton.icon(
-            onPressed: () => _resolve(_controller.text),
-            icon: const Icon(Icons.qr_code_scanner),
-            label: const Text('Otwórz z kodu'),
-          ),
-          if (_status != null) ...[
-            const SizedBox(height: 8),
-            Text(_status!),
-          ],
-          const SizedBox(height: 20),
-          Text(
-            'Ogłoszenia z kodem na klatce',
-            style: Theme.of(context).textTheme.titleMedium,
-          ),
-          const SizedBox(height: 8),
-          for (final announcement in widget.announcements)
-            ListTile(
-              leading: const Icon(Icons.qr_code_2),
-              title: Text(announcement.title),
-              subtitle: Text(announcement.subDistrict),
-              onTap: () {
-                _controller.text = NeighborQr.announcementPayload(
-                  announcement.publishedAt,
-                );
-                widget.onOpenAnnouncement(announcement);
-              },
-            ),
         ],
       ),
     );

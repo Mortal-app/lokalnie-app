@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/streetball.dart';
+import '../theme/widzew_ui.dart';
 
 class StreetballScreen extends StatefulWidget {
   final List<StreetballMeetup> items;
@@ -30,6 +31,7 @@ class _StreetballScreenState extends State<StreetballScreen> {
   Future<void> _add() async {
     final created = await showDialog<StreetballMeetup>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _BallDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _StreetballScreenState extends State<StreetballScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Koszykówka i streetball')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.sports_basketball_outlined),
         label: const Text('Mecz'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Luźne mecze na boiskach szkolnych i orlikach na Widzewie Wschodzie.',

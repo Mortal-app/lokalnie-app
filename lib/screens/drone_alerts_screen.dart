@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/drone_alert.dart';
+import '../theme/widzew_ui.dart';
 
 class DroneAlertsScreen extends StatefulWidget {
   final List<DroneAlert> items;
@@ -32,6 +33,7 @@ class _DroneAlertsScreenState extends State<DroneAlertsScreen> {
   Future<void> _add() async {
     final created = await showDialog<DroneAlert>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _DroneDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -52,13 +54,15 @@ class _DroneAlertsScreenState extends State<DroneAlertsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Poszukiwacze dronów')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.flight_outlined),
         label: const Text('Alert zaginięcia'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Zaginął dron lub model RC — namierzanie przez lokalnych operatorów.',

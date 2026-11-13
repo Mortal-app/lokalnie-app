@@ -12,7 +12,7 @@ class WidzewFilmScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('Widzew w starym knie')),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 80),
         children: [
           const Text(
             'Opisy historycznych materiałów wideo i kronik z budowy blokowisk wschodniej Łodzi. To archiwum opisowe — bez odtwarzania plików.',

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/fire_safety.dart';
+import '../theme/widzew_ui.dart';
 
 class FireSafetyScreen extends StatefulWidget {
   final List<FireSafetyReport> items;
@@ -30,6 +31,7 @@ class _FireSafetyScreenState extends State<FireSafetyScreen> {
   Future<void> _add() async {
     final created = await showDialog<FireSafetyReport>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _FireDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _FireSafetyScreenState extends State<FireSafetyScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Czujniki dymu i pożar')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.local_fire_department_outlined),
         label: const Text('Zgłoś zagrożenie'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Poradnik antypożarowy w bloku oraz zgłoszenia zablokowanego wyjścia lub zagraconej piwnicy.',

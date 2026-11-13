@@ -44,6 +44,7 @@ class NeighborHelpBoardScreen extends StatelessWidget {
     var saving = false;
     final created = await showDialog<NeighborHelpPost>(
       context: context,
+      barrierDismissible: true,
       builder: (dialogContext) {
         return StatefulBuilder(
           builder: (context, setDialogState) {
@@ -166,87 +167,116 @@ class NeighborHelpBoardScreen extends StatelessWidget {
     }
   }
 
+  Widget _helpPostCard(BuildContext context, NeighborHelpPost post) {
+    return RepaintBoundary(
+      child: Card(
+        key: ValueKey('help-post-${post.id}'),
+        margin: const EdgeInsets.only(bottom: 10),
+        elevation: 0,
+        child: Padding(
+          padding: WidzewUi.insets,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      post.title,
+                      style: const TextStyle(fontWeight: FontWeight.w600),
+                    ),
+                  ),
+                  if (post.isUrgent)
+                    const Chip(
+                      backgroundColor: Color(0xFFFDE0E0),
+                      side: BorderSide(color: Color(0xFFD32F2F)),
+                      label: Text(
+                        'Pilne',
+                        style: TextStyle(
+                          color: Color(0xFFD32F2F),
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+              const SizedBox(height: 4),
+              Text(
+                '${post.subDistrict} · ${post.clientName} · ${RelativeTime.format(post.createdAt)}',
+              ),
+              const SizedBox(height: 8),
+              Text(post.description),
+              const SizedBox(height: 8),
+              if (post.isOpen)
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: FilledButton.tonalIcon(
+                    onPressed: () => _accept(context, post),
+                    icon: const Icon(Icons.handshake_outlined),
+                    label: const Text('Odpowiedz / Przyjmij zlecenie'),
+                  ),
+                )
+              else
+                Text(
+                  'Przyjęte przez ${post.acceptedBy}',
+                  style: Theme.of(context).textTheme.labelLarge,
+                ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    final sortedPosts = _sorted(posts);
     return Stack(
       children: [
-        ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
-        children: [
-          const Text(
-            'Szukam Fachowca / Szukam Pomocy — krótkie zlecenia od mieszkańców Widzewa. Kontakt z klientem po przyjęciu zlecenia mają tylko fachowcy PRO.',
-          ),
-          const SizedBox(height: 12),
-          if (posts.isEmpty)
-            const Padding(
-              padding: EdgeInsets.all(24),
-              child: Text('Brak zapytań. Dodaj pierwsze zlecenie.'),
-            ),
-          for (final post in _sorted(posts))
-            Card(
-              key: ValueKey('help-post-${post.id}'),
-              margin: const EdgeInsets.only(bottom: 10),
-              child: Padding(
-                padding: WidzewUi.insets,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            post.title,
-                            style: const TextStyle(fontWeight: FontWeight.w600),
-                          ),
-                        ),
-                        if (post.isUrgent)
-                          const Chip(
-                            backgroundColor: Color(0xFFFDE0E0),
-                            side: BorderSide(color: Color(0xFFD32F2F)),
-                            label: Text(
-                              'Pilne',
-                              style: TextStyle(
-                                color: Color(0xFFD32F2F),
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                          ),
-                      ],
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      '${post.subDistrict} · ${post.clientName} · ${RelativeTime.format(post.createdAt)}',
-                    ),
-                    const SizedBox(height: 8),
-                    Text(post.description),
-                    const SizedBox(height: 8),
-                    if (post.isOpen)
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: FilledButton.tonalIcon(
-                          onPressed: () => _accept(context, post),
-                          icon: const Icon(Icons.handshake_outlined),
-                          label: const Text('Odpowiedz / Przyjmij zlecenie'),
-                        ),
-                      )
-                    else
-                      Text(
-                        'Przyjęte przez ${post.acceptedBy}',
-                        style: Theme.of(context).textTheme.labelLarge,
-                      ),
-                  ],
+        CustomScrollView(
+          scrollCacheExtent: WidzewUi.listCacheExtent,
+          shrinkWrap: false,
+          physics: const ClampingScrollPhysics(),
+          slivers: [
+            const SliverPadding(
+              padding: EdgeInsets.fromLTRB(16, 12, 16, 12),
+              sliver: SliverToBoxAdapter(
+                child: Text(
+                  'Szukam Fachowca / Szukam Pomocy — krótkie zlecenia od mieszkańców Widzewa. Kontakt z klientem po przyjęciu zlecenia mają tylko fachowcy PRO.',
                 ),
               ),
             ),
-        ],
+            if (sortedPosts.isEmpty)
+              const SliverPadding(
+                padding: EdgeInsets.all(24),
+                sliver: SliverToBoxAdapter(
+                  child: Text('Brak zapytań. Dodaj pierwsze zlecenie.'),
+                ),
+              )
+            else
+              SliverPadding(
+                padding: const EdgeInsets.fromLTRB(16, 0, 16, 120),
+                sliver: SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    (context, index) =>
+                        _helpPostCard(context, sortedPosts[index]),
+                    childCount: sortedPosts.length,
+                    addAutomaticKeepAlives: false,
+                    addRepaintBoundaries: true,
+                  ),
+                ),
+              ),
+          ],
         ),
         Positioned(
           right: 16,
           bottom: 16,
-          child: FloatingActionButton.extended(
-            onPressed: () => _compose(context),
-            icon: const Icon(Icons.add),
-            label: const Text('Dodaj zapytanie'),
+          child: WidzewUi.safeFab(
+            FloatingActionButton.extended(
+              onPressed: () => _compose(context),
+              icon: const Icon(Icons.add),
+              label: const Text('Dodaj zapytanie'),
+            ),
           ),
         ),
       ],

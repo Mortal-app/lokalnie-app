@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/disco_retro.dart';
+import '../theme/widzew_ui.dart';
 
 class DiscoRetroScreen extends StatefulWidget {
   final List<DiscoRetroPost> items;
@@ -30,6 +31,7 @@ class _DiscoRetroScreenState extends State<DiscoRetroScreen> {
   Future<void> _add() async {
     final created = await showDialog<DiscoRetroPost>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _DiscoDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _DiscoRetroScreenState extends State<DiscoRetroScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Pop i disco 80/90')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.album_outlined),
         label: const Text('Wpis'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Kasety VHS z festiwali, płyty CD i domówki w klimacie retro — osobno od rocka i ambientu.',

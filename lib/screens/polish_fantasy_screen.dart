@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/polish_fantasy.dart';
+import '../theme/widzew_ui.dart';
 
 class PolishFantasyScreen extends StatefulWidget {
   final List<PolishFantasyOffer> items;
@@ -30,6 +31,7 @@ class _PolishFantasyScreenState extends State<PolishFantasyScreen> {
   Future<void> _add() async {
     final created = await showDialog<PolishFantasyOffer>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _FantasyDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _PolishFantasyScreenState extends State<PolishFantasyScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Fantastyka i komiksy')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.auto_stories_outlined),
         label: const Text('Wymiana'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Relax, Kajko i Kokosz, Thorgal oraz polska fantastyka i science-fiction.',

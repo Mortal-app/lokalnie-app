@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/electro_ambient.dart';
+import '../theme/widzew_ui.dart';
 
 class ElectroAmbientScreen extends StatefulWidget {
   final List<ElectroAmbientPost> items;
@@ -30,6 +31,7 @@ class _ElectroAmbientScreenState extends State<ElectroAmbientScreen> {
   Future<void> _add() async {
     final created = await showDialog<ElectroAmbientPost>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _ElectroDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _ElectroAmbientScreenState extends State<ElectroAmbientScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Elektronika i ambient')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.headphones_outlined),
         label: const Text('Wpis'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Winyle klubowe, niszowe imprezy w Łodzi i domowe MIDI — osobno od rocka.',

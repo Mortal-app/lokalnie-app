@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/staircase_fund.dart';
+import '../theme/widzew_ui.dart';
 
 class StaircaseFundScreen extends StatefulWidget {
   final List<StaircaseFund> funds;
@@ -32,6 +33,7 @@ class _StaircaseFundScreenState extends State<StaircaseFundScreen> {
   Future<void> _add() async {
     final created = await showDialog<StaircaseFund>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => const _FundDialog(),
     );
     if (created == null) return;
@@ -42,6 +44,7 @@ class _StaircaseFundScreenState extends State<StaircaseFundScreen> {
   Future<void> _pay(StaircaseFund fund) async {
     final amount = await showDialog<int>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => const _PayDialog(),
     );
     if (amount == null || amount <= 0) return;
@@ -62,13 +65,15 @@ class _StaircaseFundScreenState extends State<StaircaseFundScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Skrzynka finansowa klatki')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.savings_outlined),
         label: const Text('Nowa składka'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Kwiaty, żarówki, sprzątanie — lista wpłat i podsumowanie klatki.',

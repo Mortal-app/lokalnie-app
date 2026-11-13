@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/rtv_repair.dart';
+import '../theme/widzew_ui.dart';
 
 class RtvRepairScreen extends StatefulWidget {
   final List<RtvRepairSession> items;
@@ -30,6 +31,7 @@ class _RtvRepairScreenState extends State<RtvRepairScreen> {
   Future<void> _add() async {
     final created = await showDialog<RtvRepairSession>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _RtvDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _RtvRepairScreenState extends State<RtvRepairScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Majsterkowanie RTV')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.speaker_outlined),
         label: const Text('Spot lutowania'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Wymiana wiedzy i wspólna naprawa wzmacniaczy, głośników i odbiorników RTV.',

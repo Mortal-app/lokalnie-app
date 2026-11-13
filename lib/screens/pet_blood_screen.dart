@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/pet_blood.dart';
+import '../theme/widzew_ui.dart';
 
 class PetBloodScreen extends StatefulWidget {
   final List<PetBloodDonor> items;
@@ -30,6 +31,7 @@ class _PetBloodScreenState extends State<PetBloodScreen> {
   Future<void> _add() async {
     final created = await showDialog<PetBloodDonor>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _DonorDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _PetBloodScreenState extends State<PetBloodScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Krwiodawcy zwierzęcy')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.pets),
         label: const Text('Zgłoś dawcę'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Rejestr psów i kotów — kontakt w nagłych wypadkach, po kwalifikacji weterynaryjnej.',

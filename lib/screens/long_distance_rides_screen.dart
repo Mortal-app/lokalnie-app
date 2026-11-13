@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/long_distance_ride.dart';
+import '../theme/widzew_ui.dart';
 
 class LongDistanceRidesScreen extends StatefulWidget {
   final List<LongDistanceRide> items;
@@ -36,6 +37,7 @@ class _LongDistanceRidesScreenState extends State<LongDistanceRidesScreen> {
   Future<void> _add() async {
     final created = await showDialog<LongDistanceRide>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _RideDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -47,13 +49,15 @@ class _LongDistanceRidesScreenState extends State<LongDistanceRidesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Transport dalekobieżny')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.airport_shuttle_outlined),
         label: const Text('Dodaj kurs'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Wspólne wypady na Łódź Fabryczną, Kaliską lub lotnisko — podział kosztów paliwa.',

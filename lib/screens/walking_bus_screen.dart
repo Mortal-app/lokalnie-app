@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/walking_bus.dart';
+import '../theme/widzew_ui.dart';
 
 class WalkingBusScreen extends StatefulWidget {
   final List<WalkingBusShift> shifts;
@@ -30,6 +31,7 @@ class _WalkingBusScreenState extends State<WalkingBusScreen> {
   Future<void> _add() async {
     final created = await showDialog<WalkingBusShift>(
       context: context,
+      barrierDismissible: true,
       builder: (_) => _WalkDialog(userName: widget.userName),
     );
     if (created == null) return;
@@ -41,13 +43,15 @@ class _WalkingBusScreenState extends State<WalkingBusScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Szkolny autobus pieszy')),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: WidzewUi.safeFab(
+        FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.directions_walk),
         label: const Text('Dzisiaj ja odprowadzam'),
       ),
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Wspólne odprowadzanie do SP 114, SP 34 i SP 141. Harmonogram klatek.',

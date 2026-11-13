@@ -70,8 +70,12 @@ class ConversationsListScreen extends StatelessWidget {
           ? const _ConversationsEmptyState()
           : ListView.separated(
               key: const ValueKey('conversations-list'),
-              padding: const EdgeInsets.fromLTRB(12, 8, 12, 16),
+              padding: const EdgeInsets.fromLTRB(12, 8, 12, 80),
+              scrollCacheExtent: WidzewUi.listCacheExtent,
+              shrinkWrap: false,
+              physics: const ClampingScrollPhysics(),
               itemCount: conversations.length,
+              addAutomaticKeepAlives: false,
               separatorBuilder: (_, _) => const SizedBox(height: 4),
               itemBuilder: (context, index) {
                 final conversation = conversations[index];
@@ -130,87 +134,90 @@ class _ConversationTile extends StatelessWidget {
     final last = conversation.lastMessage;
     final unread = conversation.unreadCount;
     final preview = _previewText(context, last);
-    return Card(
-      margin: EdgeInsets.zero,
-      child: ListTile(
-        key: ValueKey('conversation-${conversation.id}'),
-        isThreeLine: conversation.listingTitle.isNotEmpty,
-        onTap: onTap,
-        leading: CircleAvatar(
-          backgroundColor: WidzewColors.redSoft,
-          child: Icon(
-            NeighborAvatar.at(conversation.avatarIndex),
-            color: WidzewColors.red,
+    return RepaintBoundary(
+      child: Card(
+        margin: EdgeInsets.zero,
+        elevation: 0,
+        child: ListTile(
+          key: ValueKey('conversation-${conversation.id}'),
+          isThreeLine: conversation.listingTitle.isNotEmpty,
+          onTap: onTap,
+          leading: CircleAvatar(
+            backgroundColor: WidzewColors.redSoft,
+            child: Icon(
+              NeighborAvatar.at(conversation.avatarIndex),
+              color: WidzewColors.red,
+            ),
           ),
-        ),
-        title: Row(
-          children: [
-            Expanded(
-              child: Text(
-                conversation.peerName,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  fontWeight: unread > 0 ? FontWeight.w700 : FontWeight.w600,
-                ),
-              ),
-            ),
-            const SizedBox(width: 8),
-            Text(
-              last == null ? '' : _formatTime(last.sentAt),
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                color: unread > 0
-                    ? WidzewColors.red
-                    : Theme.of(context).colorScheme.onSurfaceVariant,
-                fontWeight: unread > 0 ? FontWeight.w600 : FontWeight.w400,
-              ),
-            ),
-          ],
-        ),
-        subtitle: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            if (conversation.listingTitle.isNotEmpty)
-              Text(
-                conversation.listingTitle,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: Theme.of(context).colorScheme.onSurfaceVariant,
-                ),
-              ),
-            Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    preview,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      fontWeight: unread > 0
-                          ? FontWeight.w600
-                          : FontWeight.w400,
-                    ),
+          title: Row(
+            children: [
+              Expanded(
+                child: Text(
+                  conversation.peerName,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontWeight: unread > 0 ? FontWeight.w700 : FontWeight.w600,
                   ),
                 ),
-                if (unread > 0) ...[
-                  const SizedBox(width: 8),
-                  CircleAvatar(
-                    radius: 11,
-                    backgroundColor: WidzewColors.red,
+              ),
+              const SizedBox(width: 8),
+              Text(
+                last == null ? '' : _formatTime(last.sentAt),
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: unread > 0
+                      ? WidzewColors.red
+                      : Theme.of(context).colorScheme.onSurfaceVariant,
+                  fontWeight: unread > 0 ? FontWeight.w600 : FontWeight.w400,
+                ),
+              ),
+            ],
+          ),
+          subtitle: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              if (conversation.listingTitle.isNotEmpty)
+                Text(
+                  conversation.listingTitle,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                  ),
+                ),
+              Row(
+                children: [
+                  Expanded(
                     child: Text(
-                      unread > 9 ? '9+' : '$unread',
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 11,
-                        fontWeight: FontWeight.w700,
+                      preview,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontWeight: unread > 0
+                            ? FontWeight.w600
+                            : FontWeight.w400,
                       ),
                     ),
                   ),
+                  if (unread > 0) ...[
+                    const SizedBox(width: 8),
+                    CircleAvatar(
+                      radius: 11,
+                      backgroundColor: WidzewColors.red,
+                      child: Text(
+                        unread > 9 ? '9+' : '$unread',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 11,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ),
+                  ],
                 ],
-              ],
-            ),
-          ],
+              ),
+            ],
+          ),
         ),
       ),
     );

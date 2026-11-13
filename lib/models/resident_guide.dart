@@ -13,7 +13,8 @@ class ResidentGuideArticle {
 
   bool matches(String query) {
     if (query.trim().isEmpty) return true;
-    final haystack = '$title $summary $body ${keywords.join(' ')}'.toLowerCase();
+    final haystack = '$title $summary $body ${keywords.join(' ')}'
+        .toLowerCase();
     return query
         .trim()
         .toLowerCase()
@@ -48,7 +49,7 @@ class ResidentGuide {
           '(numery są w Niezbędniku Widzewa).\n'
           '3. Przy zalaniu lub braku ogrzewania poproś o numer zgłoszenia.\n'
           '4. W nocy i w święta korzystaj z pogotowia technicznego spółdzielni.\n'
-          '5. Jeśli usterka zagraża bezpieczeństwu, dodaj też Alert SOS na tablicy.',
+          '5. Jeśli usterka zagraża bezpieczeństwu, zgłoś ją też na tablicy osiedla.',
     ),
     ResidentGuideArticle(
       title: 'Gdzie wyrzucić elektrośmieci na Widzewie',

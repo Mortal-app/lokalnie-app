@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/staircase_code.dart';
+import '../theme/widzew_ui.dart';
 
 class StaircaseCodesScreen extends StatefulWidget {
   final List<StaircaseCodeNote> items;
@@ -37,6 +38,7 @@ class _StaircaseCodesScreenState extends State<StaircaseCodesScreen> {
     final hint = TextEditingController();
     final created = await showDialog<StaircaseCodeNote>(
       context: context,
+      barrierDismissible: true,
       builder: (context) => AlertDialog(
         title: const Text('Notatka gospodarza'),
         content: Column(
@@ -91,15 +93,17 @@ class _StaircaseCodesScreenState extends State<StaircaseCodesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Notes klatek i domofonów')),
-      floatingActionButton: _unlocked
+      floatingActionButton: WidzewUi.maybeSafeFab(
+        _unlocked
           ? FloatingActionButton.extended(
               onPressed: _add,
               icon: const Icon(Icons.note_add_outlined),
               label: const Text('Notatka'),
             )
           : null,
+      ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 88),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
             'Notes serwisowy dla gospodarzy klatek. Dostęp po autoryzacji. Aplikacja nie udostępnia kodów obcych budynków.',

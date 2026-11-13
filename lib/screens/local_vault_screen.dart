@@ -107,7 +107,7 @@ class _LocalVaultScreenState extends State<LocalVaultScreen> {
     return Scaffold(
       appBar: AppBar(title: const Text('PIN i biometria')),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 80),
         children: [
           const Text(
             'Zabezpieczenie lokalnych danych w aplikacji kodem PIN albo uwierzytelnianiem biometrycznym (Face ID / odcisk palca).',
