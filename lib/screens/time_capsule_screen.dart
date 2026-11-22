@@ -42,7 +42,7 @@ class _TimeCapsuleScreenState extends State<TimeCapsuleScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Kapsuła czasu Widzewa')),
+      appBar: AppBar(title: const Text('Kapsuła czasu okolicy')),
       floatingActionButton: WidzewUi.safeFab(
         FloatingActionButton.extended(
         onPressed: _add,
@@ -131,7 +131,7 @@ class _CapsuleDialogState extends State<_CapsuleDialog> {
               TimeCapsuleEntry(
                 id: 'tc-${DateTime.now().millisecondsSinceEpoch}',
                 title: _title.text.trim().isEmpty
-                    ? 'Wspomnienie z Widzewa'
+                    ? 'Wspomnienie z okolicy'
                     : _title.text.trim(),
                 body: _body.text.trim(),
                 authorName: widget.userName,

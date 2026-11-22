@@ -56,7 +56,7 @@ class PolishFilmPost {
     PolishFilmPost(
       id: 'pf-dk',
       kind: PolishFilmKind.screening,
-      title: 'Seans Teatru TV w DK Widzew',
+      title: 'Seans Teatru TV w domu kultury',
       body: 'Niedziela, sala widowiskowa. Wejściówki we własnym zakresie.',
       authorName: 'Marek',
     ),

@@ -5,7 +5,6 @@ import 'package:flutter/services.dart';
 
 import '../models/announcement.dart';
 import '../models/carpool_ride.dart';
-import '../models/borrow_terms.dart';
 import '../models/neighborhood_geo.dart';
 import '../models/neighborhood_notification.dart';
 import '../models/neighborhood_event.dart';
@@ -28,11 +27,13 @@ import '../l10n/app_localizations.dart';
 import '../theme/widzew_colors.dart';
 import '../theme/widzew_ui.dart';
 import '../widgets/driver_mode_bar.dart';
+import '../services/announcements_firestore.dart';
 import '../services/form_draft_store.dart';
 import '../utils/flutter_runtime.dart';
 import '../widgets/development_notice_dialog.dart';
 import '../widgets/offline_banner.dart';
 import '../widgets/propose_change_dialog.dart';
+import '../widgets/route_pop_scope.dart';
 import 'events_screen.dart';
 import 'notifications_screen.dart';
 
@@ -41,6 +42,8 @@ enum HomeSortMode { newest, oldest, likes, nearest, alerts }
 enum HomeFeedLayout { list, grid }
 
 enum HomeDateFilter { all, today, last3Days, lastWeek }
+
+enum HomeStatusFilter { all, current, closed }
 
 class HomeScreen extends StatefulWidget {
   final List<Announcement> announcements;
@@ -105,7 +108,6 @@ class HomeScreen extends StatefulWidget {
   final VoidCallback? onClearSearchHistory;
   final void Function(Announcement announcement, String emoji)?
   onReactAnnouncement;
-  final ValueChanged<String>? onExploreSubDistrict;
 
   const HomeScreen({
     super.key,
@@ -116,7 +118,7 @@ class HomeScreen extends StatefulWidget {
     required this.onAddAnnouncement,
     this.isOnline = true,
     this.showOfflineBanner = true,
-    this.userSubDistrict = 'Widzew Wschód',
+    this.userSubDistrict = 'Twoja okolica',
     this.userName = 'Sąsiad',
     this.neighborhoodNotificationsEnabled = true,
     this.onReportAnnouncement,
@@ -169,7 +171,6 @@ class HomeScreen extends StatefulWidget {
     this.onRemoveSearch,
     this.onClearSearchHistory,
     this.onReactAnnouncement,
-    this.onExploreSubDistrict,
   });
 
   @override
@@ -183,6 +184,7 @@ class _HomeScreenState extends State<HomeScreen> {
   String _selectedSubDistrict = 'Wszystkie osiedla';
   HomeSortMode _sortMode = HomeSortMode.newest;
   HomeDateFilter _dateFilter = HomeDateFilter.all;
+  HomeStatusFilter _statusFilter = HomeStatusFilter.all;
   var _freeOnly = false;
   final ValueNotifier<bool> _showScrollTop = ValueNotifier(false);
   var _scrollFabQueued = false;
@@ -246,10 +248,6 @@ class _HomeScreenState extends State<HomeScreen> {
         selection: TextSelection.collapsed(offset: query.length),
       );
     }
-    final subDistrict = draft['subDistrict'];
-    if (subDistrict != null && subDistrict.isNotEmpty) {
-      _selectedSubDistrict = subDistrict;
-    }
     final sort = draft['sort'];
     if (sort != null) {
       for (final mode in HomeSortMode.values) {
@@ -262,7 +260,17 @@ class _HomeScreenState extends State<HomeScreen> {
         if (mode.name == date) _dateFilter = mode;
       }
     }
+    final savedCategory = draft['category'];
+    if (savedCategory != null && savedCategory.isNotEmpty) {
+      _selectedCategory = HomeFeedCategory.canonicalId(savedCategory);
+    }
     _freeOnly = draft['free'] == '1';
+    final status = draft['status'];
+    if (status != null) {
+      for (final mode in HomeStatusFilter.values) {
+        if (mode.name == status) _statusFilter = mode;
+      }
+    }
     final layout = draft['layout'];
     if (layout != null) {
       for (final mode in HomeFeedLayout.values) {
@@ -275,10 +283,11 @@ class _HomeScreenState extends State<HomeScreen> {
     FormDraftStore.save(FormDraftStore.homeFilters, {
       'query': _searchQuery,
       'category': _selectedCategory ?? '',
-      'subDistrict': _selectedSubDistrict,
+      'subDistrict': 'Wszystkie osiedla',
       'tag': '',
       'sort': _sortMode.name,
       'date': _dateFilter.name,
+      'status': _statusFilter.name,
       'free': _freeOnly ? '1' : '0',
       'photos': '0',
       'layout': _feedLayout.name,
@@ -348,16 +357,19 @@ class _HomeScreenState extends State<HomeScreen> {
     if (!mounted || !_scrollController.hasClients) return;
     final targetContext = _feedSectionKey.currentContext;
     var offset = _scrollController.position.maxScrollExtent;
-    if (targetContext != null) {
-      final target = targetContext.findRenderObject();
-      final viewport = _scrollController.position.context.notificationContext
-          ?.findRenderObject();
-      if (target is RenderBox && viewport is RenderBox) {
-        final dy = target.localToGlobal(Offset.zero, ancestor: viewport).dy;
-        offset = (_scrollController.offset + dy - 8).clamp(
-          0.0,
-          _scrollController.position.maxScrollExtent,
-        );
+    if (targetContext != null && targetContext.mounted) {
+      final notificationContext =
+          _scrollController.position.context.notificationContext;
+      if (notificationContext != null && notificationContext.mounted) {
+        final target = targetContext.findRenderObject();
+        final viewport = notificationContext.findRenderObject();
+        if (target is RenderBox && viewport is RenderBox) {
+          final dy = target.localToGlobal(Offset.zero, ancestor: viewport).dy;
+          offset = (_scrollController.offset + dy - 8).clamp(
+            0.0,
+            _scrollController.position.maxScrollExtent,
+          );
+        }
       }
     }
     await _scrollController.animateTo(
@@ -397,16 +409,63 @@ class _HomeScreenState extends State<HomeScreen> {
     widget.onOpenNeighborHub?.call();
   }
 
-  List<Announcement> _filterAndSortAnnouncements() {
+  List<Announcement> _mergeIncomingBoard(List<Announcement> remote) {
+    if (remote.isEmpty) return widget.announcements;
+    final keys = <String>{
+      for (final item in remote)
+        if (item.id.isNotEmpty) item.id,
+      for (final item in remote) item.publishedAt.toIso8601String(),
+    };
+    final localById = {
+      for (final item in widget.announcements)
+        if (item.id.isNotEmpty) item.id: item,
+    };
+    final merged = [
+      for (final item in remote)
+        item.copyWith(
+          isFavorite: localById[item.id]?.isFavorite ?? item.isFavorite,
+          isLiked: localById[item.id]?.isLiked ?? item.isLiked,
+          isSupported: localById[item.id]?.isSupported ?? item.isSupported,
+          myReaction: localById[item.id]?.myReaction ?? item.myReaction,
+          imagePath: localById[item.id]?.imagePath ?? item.imagePath,
+          imageUrl:
+              (item.imageUrl != null && item.imageUrl!.isNotEmpty)
+              ? item.imageUrl
+              : localById[item.id]?.imageUrl,
+          imageBase64:
+              (item.imageBase64 != null && item.imageBase64!.isNotEmpty)
+              ? item.imageBase64
+              : localById[item.id]?.imageBase64,
+        ),
+    ];
+    final extras = widget.announcements.where((item) {
+      if (item.id.isNotEmpty && keys.contains(item.id)) return false;
+      return !keys.contains(item.publishedAt.toIso8601String());
+    });
+    return [...merged, ...extras];
+  }
+
+  List<Announcement> _filterAndSortAnnouncements([
+    List<Announcement>? source,
+  ]) {
     final category = _selectedCategory;
     final query = _searchQuery.trim().toLowerCase();
-    final visibleAnnouncements = widget.announcements.where((announcement) {
+    final visibleAnnouncements = (source ?? widget.announcements).where((
+      announcement,
+    ) {
       final matchesCategory = _matchesCategory(announcement, category);
       final matchesQuery = _matchesLiveQuery(announcement, query);
       final matchesSubDistrict =
           _selectedSubDistrict == 'Wszystkie osiedla' ||
           announcement.subDistrict == _selectedSubDistrict;
       final matchesDate = _matchesDateFilter(announcement.publishedAt);
+      final matchesStatus = switch (_statusFilter) {
+        HomeStatusFilter.all => true,
+        HomeStatusFilter.current =>
+          announcement.status == AnnouncementStatus.current,
+        HomeStatusFilter.closed =>
+          announcement.status == AnnouncementStatus.resolved,
+      };
       final matchesFree = !_freeOnly || announcement.isFree;
       final matchesStreet = NeighborhoodStreet.matchesAnnouncement(
         announcement,
@@ -416,6 +475,7 @@ class _HomeScreenState extends State<HomeScreen> {
           matchesQuery &&
           matchesSubDistrict &&
           matchesDate &&
+          matchesStatus &&
           matchesFree &&
           matchesStreet;
     }).toList();
@@ -454,6 +514,7 @@ class _HomeScreenState extends State<HomeScreen> {
       _selectedCategory != null ||
       _selectedSubDistrict != 'Wszystkie osiedla' ||
       _dateFilter != HomeDateFilter.all ||
+      _statusFilter != HomeStatusFilter.all ||
       _freeOnly;
 
   String? _categoryTitle(BuildContext context) {
@@ -484,6 +545,9 @@ class _HomeScreenState extends State<HomeScreen> {
     if (_searchQuery.trim().isNotEmpty) {
       return context.tr('emptySearchHint');
     }
+    if (_selectedCategory != null) {
+      return context.tr('emptyCategoryHint');
+    }
     return null;
   }
 
@@ -496,16 +560,9 @@ class _HomeScreenState extends State<HomeScreen> {
       _selectedSubDistrict = 'Wszystkie osiedla';
       _sortMode = HomeSortMode.newest;
       _dateFilter = HomeDateFilter.all;
+      _statusFilter = HomeStatusFilter.all;
       _freeOnly = false;
     });
-  }
-
-  void _selectSubDistrict(String district) {
-    setState(() => _selectedSubDistrict = district);
-    _persistFilters();
-    if (Announcement.subDistricts.contains(district)) {
-      widget.onExploreSubDistrict?.call(district);
-    }
   }
 
   bool get _isWidgetTest => isFlutterWidgetTest;
@@ -614,13 +671,21 @@ class _HomeScreenState extends State<HomeScreen> {
         selected: _isFeedCategorySelected('Jednorazowe zlecenia'),
         onTap: () => _selectTileCategory('Jednorazowe zlecenia'),
       ),
-      _ => CategoryItem(
+      'Więcej' || 'Inne' => CategoryItem(
         icon: Icons.more_horiz,
-        label: 'Więcej',
+        label: 'Inne',
         displayLabel: context.tr('cat_wiecej'),
         color: Colors.grey,
-        selected: _isFeedCategorySelected('Więcej'),
-        onTap: () => _selectTileCategory('Więcej'),
+        selected: _isFeedCategorySelected('Inne'),
+        onTap: () => _selectTileCategory('Inne'),
+      ),
+      _ => CategoryItem(
+        icon: Icons.more_horiz,
+        label: 'Inne',
+        displayLabel: context.tr('cat_wiecej'),
+        color: Colors.grey,
+        selected: _isFeedCategorySelected('Inne'),
+        onTap: () => _selectTileCategory('Inne'),
       ),
     };
   }
@@ -669,11 +734,7 @@ class _HomeScreenState extends State<HomeScreen> {
   bool _matchesLiveQuery(Announcement announcement, String query) {
     if (query.isEmpty) return true;
     final haystack =
-        '${announcement.title} ${announcement.description} '
-                '${announcement.category} ${announcement.subDistrict} '
-                '${announcement.authorName} ${announcement.price ?? ''} '
-                '${announcement.borrowTerms?.label ?? ''}'
-            .toLowerCase();
+        '${announcement.title} ${announcement.description}'.toLowerCase();
     return query
         .split(RegExp(r'\s+'))
         .where((word) => word.isNotEmpty)
@@ -713,11 +774,16 @@ class _HomeScreenState extends State<HomeScreen> {
     if (category == null || category.isEmpty) return true;
     final mapped = HomeFeedCategory.resolve(category);
     if (mapped != null) return mapped.matchesAnnouncement(announcement);
-    final parts = announcement.category
-        .split(' / ')
-        .map((part) => part.trim())
-        .toList();
-    return announcement.category == category || parts.contains(category);
+    final wanted = Announcement.canonicalizeCategory(category);
+    final actual = announcement.displayCategory;
+    if (wanted == Announcement.otherCategory) {
+      return actual == Announcement.otherCategory;
+    }
+    return actual == wanted ||
+        announcement.category == category ||
+        announcement.category.split(' / ').map((part) => part.trim()).contains(
+          category,
+        );
   }
 
   int get _activeMediaCount =>
@@ -776,7 +842,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final query = _searchQuery.trim().toLowerCase();
     if (query.isEmpty) return const [];
     return widget.announcements
-        .where(
+            .where(
           (item) =>
               item.isAlert &&
               item.status == AnnouncementStatus.current &&
@@ -790,7 +856,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final query = _searchQuery.trim().toLowerCase();
     if (query.isEmpty) return const [];
     return widget.mediaOutages
-        .where(
+                  .where(
           (item) => _queryMatches(
             '${item.title} ${item.body} ${item.kind.label} ${item.place} '
             'awaria media alert',
@@ -798,7 +864,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         )
         .take(6)
-        .toList();
+                  .toList();
   }
 
   List<NeighborHubEntry> get _serviceSearchHits {
@@ -831,14 +897,6 @@ class _HomeScreenState extends State<HomeScreen> {
         .toList();
   }
 
-  static const _districtChipOrder = [
-    'Stary Widzew',
-    'Widzew Wschód',
-    'Olechów',
-    'Janów',
-    'Księży Młyn',
-  ];
-
   int get _activeListingCount => widget.announcements
       .where((item) => item.status == AnnouncementStatus.current)
       .length;
@@ -859,7 +917,7 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Material(
         color: Theme.of(context).colorScheme.secondaryContainer,
         borderRadius: WidzewUi.borderRadius,
-        child: Padding(
+                child: Padding(
           padding: const EdgeInsets.fromLTRB(14, 12, 14, 12),
           child: Row(
             children: [
@@ -869,9 +927,9 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               const SizedBox(width: 12),
               Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
                     Text(
                       context.tr('todayAround'),
                       style: const TextStyle(fontWeight: FontWeight.w700),
@@ -890,52 +948,6 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _buildSubDistrictChips() {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final idleBackground = isDark
-        ? const Color(0xFF3A2A2A)
-        : const Color(0xFFE0E0E0);
-    final idleText = isDark ? WidzewColors.inkOnDark : const Color(0xFF1A1A1A);
-    final districts = ['Wszystkie osiedla', ..._districtChipOrder];
-    return SingleChildScrollView(
-      key: const ValueKey('subdistrict-filter-row'),
-      scrollDirection: Axis.horizontal,
-      padding: const EdgeInsets.fromLTRB(16, 0, 16, 4),
-      child: Row(
-        children: [
-          for (var index = 0; index < districts.length; index++) ...[
-            if (index > 0) const SizedBox(width: 8),
-            FilterChip(
-              key: ValueKey('subdistrict-chip-${districts[index]}'),
-              label: Text(
-                index == 0 ? context.tr('allDistrictsShort') : districts[index],
-                softWrap: true,
-              ),
-              selected: _selectedSubDistrict == districts[index],
-              backgroundColor: idleBackground,
-              selectedColor: WidzewColors.red,
-              surfaceTintColor: Colors.transparent,
-              checkmarkColor: Colors.white,
-              visualDensity: VisualDensity.compact,
-              side: BorderSide(
-                color: _selectedSubDistrict == districts[index]
-                    ? WidzewColors.red
-                    : const Color(0xFF9E9E9E),
-              ),
-              labelStyle: TextStyle(
-                color: _selectedSubDistrict == districts[index]
-                    ? Colors.white
-                    : idleText,
-                fontWeight: FontWeight.w600,
-              ),
-              onSelected: (_) => _selectSubDistrict(districts[index]),
-            ),
-          ],
-        ],
       ),
     );
   }
@@ -973,22 +985,22 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(
             children: [
               for (var i = 0; i < tiles.length; i += 4)
-                Row(
-                  children: [
+                      Row(
+                        children: [
                     for (var slot = 0; slot < 4; slot++)
-                      Expanded(
+                          Expanded(
                         child: SizedBox(
                           height: 118,
                           child: i + slot < tiles.length
                               ? tiles[i + slot]
                               : null,
-                        ),
+                            ),
+                          ),
+                        ],
                       ),
-                  ],
+                    ],
+                  ),
                 ),
-            ],
-          ),
-        ),
         const SizedBox(height: 8),
       ],
     );
@@ -1123,7 +1135,20 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  bool _popHomeSubview() {
+    if (_selectedCategory != null) {
+      setState(() => _selectedCategory = null);
+      return true;
+    }
+    if (_hasActiveFilters) {
+      _resetFilters();
+      return true;
+    }
+    return false;
+  }
+
   bool _onHomeBack() {
+    if (_popHomeSubview()) return true;
     if (_isWidgetTest) return true;
     final now = DateTime.now();
     final last = _lastBackAt;
@@ -1145,8 +1170,23 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final visibleAnnouncements = _filterAndSortAnnouncements();
-    return PopScope(
+    return StreamBuilder<List<Announcement>>(
+      initialData: widget.announcements,
+      stream: _isWidgetTest
+          ? Stream<List<Announcement>>.value(widget.announcements)
+          : AnnouncementsFirestore.watch(),
+      builder: (context, snapshot) {
+        final mergedBoard = _mergeIncomingBoard(
+          snapshot.data ?? widget.announcements,
+        );
+        final visibleAnnouncements = _filterAndSortAnnouncements(mergedBoard);
+        final showBoardLoading =
+            !_isWidgetTest &&
+            snapshot.connectionState == ConnectionState.waiting &&
+            mergedBoard.isEmpty;
+        final showBoardError =
+            !_isWidgetTest && snapshot.hasError && widget.isOnline;
+        return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, result) {
         if (didPop) return;
@@ -1186,61 +1226,67 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           ),
         ),
-        appBar: AppBar(
-          title: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
+      appBar: AppBar(
+          automaticallyImplyLeading: false,
+          leading: _hasActiveFilters
+              ? AppBarBackButton(
+                  key: const ValueKey('home-subview-back'),
+                  onPressed: () {
+                    _popHomeSubview();
+                  },
+                )
+              : null,
+          title: Text(
                 context.tr('appTitle'),
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 20,
                 ),
-              ),
-              Text(
-                context.tr('appSubtitle'),
-                style: const TextStyle(fontSize: 12, color: Colors.white70),
-              ),
-            ],
-          ),
+            ),
           backgroundColor: WidzewColors.red,
-          foregroundColor: Colors.white,
-          actions: [
-            IconButton(
+        foregroundColor: Colors.white,
+        actions: [
+          IconButton(
               key: const ValueKey('propose-change-home'),
               tooltip: context.tr('proposeChange'),
               icon: const Icon(Icons.lightbulb_outline),
               onPressed: () => unawaited(
                 ProposeChangeDialog.show(context, userName: widget.userName),
               ),
-            ),
-            IconButton(
+          ),
+          IconButton(
               tooltip: context.tr('notificationsCenter'),
-              icon: Badge(
+            icon: Badge(
                 isLabelVisible: _unreadNotificationCount > 0,
                 label: Text('$_unreadNotificationCount'),
-                child: const Icon(Icons.notifications_none),
-              ),
-              onPressed: () => Navigator.of(context).push(
+              child: const Icon(Icons.notifications_none),
+            ),
+            onPressed: () => Navigator.of(context).push(
                 AppPageRoute<void>(
-                  builder: (_) => NotificationCenterScreen(
-                    notifications: _notifications,
+                builder: (_) => NotificationCenterScreen(
+                  notifications: _notifications,
                     onOpenNotification: (notification) {
                       setState(
                         () => _readNotificationKeys.add(notification.readKey),
                       );
                       _openNotificationTarget(notification);
                     },
-                  ),
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
+      ),
         body: Column(
-          children: [
+        children: [
             if (!widget.isOnline && widget.showOfflineBanner)
               const OfflineBanner(),
+            if (showBoardError)
+              StatusBanner(
+                icon: Icons.cloud_off_outlined,
+                message: context.tr('boardLoadError'),
+                color: const Color(0xFF6D4C41),
+              ),
             Expanded(
               child: RefreshIndicator(
                 onRefresh: _refreshFeed,
@@ -1306,28 +1352,28 @@ class _HomeScreenState extends State<HomeScreen> {
                                   Theme.of(context).brightness ==
                                   Brightness.dark;
                               return Container(
-                                padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.all(16),
                                 color: isDark
                                     ? const Color(0xFF3E1C1C)
                                     : Colors.red.shade50,
-                                child: Row(
-                                  children: [
-                                    const Icon(
-                                      Icons.location_on,
+            child: Row(
+              children: [
+                const Icon(
+                  Icons.location_on,
                                       color: WidzewColors.red,
-                                      size: 36,
-                                    ),
-                                    const SizedBox(width: 12),
-                                    Expanded(
-                                      child: Column(
+                  size: 36,
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
+                    children: [
+                      Text(
                                             context.tr('welcomeNeighbor'),
-                                            style: TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.bold,
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
                                               color: isDark
                                                   ? const Color(0xFFFFCDD2)
                                                   : Colors.red.shade900,
@@ -1341,21 +1387,20 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   .colorScheme
                                                   .onSurface,
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
                               );
                             },
                           ),
                         if (_isWidgetTest) const SizedBox(height: 16),
                         _buildTodayOnWidzewHeader(),
-                        _buildSubDistrictChips(),
                         if (widget.searchHistory.isNotEmpty &&
                             _searchQuery.trim().isEmpty)
-                          Padding(
+          Padding(
                             padding: const EdgeInsets.fromLTRB(16, 0, 8, 8),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -1385,25 +1430,25 @@ class _HomeScreenState extends State<HomeScreen> {
                                       InputChip(
                                         key: ValueKey('search-history-$phrase'),
                                         label: Text(phrase),
-                                        onPressed: () {
+                        onPressed: () {
                                           _searchController.text = phrase;
                                           setState(() => _searchQuery = phrase);
                                           widget.onRecordSearch?.call(phrase);
-                                        },
+                        },
                                         onDeleted: widget.onRemoveSearch == null
                                             ? null
                                             : () => widget.onRemoveSearch!(
                                                 phrase,
-                                              ),
-                                      ),
+                      ),
+              ),
                                   ],
-                                ),
+            ),
                               ],
-                            ),
+          ),
                           ),
                         if (_searchQuery.trim().isNotEmpty)
                           _buildCrossSearchResults(),
-                        Padding(
+          Padding(
                           padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
                           child: SingleChildScrollView(
                             scrollDirection: Axis.horizontal,
@@ -1512,7 +1557,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             child: SingleChildScrollView(
                               scrollDirection: Axis.horizontal,
                               child: Row(
-                                children: [
+              children: [
                                   SegmentedButton<HomeSortMode>(
                                     showSelectedIcon: false,
                                     style: SegmentedButton.styleFrom(
@@ -1578,6 +1623,35 @@ class _HomeScreenState extends State<HomeScreen> {
                                           : HomeDateFilter.today;
                                     }),
                                   ),
+                                  FilterChip(
+                                    key: const ValueKey(
+                                      'status-filter-closed-chip',
+                                    ),
+                                    label: Text(
+                                      context.tr('filterClosed'),
+                                      softWrap: true,
+                                    ),
+                                    selected:
+                                        _statusFilter ==
+                                        HomeStatusFilter.closed,
+                                    selectedColor: WidzewColors.red,
+                                    checkmarkColor: Colors.white,
+                                    visualDensity: VisualDensity.compact,
+                                    labelStyle: TextStyle(
+                                      color:
+                                          _statusFilter ==
+                                              HomeStatusFilter.closed
+                                          ? Colors.white
+                                          : null,
+                                    ),
+                                    onSelected: (_) => setState(() {
+                                      _statusFilter =
+                                          _statusFilter ==
+                                              HomeStatusFilter.closed
+                                          ? HomeStatusFilter.all
+                                          : HomeStatusFilter.closed;
+                                    }),
+                                  ),
                                   PopupMenuButton<String>(
                                     tooltip: context.tr('moreFilters'),
                                     icon: const Icon(Icons.more_horiz),
@@ -1595,6 +1669,18 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   HomeDateFilter.lastWeek
                                               ? HomeDateFilter.all
                                               : HomeDateFilter.lastWeek;
+                                        case 'current':
+                                          _statusFilter =
+                                              _statusFilter ==
+                                                  HomeStatusFilter.current
+                                              ? HomeStatusFilter.all
+                                              : HomeStatusFilter.current;
+                                        case 'closed':
+                                          _statusFilter =
+                                              _statusFilter ==
+                                                  HomeStatusFilter.closed
+                                              ? HomeStatusFilter.all
+                                              : HomeStatusFilter.closed;
                                         case 'free':
                                           _freeOnly = !_freeOnly;
                                       }
@@ -1619,24 +1705,44 @@ class _HomeScreenState extends State<HomeScreen> {
                                         child: Text(context.tr('lastWeek')),
                                       ),
                                       CheckedPopupMenuItem(
+                                        key: const ValueKey(
+                                          'status-filter-current',
+                                        ),
+                                        value: 'current',
+                                        checked:
+                                            _statusFilter ==
+                                            HomeStatusFilter.current,
+                                        child: Text(context.tr('filterCurrent')),
+                                      ),
+                                      CheckedPopupMenuItem(
+                                        key: const ValueKey(
+                                          'status-filter-closed',
+                                        ),
+                                        value: 'closed',
+                                        checked:
+                                            _statusFilter ==
+                                            HomeStatusFilter.closed,
+                                        child: Text(context.tr('filterClosed')),
+                                      ),
+                                      CheckedPopupMenuItem(
                                         key: const ValueKey('free-only-filter'),
                                         value: 'free',
                                         checked: _freeOnly,
                                         child: Text(context.tr('freeOnly')),
-                                      ),
-                                    ],
-                                  ),
+                ),
+              ],
+            ),
                                 ],
                               ),
                             ),
                           ),
-                        Padding(
+            Padding(
                           key: _feedSectionKey,
-                          padding: const EdgeInsets.symmetric(horizontal: 16),
-                          child: Row(
-                            children: [
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Row(
+                children: [
                               Expanded(
-                                child: Text(
+                    child: Text(
                                   _categoryTitle(context) ??
                                       switch (_sortMode) {
                                         HomeSortMode.nearest => context.tr(
@@ -1657,12 +1763,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                       },
                                   softWrap: true,
                                   style: const TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                              IconButton(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  IconButton(
                                 tooltip: _sortMode == HomeSortMode.oldest
                                     ? context.tr('sortNewestTooltip')
                                     : context.tr('sortOldestTooltip'),
@@ -1671,9 +1777,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                       ? HomeSortMode.newest
                                       : HomeSortMode.oldest;
                                 }),
-                                icon: const Icon(Icons.sort),
-                              ),
-                              IconButton(
+                    icon: const Icon(Icons.sort),
+                  ),
+                  IconButton(
                                 tooltip: context.tr('sortLikesTooltip'),
                                 onPressed: () => setState(
                                   () => _sortMode = HomeSortMode.likes,
@@ -1687,16 +1793,30 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                               IconButton(
                                 tooltip: context.tr('resetSearch'),
-                                onPressed: _resetFilters,
-                                icon: const Icon(Icons.filter_alt_off),
-                              ),
+                    onPressed: _resetFilters,
+                    icon: const Icon(Icons.filter_alt_off),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 10),
+                      ]),
+                    ),
+                    if (showBoardLoading)
+                      SliverFillRemaining(
+                        hasScrollBody: false,
+                        child: Center(
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const CircularProgressIndicator(),
+                              const SizedBox(height: 16),
+                              Text(context.tr('boardLoading')),
                             ],
                           ),
                         ),
-                        const SizedBox(height: 10),
-                      ]),
-                    ),
-                    if (visibleAnnouncements.isEmpty)
+                      )
+                    else if (visibleAnnouncements.isEmpty)
                       SliverToBoxAdapter(
                         child: EmptyAnnouncements(
                           message: _emptyMessage(context),
@@ -1705,9 +1825,10 @@ class _HomeScreenState extends State<HomeScreen> {
                               ? _resetFilters
                               : null,
                           onAddAnnouncement:
-                              _selectedSubDistrict != 'Wszystkie osiedla' &&
-                                  _searchQuery.trim().isEmpty &&
-                                  _selectedCategory == null
+                              _searchQuery.trim().isEmpty &&
+                                  (_selectedSubDistrict !=
+                                          'Wszystkie osiedla' ||
+                                      _selectedCategory != null)
                               ? widget.onAddAnnouncement
                               : null,
                         ),
@@ -1809,6 +1930,8 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       ),
+    );
+      },
     );
   }
 }

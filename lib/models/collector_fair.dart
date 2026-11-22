@@ -51,7 +51,7 @@ class CollectorItem {
     CollectorItem(
       id: 'cf-znaczki',
       kind: CollectorKind.stamp,
-      title: 'Znaczki Poczty Polskiej, Widzew — albumy',
+      title: 'Znaczki Poczty Polskiej, okolica — albumy',
       authorName: 'Pani Halina',
     ),
   ];

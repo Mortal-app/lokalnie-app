@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="pl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Polityka prywatności — Lokalnie</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --ink: #1b1b1b;
+        --muted: #4a4a4a;
+        --line: #eadfdf;
+        --card: #fff8f7;
+        --accent: #c62828;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: "Segoe UI", "Noto Sans", Arial, sans-serif;
+        line-height: 1.6;
+        color: var(--ink);
+        background: linear-gradient(180deg, #fff 0%, #f7f3f2 100%);
+      }
+      main {
+        max-width: 760px;
+        margin: 0 auto;
+        padding: 48px 24px 80px;
+      }
+      header {
+        border-bottom: 1px solid var(--line);
+        padding-bottom: 24px;
+        margin-bottom: 32px;
+      }
+      .badge {
+        display: inline-block;
+        background: var(--accent);
+        color: #fff;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        padding: 6px 10px;
+        border-radius: 999px;
+      }
+      h1 {
+        font-size: 2rem;
+        margin: 16px 0 8px;
+      }
+      h2 {
+        font-size: 1.2rem;
+        margin-top: 32px;
+        color: var(--accent);
+      }
+      p, li { color: var(--muted); }
+      ul { padding-left: 1.2em; }
+      section {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 20px 22px;
+        margin-top: 16px;
+      }
+      a { color: var(--accent); }
+      footer {
+        margin-top: 40px;
+        font-size: 0.95rem;
+        color: var(--muted);
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header>
+        <span class="badge">Lokalnie</span>
+        <h1>Polityka prywatności</h1>
+        <p>
+          Aplikacja <strong>Lokalnie</strong> (<code>pl.patryk.lokalnie</code>)
+          to tablica ogłoszeń sąsiedzkich. Nie sprzedajemy danych i nie prowadzimy
+          reklamowej analityki.
+        </p>
+      </header>
+
+      <section>
+        <h2>Na urządzeniu</h2>
+        <p>Na telefonie (SharedPreferences) zostają m.in.:</p>
+        <ul>
+          <li>nazwa profilu, ustawienia motywu i języka,</li>
+          <li>kopia ogłoszeń, ulubione i historia czatów,</li>
+          <li>szkice formularzy oraz flagi bezpieczeństwa treści.</li>
+        </ul>
+        <p>
+          Te dane znikają po odinstalowaniu aplikacji albo po wyczyszczeniu danych
+          w ustawieniach.
+        </p>
+      </section>
+
+      <section>
+        <h2>Firebase Auth</h2>
+        <ul>
+          <li>anonimowy identyfikator sesji (<code>uid</code>),</li>
+          <li>służy do rozpoznania Twoich ogłoszeń i uprawnień zapisu.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Cloud Firestore</h2>
+        <ul>
+          <li>
+            ogłoszenia i zgłoszenia usterki (tytuł, kategoria, opis, lokalizacja
+            tekstowa, opcjonalne współrzędne GPS, status aktualne/zakończone),
+          </li>
+          <li>
+            opcjonalna miniaturka zdjęcia (skompresowana, Base64, poniżej 150 KB)
+            w polu dokumentu ogłoszenia,
+          </li>
+          <li>zgłoszenia nieodpowiednich treści (<code>content_reports</code>),</li>
+          <li>token FCM urządzenia w dokumencie <code>users/{uid}</code>.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Firebase Cloud Messaging (FCM)</h2>
+        <ul>
+          <li>token urządzenia, aby dostarczać powiadomienia z okolicy,</li>
+          <li>
+            otwarcie powiadomienia może przenieść do ogłoszenia
+            (<code>announcementId</code>) albo zakładki (<code>route</code>).
+          </li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Lokalizacja i aparat</h2>
+        <ul>
+          <li>GPS jest opcjonalny (szybkie zgłoszenie),</li>
+          <li>
+            zdjęcie jest opcjonalne; bez zgody systemu nie jest pobierane.
+          </li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Twoje prawa i usuwanie danych</h2>
+        <ul>
+          <li>
+            własne ogłoszenia: edycja, oznaczenie jako zakończone i usunięcie w
+            <strong>Profil → Moje ogłoszenia</strong> oraz w szczegółach wpisu,
+          </li>
+          <li>
+            zgłoszenie cudzej treści: przycisk <strong>Zgłoś treść</strong> /
+            <strong>Zgłoś nadużycie</strong>,
+          </li>
+          <li>
+            kopia lokalna: Ustawienia → wyczyszczenie pamięci aplikacji albo
+            odinstalowanie.
+          </li>
+        </ul>
+      </section>
+
+      <footer>
+        Kontakt: <a href="mailto:administracja@lokalniewidzew.app">administracja@lokalniewidzew.app</a>
+      </footer>
+    </main>
+  </body>
+</html>

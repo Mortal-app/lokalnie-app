@@ -128,7 +128,7 @@ class _ParkDialogState extends State<_ParkDialog> {
                     ? '8:00 - 16:00'
                     : _hours.text.trim(),
                 place: _place.text.trim().isEmpty
-                    ? 'Osiedle Widzew'
+                    ? 'Osiedle'
                     : _place.text.trim(),
                 authorName: widget.userName,
               ),

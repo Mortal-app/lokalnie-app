@@ -54,7 +54,7 @@ class TailorOffer {
       id: 'tl-spodnie',
       job: TailorJob.hemPants,
       title: 'Skracam spodnie w bloku — odbiór wieczorem',
-      staircase: 'Klatka III, Stary Widzew',
+      staircase: 'Klatka III, stare osiedle',
       authorName: 'Pani Zosia',
       note: 'Maszyna w mieszkaniu, 1–2 dni.',
     ),
@@ -62,7 +62,7 @@ class TailorOffer {
       id: 'tl-zamek',
       job: TailorJob.zipper,
       title: 'Wymiana zamków w kurtkach i spodniach',
-      staircase: 'Olechów, klatka IV',
+      staircase: 'okolica, klatka IV',
       authorName: 'Pani Halina',
     ),
   ];

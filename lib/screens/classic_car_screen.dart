@@ -54,7 +54,7 @@ class _ClassicCarScreenState extends State<ClassicCarScreen> {
         padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
-            'Fiat 126p, Polonez, Duży Fiat i klasyczne Mercedesy — lokalne spoty na Widzewie.',
+            'Fiat 126p, Polonez, Duży Fiat i klasyczne Mercedesy — lokalne spoty w Twojej okolicy.',
           ),
           const SizedBox(height: 12),
           for (final item in _items)
@@ -136,12 +136,12 @@ class _CarDialogState extends State<_CarDialog> {
                 id: 'cc-${DateTime.now().millisecondsSinceEpoch}',
                 kind: _kind,
                 title: _title.text.trim().isEmpty
-                    ? 'Spot klasyków na Widzewie'
+                    ? 'Spot klasyków w Twojej okolicy'
                     : _title.text.trim(),
                 whenText: _when.text.trim().isEmpty
                     ? 'Niedziela rano'
                     : _when.text.trim(),
-                place: 'Widzew',
+                place: 'Okolica',
                 authorName: widget.userName,
               ),
             );

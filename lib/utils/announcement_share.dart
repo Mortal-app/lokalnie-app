@@ -4,13 +4,22 @@ class AnnouncementShare {
   static String clipboardText(Announcement announcement) {
     final id = announcement.publishedAt.microsecondsSinceEpoch;
     final link = 'https://lokalniewidzew.app/ogloszenie/$id';
+    final location = announcement.subDistrict.trim().isEmpty
+        ? 'Brak lokalizacji'
+        : announcement.subDistrict.trim();
     final description = announcement.description.trim();
     final buffer = StringBuffer()
-      ..writeln(announcement.title)
-      ..writeln('${announcement.category} · ${announcement.subDistrict}')
-      ..writeln('Lokalnie Widzew — tablica sąsiedzka Widzewa, Olechowa i Janowa');
+      ..writeln('Lokalnie — ogłoszenie sąsiedzkie')
+      ..writeln()
+      ..writeln('Tytuł: ${announcement.title}')
+      ..writeln('Kategoria: ${announcement.displayCategory}')
+      ..writeln('Lokalizacja: $location')
+      ..writeln('Status: ${announcement.status.label}');
     if (description.isNotEmpty) {
-      buffer.writeln(description);
+      buffer
+        ..writeln()
+        ..writeln('Opis:')
+        ..writeln(description);
     }
     buffer
       ..writeln()

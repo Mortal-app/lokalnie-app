@@ -59,7 +59,7 @@ class _MarketStallsScreenState extends State<MarketStallsScreen> {
         padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
-            'Rolnicy i wystawcy z Ryneczku Batory / Widzew: jaja, miody, warzywa. Filtr dnia dostawy.',
+            'Rolnicy i wystawcy z lokalnego ryneczku: jaja, miody, warzywa. Filtr dnia dostawy.',
           ),
           const SizedBox(height: 8),
           Wrap(
@@ -168,7 +168,7 @@ class _StallDialogState extends State<_StallDialog> {
                 id: 'mkt-${DateTime.now().microsecondsSinceEpoch}',
                 name: _name.text.trim(),
                 offer: _offer.text.trim(),
-                place: 'Ryneczek Batory / Widzew',
+                place: 'lokalny ryneczek',
                 deliveryDay: _day,
                 authorName: widget.userName,
               ),

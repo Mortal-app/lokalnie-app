@@ -55,7 +55,7 @@ class DiyWorkshop {
       skill: DiySkill.soldering,
       title: 'Chętnie nauczę lutowania — pierwsze złącza',
       whenLabel: 'Sobota 11:00',
-      place: 'Klub osiedlowy, Widzew Wschód',
+      place: 'Klub osiedlowy, osiedle wschodnie',
       teacher: 'Pan Jacek',
     ),
     DiyWorkshop(
@@ -63,7 +63,7 @@ class DiyWorkshop {
       skill: DiySkill.sewing,
       title: 'Chętnie nauczę szycia — łatanie i suwak',
       whenLabel: 'Wtorek 18:00',
-      place: 'Klub osiedlowy, Stary Widzew',
+      place: 'Klub osiedlowy, stare osiedle',
       teacher: 'Pani Zosia',
     ),
     DiyWorkshop(
@@ -71,7 +71,7 @@ class DiyWorkshop {
       skill: DiySkill.programming,
       title: 'Chętnie nauczę podstaw programowania (Python)',
       whenLabel: 'Czwartek 17:30',
-      place: 'Klub osiedlowy, Olechów',
+      place: 'Klub osiedlowy, okolica',
       teacher: 'Ania',
     ),
     DiyWorkshop(
@@ -79,7 +79,7 @@ class DiyWorkshop {
       skill: DiySkill.cooking,
       title: 'Chętnie nauczę gotowania — obiad z jednej patelni',
       whenLabel: 'Niedziela 12:00',
-      place: 'Klub osiedlowy, Janów',
+      place: 'Klub osiedlowy, okolica',
       teacher: 'Kucharz z klatki',
     ),
   ];

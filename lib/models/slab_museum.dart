@@ -48,14 +48,14 @@ class SlabMemory {
   static List<SlabMemory> seeded() => const [
     SlabMemory(
       id: 'sm-wschod',
-      title: 'Widzew Wschód — pierwszy etap',
+      title: 'osiedle wschodnie — pierwszy etap',
       era: 'lata 70.',
-      body: 'Żurawie, płyty stropowe, pierwsze klatki przy Piłsudskiego.',
+      body: 'Żurawie, płyty stropowe, pierwsze klatki przy głównej arterii.',
       memories: ['Mieszkałam w baraku budowy — 1976. — Pani Krysia'],
     ),
     SlabMemory(
       id: 'sm-olech',
-      title: 'Olechów — punktowce',
+      title: 'okolica — punktowce',
       era: 'lata 80.',
       body: 'Wysokie bloki i zieleń między klatkami, jeszcze bez galerii.',
       memories: [],

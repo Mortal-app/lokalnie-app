@@ -5,7 +5,7 @@ import '../models/neighborhood_event.dart';
 class AddEventScreen extends StatefulWidget {
   final String initialPlace;
 
-  const AddEventScreen({super.key, this.initialPlace = 'Widzew Wschód'});
+  const AddEventScreen({super.key, this.initialPlace = 'Twoja okolica'});
 
   @override
   State<AddEventScreen> createState() => _AddEventScreenState();
@@ -48,7 +48,10 @@ class _AddEventScreenState extends State<AddEventScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Dodaj wydarzenie')),
+      appBar: AppBar(
+        leading: const BackButton(),
+        title: const Text('Dodaj wydarzenie'),
+      ),
       body: Form(
         key: _formKey,
         child: ListView(

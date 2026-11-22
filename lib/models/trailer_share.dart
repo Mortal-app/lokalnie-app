@@ -59,7 +59,7 @@ class TrailerShare {
       id: 'ts-przycz',
       kind: TrailerKind.trailer,
       title: 'Przyczepka 750 kg — weekend',
-      owner: 'Arek, Olechów',
+      owner: 'Arek, okolica',
     ),
     TrailerShare(
       id: 'ts-box',

@@ -52,7 +52,7 @@ class TableSportMeetup {
       kind: TableSportKind.pingPong,
       title: 'Sparing ping-pong — każdy poziom',
       whenText: 'Środa 18:00',
-      place: 'Świetlica spółdzielni, Widzew Wschód',
+      place: 'Świetlica spółdzielni, osiedle wschodnie',
       authorName: 'Bartek',
     ),
     TableSportMeetup(
@@ -60,7 +60,7 @@ class TableSportMeetup {
       kind: TableSportKind.foosball,
       title: 'Piłkarzyki w klubie osiedlowym',
       whenText: 'Sobota 16:00',
-      place: 'Klub osiedlowy, Olechów',
+      place: 'Klub osiedlowy, okolica',
       authorName: 'Ola',
     ),
   ];

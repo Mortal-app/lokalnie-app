@@ -145,7 +145,7 @@ class _GearDialogState extends State<_GearDialog> {
                 kind: _kind,
                 owner: 'Sąsiad',
                 place: _place.text.trim().isEmpty
-                    ? 'Widzew'
+                    ? 'Okolica'
                     : _place.text.trim(),
               ),
             );

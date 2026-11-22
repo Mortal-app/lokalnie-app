@@ -44,7 +44,7 @@ class RetroItOffer {
         orElse: () => RetroItKind.parts,
       ),
       authorName: json['authorName'] as String? ?? 'Sąsiad',
-      place: json['place'] as String? ?? 'Widzew',
+      place: json['place'] as String? ?? 'Okolica',
     );
   }
 
@@ -52,10 +52,10 @@ class RetroItOffer {
     RetroItOffer(
       id: 'it-ram',
       title: 'Oddam DDR3 2×4 GB',
-      description: 'Po upgrade stacjonarki. Odbiór klatka III, Przybyszewskiego.',
+      description: 'Po upgrade stacjonarki. Odbiór klatka III, Szkolnej.',
       kind: RetroItKind.parts,
       authorName: 'Tomek',
-      place: 'Stary Widzew',
+      place: 'Okolica',
     ),
     RetroItOffer(
       id: 'it-cool',
@@ -63,15 +63,15 @@ class RetroItOffer {
       description: 'Pasta + sprężone powietrze, wieczorami w piwnicy warsztatowej.',
       kind: RetroItKind.cooling,
       authorName: 'Arek',
-      place: 'Olechów',
+      place: 'Okolica',
     ),
     RetroItOffer(
       id: 'it-pc',
       title: 'Diagnostyka PC i wymiana dysku',
       description: 'Klonowanie HDD→SSD, Windows, drobne naprawy na miejscu.',
       kind: RetroItKind.service,
-      authorName: 'Sąsiad z Janowa',
-      place: 'Janów',
+      authorName: 'Sąsiad',
+      place: 'Okolica',
     ),
   ];
 }

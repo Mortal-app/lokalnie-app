@@ -36,14 +36,14 @@ class CarpetVacOffer {
       id: 'cv-pior',
       title: 'Odkurzacz piorący Karcher — wypożyczę na klatkę',
       whenText: 'Sobota 10:00–14:00',
-      place: 'Widzew Wschód, klatka II',
+      place: 'osiedle wschodnie, klatka II',
       authorName: 'Marek',
     ),
     CarpetVacOffer(
       id: 'cv-dywan',
       title: 'Wspólne pranie wykładzin na klatce',
       whenText: 'Niedziela 9:00',
-      place: 'Olechów, suszarnia',
+      place: 'okolica, suszarnia',
       authorName: 'Kasia',
     ),
   ];

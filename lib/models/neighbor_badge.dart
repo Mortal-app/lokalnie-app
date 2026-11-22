@@ -81,14 +81,12 @@ class NeighborAchievements {
 
   const NeighborAchievements({
     required this.fastDeal,
-    required this.garageKing,
     required this.goldenHand,
     required this.watchfulEye,
     required this.popularNeighbor,
   });
 
   final bool fastDeal;
-  final bool garageKing;
   final bool goldenHand;
   final bool watchfulEye;
   final bool popularNeighbor;
@@ -100,7 +98,6 @@ class NeighborAchievements {
   }) {
     return NeighborAchievements(
       fastDeal: ownAnnouncements.any(isFastDeal),
-      garageKing: ownAnnouncements.any(isGarageKing),
       goldenHand:
           helpedRepairJob ||
           ownAnnouncements.any(
@@ -120,17 +117,6 @@ class NeighborAchievements {
     }
     final delta = resolvedAt.difference(item.publishedAt);
     return !delta.isNegative && delta <= const Duration(hours: 24);
-  }
-
-  static bool isGarageKing(Announcement item) {
-    if (item.isFree) return true;
-    final haystack = '${item.category} ${item.title} ${item.description}'
-        .toLowerCase();
-    return item.category == 'Oddam/Kupię' ||
-        haystack.contains('garaż') ||
-        haystack.contains('garaz') ||
-        haystack.contains('wyprzeda') ||
-        haystack.contains('pchli targ');
   }
 
   static bool isGoldenHand(Announcement item) {

@@ -37,7 +37,7 @@ class JasienSpot {
   static List<JasienSpot> seeded() => const [
     JasienSpot(
       id: 'js-sciezka',
-      name: 'Pętla rowerowa nad Jasieniem',
+      name: 'Pętla rowerowa nad rzeką',
       kind: 'ścieżka rowerowa',
       hint: 'Asfalt + szuter, ok. 4 km, łagodne wzniesienia.',
       pos: AlignmentPos.center,
@@ -51,7 +51,7 @@ class JasienSpot {
     ),
     JasienSpot(
       id: 'js-plaza',
-      name: 'Polana od strony Widzewa',
+      name: 'Polana od strony osiedla',
       kind: 'wypoczynek',
       hint: 'Koce, gry plenerowe, zachód słońca.',
       pos: AlignmentPos.topLeft,

@@ -63,7 +63,7 @@ class _BikeStationsScreenState extends State<BikeStationsScreen> {
         padding: const EdgeInsets.fromLTRB(16, 12, 16, 80),
         children: [
           const Text(
-            'Ogólnodostępne stacje: narzędzia i pompki stacjonarne na Widzewie.',
+            'Ogólnodostępne stacje: narzędzia i pompki stacjonarne w Twojej okolicy.',
           ),
           const SizedBox(height: 12),
           SizedBox(

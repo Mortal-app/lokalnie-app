@@ -138,7 +138,7 @@ class _CrossDialogState extends State<_CrossDialog> {
                 id: 'cr-${DateTime.now().millisecondsSinceEpoch}',
                 issue: _issue,
                 place: _place.text.trim().isEmpty
-                    ? 'Przejście na Widzewie'
+                    ? 'Przejście w Twojej okolicy'
                     : _place.text.trim(),
                 note: _note.text.trim(),
                 authorName: widget.userName,

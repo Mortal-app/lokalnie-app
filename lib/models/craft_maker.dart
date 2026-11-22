@@ -44,7 +44,7 @@ class CraftMaker {
         orElse: () => CraftKind.crochet,
       ),
       description: json['description'] as String? ?? '',
-      subDistrict: json['subDistrict'] as String? ?? 'Widzew Wschód',
+      subDistrict: json['subDistrict'] as String? ?? 'Twoja okolica',
       contact: json['contact'] as String? ?? '',
     );
   }
@@ -55,7 +55,7 @@ class CraftMaker {
       name: 'Pani Krysia',
       kind: CraftKind.crochet,
       description: 'Czapki, serwety i zabawki na szydełku.',
-      subDistrict: 'Stary Widzew',
+      subDistrict: 'Twoja okolica',
       contact: 'Klatka I, po 17:00',
     ),
     CraftMaker(
@@ -63,21 +63,21 @@ class CraftMaker {
       name: 'Warsztat u Marka',
       kind: CraftKind.woodwork,
       description: 'Półki, skrzynki na kwiaty, drobne naprawy mebli.',
-      subDistrict: 'Widzew Wschód',
+      subDistrict: 'Twoja okolica',
     ),
     CraftMaker(
       id: 'craft-bake',
       name: 'Domowe wypieki Ani',
       kind: CraftKind.baking,
       description: 'Sernik, drożdżówki, torty na urodziny klatki.',
-      subDistrict: 'Olechów',
+      subDistrict: 'Twoja okolica',
     ),
     CraftMaker(
       id: 'craft-jewel',
       name: 'Biżuteria z koralików',
       kind: CraftKind.jewelry,
       description: 'Kolczyki i bransoletki z recyklingu.',
-      subDistrict: 'Janów',
+      subDistrict: 'Twoja okolica',
     ),
   ];
 }

@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "425824923906",
+    "project_id": "lokalnie-bff8b",
+    "storage_bucket": "lokalnie-bff8b.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:425824923906:android:a364afde8565d393b2521b",
+        "android_client_info": {
+          "package_name": "com.lokalniewidzew.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDEVWJExrj_LlZiFy2CWCtXybon5BAE4dA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:425824923906:android:cd73bed708010995b2521b",
+        "android_client_info": {
+          "package_name": "pl.patryk.lokalnie"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDEVWJExrj_LlZiFy2CWCtXybon5BAE4dA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

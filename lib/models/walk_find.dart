@@ -44,7 +44,7 @@ class WalkFindReport {
     WalkFindReport(
       id: 'wf-klucze',
       title: 'Znalazłem pęk kluczy przy wejściu do parku',
-      place: 'Wejście do parku, Widzew Wschód',
+      place: 'Wejście do parku, osiedle wschodnie',
       photoNote: 'Zdjęcie: pęk z brelokiem w kształcie piłki.',
       authorName: 'Arek',
       pos: StationAlign.topLeft,

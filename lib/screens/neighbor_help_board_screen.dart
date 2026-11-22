@@ -242,7 +242,7 @@ class NeighborHelpBoardScreen extends StatelessWidget {
               padding: EdgeInsets.fromLTRB(16, 12, 16, 12),
               sliver: SliverToBoxAdapter(
                 child: Text(
-                  'Szukam Fachowca / Szukam Pomocy — krótkie zlecenia od mieszkańców Widzewa. Kontakt z klientem po przyjęciu zlecenia mają tylko fachowcy PRO.',
+                  'Szukam Fachowca / Szukam Pomocy — krótkie zlecenia od mieszkańców okolicy. Kontakt z klientem po przyjęciu zlecenia mają tylko fachowcy PRO.',
                 ),
               ),
             ),

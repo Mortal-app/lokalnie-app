@@ -39,7 +39,7 @@ class CraftWorkshopOffer {
         orElse: () => CraftMaterial.fabric,
       ),
       title: json['title'] as String? ?? '',
-      area: json['area'] as String? ?? 'Widzew Wschód',
+      area: json['area'] as String? ?? 'Twoja okolica',
       authorName: json['authorName'] as String? ?? 'Twórca',
     );
   }
@@ -49,14 +49,14 @@ class CraftWorkshopOffer {
       id: 'cw-skora',
       material: CraftMaterial.leather,
       title: 'Paski i etui ze skóry — warsztat na klatce',
-      area: 'Widzew Wschód',
+      area: 'Twoja okolica',
       authorName: 'Arek',
     ),
     CraftWorkshopOffer(
       id: 'cw-drewno',
       material: CraftMaterial.wood,
       title: 'Deski do krojenia z resztek dębu',
-      area: 'Olechów',
+      area: 'Twoja okolica',
       authorName: 'Pani Halina',
     ),
   ];

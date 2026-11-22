@@ -7,7 +7,7 @@ enum AnnouncementStatus { current, resolved }
 extension AnnouncementStatusLabel on AnnouncementStatus {
   String get label => switch (this) {
     AnnouncementStatus.current => 'Aktualne',
-    AnnouncementStatus.resolved => 'Rozwiązane',
+    AnnouncementStatus.resolved => 'Zakończone',
   };
 }
 
@@ -32,16 +32,53 @@ class AnnouncementComment {
 }
 
 class Announcement {
+  static const petCategory = 'Zwierzaki';
   static const wildlifeCategory = 'Dziki / Zwierzęta w mieście';
+  static const alertCategory = 'Alerty / awarie';
   static const helpCategory = 'Potrzebuję pomocy / Zaoferuj pomoc';
   static const lendingCategory = 'Wypożyczalnia / Dzielenie się';
-  static const subDistricts = [
-    'Widzew Wschód',
-    'Olechów',
-    'Janów',
-    'Stary Widzew',
-    'Księży Młyn',
+  static const otherCategory = 'Inne';
+  static const formCategories = [
+    'Fachowcy',
+    'Złota Rączka',
+    'Remont',
+    'Jednorazowe zlecenia',
+    petCategory,
+    'Zgubione / znalezione',
+    'Oddam/Kupię',
+    'Jedzenie',
+    'Sąsiedzi',
+    'Wydarzenia',
+    helpCategory,
+    lendingCategory,
+    alertCategory,
+    otherCategory,
   ];
+  static const subDistricts = [
+    'Twoja okolica',
+  ];
+
+  static String canonicalizeCategory(String category) {
+    final trimmed = category.trim();
+    if (trimmed.isEmpty) return otherCategory;
+    if (formCategories.contains(trimmed)) return trimmed;
+    final lower = trimmed.toLowerCase();
+    if (lower == 'zwierzaki / zgubione' ||
+        lower.contains('zgubion') ||
+        lower.contains('znalezion')) {
+      return 'Zgubione / znalezione';
+    }
+    if (lower == wildlifeCategory.toLowerCase() ||
+        lower == 'dzikie zwierzęta') {
+      return petCategory;
+    }
+    if (lower.contains('uwaga') || lower.contains('ostrze')) {
+      return alertCategory;
+    }
+    final first = trimmed.split(' / ').first.trim();
+    if (formCategories.contains(first)) return first;
+    return otherCategory;
+  }
 
   final String title;
   final String category;
@@ -50,6 +87,8 @@ class Announcement {
   final IconData icon;
   final String description;
   final DateTime publishedAt;
+  final String id;
+  final String authorUid;
   final bool isFavorite;
   final int likesCount;
   final bool isLiked;
@@ -59,6 +98,7 @@ class Announcement {
   final String authorName;
   final String? imageUrl;
   final String? imagePath;
+  final String? imageBase64;
   final int viewsCount;
   final String? price;
   final BorrowTerms? borrowTerms;
@@ -75,14 +115,20 @@ class Announcement {
   static const reactionEmojis = ['👍', '❤️', '🤝'];
 
   bool get hasImage {
+    final encoded = imageBase64;
     final url = imageUrl;
     final path = imagePath;
-    return (url != null && url.isNotEmpty) || (path != null && path.isNotEmpty);
+    return (encoded != null && encoded.isNotEmpty) ||
+        (url != null && url.isNotEmpty) ||
+        (path != null && path.isNotEmpty);
   }
+
+  String get displayCategory => canonicalizeCategory(category);
 
   bool get isAlert {
     final normalizedCategory = category.toLowerCase();
     return normalizedCategory == wildlifeCategory.toLowerCase() ||
+        normalizedCategory == alertCategory.toLowerCase() ||
         normalizedCategory.contains('uwaga') ||
         normalizedCategory.contains('ostrze');
   }
@@ -148,6 +194,8 @@ class Announcement {
     required this.time,
     required this.icon,
     required this.publishedAt,
+    this.id = '',
+    this.authorUid = '',
     this.description = '',
     this.isFavorite = false,
     this.likesCount = 0,
@@ -158,6 +206,7 @@ class Announcement {
     this.authorName = 'Sąsiad',
     this.imageUrl,
     this.imagePath,
+    this.imageBase64,
     this.viewsCount = 0,
     this.price,
     this.borrowTerms,
@@ -173,7 +222,12 @@ class Announcement {
   });
 
   String get heroTag =>
-      'announcement-hero-${publishedAt.microsecondsSinceEpoch}';
+      'announcement-hero-${id.isNotEmpty ? id : publishedAt.microsecondsSinceEpoch}';
+
+  bool sameAs(Announcement other) {
+    if (id.isNotEmpty && other.id.isNotEmpty) return id == other.id;
+    return publishedAt == other.publishedAt;
+  }
 
   Announcement copyWith({
     String? title,
@@ -190,6 +244,8 @@ class Announcement {
     String? authorName,
     String? imageUrl,
     String? imagePath,
+    String? imageBase64,
+    bool clearImageMedia = false,
     int? viewsCount,
     String? price,
     BorrowTerms? borrowTerms,
@@ -203,6 +259,8 @@ class Announcement {
     DateTime? resolvedAt,
     bool clearResolvedAt = false,
     bool? contentFlagged,
+    String? id,
+    String? authorUid,
   }) {
     return Announcement(
       title: title ?? this.title,
@@ -211,6 +269,8 @@ class Announcement {
       time: time,
       icon: icon ?? this.icon,
       publishedAt: publishedAt,
+      id: id ?? this.id,
+      authorUid: authorUid ?? this.authorUid,
       description: description ?? this.description,
       isFavorite: isFavorite ?? this.isFavorite,
       likesCount: likesCount ?? this.likesCount,
@@ -219,8 +279,9 @@ class Announcement {
       comments: comments ?? this.comments,
       isMine: isMine ?? this.isMine,
       authorName: authorName ?? this.authorName,
-      imageUrl: imageUrl ?? this.imageUrl,
-      imagePath: imagePath ?? this.imagePath,
+      imageUrl: clearImageMedia ? null : (imageUrl ?? this.imageUrl),
+      imagePath: clearImageMedia ? null : (imagePath ?? this.imagePath),
+      imageBase64: clearImageMedia ? null : (imageBase64 ?? this.imageBase64),
       viewsCount: viewsCount ?? this.viewsCount,
       price: price ?? this.price,
       borrowTerms: borrowTerms ?? this.borrowTerms,
@@ -263,6 +324,8 @@ class Announcement {
   }
 
   Map<String, Object?> toJson() => {
+    'id': id,
+    'authorUid': authorUid,
     'title': title,
     'category': category,
     'subDistrict': subDistrict,
@@ -279,6 +342,7 @@ class Announcement {
     'authorName': authorName,
     'imageUrl': imageUrl,
     'imagePath': imagePath,
+    'imageBase64': imageBase64,
     'viewsCount': viewsCount,
     'price': price,
     'borrowTerms': borrowTerms?.name,
@@ -315,6 +379,8 @@ class Announcement {
       },
       description: json['description'] as String? ?? '',
       publishedAt: publishedAt ?? DateTime.now(),
+      id: json['id'] as String? ?? '',
+      authorUid: json['authorUid'] as String? ?? '',
       isFavorite: json['isFavorite'] as bool? ?? false,
       likesCount: json['likesCount'] as int? ?? 0,
       isLiked: json['isLiked'] as bool? ?? false,
@@ -324,8 +390,9 @@ class Announcement {
           .toList(),
       isMine: json['isMine'] as bool? ?? false,
       authorName: json['authorName'] as String? ?? 'Sąsiad',
-      imageUrl: json['imageUrl'] as String?,
+      imageUrl: _httpImageUrl(json['imageUrl'] as String?),
       imagePath: json['imagePath'] as String?,
+      imageBase64: _readImageBase64(json),
       viewsCount: json['viewsCount'] as int? ?? 0,
       price: json['price'] as String?,
       borrowTerms: BorrowTermsX.fromStorage(json['borrowTerms'] as String?),
@@ -357,5 +424,21 @@ class Announcement {
     if (icon.codePoint == Icons.card_giftcard.codePoint) return 'gift';
     if (icon.codePoint == Icons.handyman_outlined.codePoint) return 'handyman';
     return 'campaign';
+  }
+
+  static String? _httpImageUrl(String? value) {
+    final url = value?.trim() ?? '';
+    if (url.startsWith('http://') || url.startsWith('https://')) return url;
+    return null;
+  }
+
+  static String? _readImageBase64(Map<String, dynamic> json) {
+    final encoded = (json['imageBase64'] as String?)?.trim() ?? '';
+    if (encoded.isNotEmpty) return encoded;
+    final url = (json['imageUrl'] as String?)?.trim() ?? '';
+    if (url.startsWith('data:image') && url.contains(',')) {
+      return url.split(',').last;
+    }
+    return null;
   }
 }

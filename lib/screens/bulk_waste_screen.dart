@@ -54,7 +54,7 @@ class _BulkWasteScreenState extends State<BulkWasteScreen> {
         padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
-            'Wystawione gabaryty na osiedlu i harmonogram odbioru MPO Łódź (zwykle pierwszy wtorek miesiąca).',
+            'Wystawione gabaryty na osiedlu i harmonogram odbioru MPO (zwykle pierwszy wtorek miesiąca).',
           ),
           const SizedBox(height: 12),
           for (final item in _items)
@@ -129,9 +129,9 @@ class _WasteDialogState extends State<_WasteDialog> {
                     ? 'Gabaryt przy śmietniku'
                     : _item.text.trim(),
                 place: _place.text.trim().isEmpty
-                    ? 'Widzew'
+                    ? 'Okolica'
                     : _place.text.trim(),
-                pickupLabel: 'Odbiór MPO Łódź — wg harmonogramu osiedla',
+                pickupLabel: 'Odbiór MPO — wg harmonogramu osiedla',
                 authorName: widget.userName,
               ),
             );

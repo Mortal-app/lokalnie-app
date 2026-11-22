@@ -62,10 +62,10 @@ class MediaOutage {
   static List<MediaOutage> seeded() => const [
     MediaOutage(
       id: 'media-water',
-      title: 'Brak wody na ul. Puszkina',
+      title: 'Brak wody na ul. Parkowa',
       body: 'Awaria sieci, szacowana naprawa do wieczora.',
       kind: MediaOutageKind.water,
-      place: 'ul. Puszkina',
+      place: 'ul. Parkowa',
     ),
     MediaOutage(
       id: 'media-power',

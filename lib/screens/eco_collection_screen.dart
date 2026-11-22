@@ -162,7 +162,7 @@ class _DriveDialogState extends State<_DriveDialog> {
               EcoCollectionDrive(
                 id: 'eco-${DateTime.now().millisecondsSinceEpoch}',
                 blockName: _block.text.trim().isEmpty
-                    ? 'Blok na Widzewie'
+                    ? 'Blok w Twojej okolicy'
                     : _block.text.trim(),
                 material: _material,
                 whenLabel: 'Wkrótce',

@@ -136,7 +136,7 @@ class _IndieDialogState extends State<_IndieDialog> {
                 id: 'ic-${DateTime.now().millisecondsSinceEpoch}',
                 kind: _kind,
                 title: _title.text.trim().isEmpty
-                    ? 'Seans na Widzewie'
+                    ? 'Seans w Twojej okolicy'
                     : _title.text.trim(),
                 body: _body.text.trim(),
                 authorName: widget.userName,

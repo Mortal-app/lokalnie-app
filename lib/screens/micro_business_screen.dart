@@ -91,7 +91,7 @@ class _MicroBusinessScreenState extends State<MicroBusinessScreen> {
         padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
-            'Jednoosobowe usługi z Widzewa: fryzjerka mobilna, kosmetyczka, elektryk, hydraulik — z opiniami sąsiadów.',
+            'Jednoosobowe usługi z okolicy: fryzjerka mobilna, kosmetyczka, elektryk, hydraulik — z opiniami sąsiadów.',
           ),
           const SizedBox(height: 12),
           for (final item in _items)
@@ -173,7 +173,7 @@ class _BizDialogState extends State<_BizDialog> {
                 name: _name.text.trim().isEmpty
                     ? _kind.label
                     : _name.text.trim(),
-                area: 'Widzew',
+                area: 'Okolica',
               ),
             );
           },

@@ -15,9 +15,25 @@ class RoutePopScope extends StatelessWidget {
       canPop: false,
       onPopInvokedWithResult: (didPop, result) {
         if (didPop) return;
-        Navigator.of(context).pop(result);
+        final navigator = Navigator.of(context);
+        if (!navigator.canPop()) return;
+        navigator.pop(result);
       },
       child: child,
+    );
+  }
+}
+
+/// Jawna strzałka powrotu: [Navigator.pop] albo własna akcja (filtr, landing).
+class AppBarBackButton extends StatelessWidget {
+  final VoidCallback? onPressed;
+
+  const AppBarBackButton({super.key, this.onPressed});
+
+  @override
+  Widget build(BuildContext context) {
+    return BackButton(
+      onPressed: onPressed ?? () => Navigator.of(context).pop(),
     );
   }
 }

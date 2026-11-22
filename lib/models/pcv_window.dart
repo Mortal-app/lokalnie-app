@@ -48,7 +48,7 @@ class PcvWindowTip {
       season: PcvSeason.winter,
       title: 'Okucia na zimę — mimośród w stronę uszczelki',
       body:
-          'Przed mrozem: klamka w dół, docisk. Pomogę na klatce II, Widzew Wschód.',
+          'Przed mrozem: klamka w dół, docisk. Pomogę na klatce II, osiedle wschodnie.',
       authorName: 'Pan Marek',
     ),
     PcvWindowTip(

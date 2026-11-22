@@ -38,24 +38,24 @@ class BloodDrive {
   static List<BloodDrive> seeded() => const [
     BloodDrive(
       id: 'blood-pt',
-      place: 'Parking CH Ptak / al. Piłsudskiego',
+      place: 'Parking centrum handlowego / aleja Główna',
       whenLabel: 'Piątek 31.10',
       hours: '10:00–16:00',
       note: 'Krwiobus RCKiK, grupa 0 Rh− mile widziana.',
     ),
     BloodDrive(
       id: 'blood-manu',
-      place: 'Manufaktura — zjazd od Widzewa (punkt mobilny)',
+      place: 'Manufaktura — zjazd od strony osiedla (punkt mobilny)',
       whenLabel: 'Środa 5.11',
       hours: '9:00–15:00',
     ),
     BloodDrive(
       id: 'blood-urgent',
-      place: 'Pilne zapotrzebowanie — stacja Łódź-Widzew',
+      place: 'Pilne zapotrzebowanie — stacja kolejowa',
       whenLabel: 'Dziś–jutro',
       hours: '7:00–18:00',
       urgent: true,
-      note: 'Brakuje płytek i grupy A Rh−. Honorowi dawcy z Widzewa — prosimy o kontakt.',
+      note: 'Brakuje płytek i grupy A Rh−. Honorowi dawcy z okolicy — prosimy o kontakt.',
     ),
   ];
 }

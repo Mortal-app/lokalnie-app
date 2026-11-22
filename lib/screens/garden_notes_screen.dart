@@ -58,7 +58,7 @@ class _GardenNotesScreenState extends State<GardenNotesScreen> {
           const Card(
             child: ListTile(
               leading: Icon(Icons.menu_book_outlined),
-              title: Text('Poradnik wysiewu — Łódź'),
+              title: Text('Poradnik wysiewu'),
               subtitle: Text(
                 'Marzec: rzodkiew, sałata. Kwiecień: marchew. Maj (po 15.): pomidor, ogórek. Agrowłóknina do przymrozków.',
               ),

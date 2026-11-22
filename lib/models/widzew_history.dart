@@ -31,23 +31,23 @@ class HistoryStory {
     HistoryStory(
       id: 'hist-wima',
       title: 'Zakłady WiMa',
-      photoCaption: 'Stare zdjęcie: hale Wimy przy Widzewie',
+      photoCaption: 'Stare zdjęcie: hale Wimy w okolicy',
       body:
-          'Widzewska Manufaktura tkała historię dzielnicy. Hale i kominy nadały rytm życiu robotniczemu i nazwie osiedla.',
+          'Lokalna manufaktura tkała historię dzielnicy. Hale i kominy nadały rytm życiu robotniczemu i nazwie osiedla.',
     ),
     HistoryStory(
       id: 'hist-km',
-      title: 'Księży Młyn',
+      title: 'Twoja okolica',
       photoCaption: 'Stare zdjęcie: familoki i bruk',
       body:
-          'Księży Młyn to osada fabryczna Scheiblera: cegła, bruk i układ ulic, który wciąż czyta się w terenie.',
+          'Lokalna osada fabryczna: cegła, bruk i układ ulic, który wciąż czyta się w terenie.',
     ),
     HistoryStory(
       id: 'hist-blocks',
       title: 'Bloki i architektura osiedla',
-      photoCaption: 'Stare zdjęcie: pierwsze klatki na Olechowie',
+      photoCaption: 'Stare zdjęcie: pierwsze klatki w okolicy',
       body:
-          'Wielka płyta na Widzewie-Wschodzie i Olechowie to planowane osiedla z zielenią między klatkami i szkołami w zasięgu spaceru.',
+          'Wielka płyta w Twojej okolicy to planowane osiedla z zielenią między klatkami i szkołami w zasięgu spaceru.',
     ),
   ];
 }
@@ -67,14 +67,14 @@ class HistoryQuizQuestion {
     HistoryQuizQuestion(
       prompt: 'Co oznacza skrót WiMa?',
       options: [
-        'Widzewska Manufaktura',
+        'lokalna manufaktura',
         'Wielka Magazynowa',
         'Wojewódzki Instytut Maszyn',
       ],
       correctIndex: 0,
     ),
     HistoryQuizQuestion(
-      prompt: 'Księży Młyn kojzył przede wszystkim z:',
+      prompt: 'Lokalna osada fabryczna łączyła się przede wszystkim z:',
       options: [
         'portem lotniczym',
         'osadą fabryczną Scheiblera',
@@ -83,7 +83,7 @@ class HistoryQuizQuestion {
       correctIndex: 1,
     ),
     HistoryQuizQuestion(
-      prompt: 'Olechów i Widzew-Wschód to głównie:',
+      prompt: 'Osiedla z wielkiej płyty to głównie:',
       options: [
         'średniowieczne mury',
         'osiedla z wielkiej płyty i zielenią między klatkami',

@@ -2,9 +2,9 @@ enum WalkingSchool { sp114, sp34, sp141 }
 
 extension WalkingSchoolX on WalkingSchool {
   String get label => switch (this) {
-    WalkingSchool.sp114 => 'SP 114',
-    WalkingSchool.sp34 => 'SP 34',
-    WalkingSchool.sp141 => 'SP 141',
+    WalkingSchool.sp114 => 'Szkoła podstawowa 1',
+    WalkingSchool.sp34 => 'Szkoła podstawowa 2',
+    WalkingSchool.sp141 => 'Szkoła podstawowa 3',
   };
 }
 
@@ -53,24 +53,24 @@ class WalkingBusShift {
       id: 'wb-114',
       school: WalkingSchool.sp114,
       time: '7:25',
-      staircase: 'Klatka II, Olechów',
-      walkerName: 'Mama z Olechowa',
+      staircase: 'Klatka II',
+      walkerName: 'Mama z okolicy',
       dayLabel: 'Dziś',
     ),
     WalkingBusShift(
       id: 'wb-34',
       school: WalkingSchool.sp34,
       time: '7:40',
-      staircase: 'Klatka I, Stary Widzew',
-      walkerName: 'Tata ze Starego Widzewa',
+      staircase: 'Klatka I',
+      walkerName: 'Tata z okolicy',
       dayLabel: 'Jutro',
     ),
     WalkingBusShift(
       id: 'wb-141',
       school: WalkingSchool.sp141,
       time: '7:35',
-      staircase: 'Puszkina 12',
-      walkerName: 'Sąsiadka z Widzewa',
+      staircase: 'Parkowa 12',
+      walkerName: 'Sąsiadka',
       dayLabel: 'Środa',
     ),
   ];

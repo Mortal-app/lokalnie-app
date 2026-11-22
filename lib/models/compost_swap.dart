@@ -39,7 +39,7 @@ class CompostSwap {
         orElse: () => CompostKind.bin,
       ),
       title: json['title'] as String? ?? '',
-      garden: json['garden'] as String? ?? 'ROD Widzew',
+      garden: json['garden'] as String? ?? 'ROD okolica',
       authorName: json['authorName'] as String? ?? 'Działkowiec',
     );
   }
@@ -56,7 +56,7 @@ class CompostSwap {
       id: 'cs-worms',
       kind: CompostKind.worms,
       title: 'Nadwyżka dżdżownic kalifornijskich',
-      garden: 'Balkon, Olechów',
+      garden: 'Balkon, okolica',
       authorName: 'Ania',
     ),
   ];

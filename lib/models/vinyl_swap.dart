@@ -62,7 +62,7 @@ class VinylSwapItem {
       kind: VinylMediaKind.cassette,
       title: 'Kult — Kaseta demo, wymiana',
       artist: 'Kult',
-      authorName: 'Ola, Olechów',
+      authorName: 'Ola, okolica',
     ),
   ];
 }

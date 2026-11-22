@@ -79,7 +79,7 @@ class NeighborhoodClub {
       id: json['id'] as String? ?? '',
       name: json['name'] as String? ?? '',
       description: json['description'] as String? ?? '',
-      subDistrict: json['subDistrict'] as String? ?? 'Widzew Wschód',
+      subDistrict: json['subDistrict'] as String? ?? 'Twoja okolica',
       memberCount: json['memberCount'] as int? ?? 0,
       isJoined: json['isJoined'] as bool? ?? false,
       messages: (json['messages'] as List<dynamic>? ?? const [])
@@ -95,8 +95,8 @@ class NeighborhoodClub {
     NeighborhoodClub(
       id: 'biegacze-gorkowa',
       name: 'Biegacze Górkowa',
-      description: 'Poranne rozbiegania wokół Górki Widzewskiej.',
-      subDistrict: 'Widzew Wschód',
+      description: 'Poranne rozbiegania wokół parku osiedlowego.',
+      subDistrict: 'Twoja okolica',
       memberCount: 28,
       messages: [
         ClubMessage(
@@ -108,23 +108,23 @@ class NeighborhoodClub {
     ),
     NeighborhoodClub(
       id: 'rodzice-olechow',
-      name: 'Klub Rodziców Olechów',
+      name: 'Klub Rodziców',
       description: 'Plac zabaw, babysitting na zmianę, ogłoszenia szkolne.',
-      subDistrict: 'Olechów',
+      subDistrict: 'Twoja okolica',
       memberCount: 41,
       messages: [
         ClubMessage(
           authorName: 'Kasia',
-          text: 'Kto idzie na plac przy Malownicznej po 16?',
+          text: 'Kto idzie na plac przy Parkowej po 16?',
           sentAt: DateTime(2026, 10, 21, 15, 40),
         ),
       ],
     ),
     NeighborhoodClub(
       id: 'wspolnota-puszkina-10',
-      name: 'Wspólnota Puszkina 10',
+      name: 'Wspólnota Parkowa 10',
       description: 'Chat klatki: usterki, zrzutki, terminy administracji.',
-      subDistrict: 'Widzew Wschód',
+      subDistrict: 'Twoja okolica',
       memberCount: 19,
       messages: [
         ClubMessage(

@@ -54,7 +54,7 @@ class _ModelFairScreenState extends State<ModelFairScreen> {
         padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
-            'Modele redukcyjne, figurki i makiety — prezentacja prac z Widzewa.',
+            'Modele redukcyjne, figurki i makiety — prezentacja prac z okolicy.',
           ),
           const SizedBox(height: 12),
           for (final item in _items)

@@ -34,11 +34,11 @@ class IndustrialSpot {
   static List<IndustrialSpot> seeded() => const [
     IndustrialSpot(
       id: 'ind-km',
-      title: 'Księży Młyn',
-      era: 'XIX w., Księży Młyn',
+      title: 'Twoja okolica',
+      era: 'XIX w., osada fabryczna',
       body:
-          'Osada fabryczna Scheiblera: cegła, bruki i familoki. Graniczy z trasami z Widzewa w stronę centrum.',
-      walk: 'Trasa 1: Widzew Wschód → Księży Młyn (ok. 40 min pieszo / tramwaj).',
+          'Osada fabryczna Scheiblera: cegła, bruki i familoki. Graniczy z trasami z okolicy w stronę centrum.',
+      walk: 'Trasa 1: osiedle → osada fabryczna (ok. 40 min pieszo / tramwaj).',
     ),
     IndustrialSpot(
       id: 'ind-scheib',
@@ -50,11 +50,11 @@ class IndustrialSpot {
     ),
     IndustrialSpot(
       id: 'ind-widzew',
-      title: 'Widzewska nitka do fabryk',
+      title: 'Osiedlowa nitka do fabryk',
       era: 'XX w.',
       body:
           'Kolej i bocznice łączące osiedla wschodnie z kompleksem Księżego Młyna.',
-      walk: 'Trasa 3: rower wzdłuż torów, powrót Piłsudskiego.',
+      walk: 'Trasa 3: rower wzdłuż torów, powrót Głównej.',
     ),
   ];
 }

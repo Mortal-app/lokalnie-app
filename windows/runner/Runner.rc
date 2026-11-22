@@ -89,13 +89,13 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "CompanyName", "Lokalnie Widzew" "\0"
-            VALUE "FileDescription", "Lokalnie Widzew" "\0"
+            VALUE "CompanyName", "Lokalnie" "\0"
+            VALUE "FileDescription", "Lokalnie" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
             VALUE "InternalName", "lokalnie_widzew" "\0"
-            VALUE "LegalCopyright", "Copyright (C) 2026 Lokalnie Widzew. All rights reserved." "\0"
+            VALUE "LegalCopyright", "Copyright (C) 2026 Lokalnie. All rights reserved." "\0"
             VALUE "OriginalFilename", "lokalnie_widzew.exe" "\0"
-            VALUE "ProductName", "Lokalnie Widzew" "\0"
+            VALUE "ProductName", "Lokalnie" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

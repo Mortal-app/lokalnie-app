@@ -50,7 +50,7 @@ class FoundPlateAlert {
     FoundPlateAlert(
       id: 'fp-tab',
       kind: FoundPlateKind.plate,
-      place: 'Parking przy DH Widzew, przy kałuży',
+      place: 'Parking przy centrum handlowym, przy kałuży',
       note: 'Tablica EL… — bez numeru w ogłoszeniu, odebrać w portierni.',
       authorName: 'Tomek',
       weather: 'Po ulewie',
@@ -58,8 +58,8 @@ class FoundPlateAlert {
     FoundPlateAlert(
       id: 'fp-klucz',
       kind: FoundPlateKind.carKey,
-      place: 'Śnieg przy klatce IV, Olechów',
-      note: 'Kluczyk z brelokiem Widzew — w skrzynce zarządu.',
+      place: 'Śnieg przy klatce IV, okolica',
+      note: 'Kluczyk z brelokiem okolica — w skrzynce zarządu.',
       authorName: 'Pani Halina',
       weather: 'Po śniegu',
     ),

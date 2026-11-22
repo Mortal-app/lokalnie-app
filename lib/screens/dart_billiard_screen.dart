@@ -54,7 +54,7 @@ class _DartBilliardScreenState extends State<DartBilliardScreen> {
         padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
-            'Amatorskie rzutki i bilard w świetlicach, klubach osiedlowych i pubach na Widzewie.',
+            'Amatorskie rzutki i bilard w świetlicach, klubach osiedlowych i pubach w Twojej okolicy.',
           ),
           const SizedBox(height: 12),
           for (final item in _items)

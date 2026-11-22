@@ -55,7 +55,7 @@ class WildlifeShelter {
     WildlifeShelter(
       id: 'ws-park',
       kind: ShelterKind.insectHotel,
-      place: 'Park przy Widzewie Wschodzie',
+      place: 'Park przy okolicy',
       note: 'Hotel dla pszczół murarek przy żywopłocie.',
       authorName: 'Eko-patrol',
       pos: StationAlign.topLeft,
@@ -63,7 +63,7 @@ class WildlifeShelter {
     WildlifeShelter(
       id: 'ws-olech',
       kind: ShelterKind.birdBox,
-      place: 'Zieleń przy Olechowie',
+      place: 'Zieleń przy osiedlu',
       note: 'Budka dla sikorek, 3 m nad ziemią.',
       authorName: 'Pani Krysia',
       pos: StationAlign.bottomRight,

@@ -67,7 +67,7 @@ class ConsoleTourney {
       platform: ConsolePlatform.xbox,
       title: 'Tekken / Mortal Kombat',
       game: 'Bijatyk',
-      place: 'Klub osiedlowy, Olechów',
+      place: 'Klub osiedlowy, okolica',
       whenLabel: 'Niedziela 16:00',
       host: 'Arek',
     ),

@@ -48,14 +48,14 @@ class PramRackNotice {
     PramRackNotice(
       id: 'pr-wolne',
       kind: PramRackKind.freeSlot,
-      place: 'Wózkownia klatka I, Widzew Wschód',
+      place: 'Wózkownia klatka I, osiedle wschodnie',
       note: 'Dwa haki wolne przy lewej ścianie.',
       authorName: 'Marek',
     ),
     PramRackNotice(
       id: 'pr-rower',
       kind: PramRackKind.abandonedBike,
-      place: 'Stojak przy Olechowie, blok 12',
+      place: 'Stojak przy osiedlu, blok 12',
       note: 'Rower bez kół od tygodni — do uporządkowania.',
       authorName: 'Ola',
     ),

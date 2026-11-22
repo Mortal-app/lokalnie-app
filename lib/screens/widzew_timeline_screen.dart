@@ -17,12 +17,12 @@ class _WidzewTimelineScreenState extends State<WidzewTimelineScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Kapsuła czasu Widzewa')),
+      appBar: AppBar(title: const Text('Kapsuła czasu okolicy')),
       body: ListView(
         padding: const EdgeInsets.fromLTRB(16, 12, 16, 80),
         children: [
           const Text(
-            'Jak budowano osiedla na Widzewie — oś czasu dziesięcioleci. Dotknij epoki.',
+            'Jak budowano osiedla w Twojej okolicy — oś czasu dziesięcioleci. Dotknij epoki.',
           ),
           const SizedBox(height: 16),
           for (final era in widget.eras) ...[

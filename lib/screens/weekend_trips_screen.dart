@@ -68,7 +68,7 @@ class _WeekendTripsScreenState extends State<WeekendTripsScreen> {
         padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
-            'Autokar lub rower: Mokra Lewa, Zalew Sulejowski, Łagiewniki.',
+            'Autokar lub rower: Mokra Lewa, Zalew Sulejowski, lasy.',
           ),
           const SizedBox(height: 12),
           for (final item in _items)

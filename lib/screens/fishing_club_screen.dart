@@ -54,7 +54,7 @@ class _FishingClubScreenState extends State<FishingClubScreen> {
         padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
-            'Akweny na Olechowie i zbiorniki na Widzewie — przynęty i wspólne wyjazdy.',
+            'Akweny w okolicy i zbiorniki w Twojej okolicy — przynęty i wspólne wyjazdy.',
           ),
           const SizedBox(height: 12),
           for (final item in _items)
@@ -131,7 +131,7 @@ class _FishDialogState extends State<_FishDialog> {
                 title: _title.text.trim().isEmpty
                     ? 'Wpis wędkarski'
                     : _title.text.trim(),
-                place: 'Widzew',
+                place: 'Okolica',
                 authorName: widget.userName,
               ),
             );

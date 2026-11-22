@@ -9,6 +9,7 @@ import '../services/app_image_picker.dart';
 import '../theme/widzew_colors.dart';
 import '../theme/widzew_ui.dart';
 import '../utils/flutter_runtime.dart';
+import '../widgets/empty_announcements.dart';
 import '../widgets/route_pop_scope.dart';
 import '../widgets/voice_note_player.dart';
 
@@ -84,12 +85,23 @@ class _ChatScreenState extends State<ChatScreen> {
 
   Future<void> _pickImage({required bool camera}) async {
     if (isFlutterWidgetTest || widget.onSendImage == null) return;
-    final picker = const AppImagePicker();
-    final path = camera
-        ? await picker.pickFromCamera()
-        : await picker.pickFromGallery();
-    if (!mounted || path == null) return;
-    setState(() => _pendingImagePath = path);
+    try {
+      final picker = const AppImagePicker();
+      final path = camera
+          ? await picker.pickFromCamera()
+          : await picker.pickFromGallery();
+      if (!mounted || path == null) return;
+      setState(() => _pendingImagePath = path);
+    } catch (_) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            context.tr(camera ? 'photoCaptureFailed' : 'photoPickFailed'),
+          ),
+        ),
+      );
+    }
   }
 
   @override
@@ -140,7 +152,12 @@ class _ChatScreenState extends State<ChatScreen> {
           children: [
             Expanded(
               child: widget.messages.isEmpty
-                  ? Center(child: Text(context.tr('messagesEmpty')))
+                  ? EmptyAnnouncements(
+                      message: context.tr('messagesEmpty'),
+                      hint: context.tr('chatEmptyHint'),
+                      icon: Icons.chat_bubble_outline,
+                      fill: true,
+                    )
                   : ListView.builder(
                       padding: const EdgeInsets.fromLTRB(12, 8, 12, 12),
                       scrollCacheExtent: WidzewUi.listCacheExtent,

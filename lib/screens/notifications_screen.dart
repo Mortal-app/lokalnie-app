@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import '../models/neighborhood_notification.dart';
 import '../theme/widzew_colors.dart';
 import '../theme/widzew_ui.dart';
+import '../widgets/empty_announcements.dart';
+import '../widgets/route_pop_scope.dart';
 
 class NotificationCenterScreen extends StatefulWidget {
   final List<NeighborhoodNotification> notifications;
@@ -44,9 +46,17 @@ class _NotificationCenterScreenState extends State<NotificationCenterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Powiadomienia')),
+      appBar: AppBar(
+        leading: const AppBarBackButton(),
+        title: const Text('Powiadomienia'),
+      ),
       body: _notifications.isEmpty
-          ? const Center(child: Text('Brak nowych powiadomień.'))
+          ? const EmptyAnnouncements(
+              message: 'Brak nowych powiadomień.',
+              hint: 'Gdy pojawi się alert z okolicy, zobaczysz go tutaj.',
+              icon: Icons.notifications_none,
+              fill: true,
+            )
           : ListView.builder(
               padding: const EdgeInsets.symmetric(vertical: 8),
               scrollCacheExtent: WidzewUi.listCacheExtent,

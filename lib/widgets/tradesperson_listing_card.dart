@@ -116,7 +116,7 @@ class TradespersonListingCard extends StatelessWidget {
                                 context,
                                 listing.phone,
                                 body:
-                                    'Cześć! Piszę z aplikacji Lokalnie Widzew w sprawie usługi „${listing.trade}”.',
+                                    'Cześć! Piszę z aplikacji Lokalnie w sprawie usługi „${listing.trade}”.',
                               ),
                               icon: const Icon(Icons.sms_outlined),
                             ),

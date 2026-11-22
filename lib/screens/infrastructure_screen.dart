@@ -7,6 +7,7 @@ import 'package:latlong2/latlong.dart';
 import '../models/announcement.dart';
 import '../models/infrastructure_report.dart';
 import '../models/neighborhood_geo.dart';
+import '../app_info.dart';
 import '../utils/flutter_runtime.dart';
 import '../theme/widzew_ui.dart';
 
@@ -70,7 +71,7 @@ class _InfrastructureScreenState extends State<InfrastructureScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Naprawmy Widzew')),
+      appBar: AppBar(title: const Text('Naprawmy okolicę')),
       floatingActionButton: WidzewUi.safeFab(
         FloatingActionButton.extended(
         onPressed: _add,
@@ -103,7 +104,7 @@ class _InfrastructureScreenState extends State<InfrastructureScreen> {
                   TileLayer(
                     urlTemplate:
                         'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                    userAgentPackageName: 'com.lokalniewidzew.app',
+                    userAgentPackageName: AppInfo.applicationId,
                     tileProvider: _isWidgetTest
                         ? _SilentTileProvider()
                         : NetworkTileProvider(),
@@ -286,7 +287,7 @@ class _InfraDialogState extends State<_InfraDialog> {
                   TileLayer(
                     urlTemplate:
                         'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                    userAgentPackageName: 'com.lokalniewidzew.app',
+                    userAgentPackageName: AppInfo.applicationId,
                     tileProvider: _isWidgetTest
                         ? _SilentTileProvider()
                         : NetworkTileProvider(),

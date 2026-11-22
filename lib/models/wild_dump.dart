@@ -57,7 +57,7 @@ class WildDumpReport {
     WildDumpReport(
       id: 'wd-opony',
       kind: WildDumpKind.tires,
-      place: 'Las przy Olechowie, ścieżka od Puszkina',
+      place: 'Las przy osiedlu, ścieżka od Parkowa',
       note: 'Stos opon za krzakami.',
       authorName: 'Tomek',
       pos: StationAlign.topLeft,
@@ -65,7 +65,7 @@ class WildDumpReport {
     WildDumpReport(
       id: 'wd-gruz',
       kind: WildDumpKind.rubble,
-      place: 'Zieleń przy Rokicińskiej',
+      place: 'Zieleń przy Głównej',
       note: 'Worki z gruzem i styropian.',
       authorName: 'Kasia',
       pos: StationAlign.bottomRight,

@@ -8,6 +8,8 @@ class EmptyAnnouncements extends StatelessWidget {
   final VoidCallback? onAddAnnouncement;
   final VoidCallback? onResetFilters;
   final String? resetLabel;
+  final IconData icon;
+  final bool fill;
 
   const EmptyAnnouncements({
     super.key,
@@ -16,17 +18,20 @@ class EmptyAnnouncements extends StatelessWidget {
     this.onAddAnnouncement,
     this.onResetFilters,
     this.resetLabel,
+    this.icon = Icons.campaign_outlined,
+    this.fill = false,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    final content = Padding(
       padding: const EdgeInsets.all(24),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           Icon(
-            Icons.campaign_outlined,
-            size: 48,
+            icon,
+            size: fill ? 64 : 48,
             color: Theme.of(context).colorScheme.primary,
           ),
           const SizedBox(height: 12),
@@ -63,5 +68,7 @@ class EmptyAnnouncements extends StatelessWidget {
         ],
       ),
     );
+    if (!fill) return content;
+    return Center(child: content);
   }
 }

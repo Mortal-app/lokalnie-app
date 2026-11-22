@@ -47,7 +47,7 @@ class CooperativeNotice {
         (item) => item.name == json['kind'],
         orElse: () => CooperativeNoticeKind.general,
       ),
-      area: json['area'] as String? ?? 'Widzew',
+      area: json['area'] as String? ?? 'Okolica',
       startsAt:
           DateTime.tryParse(json['startsAt'] as String? ?? '') ??
           DateTime(2026, 10, 13),
@@ -58,34 +58,34 @@ class CooperativeNotice {
   static List<CooperativeNotice> seeded() => [
     CooperativeNotice(
       id: 'woda-puszkina',
-      title: 'Wyłączenie wody – ul. Puszkina',
+      title: 'Wyłączenie wody – ul. Parkowa',
       body:
-          'SM Widzew: przerwa w dostawie zimnej wody przy ul. Puszkina 8–16. '
+          'spółdzielni: przerwa w dostawie zimnej wody przy ul. Parkowa 8–16. '
           'Prace na przyłączu. Prosimy napełnić zapas.',
       kind: CooperativeNoticeKind.water,
-      area: 'Widzew Wschód · ul. Puszkina',
+      area: 'osiedle wschodnie · ul. Parkowa',
       startsAt: DateTime(2026, 10, 28, 8),
       endsAt: DateTime(2026, 10, 28, 16),
     ),
     CooperativeNotice(
       id: 'co-olechow',
-      title: 'Próba szczelności ogrzewania – Olechów',
+      title: 'Próba szczelności ogrzewania – okolica',
       body:
-          'Planowane napełnianie instalacji C.O. w blokach przy Malowniczej. '
+          'Planowane napełnianie instalacji C.O. w blokach przy Parkowej. '
           'Możliwy szum w pionach.',
       kind: CooperativeNoticeKind.heating,
-      area: 'Olechów',
+      area: 'Twoja okolica',
       startsAt: DateTime(2026, 10, 30, 7),
       endsAt: DateTime(2026, 10, 30, 12),
     ),
     CooperativeNotice(
       id: 'zebranie-janow',
-      title: 'Zebranie wspólnoty – Janów',
+      title: 'Zebranie wspólnoty – okolica',
       body:
           'Zarząd zaprasza na zebranie w świetlicy. Porządek: fundusz remontowy '
           'i harmonogram wywozu gabarytów.',
       kind: CooperativeNoticeKind.general,
-      area: 'Janów',
+      area: 'Twoja okolica',
       startsAt: DateTime(2026, 11, 4, 18),
     ),
   ];

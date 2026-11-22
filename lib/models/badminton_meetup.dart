@@ -36,14 +36,14 @@ class BadmintonMeetup {
       id: 'bd-traw',
       title: 'Badminton na trawniku — lotki mam',
       whenText: 'Sobota 17:00',
-      place: 'Widzew Wschód, boisko otwarte',
+      place: 'osiedle wschodnie, boisko otwarte',
       authorName: 'Bartek',
     ),
     BadmintonMeetup(
       id: 'bd-kort',
       title: 'Sparing na korcie osiedlowym',
       whenText: 'Niedziela 10:00',
-      place: 'Kort / asfalt przy szkole, Olechów',
+      place: 'Kort / asfalt przy szkole, okolica',
       authorName: 'Ola',
     ),
   ];

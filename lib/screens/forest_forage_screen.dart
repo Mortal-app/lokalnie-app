@@ -135,7 +135,7 @@ class _ForageDialogState extends State<_ForageDialog> {
                 whenText: _when.text.trim().isEmpty
                     ? 'Sobota rano'
                     : _when.text.trim(),
-                meetingPoint: 'Pętla Widzew Wschód',
+                meetingPoint: 'Pętla osiedlowa',
                 seats: _seats.text.trim().isEmpty
                     ? 'Miejsca do uzgodnienia'
                     : _seats.text.trim(),

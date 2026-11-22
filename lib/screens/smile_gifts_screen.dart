@@ -134,7 +134,7 @@ class _GiftDialogState extends State<_GiftDialog> {
                 title: _title.text.trim().isEmpty
                     ? '${_kind.label} — oddam za uśmiech'
                     : _title.text.trim(),
-                place: 'Widzew',
+                place: 'Okolica',
                 authorName: widget.userName,
               ),
             );

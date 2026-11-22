@@ -58,14 +58,14 @@ class BlockToolItem {
     BlockToolItem(
       id: 'bt-myjka',
       kind: BlockToolKind.washer,
-      staircase: 'Klatka II, Widzew Wschód',
+      staircase: 'Klatka II, osiedle wschodnie',
       available: true,
       note: 'Kupiona ze składek — zwrot tego samego dnia.',
     ),
     BlockToolItem(
       id: 'bt-zageszcz',
       kind: BlockToolKind.compactor,
-      staircase: 'Klatka I, Olechów',
+      staircase: 'Klatka I, okolica',
       available: false,
       note: 'Wypożyczona do piątku (podjazd).',
     ),

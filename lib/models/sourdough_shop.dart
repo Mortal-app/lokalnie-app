@@ -40,14 +40,14 @@ class SourdoughShop {
     SourdoughShop(
       id: 'ss-wsch',
       name: 'Piekarnia rzemieślnicza przy pętli',
-      place: 'Widzew Wschód',
+      place: 'Okolica',
       note: 'Chleb na zakwasie, bez ulepszaczy — rano do 11:00.',
       pos: StationAlign.topLeft,
     ),
     SourdoughShop(
       id: 'ss-olech',
       name: 'Sklepik z pieczywem na zakwasie',
-      place: 'Olechów, pawilon',
+      place: 'okolica, pawilon',
       note: 'Żytni i pszenny, lista wypieków na kartce w drzwiach.',
       pos: StationAlign.bottomRight,
     ),

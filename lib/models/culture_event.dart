@@ -2,7 +2,7 @@ enum CultureVenue { dkWidzew, fabryczka }
 
 extension CultureVenueX on CultureVenue {
   String get label => switch (this) {
-    CultureVenue.dkWidzew => 'DK Widzew',
+    CultureVenue.dkWidzew => 'Dom kultury',
     CultureVenue.fabryczka => 'Fabryczka',
   };
 }
@@ -99,7 +99,7 @@ class CultureEvent {
       id: 'cult-kids',
       title: 'Zajęcia plastyczne dla dzieci',
       description: 'Farby i papier, od 5 lat, zapis przy kasie DK.',
-      place: 'DK Widzew',
+      place: 'Dom kultury',
       startsAt: DateTime(2026, 11, 8, 11),
       venue: CultureVenue.dkWidzew,
       forKids: true,
@@ -115,9 +115,9 @@ class CultureEvent {
     ),
     CultureEvent(
       id: 'cult-concert',
-      title: 'Koncert sąsiedzki w DK Widzew',
+      title: 'Koncert sąsiedzki w domu kultury',
       description: 'Lokalne zespoły, wstęp wolny.',
-      place: 'DK Widzew, sala widowiskowa',
+      place: 'dom kultury, sala widowiskowa',
       startsAt: DateTime(2026, 11, 15, 19),
       venue: CultureVenue.dkWidzew,
     ),

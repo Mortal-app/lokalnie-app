@@ -41,7 +41,7 @@ class StreetballMeetup {
           : CourtKind.school,
       title: json['title'] as String? ?? '',
       whenText: json['whenText'] as String? ?? '',
-      place: json['place'] as String? ?? 'Widzew Wschód',
+      place: json['place'] as String? ?? 'Twoja okolica',
       authorName: json['authorName'] as String? ?? 'Gracz',
     );
   }
@@ -52,7 +52,7 @@ class StreetballMeetup {
       court: CourtKind.orlik,
       title: 'Luźny streetball 3x3',
       whenText: 'Sobota 16:00',
-      place: 'Orlik, Widzew Wschód',
+      place: 'Orlik',
       authorName: 'Bartek',
     ),
     StreetballMeetup(
@@ -60,7 +60,7 @@ class StreetballMeetup {
       court: CourtKind.school,
       title: 'Mecz po lekcjach — każdy poziom',
       whenText: 'Wtorek 17:30',
-      place: 'Boisko przy SP, Widzew Wschód',
+      place: 'Boisko przy szkole',
       authorName: 'Ola',
     ),
   ];

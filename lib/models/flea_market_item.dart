@@ -67,7 +67,7 @@ class FleaMarketItem {
       ),
       price: json['price'] as String? ?? 'Do uzgodnienia',
       authorName: json['authorName'] as String? ?? 'Sąsiad',
-      subDistrict: json['subDistrict'] as String? ?? 'Widzew Wschód',
+      subDistrict: json['subDistrict'] as String? ?? 'Twoja okolica',
     );
   }
 
@@ -79,8 +79,8 @@ class FleaMarketItem {
       category: FleaCategory.vinyl,
       condition: FleaCondition.veryGood,
       price: '40 zł / szt.',
-      authorName: 'Sąsiad ze Starego Widzewa',
-      subDistrict: 'Stary Widzew',
+      authorName: 'Sąsiad',
+      subDistrict: 'Twoja okolica',
     ),
     FleaMarketItem(
       id: 'flea-game',
@@ -89,8 +89,8 @@ class FleaMarketItem {
       category: FleaCategory.games,
       condition: FleaCondition.collectorOrRenovation,
       price: 'Wymiana lub 25 zł',
-      authorName: 'Sąsiad z Janowa',
-      subDistrict: 'Janów',
+      authorName: 'Sąsiad',
+      subDistrict: 'Twoja okolica',
     ),
     FleaMarketItem(
       id: 'flea-table',
@@ -99,18 +99,18 @@ class FleaMarketItem {
       category: FleaCategory.furniture,
       condition: FleaCondition.collectorOrRenovation,
       price: '350 zł',
-      authorName: 'Sąsiadka z Olechowa',
-      subDistrict: 'Olechów',
+      authorName: 'Sąsiadka',
+      subDistrict: 'Twoja okolica',
     ),
     FleaMarketItem(
       id: 'flea-pins',
-      title: 'Kolekcja znaczków Widzew Łódź',
+      title: 'Kolekcja znaczków klubu sportowego',
       description: 'Rzadkie przypinki z meczów, stan wystawowy.',
       category: FleaCategory.collection,
       condition: FleaCondition.brandNew,
       price: 'Do uzgodnienia',
-      authorName: 'Sąsiad z Widzewa Wschód',
-      subDistrict: 'Widzew Wschód',
+      authorName: 'Sąsiad',
+      subDistrict: 'Twoja okolica',
     ),
   ];
 }

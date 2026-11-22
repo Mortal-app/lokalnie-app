@@ -70,7 +70,7 @@ class NeighborContact {
   }
 
   static String listingMessage(Announcement announcement) {
-    return 'Cześć! Piszę z aplikacji Lokalnie Widzew w sprawie ogłoszenia '
+    return 'Cześć! Piszę z aplikacji Lokalnie w sprawie ogłoszenia '
         '„${announcement.title}”. Czy nadal jest aktualne?';
   }
 
@@ -80,7 +80,7 @@ class NeighborContact {
   static Future<void> sendSmsToNumber(
     BuildContext context,
     String phone, {
-    String body = 'Cześć! Piszę z aplikacji Lokalnie Widzew.',
+    String body = 'Cześć! Piszę z aplikacji Lokalnie.',
   }) async {
     final digits = _digits(phone);
     final uri = Uri.parse(

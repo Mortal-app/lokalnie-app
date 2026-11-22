@@ -30,7 +30,12 @@ class SavedAnnouncementsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: Text(context.tr('savedTitle'))),
       body: announcements.isEmpty
-          ? EmptyAnnouncements(message: context.tr('savedEmpty'))
+          ? EmptyAnnouncements(
+              message: context.tr('savedEmpty'),
+              hint: context.tr('savedEmptyHint'),
+              icon: Icons.bookmark_border,
+              fill: true,
+            )
           : ListView.builder(
               key: const ValueKey('saved-list'),
               padding: const EdgeInsets.only(bottom: 80, top: 8),

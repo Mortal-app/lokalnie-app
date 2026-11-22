@@ -2,8 +2,8 @@ enum MpoDistrict { wschod, olechow }
 
 extension MpoDistrictX on MpoDistrict {
   String get label => switch (this) {
-    MpoDistrict.wschod => 'Widzew Wschód',
-    MpoDistrict.olechow => 'Olechów',
+    MpoDistrict.wschod => 'Twoja okolica',
+    MpoDistrict.olechow => 'Twoja okolica',
   };
 }
 
@@ -50,7 +50,7 @@ class MpoBulkySlot {
     MpoBulkySlot(
       id: 'mpo-pusz',
       district: MpoDistrict.wschod,
-      street: 'ul. Puszkina',
+      street: 'ul. Parkowa',
       whenText: 'Czwartek, wystawianie od 18:00',
       note: 'Kanapy i szafy — odbiór MPO rano.',
       authorName: 'Zarząd klatki',

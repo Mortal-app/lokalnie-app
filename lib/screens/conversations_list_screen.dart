@@ -7,6 +7,7 @@ import '../models/neighbor_message.dart';
 import '../theme/widzew_colors.dart';
 import '../theme/widzew_ui.dart';
 import '../utils/relative_time.dart';
+import '../widgets/empty_announcements.dart';
 
 class MessagesHub extends StatelessWidget {
   final List<NeighborConversation> conversations;
@@ -67,7 +68,11 @@ class ConversationsListScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: Text(context.tr('messagesTitle'))),
       body: conversations.isEmpty
-          ? const _ConversationsEmptyState()
+          ? EmptyAnnouncements(
+              message: context.tr('conversationsEmpty'),
+              icon: Icons.forum_outlined,
+              fill: true,
+            )
           : ListView.separated(
               key: const ValueKey('conversations-list'),
               padding: const EdgeInsets.fromLTRB(12, 8, 12, 80),
@@ -85,40 +90,6 @@ class ConversationsListScreen extends StatelessWidget {
                 );
               },
             ),
-    );
-  }
-}
-
-class _ConversationsEmptyState extends StatelessWidget {
-  const _ConversationsEmptyState();
-
-  @override
-  Widget build(BuildContext context) {
-    final ink = Theme.of(context).colorScheme.onSurface;
-    return Center(
-      child: Padding(
-        padding: WidzewUi.insetsWide,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              Icons.forum_outlined,
-              size: 72,
-              color: WidzewColors.red.withValues(alpha: 0.9),
-            ),
-            const SizedBox(height: 16),
-            Text(
-              context.tr('conversationsEmpty'),
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                fontWeight: FontWeight.w600,
-                height: 1.35,
-                color: ink,
-              ),
-            ),
-          ],
-        ),
-      ),
     );
   }
 }

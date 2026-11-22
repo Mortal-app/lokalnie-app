@@ -136,9 +136,9 @@ class _ProDialogState extends State<_ProDialog> {
                 id: 'pp-${DateTime.now().millisecondsSinceEpoch}',
                 kind: _kind,
                 name: _name.text.trim().isEmpty
-                    ? 'Gabinet na Widzewie'
+                    ? 'Gabinet w Twojej okolicy'
                     : _name.text.trim(),
-                place: 'Widzew',
+                place: 'Okolica',
                 review: _review.text.trim(),
                 authorName: widget.userName,
               ),

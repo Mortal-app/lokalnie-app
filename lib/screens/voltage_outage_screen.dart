@@ -61,7 +61,7 @@ class _VoltageOutageScreenState extends State<VoltageOutageScreen> {
         padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
-            'Skoki napięcia i zaniki prądu na ulicach Widzewa Wschodu i Olechowa.',
+            'Skoki napięcia i zaniki prądu na ulicach okolicy.',
           ),
           const SizedBox(height: 12),
           SizedBox(
@@ -126,7 +126,7 @@ class _VoltageDialogState extends State<_VoltageDialog> {
   final _street = TextEditingController();
   final _note = TextEditingController();
   var _kind = VoltageKind.blackout;
-  var _district = 'Widzew Wschód';
+  var _district = 'Twoja okolica';
 
   @override
   void dispose() {
@@ -157,10 +157,10 @@ class _VoltageDialogState extends State<_VoltageDialog> {
               initialValue: _district,
               items: const [
                 DropdownMenuItem(
-                  value: 'Widzew Wschód',
-                  child: Text('Widzew Wschód'),
+                  value: 'Twoja okolica',
+                  child: Text('Twoja okolica'),
                 ),
-                DropdownMenuItem(value: 'Olechów', child: Text('Olechów')),
+                DropdownMenuItem(value: 'Twoja okolica', child: Text('Twoja okolica')),
               ],
               onChanged: (value) {
                 if (value != null) setState(() => _district = value);

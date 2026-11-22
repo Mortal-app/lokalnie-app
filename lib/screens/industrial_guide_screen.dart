@@ -17,12 +17,12 @@ class _IndustrialGuideScreenState extends State<IndustrialGuideScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Księży Młyn i zabytki industrialne')),
+      appBar: AppBar(title: const Text('Zabytki industrialne okolicy')),
       body: ListView(
         padding: const EdgeInsets.fromLTRB(16, 12, 16, 80),
         children: [
           const Text(
-            'Przewodnik po postindustrialnych fabrykach przy Widzewie. Dotknij punkt — opis i trasa spaceru.',
+            'Przewodnik po postindustrialnych fabrykach w okolicy. Dotknij punkt — opis i trasa spaceru.',
           ),
           const SizedBox(height: 12),
           SizedBox(

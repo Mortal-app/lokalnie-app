@@ -43,12 +43,12 @@ class _CultureEventsScreenState extends State<CultureEventsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Kultura: DK Widzew / Fabryczka')),
+      appBar: AppBar(title: const Text('Kultura: dom kultury')),
       body: ListView(
         padding: const EdgeInsets.fromLTRB(16, 12, 16, 80),
         children: [
           const Text(
-            'Koncerty, zajęcia dla dzieci i warsztaty w instytucjach kultury na Widzewie.',
+            'Koncerty, zajęcia dla dzieci i warsztaty w instytucjach kultury w Twojej okolicy.',
           ),
           const SizedBox(height: 12),
           for (final event in _events)

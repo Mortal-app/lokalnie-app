@@ -19,6 +19,7 @@ import '../widgets/subscription_status_panel.dart';
 import '../widgets/community_stats_panel.dart';
 import '../models/neighbor_avatar.dart';
 import '../widgets/announcement_card.dart';
+import '../widgets/empty_announcements.dart';
 import '../widgets/badges_modal.dart';
 import '../theme/widzew_colors.dart';
 import '../theme/widzew_ui.dart';
@@ -50,6 +51,7 @@ class ProfileScreen extends StatelessWidget {
   final Future<Announcement?> Function(Announcement announcement)
   onEditAnnouncement;
   final ValueChanged<Announcement> onCompleteAnnouncement;
+  final ValueChanged<Announcement> onReopenAnnouncement;
   final ValueChanged<Announcement> onDeleteAnnouncement;
   final VoidCallback onRestoreDefaults;
   final VoidCallback onClearCachedAnnouncements;
@@ -361,6 +363,7 @@ class ProfileScreen extends StatelessWidget {
     this.onOpenContentReview,
     required this.onEditAnnouncement,
     required this.onCompleteAnnouncement,
+    required this.onReopenAnnouncement,
     required this.onDeleteAnnouncement,
     required this.onRestoreDefaults,
     required this.onClearCachedAnnouncements,
@@ -674,6 +677,7 @@ class ProfileScreen extends StatelessWidget {
           onOpen: onOpenAnnouncement,
           onEdit: onEditAnnouncement,
           onComplete: onCompleteAnnouncement,
+          onReopen: onReopenAnnouncement,
           onDelete: onDeleteAnnouncement,
         ),
       ),
@@ -705,31 +709,39 @@ class ProfileScreen extends StatelessWidget {
   }
 
   Future<void> _pickHomeNeighborhood(BuildContext context) async {
+    final controller = TextEditingController(text: defaultSubDistrict);
     final selected = await showDialog<String>(
       context: context,
       barrierDismissible: true,
-      builder: (dialogContext) => SimpleDialog(
+      builder: (dialogContext) => AlertDialog(
         title: Text(dialogContext.tr('pickDistrict')),
-        children: [
-          RadioGroup<String>(
-            groupValue: defaultSubDistrict,
-            onChanged: (value) => Navigator.of(dialogContext).pop(value),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                for (final subDistrict in Announcement.subDistricts)
-                  RadioListTile<String>(
-                    value: subDistrict,
-                    title: Text(subDistrict),
-                  ),
-              ],
-            ),
+        content: TextField(
+          controller: controller,
+          autofocus: true,
+          textCapitalization: TextCapitalization.sentences,
+          decoration: const InputDecoration(
+            labelText: 'Adres lub okolica',
+            hintText: 'Wpisz ręcznie, jeśli GPS jest wyłączony',
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(dialogContext).pop(),
+            child: const Text('Anuluj'),
+          ),
+          TextButton(
+            onPressed: () =>
+                Navigator.of(dialogContext).pop(controller.text.trim()),
+            child: const Text('Zapisz'),
           ),
         ],
       ),
     );
+    controller.dispose();
     if (!context.mounted) return;
-    if (selected != null && selected != defaultSubDistrict) {
+    if (selected != null &&
+        selected.isNotEmpty &&
+        selected != defaultSubDistrict) {
       onDefaultSubDistrictChanged(selected);
     }
   }
@@ -1020,14 +1032,6 @@ class ProfileScreen extends StatelessWidget {
         unlocked: achievements.fastDeal,
       ),
       achievement(
-        id: 'garage_king',
-        titleKey: 'badgeGarageKingTitle',
-        hintKey: 'badgeGarageKingHint',
-        earnedKey: 'badgeGarageKingEarnedHint',
-        icon: Icons.garage_outlined,
-        unlocked: achievements.garageKing,
-      ),
-      achievement(
         id: 'golden_hand',
         titleKey: 'badgeGoldenHandTitle',
         hintKey: 'badgeGoldenHandHint',
@@ -1103,7 +1107,7 @@ class ProfileScreen extends StatelessWidget {
                     height: 116,
                     child: Stack(
                       clipBehavior: Clip.none,
-                      children: [
+        children: [
                         Positioned.fill(
                           child: Material(
                             color: Colors.transparent,
@@ -1174,10 +1178,10 @@ class ProfileScreen extends StatelessWidget {
                     style: Theme.of(context).textTheme.headlineSmall
                         ?.copyWith(fontWeight: FontWeight.w700, height: 1.2),
                   ),
-                ),
-                const SizedBox(height: 12),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
+          ),
+          const SizedBox(height: 12),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Material(
                     key: const ValueKey('active-neighbor-badge'),
                     color: Theme.of(context)
@@ -1193,7 +1197,7 @@ class ProfileScreen extends StatelessWidget {
                           vertical: 10,
                         ),
                         child: Stack(
-                          children: [
+              children: [
                             Row(
                               children: [
                                 Container(
@@ -1212,7 +1216,7 @@ class ProfileScreen extends StatelessWidget {
                                   ),
                                 ),
                                 const SizedBox(width: 12),
-                                Expanded(
+                Expanded(
                                   child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
@@ -1238,9 +1242,9 @@ class ProfileScreen extends StatelessWidget {
                                                   .colorScheme
                                                   .onSurfaceVariant,
                                             ),
-                                      ),
-                                    ],
-                                  ),
+                ),
+              ],
+            ),
                                 ),
                                 Icon(
                                   Icons.keyboard_arrow_down_rounded,
@@ -1276,15 +1280,15 @@ class ProfileScreen extends StatelessWidget {
                     ),
                     trailing: const Icon(Icons.chevron_right),
                     onTap: onConfirmLocation,
-                  ),
-                ListTile(
-                  leading: const Icon(Icons.push_pin_outlined),
+          ),
+          ListTile(
+            leading: const Icon(Icons.push_pin_outlined),
                   title: Text(context.tr('defaultDistrict')),
-                  subtitle: Text(defaultSubDistrict),
+            subtitle: Text(defaultSubDistrict),
                   trailing: const Icon(Icons.chevron_right),
                   onTap: () => _pickHomeNeighborhood(context),
-                ),
-                Padding(
+          ),
+          Padding(
                   padding: const EdgeInsets.fromLTRB(16, 4, 16, 0),
                   child: Align(
                     alignment: Alignment.centerLeft,
@@ -1303,34 +1307,34 @@ class ProfileScreen extends StatelessWidget {
                     horizontal: 16,
                     vertical: 8,
                   ),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: _ProfileStat(
+            child: Row(
+              children: [
+                Expanded(
+                  child: _ProfileStat(
                           label: context.tr('statPosted'),
-                          value: '$createdAnnouncementCount',
-                          icon: Icons.campaign_outlined,
-                        ),
-                      ),
+                    value: '$createdAnnouncementCount',
+                    icon: Icons.campaign_outlined,
+                  ),
+                ),
                       const SizedBox(width: 8),
-                      Expanded(
-                        child: _ProfileStat(
+                Expanded(
+                  child: _ProfileStat(
                           label: context.tr('statFavorites'),
-                          value: '${favoriteAnnouncements.length}',
-                          icon: Icons.bookmark_border,
-                        ),
-                      ),
+                    value: '${favoriteAnnouncements.length}',
+                    icon: Icons.bookmark_border,
+                  ),
+                ),
                       const SizedBox(width: 8),
                       Expanded(
                         child: _ProfileStat(
                           label: context.tr('statArea'),
                           value: defaultSubDistrict,
                           icon: Icons.location_on_outlined,
-                        ),
-                      ),
-                    ],
                   ),
                 ),
+              ],
+            ),
+          ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
                   child: Row(
@@ -1364,8 +1368,8 @@ class ProfileScreen extends StatelessWidget {
                 CommunityStatsPanel(
                   key: ValueKey(communityStats.hashCode),
                   stats: communityStats,
-                ),
-                SwitchListTile(
+          ),
+          SwitchListTile(
                   secondary: const Icon(Icons.handyman_outlined),
                   title: const Text('Konto Fachowca (Złota Rączka)'),
                   subtitle: Text(
@@ -1377,7 +1381,7 @@ class ProfileScreen extends StatelessWidget {
                   onChanged: onTradespersonRoleChanged,
                 ),
                 if (marketplace.account.isTradesperson) ...[
-                  ListTile(
+          ListTile(
                     leading: const Icon(Icons.badge_outlined),
                     title: const Text('Wizytówka fachowca'),
                     subtitle: Text(
@@ -1385,7 +1389,7 @@ class ProfileScreen extends StatelessWidget {
                           ? '${marketplace.account.card.displayName} · ${marketplace.account.card.trade}'
                           : 'Uzupełnij nazwę, branżę, opis i stawkę',
                     ),
-                    trailing: const Icon(Icons.chevron_right),
+            trailing: const Icon(Icons.chevron_right),
                     onTap: onOpenTradespersonCard,
                   ),
                   if (onRenewTradespersonSubscription != null)
@@ -1398,16 +1402,16 @@ class ProfileScreen extends StatelessWidget {
                       ),
                     )
                   else
-                    ListTile(
+          ListTile(
                       leading: const Icon(Icons.workspace_premium_outlined),
                       title: const Text('Abonament Fachowca'),
                       subtitle: Text(
                         'Status: ${marketplace.account.subscriptionStatusLabel}',
                       ),
-                      trailing: const Icon(Icons.chevron_right),
+            trailing: const Icon(Icons.chevron_right),
                       onTap: onOpenTradespersonSubscription,
-                    ),
-                  ListTile(
+          ),
+          ListTile(
                     leading: const Icon(Icons.photo_library_outlined),
                     title: const Text('Zdjęcia moich prac'),
                     subtitle: Text(
@@ -1417,8 +1421,8 @@ class ProfileScreen extends StatelessWidget {
                     ),
                     trailing: const Icon(Icons.chevron_right),
                     onTap: onOpenTradespersonPortfolio,
-                  ),
-                  ListTile(
+          ),
+          ListTile(
                     leading: const Icon(Icons.request_quote_outlined),
                     title: const Text('Orientacyjny Cennik'),
                     subtitle: Text(
@@ -1454,7 +1458,7 @@ class ProfileScreen extends StatelessWidget {
                   leading: const Icon(Icons.home_repair_service_outlined),
                   title: const Text('Katalog Fachowców'),
                   subtitle: const Text(
-                    'Zweryfikowani fachowcy PRO na Widzewie',
+                    'Zweryfikowani fachowcy PRO w Twojej okolicy',
                   ),
                   trailing: const Icon(Icons.chevron_right),
                   onTap: onOpenTradespersonCatalog,
@@ -1521,11 +1525,11 @@ class ProfileScreen extends StatelessWidget {
                   ),
                   value: neighborhoodNotificationsEnabled,
                   onChanged: onNeighborhoodNotificationsChanged,
-                ),
-                const Divider(),
+          ),
+          const Divider(),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
-                  child: Text(
+            child: Text(
                     context.tr('myPostsSection'),
                     style: const TextStyle(
                       fontSize: 18,
@@ -1576,12 +1580,13 @@ class ProfileScreen extends StatelessWidget {
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
-                  ),
-                ),
-                if (favoriteAnnouncements.isEmpty)
-                  Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Text(context.tr('savedEmpty')),
+            ),
+          ),
+          if (favoriteAnnouncements.isEmpty)
+                  EmptyAnnouncements(
+                    message: context.tr('savedEmpty'),
+                    hint: context.tr('savedEmptyHint'),
+                    icon: Icons.bookmark_border,
                   ),
               ]),
             ),
@@ -1595,11 +1600,11 @@ class ProfileScreen extends StatelessWidget {
                     final announcement = favoriteAnnouncements[index];
                     return AnnouncementCard(
                       key: ValueKey(announcement.heroTag),
-                      announcement: announcement,
+              announcement: announcement,
                       useHero: false,
-                      onTap: () => onOpenAnnouncement(announcement),
-                      onFavoriteToggle: () => onToggleFavorite(announcement),
-                      onLike: () => onLikeAnnouncement(announcement),
+              onTap: () => onOpenAnnouncement(announcement),
+              onFavoriteToggle: () => onToggleFavorite(announcement),
+              onLike: () => onLikeAnnouncement(announcement),
                       onReport: (reason) =>
                           onReportAnnouncement(announcement, reason),
                     );

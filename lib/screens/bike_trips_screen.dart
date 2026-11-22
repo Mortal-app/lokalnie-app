@@ -68,7 +68,7 @@ class _BikeTripsScreenState extends State<BikeTripsScreen> {
         padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
-            'Wspólne trasy: rzeka Jasień, Łagiewniki, stawy — tablica wypraw.',
+            'Wspólne trasy: rzeka, lasy, stawy — tablica wypraw.',
           ),
           const SizedBox(height: 12),
           for (final item in _items)
@@ -147,7 +147,7 @@ class _TripDialogState extends State<_TripDialog> {
                     ? 'Wyprawa osiedlowa'
                     : _title.text.trim(),
                 route: _route.text.trim().isEmpty
-                    ? 'Widzew — pętla'
+                    ? 'Osiedle — pętla'
                     : _route.text.trim(),
                 whenLabel: 'Sobota 9:00',
                 host: widget.userName,

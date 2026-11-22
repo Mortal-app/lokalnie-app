@@ -52,7 +52,7 @@ class LostPetAlert {
       kind: LostPetKind.dog,
       title: 'Zagubiony pies, obroża czerwona',
       photoNote: 'Zdjęcie: kundel rudy, średni, przy bloku 8.',
-      place: 'Olechów, kilka bloków od SP 141',
+      place: 'okolica, kilka bloków od szkoła podstawowa',
       authorName: 'Kasia',
     ),
     LostPetAlert(
@@ -60,7 +60,7 @@ class LostPetAlert {
       kind: LostPetKind.cat,
       title: 'Kot dachowiec — wyszedł na balkon',
       photoNote: 'Zdjęcie: szary pręgowany, biała łapka.',
-      place: 'Widzew Wschód, klatka II',
+      place: 'osiedle wschodnie, klatka II',
       authorName: 'Arek',
     ),
   ];

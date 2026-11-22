@@ -106,7 +106,7 @@ class _NeighborhoodServicesScreenState
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Fachowiec z Widzewa'),
+        title: const Text('Fachowiec z okolicy'),
         actions: [
           IconButton(
             tooltip: 'Dodaj usługę',
@@ -404,7 +404,7 @@ class _RecommendDialogState extends State<_RecommendDialog> with SubmitGuard {
                       authorName: widget.userName,
                       stars: _stars,
                       text: Utf8TextGuard.sanitize(_text.text).isEmpty
-                          ? 'Polecam tego fachowca z Widzewa.'
+                          ? 'Polecam tego fachowca z okolicy.'
                           : Utf8TextGuard.sanitize(_text.text),
                       createdAt: DateTime.now(),
                     ),

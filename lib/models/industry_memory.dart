@@ -30,17 +30,17 @@ class IndustryMemory {
   static List<IndustryMemory> seeded() => const [
     IndustryMemory(
       id: 'im-wima',
-      title: 'WiMa — Widzewska Manufaktura',
+      title: 'WiMa — lokalna manufaktura',
       era: 'XIX–XX w.',
       body:
-          'Zakłady dawały pracę pokoleniom z wschodniej Łodzi. Historia tkanin i osiedla przy fabryce.',
+          'Zakłady dawały pracę pokoleniom z wschodniej części miasta. Historia tkanin i osiedla przy fabryce.',
     ),
     IndustryMemory(
       id: 'im-stomil',
       title: 'Stomil',
       era: 'PRL — transformacja',
       body:
-          'Guma, opony, zmiany po 1989. Wielu mieszkańców Widzewa i Olechowa miało tu etat albo rodzinę na zmianie.',
+          'Guma, opony, zmiany po 1989. Wielu mieszkańców okolicy miało tu etat albo rodzinę na zmianie.',
     ),
   ];
 }

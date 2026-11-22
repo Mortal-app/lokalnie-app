@@ -4,17 +4,14 @@ import 'package:latlong2/latlong.dart';
 
 import 'announcement.dart';
 
-/// Współrzędne mikro-osiedli Widzewa, Olechowa i Janowa.
+/// Fallback współrzędnych, gdy ogłoszenie nie ma GPS.
 class NeighborhoodGeo {
-  static const widzewCenter = LatLng(51.7478, 19.5405);
+  static const areaCenter = LatLng(51.7478, 19.5405);
+  static const widzewCenter = areaCenter;
 
   static LatLng forSubDistrict(String subDistrict) => switch (subDistrict) {
-    'Widzew Wschód' => const LatLng(51.7572, 19.5488),
-    'Olechów' => const LatLng(51.7374, 19.5592),
-    'Janów' => const LatLng(51.7506, 19.5284),
-    'Stary Widzew' => const LatLng(51.7594, 19.5126),
-    'Księży Młyn' => const LatLng(51.7518, 19.4788),
-    _ => widzewCenter,
+    'Twoja okolica' => areaCenter,
+    _ => areaCenter,
   };
 
   static double distanceKm(String fromDistrict, String toDistrict) {
@@ -46,19 +43,7 @@ class NeighborhoodGeo {
   }
 
   static String nearestSubDistrict(double latitude, double longitude) {
-    var best = Announcement.subDistricts.first;
-    var bestDistance = double.infinity;
-    for (final name in Announcement.subDistricts) {
-      final pin = forSubDistrict(name);
-      final dLat = pin.latitude - latitude;
-      final dLng = pin.longitude - longitude;
-      final distance = dLat * dLat + dLng * dLng;
-      if (distance < bestDistance) {
-        bestDistance = distance;
-        best = name;
-      }
-    }
-    return best;
+    return Announcement.subDistricts.first;
   }
 
   static LatLng pointFor(Announcement announcement, int index) {

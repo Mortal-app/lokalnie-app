@@ -3,7 +3,7 @@ enum NotificationRadius { streetOrDistrict, allWidzew, radius2km }
 extension NotificationRadiusX on NotificationRadius {
   String get label => switch (this) {
     NotificationRadius.streetOrDistrict => 'Tylko moja ulica / moje osiedle',
-    NotificationRadius.allWidzew => 'Cały Widzew',
+    NotificationRadius.allWidzew => 'Cała okolica',
     NotificationRadius.radius2km => 'Promień 2 km',
   };
 

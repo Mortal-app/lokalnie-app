@@ -40,14 +40,14 @@ class ScooterHub {
     ScooterHub(
       id: 'sh-petla',
       name: 'Strefa przy pętli',
-      place: 'Widzew Wschód — pętla tramwajowa',
+      place: 'osiedle wschodnie — pętla tramwajowa',
       operatorName: 'Hulajnogi miejskie',
       pos: StationAlign.topLeft,
     ),
     ScooterHub(
       id: 'sh-olech',
       name: 'Parking przy SP',
-      place: 'Olechów, przy szkole',
+      place: 'okolica, przy szkole',
       operatorName: 'Najczęściej 4–8 sztuk wieczorem',
       pos: StationAlign.bottomRight,
     ),

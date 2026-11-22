@@ -79,7 +79,7 @@ class HandyJob {
       kind: HandyJobKind.lock,
       title: 'Wymiana wkładki zamka po zgubieniu kluczy',
       description: 'Potrzebna szybka wymiana wkładki na klatce IV.',
-      staircase: 'Klatka IV, Olechów',
+      staircase: 'Klatka IV, okolica',
       authorName: 'Arek',
     ),
   ];

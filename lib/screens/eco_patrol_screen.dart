@@ -44,7 +44,7 @@ class _EcoPatrolScreenState extends State<EcoPatrolScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Eko-Patrol / Czysty Widzew')),
+      appBar: AppBar(title: const Text('Eko-Patrol / Czysta okolica')),
       floatingActionButton: WidzewUi.safeFab(
         FloatingActionButton.extended(
         onPressed: _add,
@@ -56,7 +56,7 @@ class _EcoPatrolScreenState extends State<EcoPatrolScreen> {
         padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
-            'Dzikie wysypiska, przepełnione kosze i drzewa w parku nad Jasieniem.',
+            'Dzikie wysypiska, przepełnione kosze i drzewa w parku nad rzeką.',
           ),
           const SizedBox(height: 12),
           for (final report in _reports)

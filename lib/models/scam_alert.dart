@@ -52,7 +52,7 @@ class ScamAlert {
     ScamAlert(
       id: 'sc-wnuk',
       kind: ScamKind.grandson,
-      title: 'Telefon „wnuczek w tarapatach” — Olechów',
+      title: 'Telefon „wnuczek w tarapatach” — okolica',
       body:
           'Dzwonią wieczorem, proszą o BLIK. Nie przelewaj, powiadom sąsiadów.',
       authorName: 'Pani Halina',

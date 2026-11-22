@@ -15,7 +15,7 @@ class ParkPhotoScreen extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(16, 12, 16, 80),
         children: [
           const Text(
-            'Opisy historycznych zdjęć z budowy Parku Podolskiego, Górki Widzewskiej i osiedlowych skwerów — bez plików graficznych.',
+            'Opisy historycznych zdjęć z budowy parku osiedlowego, górki osiedlowej i osiedlowych skwerów — bez plików graficznych.',
           ),
           const SizedBox(height: 12),
           for (final item in items)

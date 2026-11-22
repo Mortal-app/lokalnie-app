@@ -50,7 +50,7 @@ class NightCarpoolRide {
     NightCarpoolRide(
       id: 'nc-noc',
       kind: NightRideKind.nightReturn,
-      title: 'Po imprezie z Piotrkowskiej → Olechów',
+      title: 'Po imprezie z głównej ulicy → okolica',
       whenLabel: 'Sobota ~1:30',
       authorName: 'Tomek',
       seats: 3,

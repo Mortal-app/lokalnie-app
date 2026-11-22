@@ -91,9 +91,9 @@ class NeighborhoodPoll {
       id: 'square-name',
       question: 'Wybór nazwy dla skweru',
       options: [
-        PollOption(label: 'Skwer Widzewski', votes: 9),
-        PollOption(label: 'Skwer Olechowska Łąka', votes: 7),
-        PollOption(label: 'Skwer Janowski', votes: 5),
+        PollOption(label: 'Skwer osiedlowy', votes: 9),
+        PollOption(label: 'Skwer łąkowy', votes: 7),
+        PollOption(label: 'Skwer parkowy', votes: 5),
       ],
     ),
   ];

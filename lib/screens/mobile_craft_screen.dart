@@ -52,7 +52,7 @@ class _MobileCraftScreenState extends State<MobileCraftScreen> {
         padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
-            'Ślusarz 24h, mobilny serwis opon i elektryk z polecenia sąsiadów — bezpośrednio na Widzewie.',
+            'Ślusarz 24h, mobilny serwis opon i elektryk z polecenia sąsiadów — bezpośrednio w Twojej okolicy.',
           ),
           const SizedBox(height: 12),
           for (final item in _items)
@@ -130,7 +130,7 @@ class _CraftDialogState extends State<_CraftDialog> {
                 name: _name.text.trim().isEmpty
                     ? _kind.label
                     : _name.text.trim(),
-                area: 'Widzew',
+                area: 'Okolica',
                 endorsedBy: 'Sąsiad',
               ),
             );

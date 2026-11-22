@@ -52,7 +52,7 @@ class DartBilliardMeetup {
       kind: CueGameKind.darts,
       title: 'Amatorski dart — 501',
       whenText: 'Czwartek 19:00',
-      place: 'Świetlica spółdzielni, Widzew Wschód',
+      place: 'Świetlica spółdzielni, osiedle wschodnie',
       authorName: 'Bartek',
     ),
     DartBilliardMeetup(
@@ -60,7 +60,7 @@ class DartBilliardMeetup {
       kind: CueGameKind.billiard,
       title: 'Bilard w klubie osiedlowym',
       whenText: 'Sobota 17:00',
-      place: 'Pub / klub na Olechowie',
+      place: 'Pub / klub w okolicy',
       authorName: 'Ola',
     ),
   ];

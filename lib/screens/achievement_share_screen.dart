@@ -17,7 +17,7 @@ class AchievementShareScreen extends StatelessWidget {
   });
 
   String get cardText =>
-      'Lokalnie Widzew — karta osiągnięć\n'
+      'Lokalnie — karta osiągnięć\n'
       '$userName\n'
       'Wymiany: $swapCount\n'
       'Pomoc sąsiedzka: $helpPoints pkt\n'
@@ -44,7 +44,7 @@ class AchievementShareScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text(
-                      'Lokalnie Widzew',
+                      'Lokalnie',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 18,

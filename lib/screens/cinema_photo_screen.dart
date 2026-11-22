@@ -10,12 +10,12 @@ class CinemaPhotoScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Dawne kino na Widzewie')),
+      appBar: AppBar(title: const Text('Dawne kino w Twojej okolicy')),
       body: ListView(
         padding: const EdgeInsets.fromLTRB(16, 12, 16, 80),
         children: [
           const Text(
-            'Archiwum opisów zdjęć dawnych kin osiedlowych i miejsc spotkań kulturalnych wschodniej Łodzi — bez plików graficznych.',
+            'Archiwum opisów zdjęć dawnych kin osiedlowych i miejsc spotkań kulturalnych wschodniej części miasta — bez plików graficznych.',
           ),
           const SizedBox(height: 12),
           for (final clip in items)

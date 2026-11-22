@@ -60,7 +60,7 @@ class CampGearItem {
       id: 'cg-namiot',
       kind: CampGearKind.tent,
       title: 'Namiot 3-os. iglo',
-      owner: 'Arek z Olechowa',
+      owner: 'Arek z okolicy',
     ),
     CampGearItem(
       id: 'cg-spiwor',
@@ -78,7 +78,7 @@ class CampGearItem {
       id: 'cg-lodo',
       kind: CampGearKind.cooler,
       title: 'Lodówka turystyczna 24 l',
-      owner: 'Sąsiad z Janowa',
+      owner: 'Sąsiad',
     ),
   ];
 }

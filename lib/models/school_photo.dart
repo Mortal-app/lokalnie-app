@@ -30,14 +30,14 @@ class SchoolPhotoClip {
   static List<SchoolPhotoClip> seeded() => const [
     SchoolPhotoClip(
       id: 'sp-pod',
-      title: 'Szkoła podstawowa na Widzewie Wschodzie',
+      title: 'Szkoła podstawowa w okolicy',
       era: 'lata 70.–80.',
       caption:
           'Budynek, boisko i szatnia — opis zdjęcia archiwalnego, bez pliku.',
     ),
     SchoolPhotoClip(
       id: 'sp-lic',
-      title: 'Liceum we wschodniej Łodzi',
+      title: 'Liceum we wschodniej części miasta',
       era: 'lata 90.',
       caption: 'Wejście, tablica i rowerzysty pod szkołą.',
     ),

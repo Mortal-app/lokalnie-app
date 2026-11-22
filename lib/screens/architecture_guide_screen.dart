@@ -18,7 +18,7 @@ class _ArchitectureGuideScreenState extends State<ArchitectureGuideScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Architektura i modernizm Widzewa')),
+      appBar: AppBar(title: const Text('Architektura i modernizm okolicy')),
       body: ListView(
         padding: const EdgeInsets.fromLTRB(16, 12, 16, 80),
         children: [

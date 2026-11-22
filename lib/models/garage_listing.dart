@@ -55,7 +55,7 @@ class GarageListing {
           ? GarageSpaceKind.basement
           : GarageSpaceKind.underground,
       title: json['title'] as String? ?? '',
-      place: json['place'] as String? ?? 'Widzew',
+      place: json['place'] as String? ?? 'Okolica',
       details: json['details'] as String? ?? '',
       authorName: json['authorName'] as String? ?? 'Sąsiad',
     );
@@ -67,7 +67,7 @@ class GarageListing {
       offer: GarageOfferKind.rent,
       space: GarageSpaceKind.underground,
       title: 'Wynajmę miejsce w garażu podziemnym',
-      place: 'ul. Rokicińska, Widzew Wschód',
+      place: 'ul. Główna, osiedle wschodnie',
       details: 'Boks 12, wjazd z pilota, od listopada.',
       authorName: 'Sąsiad z Wschodu',
     ),
@@ -75,8 +75,8 @@ class GarageListing {
       id: 'gar-piwnica',
       offer: GarageOfferKind.lend,
       space: GarageSpaceKind.basement,
-      title: 'Dam w użytkowanie box w piwnicy na Widzewie',
-      place: 'Stary Widzew, klatka V',
+      title: 'Dam w użytkowanie box w piwnicy w Twojej okolicy',
+      place: 'stare osiedle, klatka V',
       details: 'Na rowery i opony, bez wilgoci, zamek własny.',
       authorName: 'Pani Halina',
     ),

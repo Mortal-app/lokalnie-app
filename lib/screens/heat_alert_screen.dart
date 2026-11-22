@@ -54,7 +54,7 @@ class _HeatAlertScreenState extends State<HeatAlertScreen> {
         padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
-            'Wychłodzone kaloryfery i zaplanowane prace Veolii na Widzewie.',
+            'Wychłodzone kaloryfery i zaplanowane prace Veolii w Twojej okolicy.',
           ),
           const SizedBox(height: 12),
           for (final item in _items)
@@ -138,7 +138,7 @@ class _HeatDialogState extends State<_HeatDialog> {
                 id: 'ha-${DateTime.now().millisecondsSinceEpoch}',
                 kind: _kind,
                 place: _place.text.trim().isEmpty
-                    ? 'Widzew'
+                    ? 'Okolica'
                     : _place.text.trim(),
                 whenText: 'Teraz',
                 note: _note.text.trim(),

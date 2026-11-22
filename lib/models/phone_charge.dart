@@ -39,7 +39,7 @@ class PhoneChargeHub {
   static List<PhoneChargeHub> seeded() => const [
     PhoneChargeHub(
       id: 'pc-bibl',
-      name: 'Biblioteka na Widzewie',
+      name: 'Biblioteka w Twojej okolicy',
       place: 'Czytelnia — gniazdka przy stolikach',
       note: 'Awaryjne ładowanie telefonu, cisza.',
       pos: StationAlign.topLeft,
@@ -47,7 +47,7 @@ class PhoneChargeHub {
     PhoneChargeHub(
       id: 'pc-dk',
       name: 'Dom kultury',
-      place: 'Hol DK, Olechów',
+      place: 'Hol domu kultury',
       note: 'Powerbank miejski / USB przy recepcji w godzinach otwarcia.',
       pos: StationAlign.bottomRight,
     ),

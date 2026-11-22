@@ -64,7 +64,7 @@ class _SportMeetupsScreenState extends State<SportMeetupsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Aktywny Widzew – Sport i Rekreacja')),
+      appBar: AppBar(title: const Text('Sport i rekreacja')),
       floatingActionButton: WidzewUi.safeFab(
         FloatingActionButton.extended(
         onPressed: _add,
@@ -76,7 +76,7 @@ class _SportMeetupsScreenState extends State<SportMeetupsScreen> {
         padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
-            'Piłka na Orliku, bieganie w Parku Baden-Powella, rowerowa masa z Olechowa — z limitem miejsc.',
+            'Piłka na Orliku, bieganie w parku, rowerowa masa — z limitem miejsc.',
           ),
           const SizedBox(height: 12),
           for (final meetup in _meetups)

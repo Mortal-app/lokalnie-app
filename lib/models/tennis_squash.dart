@@ -52,7 +52,7 @@ class TennisSquashMeetup {
       kind: RacketKind.tennis,
       title: 'Sparing tenisowy — amatorzy',
       whenText: 'Sobota 9:00',
-      place: 'Korty przy Widzewie / Olechowie',
+      place: 'Korty w okolicy / okolicy',
       authorName: 'Bartek',
     ),
     TennisSquashMeetup(
@@ -60,7 +60,7 @@ class TennisSquashMeetup {
       kind: RacketKind.squash,
       title: 'Squash — godzinka na korcie',
       whenText: 'Środa 18:30',
-      place: 'Obiekt sportowy, Olechów',
+      place: 'Obiekt sportowy',
       authorName: 'Ola',
     ),
   ];

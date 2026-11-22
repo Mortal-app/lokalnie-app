@@ -1,11 +1,14 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'app_info.dart';
+import 'firebase_options.dart';
 import 'utils/flutter_runtime.dart';
 import 'utils/privacy_log.dart';
 import 'services/storage_guard.dart';
@@ -556,9 +559,18 @@ import 'screens/neighborhood_groups_screen.dart';
 import 'screens/neighborhood_services_screen.dart';
 import 'screens/qr_scan_screen.dart';
 import 'screens/saved_announcements_screen.dart';
+import 'services/announcement_storage.dart';
+import 'services/announcements_firestore.dart';
 import 'services/app_store.dart';
-import 'models/neighborhood_geo.dart';
+import 'services/cloud_error_messages.dart';
+import 'services/content_reports_firestore.dart';
+import 'services/firebase_session.dart';
+import 'services/pro_subscription_service.dart';
+import 'services/user_session_firestore.dart';
+import 'models/pro_subscription.dart';
+import 'services/firestore_ping.dart';
 import 'services/local_push_service.dart';
+import 'services/push_navigation.dart';
 import 'services/badge_service.dart';
 import 'services/board_safety.dart';
 import 'services/stats_service.dart';
@@ -573,8 +585,15 @@ import 'widgets/offline_banner.dart';
 import 'widgets/splash_view.dart';
 import 'widgets/widzew_system_ui.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+  await FirebaseSession.ensureSignedIn();
+  unawaited(FirebaseSession.initMessaging());
+  unawaited(FirestorePing.run());
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
   runApp(LokalnieWidzewApp(networkGate: ConnectivityNetworkGate()));
 }
@@ -1037,10 +1056,13 @@ class _MainTabScreenState extends State<MainTabScreen> {
   var _groupsLanding = false;
   late bool _isOnline;
   StreamSubscription<bool>? _networkSubscription;
+  StreamSubscription<List<Announcement>>? _announcementsSub;
+  StreamSubscription<ProEntitlement>? _proEntitlementSub;
   final Set<String> _hiddenAnnouncementKeys = {};
 
-  String _announcementKey(Announcement announcement) =>
-      announcement.publishedAt.toIso8601String();
+  String _announcementKey(Announcement announcement) => announcement.id.isNotEmpty
+      ? announcement.id
+      : announcement.publishedAt.toIso8601String();
 
   List<Announcement> get _feedAnnouncements => _announcements
       .where(
@@ -1359,6 +1381,16 @@ class _MainTabScreenState extends State<MainTabScreen> {
     unawaited(LocalPushService.setEnabled(_neighborhoodNotificationsEnabled));
     unawaited(_loadNeighborProfile());
     unawaited(_loadBoardSafety());
+    unawaited(_startCloudAnnouncements());
+    FirebaseSession.attachNotificationHandler(_openFromPush);
+    ProSubscriptionService.instance.attach();
+    _proEntitlementSub = ProSubscriptionService.instance.entitlements.listen(
+      (entitlement) => _applyProEntitlement(entitlement),
+    );
+    unawaited(_hydrateProFromCloud());
+    LocalPushService.onTap = (payload) {
+      _openFromPush(PushNavigation.dataFromPayload(payload));
+    };
     _networkSubscription = widget.networkGate.changes.listen((isOnline) {
       if (!mounted) return;
       final cameOnline = !_isOnline && isOnline;
@@ -1370,7 +1402,33 @@ class _MainTabScreenState extends State<MainTabScreen> {
   @override
   void dispose() {
     _networkSubscription?.cancel();
+    _announcementsSub?.cancel();
+    unawaited(_proEntitlementSub?.cancel());
+    unawaited(ProSubscriptionService.instance.detach());
+    FirebaseSession.attachNotificationHandler(null);
+    LocalPushService.onTap = null;
     super.dispose();
+  }
+
+  void _openFromPush(Map<String, String> data) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      final announcementId = PushNavigation.announcementId(data);
+      if (announcementId != null && announcementId.isNotEmpty) {
+        for (final item in _announcements) {
+          if (item.id == announcementId) {
+            _openAnnouncementDetails(item);
+            return;
+          }
+        }
+        setState(() => _currentIndex = 0);
+        return;
+      }
+      final tab = PushNavigation.tabIndex(data);
+      if (tab != null) {
+        setState(() => _currentIndex = tab);
+      }
+    });
   }
 
   AppSnapshot _currentSnapshot() => AppSnapshot(
@@ -1759,7 +1817,6 @@ class _MainTabScreenState extends State<MainTabScreen> {
       onRemoveSearch: _removeSearchHistory,
       onClearSearchHistory: _clearSearchHistory,
       onReactAnnouncement: _reactAnnouncement,
-      onExploreSubDistrict: _exploreSubDistrict,
     ),
     SavedAnnouncementsScreen(
       announcements: _feedAnnouncements
@@ -2101,14 +2158,14 @@ class _MainTabScreenState extends State<MainTabScreen> {
       onEditAnnouncement: _editAnnouncement,
       onCompleteAnnouncement: (announcement) =>
           _setStatus(announcement, AnnouncementStatus.resolved),
+      onReopenAnnouncement: (announcement) =>
+          _setStatus(announcement, AnnouncementStatus.current),
       onDeleteAnnouncement: _deleteAnnouncement,
     ),
   ];
 
   void _toggleFavorite(Announcement announcement) {
-    final index = _announcements.indexWhere(
-      (item) => item.publishedAt == announcement.publishedAt,
-    );
+    final index = _announcementIndex(announcement);
     if (index == -1) return;
     setState(() {
       final current = _announcements[index];
@@ -2137,6 +2194,7 @@ class _MainTabScreenState extends State<MainTabScreen> {
       );
       setState(() => _announcements[index] = opened);
       _persist();
+      unawaited(_syncAnnouncementToCloud(opened));
       if (opened.viewsCount > NeighborAchievements.popularViewsThreshold) {
         unawaited(_unlockBadges([BadgeIds.popularNeighbor]));
       }
@@ -2153,24 +2211,37 @@ class _MainTabScreenState extends State<MainTabScreen> {
           onRemindTomorrow: () => _remindAnnouncement(opened),
           onReact: (emoji) => _reactAnnouncement(opened, emoji),
           onWriteToAuthor: () => _startChatWithAuthor(opened),
+          onEdit: opened.isMine
+              ? () {
+                  Navigator.of(context).pop();
+                  unawaited(_editAnnouncement(opened));
+                }
+              : null,
+          onDelete: opened.isMine
+              ? () {
+                  Navigator.of(context).pop();
+                  _deleteAnnouncement(opened);
+                }
+              : null,
         ),
       ),
     );
   }
 
   void _likeAnnouncement(Announcement announcement) {
-    final index = _announcements.indexWhere(
-      (item) => item.publishedAt == announcement.publishedAt,
-    );
+    final index = _announcementIndex(announcement);
     if (index == -1 || _announcements[index].isLiked) return;
+    late Announcement updated;
     setState(() {
       final current = _announcements[index];
-      _announcements[index] = current.copyWith(
+      updated = current.copyWith(
         likesCount: current.likesCount + 1,
         isLiked: true,
       );
+      _announcements[index] = updated;
     });
     _persist();
+    unawaited(_syncAnnouncementToCloud(updated));
   }
 
   bool get _inWidgetTest => isFlutterWidgetTest;
@@ -2187,16 +2258,19 @@ class _MainTabScreenState extends State<MainTabScreen> {
     }
     final index = _announcementIndex(announcement);
     if (index == -1) return;
-    final current = _announcements[index];
+      final current = _announcements[index];
+    late Announcement updated;
     setState(() {
-      _announcements[index] = current.copyWith(
+      updated = current.copyWith(
         comments: [
           ...current.comments,
           AnnouncementComment(authorName: _userName, text: comment),
         ],
       );
+      _announcements[index] = updated;
     });
     _persist();
+    unawaited(_syncAnnouncementToCloud(updated));
     if (_inWidgetTest || !current.isMine) return;
     Future<void>.delayed(const Duration(seconds: 1), () {
       if (!mounted) return;
@@ -2229,17 +2303,21 @@ class _MainTabScreenState extends State<MainTabScreen> {
     final index = _announcementIndex(announcement);
     if (index == -1) return;
     final current = _announcements[index];
+    if (status == AnnouncementStatus.current && !current.isMine) return;
     if (!current.isMine && !current.isHelp) return;
+    late Announcement updated;
     setState(() {
-      _announcements[index] = current.copyWith(
+      updated = current.copyWith(
         status: status,
         resolvedAt: status == AnnouncementStatus.resolved
             ? (current.resolvedAt ?? DateTime.now())
             : null,
         clearResolvedAt: status != AnnouncementStatus.resolved,
       );
+      _announcements[index] = updated;
     });
     _persist();
+    unawaited(_syncAnnouncementToCloud(updated));
     if (status == AnnouncementStatus.resolved) {
       final updated = _announcements[index];
       unawaited(_unlockBadges(BadgeManager.idsForResolved(updated)));
@@ -2257,8 +2335,8 @@ class _MainTabScreenState extends State<MainTabScreen> {
     );
   }
 
-  int _announcementIndex(Announcement announcement) => _announcements
-      .indexWhere((item) => item.publishedAt == announcement.publishedAt);
+  int _announcementIndex(Announcement announcement) =>
+      _announcements.indexWhere((item) => item.sameAs(announcement));
 
   void _setTheme(bool enabled) {
     _setThemePreference(
@@ -2304,6 +2382,13 @@ class _MainTabScreenState extends State<MainTabScreen> {
     ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()
       ..showSnackBar(SnackBar(content: Text(outcome.message)));
+    unawaited(
+      ContentReportsFirestore.submit(
+        announcementId: announcement.id.isNotEmpty ? announcement.id : key,
+        reason: reason,
+        title: announcement.title,
+      ),
+    );
   }
 
   void _openContentReview() {
@@ -4751,7 +4836,7 @@ class _MainTabScreenState extends State<MainTabScreen> {
       NeighborShare.shareText(
         context,
         text: jsonEncode(payload),
-        subject: 'Backup JSON Lokalnie Widzew',
+        subject: 'Backup JSON Lokalnie',
         copiedMessage: 'Backup JSON skopiowany do schowka.',
       ),
     );
@@ -5509,7 +5594,7 @@ class _MainTabScreenState extends State<MainTabScreen> {
       NeighborShare.shareText(
         context,
         text: text,
-        subject: 'Karta osiągnięć Lokalnie Widzew',
+        subject: 'Karta osiągnięć Lokalnie',
         copiedMessage: 'Kartę osiągnięć skopiowano do schowka.',
       ),
     );
@@ -5693,7 +5778,7 @@ class _MainTabScreenState extends State<MainTabScreen> {
       return rows.map((row) => row.map(_csvCell).join(',')).join('\n');
     }
     return [
-      'Lokalnie Widzew — raport aktywności',
+      'Lokalnie — raport aktywności',
       'Użytkownik: $_userName',
       'Osiedle: $_defaultSubDistrict',
       'Liczba zgłoszeń: $_createdAnnouncementCount',
@@ -5716,7 +5801,7 @@ class _MainTabScreenState extends State<MainTabScreen> {
       NeighborShare.shareText(
         context,
         text: _activityReportBody(csv: true),
-        subject: 'Raport CSV Lokalnie Widzew',
+        subject: 'Raport CSV Lokalnie',
         copiedMessage: 'Raport CSV skopiowany do schowka.',
       ),
     );
@@ -5727,7 +5812,7 @@ class _MainTabScreenState extends State<MainTabScreen> {
       NeighborShare.shareText(
         context,
         text: _activityReportBody(csv: false),
-        subject: 'Raport PDF Lokalnie Widzew',
+        subject: 'Raport PDF Lokalnie',
         copiedMessage: 'Raport PDF (tekst) skopiowany do schowka.',
       ),
     );
@@ -7144,9 +7229,10 @@ class _MainTabScreenState extends State<MainTabScreen> {
           report.authorName == _userName &&
           report.status == InfrastructureStatus.repaired,
     );
-    if (!_locationVerified) {
-      await BadgeService.revoke([BadgeIds.gpsVerified]);
-    }
+    await BadgeService.revoke([
+      'garage_king',
+      if (!_locationVerified) BadgeIds.gpsVerified,
+    ]);
     await BadgeService.unlock(
       BadgeManager.idsFromCurrentState(
         createdCount: _createdAnnouncementCount,
@@ -7244,6 +7330,10 @@ class _MainTabScreenState extends State<MainTabScreen> {
               jobRequests: _marketplace.jobRequests,
               onRenew: () async {
                 await _renewTradespersonSubscription();
+                setRouteState(() {});
+              },
+              onRestore: () async {
+                await _restoreProPurchases();
                 setRouteState(() {});
               },
               onListingPublishedChanged: (published) {
@@ -7439,18 +7529,12 @@ class _MainTabScreenState extends State<MainTabScreen> {
 
   bool _helpPostInArea(NeighborHelpPost post) {
     final home = _defaultSubDistrict;
-    if (home == 'Wszystkie osiedla' || home == 'Widzew') return true;
-    if (post.subDistrict == home) return true;
-    const widzewCore = {
-      'Widzew Wschód',
-      'Stary Widzew',
-      'Księży Młyn',
-      'Widzew',
-    };
-    if (widzewCore.contains(home) && widzewCore.contains(post.subDistrict)) {
+    if (home.isEmpty ||
+        home == 'Wszystkie osiedla' ||
+        home == 'Twoja okolica') {
       return true;
     }
-    return post.subDistrict == 'Olechów' && home == 'Olechów';
+    return post.subDistrict == home;
   }
 
   void _notifyProAboutHelpPost(NeighborHelpPost post) {
@@ -7505,35 +7589,60 @@ class _MainTabScreenState extends State<MainTabScreen> {
     unawaited(_unlockBadges([BadgeIds.goldenHand, BadgeIds.helpfulHand]));
   }
 
-  Future<void> _renewTradespersonSubscription() async {
-    final method = await showModalBottomSheet<String>(
-      context: context,
-      isDismissible: true,
-      enableDrag: true,
-      showDragHandle: true,
-      builder: (sheetContext) => TradespersonPaymentSheet(
-        onPay: (value) => Navigator.of(sheetContext).pop(value),
-      ),
-    );
-    if (method == null || !mounted) return;
+  Future<void> _hydrateProFromCloud() async {
+    if (_inWidgetTest) return;
+    final uid = FirebaseSession.uid;
+    if (uid.isEmpty) return;
+    final remote = await UserSessionFirestore.readProStatus(uid: uid);
+    if (!mounted || remote == null || !remote.isPro) return;
+    _applyProEntitlement(remote, persistCloud: false);
+  }
+
+  void _applyProEntitlement(
+    ProEntitlement entitlement, {
+    bool persistCloud = true,
+  }) {
+    if (!mounted) return;
     setState(() {
       _marketplace = _marketplace.copyWith(
         account: _marketplace.account.copyWith(
-          isTradesperson: true,
-          isPro: true,
-          subscriptionExpiryDate: DateTime.now().add(const Duration(days: 30)),
+          isTradesperson:
+              entitlement.isPro || _marketplace.account.isTradesperson,
+          isPro: entitlement.isPro,
+          subscriptionExpiryDate: entitlement.expiryAt,
+          clearSubscription: !entitlement.isPro,
         ),
       );
     });
     _persistMarketplace();
-    if (!mounted) return;
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          'Płatność $method przyjęta (symulacja). Status PRO: Aktywny.',
-        ),
+    if (!persistCloud || _inWidgetTest) return;
+    unawaited(
+      UserSessionFirestore.saveProStatus(
+        uid: FirebaseSession.uid,
+        isPro: entitlement.isPro,
+        expiryAt: entitlement.expiryAt,
+        productId: entitlement.productId,
       ),
     );
+  }
+
+  Future<void> _renewTradespersonSubscription() async {
+    final result = await ProSubscriptionService.instance.buy();
+    if (!mounted) return;
+    if (result.granted && result.entitlement != null) {
+      _applyProEntitlement(result.entitlement!);
+    }
+    ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(SnackBar(content: Text(result.message)));
+  }
+
+  Future<void> _restoreProPurchases() async {
+    final result = await ProSubscriptionService.instance.restore();
+    if (!mounted) return;
+    ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(SnackBar(content: Text(result.message)));
   }
 
   void _publishTradespersonListing() {
@@ -7589,23 +7698,23 @@ class _MainTabScreenState extends State<MainTabScreen> {
   }
 
   Future<void> _confirmWidzewLocation() async {
-    final fix = await WidzewLocation.current(
-      fallbackDistrict: _defaultSubDistrict,
-    );
+    final fix = await WidzewLocation.current();
     if (!mounted) return;
-    final gpsOk =
-        fix.success && NeighborhoodGeo.isInWidzew(fix.latitude, fix.longitude);
-    if (!gpsOk) {
+    if (!fix.success) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Nie udało się potwierdzić lokalizacji na Widzewie.'),
+          content: Text(
+            'Brak lokalizacji GPS. Włącz dostęp albo wpisz adres w profilu.',
+          ),
         ),
       );
       return;
     }
     setState(() {
       _locationVerified = true;
-      _defaultSubDistrict = fix.subDistrict;
+      if (fix.subDistrict.isNotEmpty) {
+        _defaultSubDistrict = fix.subDistrict;
+      }
     });
     unawaited(
       NeighborProfileStore.saveVerifiedLocationFix(
@@ -7620,7 +7729,11 @@ class _MainTabScreenState extends State<MainTabScreen> {
     if (newly.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Lokalizacja potwierdzona: ${fix.subDistrict}.'),
+          content: Text(
+            fix.subDistrict.isEmpty
+                ? 'Lokalizacja GPS potwierdzona.'
+                : 'Lokalizacja potwierdzona: ${fix.subDistrict}.',
+          ),
         ),
       );
     }
@@ -8064,16 +8177,18 @@ class _MainTabScreenState extends State<MainTabScreen> {
     if (index == -1) return null;
     setState(() => _announcements[index] = updated);
     _persist();
+    unawaited(_syncAnnouncementToCloud(updated));
     return updated;
   }
 
   void _deleteAnnouncement(Announcement announcement) {
     setState(() {
-      _announcements.removeWhere(
-        (item) => item.publishedAt == announcement.publishedAt,
-      );
+      _announcements.removeWhere((item) => item.sameAs(announcement));
     });
     _persist();
+    if (!_inWidgetTest) {
+      unawaited(_deleteAnnouncementFromCloud(announcement));
+    }
   }
 
   void _votePoll(String pollId, int optionIndex) {
@@ -8081,6 +8196,122 @@ class _MainTabScreenState extends State<MainTabScreen> {
     if (index == -1) return;
     setState(() => _polls[index] = _polls[index].vote(optionIndex));
     _persist();
+  }
+
+  Future<void> _startCloudAnnouncements() async {
+    if (_inWidgetTest) return;
+    await FirebaseSession.ensureSignedIn();
+    _announcementsSub?.cancel();
+    _announcementsSub = AnnouncementsFirestore.watch().listen(
+      _applyRemoteAnnouncements,
+      onError: (Object error) {
+        PrivacyLog.debug('Firestore announcements FAILED', error);
+      },
+    );
+  }
+
+  void _applyRemoteAnnouncements(List<Announcement> remote) {
+    if (!mounted) return;
+    final uid = FirebaseSession.uid;
+    Announcement? localMatch(Announcement cloud) {
+      for (final local in _announcements) {
+        if (local.sameAs(cloud) || local.publishedAt == cloud.publishedAt) {
+          return local;
+        }
+      }
+      return null;
+    }
+
+    final mergedRemote = [
+      for (final item in remote)
+        () {
+          final local = localMatch(item);
+          return item.copyWith(
+            isFavorite: local?.isFavorite ?? false,
+            isLiked: local?.isLiked ?? false,
+            isSupported: local?.isSupported ?? false,
+            myReaction: local?.myReaction ?? '',
+            isMine: item.authorUid.isNotEmpty
+                ? item.authorUid == uid
+                : (local?.isMine ?? item.isMine),
+            imagePath: local?.imagePath ?? item.imagePath,
+          );
+        }(),
+    ];
+    final remoteKeys = {
+      for (final item in mergedRemote) _announcementKey(item),
+      for (final item in mergedRemote) item.publishedAt.toIso8601String(),
+    };
+    final localOnly = _announcements.where((item) {
+      if (item.id.isNotEmpty && remoteKeys.contains(item.id)) return false;
+      return !remoteKeys.contains(_announcementKey(item)) &&
+          !remoteKeys.contains(item.publishedAt.toIso8601String());
+    });
+    setState(() => _announcements = [...mergedRemote, ...localOnly]);
+    _persist();
+  }
+
+  Future<Announcement> _withUploadedPhoto(Announcement announcement) async {
+    final existing = announcement.imageBase64;
+    if (existing != null && existing.isNotEmpty) return announcement;
+    final path = announcement.imagePath;
+    if (path == null || path.isEmpty) return announcement;
+    final result = await AnnouncementStorage.uploadResult(localPath: path);
+    if (!result.isOk) return announcement;
+    return announcement.copyWith(imageBase64: result.imageBase64);
+  }
+
+  Future<void> _syncAnnouncementToCloud(Announcement announcement) async {
+    if (_inWidgetTest || announcement.pendingSync) return;
+    if (announcement.id.isEmpty && announcement.authorUid.isEmpty) return;
+    try {
+      final ready = await _withUploadedPhoto(announcement);
+      final saved = await AnnouncementsFirestore.upsert(ready);
+      if (!mounted) return;
+      final index = _announcementIndex(announcement);
+      if (index == -1) return;
+      final current = _announcements[index];
+      setState(() {
+        _announcements[index] = saved.copyWith(
+          isFavorite: current.isFavorite,
+          isLiked: current.isLiked,
+          isSupported: current.isSupported,
+          myReaction: current.myReaction,
+          isMine: current.isMine || saved.authorUid == FirebaseSession.uid,
+          imagePath: current.imagePath,
+          imageUrl: (saved.imageUrl != null && saved.imageUrl!.isNotEmpty)
+              ? saved.imageUrl
+              : current.imageUrl,
+          imageBase64:
+              (saved.imageBase64 != null && saved.imageBase64!.isNotEmpty)
+              ? saved.imageBase64
+              : current.imageBase64,
+        );
+      });
+    } catch (error) {
+      PrivacyLog.debug('Firestore announcement sync FAILED', error);
+      if (!mounted) return;
+      if (!announcement.isMine) return;
+      ScaffoldMessenger.of(context)
+        ..hideCurrentSnackBar()
+        ..showSnackBar(
+          SnackBar(content: Text(CloudErrorMessages.from(error))),
+        );
+    }
+  }
+
+  Future<void> _deleteAnnouncementFromCloud(Announcement announcement) async {
+    try {
+      await AnnouncementsFirestore.delete(announcement);
+    } catch (error) {
+      PrivacyLog.debug('Firestore announcement delete FAILED', error);
+      if (!mounted) return;
+      ScaffoldMessenger.of(context)
+        ..hideCurrentSnackBar()
+        ..showSnackBar(
+          const SnackBar(content: Text(CloudErrorMessages.deleteFailed)),
+        );
+    }
   }
 
   void _flushOfflineQueue() {
@@ -8093,6 +8324,11 @@ class _MainTabScreenState extends State<MainTabScreen> {
       ];
     });
     _persist();
+    if (!_inWidgetTest) {
+      for (final item in pending) {
+        unawaited(_syncAnnouncementToCloud(item.copyWith(pendingSync: false)));
+      }
+    }
     if (!mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('Wysłano ogłoszenia z kolejki offline.')),
@@ -8104,9 +8340,14 @@ class _MainTabScreenState extends State<MainTabScreen> {
     if (!_allowBoardPublish(body)) return;
     final filter = ContentFilter.inspect(body);
     final queued = !_isOnline;
+    final uid = FirebaseSession.uid;
     final item = announcement.copyWith(
       pendingSync: queued,
       contentFlagged: filter.flagged || announcement.contentFlagged,
+      authorUid: announcement.authorUid.isNotEmpty
+          ? announcement.authorUid
+          : uid,
+      isMine: true,
     );
     unawaited(BoardSafetyStore.recordPublish(DateTime.now()));
     if (filter.flagged) {
@@ -8130,7 +8371,7 @@ class _MainTabScreenState extends State<MainTabScreen> {
           .showSnackBar(SnackBar(content: Text(filter.message)));
     }
     if (item.isAlert) {
-      unawaited(
+    unawaited(
         LocalPushService.show(
           id: 21,
           title: item.title,
@@ -8146,6 +8387,9 @@ class _MainTabScreenState extends State<MainTabScreen> {
         ),
       ),
     );
+    if (!queued) {
+      unawaited(_syncAnnouncementToCloud(item));
+    }
   }
 
   void _toggleEventGoing(String eventId) {
@@ -8174,10 +8418,13 @@ class _MainTabScreenState extends State<MainTabScreen> {
   void _reactAnnouncement(Announcement announcement, String emoji) {
     final index = _announcementIndex(announcement);
     if (index == -1) return;
+    late Announcement updated;
     setState(() {
-      _announcements[index] = _announcements[index].withReaction(emoji);
+      updated = _announcements[index].withReaction(emoji);
+      _announcements[index] = updated;
     });
     _persist();
+    unawaited(_syncAnnouncementToCloud(updated));
   }
 
   void _recordSearch(String query) {
@@ -8445,37 +8692,39 @@ class _MainTabScreenState extends State<MainTabScreen> {
                         userName: _userName,
                         onToggleJoin: _toggleClubJoin,
                         onSendMessage: _sendClubMessage,
+                        onClose: () =>
+                            setState(() => _groupsLanding = false),
                       )
                     : _screens[_currentIndex.clamp(0, _screens.length - 1)],
               ),
             ),
           ],
         ),
-        bottomNavigationBar: NavigationBar(
+      bottomNavigationBar: NavigationBar(
           selectedIndex: _currentIndex.clamp(0, 3),
-          onDestinationSelected: (index) {
-            setState(() {
+        onDestinationSelected: (index) {
+          setState(() {
               _groupsLanding = false;
               _currentIndex = index.clamp(0, 3);
-            });
-          },
+          });
+        },
           destinations: [
-            NavigationDestination(
+          NavigationDestination(
               icon: const Icon(Icons.home_outlined),
               selectedIcon: Icon(Icons.home, color: _widzewSkin.seed),
               label: context.tr('navHome'),
-            ),
-            NavigationDestination(
+          ),
+          NavigationDestination(
               icon: const Icon(Icons.bookmark_border),
               selectedIcon: Icon(Icons.bookmark, color: _widzewSkin.seed),
               label: context.tr('navSaved'),
-            ),
-            NavigationDestination(
+          ),
+          NavigationDestination(
               icon: const Icon(Icons.chat_bubble_outline),
               selectedIcon: Icon(Icons.chat_bubble, color: _widzewSkin.seed),
               label: context.tr('navMessages'),
-            ),
-            NavigationDestination(
+          ),
+          NavigationDestination(
               icon: const Icon(Icons.person_outline),
               selectedIcon: Icon(Icons.person, color: _widzewSkin.seed),
               label: context.tr('navProfile'),

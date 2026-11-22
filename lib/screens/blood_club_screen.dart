@@ -53,7 +53,7 @@ class _BloodClubScreenState extends State<BloodClubScreen> {
         padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
-            'Mobilne punkty poboru przy centrach handlowych na Widzewie i pilne zapotrzebowania.',
+            'Mobilne punkty poboru przy centrach handlowych w Twojej okolicy i pilne zapotrzebowania.',
           ),
           if (urgent.isNotEmpty) ...[
             const SizedBox(height: 12),
@@ -152,7 +152,7 @@ class _BloodDialogState extends State<_BloodDialog> {
               BloodDrive(
                 id: 'blood-${DateTime.now().millisecondsSinceEpoch}',
                 place: _place.text.trim().isEmpty
-                    ? 'Krwiobus na Widzewie'
+                    ? 'Krwiobus w Twojej okolicy'
                     : _place.text.trim(),
                 whenLabel: _when.text.trim().isEmpty
                     ? 'Wkrótce'

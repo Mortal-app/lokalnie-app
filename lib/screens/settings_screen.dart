@@ -5,6 +5,7 @@ import '../l10n/app_localizations.dart';
 import '../models/widzew_skin.dart';
 import '../theme/widzew_ui.dart';
 import '../widgets/app_page_route.dart';
+import '../widgets/route_pop_scope.dart';
 import 'about_screen.dart';
 import 'privacy_terms_screen.dart';
 
@@ -58,7 +59,10 @@ class SettingsScreen extends StatelessWidget {
       orElse: () => widzewSkin,
     );
     return Scaffold(
-      appBar: AppBar(title: Text(context.tr('settingsTitle'))),
+      appBar: AppBar(
+        leading: const AppBarBackButton(),
+        title: Text(context.tr('settingsTitle')),
+      ),
       body: ListView(
         key: const ValueKey('settings-list'),
         padding: const EdgeInsets.only(bottom: 80),

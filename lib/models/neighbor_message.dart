@@ -106,8 +106,8 @@ class NeighborMessage {
     NeighborMessage(
       id: 'welcome',
       conversationId: washerConversationId,
-      peerName: 'Sąsiad z Janowa',
-      listingTitle: 'Oddam sprawną pralkę za darmo (odbiór Janów)',
+      peerName: 'Sąsiad',
+      listingTitle: 'Oddam sprawną pralkę za darmo (odbiór na osiedlu)',
       avatarIndex: 1,
       text:
           'Cześć sąsiedzie! Daj znać, jeśli ogłoszenie z pralką jest aktualne.',
@@ -118,8 +118,8 @@ class NeighborMessage {
     NeighborMessage(
       id: 'wildlife-1',
       conversationId: wildlifeConversationId,
-      peerName: 'Sąsiadka z Olechowa',
-      listingTitle: 'Uwaga! Dziki przy ul. Puszkarskiej / w pobliżu parku',
+      peerName: 'Sąsiadka',
+      listingTitle: 'Uwaga! Dziki przy ul. Leśnej / w pobliżu parku',
       avatarIndex: 16,
       text: 'Widziałaś je też przy blokach? Trzymaj psa na smyczy.',
       isMine: false,
@@ -129,8 +129,8 @@ class NeighborMessage {
     NeighborMessage(
       id: 'keys-1',
       conversationId: keysConversationId,
-      peerName: 'Sąsiad ze Starego Widzewa',
-      listingTitle: 'Znaleziono klucze w parku Górka Widzewska',
+      peerName: 'Sąsiad',
+      listingTitle: 'Znaleziono klucze w parku osiedlowym',
       avatarIndex: 58,
       text: 'Opiszę brelok: czerwony rower.',
       isMine: true,

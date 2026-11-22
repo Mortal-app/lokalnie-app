@@ -74,7 +74,7 @@ class OddJob {
       budget: json['budget'] as int? ?? 0,
       offering: json['offering'] as bool? ?? false,
       authorName: json['authorName'] as String? ?? 'Sąsiad',
-      subDistrict: json['subDistrict'] as String? ?? 'Widzew Wschód',
+      subDistrict: json['subDistrict'] as String? ?? 'Twoja okolica',
       place: json['place'] as String? ?? '',
     );
   }
@@ -83,12 +83,12 @@ class OddJob {
     OddJob(
       id: 'job-lawn',
       title: 'Szukam: skoszenie trawnika na działce ROD',
-      description: 'Działka na Olechowie, kosiarka na miejscu.',
+      description: 'Działka w okolicy, kosiarka na miejscu.',
       kind: OddJobKind.lawn,
       budget: 80,
-      authorName: 'Sąsiadka z Olechowa',
-      subDistrict: 'Olechów',
-      place: 'ROD Olechów',
+      authorName: 'Sąsiadka',
+      subDistrict: 'Twoja okolica',
+      place: 'ROD',
     ),
     OddJob(
       id: 'job-move',
@@ -96,20 +96,20 @@ class OddJob {
       description: '3 piętro, kanapa i kartony, 2–3 godziny.',
       kind: OddJobKind.moving,
       budget: 150,
-      authorName: 'Sąsiad z Widzewa Wschód',
-      subDistrict: 'Widzew Wschód',
+      authorName: 'Sąsiad',
+      subDistrict: 'Twoja okolica',
       place: 'ul. Tatrzańska',
     ),
     OddJob(
       id: 'job-dog',
-      title: 'Oferuję: wyprowadzenie psa na Olechowie',
+      title: 'Oferuję: wyprowadzenie psa w okolicy',
       description: 'Mogę wziąć spacer 30 min po południu.',
       kind: OddJobKind.dogWalk,
       budget: 40,
       offering: true,
-      authorName: 'Sąsiad z Olechowa',
-      subDistrict: 'Olechów',
-      place: 'Olechów',
+      authorName: 'Sąsiad',
+      subDistrict: 'Twoja okolica',
+      place: 'Okolica',
     ),
   ];
 }

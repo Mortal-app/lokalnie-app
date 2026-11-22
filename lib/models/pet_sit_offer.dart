@@ -52,7 +52,7 @@ class PetSitOffer {
       animal: json['animal'] as String? ?? 'pies',
       whenLabel: json['whenLabel'] as String? ?? '',
       authorName: json['authorName'] as String? ?? 'Sąsiad',
-      subDistrict: json['subDistrict'] as String? ?? 'Widzew Wschód',
+      subDistrict: json['subDistrict'] as String? ?? 'Twoja okolica',
     );
   }
 
@@ -64,8 +64,8 @@ class PetSitOffer {
       kind: PetSitKind.lookingForSitter,
       animal: 'pies',
       whenLabel: 'Środa po 17:00',
-      authorName: 'Sąsiadka z Olechowa',
-      subDistrict: 'Olechów',
+      authorName: 'Sąsiadka',
+      subDistrict: 'Twoja okolica',
     ),
     PetSitOffer(
       id: 'pet-weekend',
@@ -74,8 +74,8 @@ class PetSitOffer {
       kind: PetSitKind.lookingForSitter,
       animal: 'kot',
       whenLabel: 'Piątek–niedziela',
-      authorName: 'Sąsiad z Janowa',
-      subDistrict: 'Janów',
+      authorName: 'Sąsiad',
+      subDistrict: 'Twoja okolica',
     ),
     PetSitOffer(
       id: 'pet-help',
@@ -84,8 +84,8 @@ class PetSitOffer {
       kind: PetSitKind.canHelp,
       animal: 'pies',
       whenLabel: 'Pn–pt, 14:00–16:00',
-      authorName: 'Sąsiad z Widzewa Wschód',
-      subDistrict: 'Widzew Wschód',
+      authorName: 'Sąsiad',
+      subDistrict: 'Twoja okolica',
     ),
     PetSitOffer(
       id: 'pet-found',
@@ -94,8 +94,8 @@ class PetSitOffer {
       kind: PetSitKind.foundPet,
       animal: 'pies',
       whenLabel: 'Dziś',
-      authorName: 'Sąsiadka ze Starego Widzewa',
-      subDistrict: 'Stary Widzew',
+      authorName: 'Sąsiadka',
+      subDistrict: 'Twoja okolica',
     ),
   ];
 }

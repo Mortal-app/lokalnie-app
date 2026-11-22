@@ -45,7 +45,7 @@ class TradespersonPriceListScreen extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
-            'Stawki orientacyjne — dokładna wycena po oględzinach na Widzewie.',
+            'Stawki orientacyjne — dokładna wycena po oględzinach w Twojej okolicy.',
           ),
           const SizedBox(height: 12),
           Card(

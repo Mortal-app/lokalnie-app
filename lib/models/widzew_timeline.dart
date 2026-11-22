@@ -31,21 +31,21 @@ class TimelineEra {
     TimelineEra(
       id: 'tl-70',
       decade: 'lata 70.',
-      title: 'Wielka płyta na Widzewie Wschodzie',
+      title: 'Wielka płyta w okolicy',
       body:
           'Pierwsze bloki z wielkiej płyty, szkoła i pawilony. Osiedle rośnie wraz z zakładami.',
     ),
     TimelineEra(
       id: 'tl-80',
       decade: 'lata 80.',
-      title: 'Olechów nabiera kształtu',
+      title: 'Osiedle nabiera kształtu',
       body:
           'Nowe klatki, zieleń między blokami, tramwaj w stronę centrum. Życie osiedlowe w klubach.',
     ),
     TimelineEra(
       id: 'tl-90',
       decade: 'lata 90.',
-      title: 'Janów i nowe pawilony',
+      title: 'Osiedle i nowe pawilony',
       body:
           'Po transformacji — sklepy w parterach, garaże, pierwsze wspólnoty obok spółdzielni.',
     ),
@@ -54,14 +54,14 @@ class TimelineEra {
       decade: 'lata 2000.',
       title: 'Docieplenia i place zabaw',
       body:
-          'Termomodernizacja elewacji, nowe place i ścieżki. Widzew spina się z Olechowem.',
+          'Termomodernizacja elewacji, nowe place i ścieżki. Osiedle spina się z sąsiednimi kwartałami.',
     ),
     TimelineEra(
       id: 'tl-10',
       decade: 'lata 2010.',
       title: 'Rewitalizacja i nowe osiedla',
       body:
-          'Inwestycje deweloperskie przy Rokicińskiej, remonty szkół, więcej zieleni przy parkach.',
+          'Inwestycje deweloperskie przy Głównej, remonty szkół, więcej zieleni przy parkach.',
     ),
   ];
 }

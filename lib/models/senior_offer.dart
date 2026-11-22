@@ -52,7 +52,7 @@ class SeniorOffer {
       ),
       contact: json['contact'] as String? ?? '',
       authorName: json['authorName'] as String? ?? 'Sąsiad',
-      subDistrict: json['subDistrict'] as String? ?? 'Widzew Wschód',
+      subDistrict: json['subDistrict'] as String? ?? 'Twoja okolica',
       wantsHelp: json['wantsHelp'] as bool? ?? false,
     );
   }
@@ -65,7 +65,7 @@ class SeniorOffer {
       kind: SeniorOfferKind.walk,
       contact: '500 111 222',
       authorName: 'Pani Halina',
-      subDistrict: 'Olechów',
+      subDistrict: 'Twoja okolica',
       wantsHelp: true,
     ),
     SeniorOffer(
@@ -75,7 +75,7 @@ class SeniorOffer {
       kind: SeniorOfferKind.coffeeChess,
       contact: 'Klatka II, dzwonek 12',
       authorName: 'Pan Józef',
-      subDistrict: 'Stary Widzew',
+      subDistrict: 'Twoja okolica',
     ),
     SeniorOffer(
       id: 'senior-office',
@@ -83,8 +83,8 @@ class SeniorOffer {
       description: 'Profil zaufany, e-recepta, wniosek w mObywatel.',
       kind: SeniorOfferKind.officeHelp,
       contact: '502 333 444',
-      authorName: 'Sąsiadka z Janowa',
-      subDistrict: 'Janów',
+      authorName: 'Sąsiadka',
+      subDistrict: 'Twoja okolica',
       wantsHelp: true,
     ),
     SeniorOffer(
@@ -93,8 +93,8 @@ class SeniorOffer {
       description: 'Zakupy, rozmowa, proste sprawy w telefonie.',
       kind: SeniorOfferKind.volunteer,
       contact: '501 222 333',
-      authorName: 'Sąsiad z Widzewa Wschód',
-      subDistrict: 'Widzew Wschód',
+      authorName: 'Sąsiad',
+      subDistrict: 'Twoja okolica',
     ),
   ];
 }

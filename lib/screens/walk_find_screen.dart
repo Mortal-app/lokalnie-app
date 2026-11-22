@@ -180,7 +180,7 @@ class _FindDialogState extends State<_FindDialog> {
                     ? 'Znalazłem pęk kluczy przy wejściu do parku'
                     : _title.text.trim(),
                 place: _place.text.trim().isEmpty
-                    ? 'Park na Widzewie'
+                    ? 'Park w Twojej okolicy'
                     : _place.text.trim(),
                 photoNote: _photo.text.trim().isEmpty
                     ? 'Zdjęcie: pęk kluczy (opis).'

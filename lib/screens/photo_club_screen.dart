@@ -42,7 +42,7 @@ class _PhotoClubScreenState extends State<PhotoClubScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Klub fotograficzny Widzewa')),
+      appBar: AppBar(title: const Text('Klub fotograficzny')),
       floatingActionButton: WidzewUi.safeFab(
         FloatingActionButton.extended(
         onPressed: _add,
@@ -145,7 +145,7 @@ class _PhotoDialogState extends State<_PhotoDialog> {
                 title: _title.text.trim().isEmpty
                     ? _kind.label
                     : _title.text.trim(),
-                place: 'Widzew',
+                place: 'Okolica',
                 authorName: widget.userName,
                 isPleinAir: _plein,
               ),

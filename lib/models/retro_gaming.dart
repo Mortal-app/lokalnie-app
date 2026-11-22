@@ -44,7 +44,7 @@ class RetroGamingEvent {
       ),
       title: json['title'] as String? ?? '',
       whenLabel: json['whenLabel'] as String? ?? '',
-      place: json['place'] as String? ?? 'Widzew',
+      place: json['place'] as String? ?? 'Okolica',
       host: json['host'] as String? ?? 'Sąsiad',
     );
   }
@@ -55,7 +55,7 @@ class RetroGamingEvent {
       platform: RetroPlatform.commodore,
       title: 'Wieczór Commodore 64 — gry z taśmy',
       whenLabel: 'Sobota 17:00',
-      place: 'Świetlica, Stary Widzew',
+      place: 'Świetlica, stare osiedle',
       host: 'Pan Jacek',
     ),
     RetroGamingEvent(
@@ -63,7 +63,7 @@ class RetroGamingEvent {
       platform: RetroPlatform.amiga,
       title: 'Turniej Amiga — Sensible Soccer',
       whenLabel: 'Niedziela 15:00',
-      place: 'Klatka I, Olechów',
+      place: 'Klatka I, okolica',
       host: 'Tomek',
     ),
   ];

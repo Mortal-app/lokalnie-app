@@ -31,13 +31,12 @@ class ResidentGuide {
       summary: 'Terminy worków zmieszanych, segregacji i gabarytów.',
       keywords: ['śmieci', 'odpady', 'harmonogram', 'wywóz'],
       body:
-          'Widzew Wschód i Stary Widzew: odpady zmieszane we wtorki i piątki, '
+          'Osiedle wschodnie i stare osiedle: odpady zmieszane we wtorki i piątki, '
           'segregacja (papier, plastik, szkło) w środy.\n'
-          'Olechów: zmieszane w poniedziałki i czwartki, bioodpady w środy.\n'
-          'Janów i Księży Młyn: zmieszane we wtorki i piątki, gabaryty w ostatnią '
-          'sobotę miesiąca przy punktach zbiórki osiedlowej.\n'
+          'Pozostałe klatki: zmieszane w poniedziałki i czwartki, bioodpady w środy.\n'
+          'Gabaryty w ostatnią sobotę miesiąca przy punktach zbiórki osiedlowej.\n'
           'Dokładny kalendarz warto potwierdzić na tablicy spółdzielni i w '
-          'aplikacji MPO Łódź.',
+          'aplikacji lokalnego MPO.',
     ),
     ResidentGuideArticle(
       title: 'Jak zgłosić usterkę w spółdzielni',
@@ -45,21 +44,21 @@ class ResidentGuide {
       keywords: ['usterka', 'spółdzielnia', 'awaria', 'administracja'],
       body:
           '1. Zanotuj adres klatki, numer lokalu i godzinę zauważenia usterki.\n'
-          '2. Zgłoś sprawę do administracji SM Widzew lub SM Chojny '
-          '(numery są w Niezbędniku Widzewa).\n'
+          '2. Zgłoś sprawę do administracji spółdzielni lub SM Chojny '
+          '(numery są w niezbędniku).\n'
           '3. Przy zalaniu lub braku ogrzewania poproś o numer zgłoszenia.\n'
           '4. W nocy i w święta korzystaj z pogotowia technicznego spółdzielni.\n'
           '5. Jeśli usterka zagraża bezpieczeństwu, zgłoś ją też na tablicy osiedla.',
     ),
     ResidentGuideArticle(
-      title: 'Gdzie wyrzucić elektrośmieci na Widzewie',
+      title: 'Gdzie wyrzucić elektrośmieci w Twojej okolicy',
       summary: 'PSZOK, zbiórki osiedlowe i sklepy RTV.',
       keywords: ['elektrośmieci', 'pszok', 'elektro', 'odpady'],
       body:
           'Mały sprzęt (ładowarki, żarówki LED, telefony) oddasz w sklepie RTV '
           'przy zakupie nowego urządzenia oraz podczas zbiórek w galeriach.\n'
           'Większy AGD (pralki, lodówki) – Punkt Selektywnego Zbierania Odpadów '
-          'Komunalnych (PSZOK) obsługujący Widzew; dowóz we własnym zakresie '
+          'Komunalnych (PSZOK) obsługujący okolica; dowóz we własnym zakresie '
           'albo zgłoszenie odbioru gabarytów w spółdzielni.\n'
           'Nie zostawiaj elektroodpadów przy śmietnikach – to częsty mandat '
           'i zagrożenie dla zwierząt.',
@@ -70,10 +69,10 @@ class ResidentGuide {
       keywords: ['parking', 'straż', 'ulica'],
       body:
           'Nieprawidłowe parkowanie na chodniku lub trawniku zgłoś Straży '
-          'Miejskiej – rejon Widzew (986).\n'
+          'Miejskiej – rejon (986).\n'
           'Miejsca przypisane do spółdzielni reguluje regulamin SM; wniosek o '
           'miejsce postojowe składasz w administracji osiedla.\n'
-          'Utrudnienia drogowe warto też opisać na tablicy Lokalnie Widzew, '
+          'Utrudnienia drogowe warto też opisać na tablicy Lokalnie, '
           'żeby sąsiedzi znali objazd.',
     ),
   ];

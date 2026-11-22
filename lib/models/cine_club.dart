@@ -58,7 +58,7 @@ class CineScreening {
     CineScreening(
       id: 'cc-plener',
       title: 'Pokaz plenerowy — dziedziniec',
-      place: 'Widzew Wschód, trawnik przy klatce I',
+      place: 'osiedle wschodnie, trawnik przy klatce I',
       whenLabel: 'Sobota 20:30 (pogoda)',
       seats: 40,
       reserved: 11,

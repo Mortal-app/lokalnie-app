@@ -50,7 +50,7 @@ class HeatAlert {
     HeatAlert(
       id: 'ha-kal',
       kind: HeatAlertKind.coldRadiator,
-      place: 'Klatka II, Widzew Wschód',
+      place: 'Klatka II, osiedle wschodnie',
       whenText: 'Od rana',
       note: 'Kaloryfery ledwo ciepłe, woda użytkowa też chłodniejsza.',
       authorName: 'Pani Ewa',
@@ -58,7 +58,7 @@ class HeatAlert {
     HeatAlert(
       id: 'ha-veo',
       kind: HeatAlertKind.veoliaWork,
-      place: 'Olechów — odcinek Rokicińska',
+      place: 'okolica — odcinek Główna',
       whenText: 'Środa 8:00–16:00',
       note: 'Planowane prace Veolii: wyłączenie C.O. i ciepłej wody.',
       authorName: 'Zarząd',

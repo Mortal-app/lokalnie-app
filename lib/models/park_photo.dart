@@ -30,14 +30,14 @@ class ParkPhotoClip {
   static List<ParkPhotoClip> seeded() => const [
     ParkPhotoClip(
       id: 'pp-pod',
-      title: 'Budowa Parku Podolskiego',
+      title: 'Budowa parku osiedlowego',
       era: 'lata 70.–80.',
       caption:
           'Aleje, ławki i nasadzenia — opis zdjęcia archiwalnego, bez pliku.',
     ),
     ParkPhotoClip(
       id: 'pp-gor',
-      title: 'Górka Widzewska i osiedlowe skwery',
+      title: 'Górka osiedlowa i osiedlowe skwery',
       era: 'lata 90.',
       caption: 'Sanki, trawnik i tablica parku sprzed dekad.',
     ),

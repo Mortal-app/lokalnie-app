@@ -59,7 +59,7 @@ class _StudentRidesScreenState extends State<StudentRidesScreen> {
         padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
-            'Carpooling na Politechnikę Łódzką i Uniwersytet Łódzki z Widzewa Wschodu i Olechowa.',
+            'Carpooling na Politechnikę Łódzką i Uniwersytet Łódzki z okolicy.',
           ),
           const SizedBox(height: 8),
           Wrap(
@@ -109,7 +109,7 @@ class _StudentDialog extends StatefulWidget {
 
 class _StudentDialogState extends State<_StudentDialog> {
   var _campus = CampusDest.politechnika;
-  var _from = 'Olechów';
+  var _from = 'Twoja okolica';
 
   @override
   Widget build(BuildContext context) {
@@ -133,10 +133,10 @@ class _StudentDialogState extends State<_StudentDialog> {
               initialValue: _from,
               items: const [
                 DropdownMenuItem(
-                  value: 'Widzew Wschód',
-                  child: Text('Widzew Wschód'),
+                  value: 'Twoja okolica',
+                  child: Text('Twoja okolica'),
                 ),
-                DropdownMenuItem(value: 'Olechów', child: Text('Olechów')),
+                DropdownMenuItem(value: 'Twoja okolica', child: Text('Twoja okolica')),
               ],
               onChanged: (value) {
                 if (value != null) setState(() => _from = value);

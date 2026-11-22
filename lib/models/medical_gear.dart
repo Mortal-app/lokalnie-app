@@ -49,7 +49,7 @@ class MedicalGearItem {
         orElse: () => MedicalGearKind.crutches,
       ),
       owner: json['owner'] as String? ?? 'Sąsiad',
-      place: json['place'] as String? ?? 'Widzew',
+      place: json['place'] as String? ?? 'Okolica',
       borrowed: json['borrowed'] as bool? ?? false,
     );
   }
@@ -59,19 +59,19 @@ class MedicalGearItem {
       id: 'med-kule',
       kind: MedicalGearKind.crutches,
       owner: 'Pani Irena',
-      place: 'Janów, klatka II',
+      place: 'okolica, klatka II',
     ),
     MedicalGearItem(
       id: 'med-wozek',
       kind: MedicalGearKind.wheelchair,
       owner: 'Klub seniora',
-      place: 'Widzew Wschód',
+      place: 'Okolica',
     ),
     MedicalGearItem(
       id: 'med-lozko',
       kind: MedicalGearKind.rehabBed,
-      owner: 'Rodzina z Olechowa',
-      place: 'Olechów',
+      owner: 'Rodzina z okolicy',
+      place: 'Okolica',
     ),
   ];
 }

@@ -76,7 +76,7 @@ class _SeniorCornerScreenState extends State<SeniorCornerScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Kącik Seniora z Widzewa')),
+      appBar: AppBar(title: const Text('Kącik Seniora z okolicy')),
       body: ListView(
         padding: const EdgeInsets.fromLTRB(16, 16, 16, 80),
         children: [

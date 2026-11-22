@@ -54,7 +54,7 @@ class _TennisSquashScreenState extends State<TennisSquashScreen> {
         padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
-            'Amatorskie sparingi tenisowe i squash na obiektach sportowych w okolicy Widzewa i Olechowa.',
+            'Amatorskie sparingi tenisowe i squash na obiektach sportowych w okolicy.',
           ),
           const SizedBox(height: 12),
           for (final item in _items)
@@ -148,7 +148,7 @@ class _RacketDialogState extends State<_RacketDialog> {
                     ? 'Do uzgodnienia'
                     : _when.text.trim(),
                 place: _place.text.trim().isEmpty
-                    ? 'Widzew / Olechów'
+                    ? 'Okolica'
                     : _place.text.trim(),
                 authorName: widget.userName,
               ),

@@ -17,21 +17,21 @@ class NeighborShare {
     required String userName,
     required String subDistrict,
   }) {
-    return '$userName zaprasza Cię do aplikacji Lokalnie Widzew '
+    return '$userName zaprasza Cię do aplikacji Lokalnie '
         'na osiedlu $subDistrict.\n'
-        'Tablica ogłoszeń Widzewa, Olechowa i Janowa:\n'
+        'Tablica ogłoszeń sąsiedzkich:\n'
         'https://lokalniewidzew.app/zaproszenie';
   }
 
   static String tradespersonMessage(TradespersonListing listing) {
     return 'Polecam fachowca ${listing.displayName} — ${listing.trade} ${listing.subDistrict}.\n'
         '${listing.description}\n'
-        'Lokalnie Widzew: https://lokalniewidzew.app/fachowiec/${listing.id}';
+        'Lokalnie: https://lokalniewidzew.app/fachowiec/${listing.id}';
   }
 
   static String recommendMessage() {
-    return 'Cześć! Polecam Ci Lokalnie Widzew — lokalną tablicę ogłoszeń '
-        'sąsiadów z Widzewa, Olechowa i Janowa. Dołącz do społeczności:\n'
+    return 'Cześć! Polecam Ci Lokalnie — lokalną tablicę ogłoszeń '
+        'sąsiedzkich. Dołącz do społeczności:\n'
         'https://lokalniewidzew.app/zaproszenie';
   }
 

@@ -42,7 +42,7 @@ class _WindowViewScreenState extends State<WindowViewScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Widzew w obiektywie')),
+      appBar: AppBar(title: const Text('Okolica w obiektywie')),
       floatingActionButton: WidzewUi.safeFab(
         FloatingActionButton.extended(
         onPressed: _add,

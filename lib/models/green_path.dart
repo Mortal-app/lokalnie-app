@@ -22,7 +22,7 @@ class GreenPathSpot {
     return GreenPathSpot(
       id: json['id'] as String? ?? '',
       title: json['title'] as String? ?? '',
-      area: json['area'] as String? ?? 'Widzew',
+      area: json['area'] as String? ?? 'Okolica',
       body: json['body'] as String? ?? '',
     );
   }
@@ -30,22 +30,22 @@ class GreenPathSpot {
   static List<GreenPathSpot> seeded() => const [
     GreenPathSpot(
       id: 'gp-gorka',
-      title: 'Górka Widzewska — cichy stok',
-      area: 'Park Górka Widzewska',
+      title: 'Górka osiedlowa — cichy stok',
+      area: 'Park osiedlowy',
       body:
           'Mniej znana ścieżka za alejką główną, karmniki i widok na blokowisko od strony zieleni.',
     ),
     GreenPathSpot(
       id: 'gp-jasien',
-      title: 'Meander Jasienia przy Olechowie',
-      area: 'Olechów',
+      title: 'Meander rzeki przy osiedlu',
+      area: 'Twoja okolica',
       body:
-          'Wąska ścieżka wzdłuż rzeki, z dala od Piłsudskiego — czaple wieczorem.',
+          'Wąska ścieżka wzdłuż rzeki, z dala od Głównej — czaple wieczorem.',
     ),
     GreenPathSpot(
       id: 'gp-janow',
       title: 'Zadrzewienia przy stawach Janowskich',
-      area: 'Janów',
+      area: 'Twoja okolica',
       body:
           'Brzeg stawu od strony ogródków — mniej rowerów, więcej sitowia i żab.',
     ),

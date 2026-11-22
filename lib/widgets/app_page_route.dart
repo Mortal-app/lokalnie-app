@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 
+import 'route_pop_scope.dart';
+
 class AppPageRoute<T> extends PageRouteBuilder<T> {
   AppPageRoute({required WidgetBuilder builder})
     : super(
+        opaque: true,
+        fullscreenDialog: false,
         pageBuilder: (context, animation, secondaryAnimation) =>
-            builder(context),
+            RoutePopScope(child: builder(context)),
         transitionDuration: _duration,
         reverseTransitionDuration: _reverseDuration,
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
@@ -24,6 +28,10 @@ class AppPageRoute<T> extends PageRouteBuilder<T> {
           );
         },
       );
+
+  /// AppBar ma strzałkę wstecz nawet gdy [RoutePopScope] ustawia `canPop: false`.
+  @override
+  bool get impliesAppBarDismissal => true;
 
   static bool get _inTest =>
       WidgetsBinding.instance.runtimeType.toString().contains('TestWidgets');

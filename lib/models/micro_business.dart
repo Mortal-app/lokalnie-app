@@ -50,7 +50,7 @@ class MicroBusiness {
         orElse: () => MicroBizKind.plumber,
       ),
       name: json['name'] as String? ?? '',
-      area: json['area'] as String? ?? 'Widzew',
+      area: json['area'] as String? ?? 'Okolica',
       reviews:
           (json['reviews'] as List<dynamic>?)
               ?.map((item) => item.toString())
@@ -64,14 +64,14 @@ class MicroBusiness {
       id: 'mb-fryz',
       kind: MicroBizKind.hair,
       name: 'Ania — fryzura w domu',
-      area: 'Olechów',
+      area: 'Twoja okolica',
       reviews: ['Punktualna i spokojna z dziećmi.'],
     ),
     MicroBusiness(
       id: 'mb-hyd',
       kind: MicroBizKind.plumber,
       name: 'Pan Marek — hydraulik z klatki',
-      area: 'Widzew Wschód',
+      area: 'Twoja okolica',
       reviews: ['Wymienił syfon tego samego dnia.'],
     ),
   ];

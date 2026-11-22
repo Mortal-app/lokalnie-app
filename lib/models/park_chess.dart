@@ -26,7 +26,7 @@ class ParkChessMeetup {
       id: json['id'] as String? ?? '',
       title: json['title'] as String? ?? '',
       whenText: json['whenText'] as String? ?? '',
-      tablePlace: json['tablePlace'] as String? ?? 'Park, Widzew Wschód',
+      tablePlace: json['tablePlace'] as String? ?? 'Park, osiedle wschodnie',
       authorName: json['authorName'] as String? ?? 'Gracz',
     );
   }
@@ -36,7 +36,7 @@ class ParkChessMeetup {
       id: 'pc-sob',
       title: 'Partia pod chmurką — blitz 5+3',
       whenText: 'Sobota 10:00',
-      tablePlace: 'Stoliki parkowe, Widzew Wschód',
+      tablePlace: 'Stoliki parkowe',
       authorName: 'Marek',
     ),
     ParkChessMeetup(

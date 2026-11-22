@@ -61,7 +61,7 @@ class _StreetArtScreenState extends State<StreetArtScreen> {
         padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
-            'Murale, legalne ściany i instalacje artystyczne na Widzewie.',
+            'Murale, legalne ściany i instalacje artystyczne w Twojej okolicy.',
           ),
           const SizedBox(height: 12),
           SizedBox(
@@ -174,10 +174,10 @@ class _ArtDialogState extends State<_ArtDialog> {
                 id: 'sa-${DateTime.now().millisecondsSinceEpoch}',
                 kind: _kind,
                 title: _title.text.trim().isEmpty
-                    ? 'Mural na Widzewie'
+                    ? 'Mural w Twojej okolicy'
                     : _title.text.trim(),
                 place: _place.text.trim().isEmpty
-                    ? 'Widzew'
+                    ? 'Okolica'
                     : _place.text.trim(),
                 authorName: widget.userName,
                 pos: StationAlign.center,

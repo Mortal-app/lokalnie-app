@@ -22,7 +22,7 @@ class ScooterHubScreen extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(16, 12, 16, 80),
         children: [
           const Text(
-            'Schemat najpopularniejszych stojaków i stacji hulajnóg elektrycznych na Widzewie.',
+            'Schemat najpopularniejszych stojaków i stacji hulajnóg elektrycznych w Twojej okolicy.',
           ),
           const SizedBox(height: 12),
           SizedBox(

@@ -52,7 +52,7 @@ class KidsCreation {
     KidsCreation(
       id: 'kid-rys',
       kind: KidsCreationKind.drawing,
-      title: 'Widzew w barwach klubu',
+      title: 'okolica w barwach klubu',
       caption: 'Kredki, format A3 — wystawa w klatce III.',
       childName: 'Zosia, 8 lat',
       authorName: 'Mama Zosi',
@@ -69,7 +69,7 @@ class KidsCreation {
       id: 'kid-szkola',
       kind: KidsCreationKind.schoolwork,
       title: 'Makieta osiedla na geografię',
-      caption: 'SP 114 — bloki z kartonu i zielone podwórka.',
+      caption: 'Szkoła — bloki z kartonu i zielone podwórka.',
       childName: 'Maja, 12 lat',
       authorName: 'Mama Mai',
     ),

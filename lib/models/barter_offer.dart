@@ -34,7 +34,7 @@ class BarterOffer {
       offerItem: json['offerItem'] as String? ?? '',
       wantItem: json['wantItem'] as String? ?? '',
       authorName: json['authorName'] as String? ?? 'Sąsiad',
-      subDistrict: json['subDistrict'] as String? ?? 'Widzew Wschód',
+      subDistrict: json['subDistrict'] as String? ?? 'Twoja okolica',
       note: json['note'] as String? ?? '',
     );
   }
@@ -45,16 +45,16 @@ class BarterOffer {
       title: 'Przetwory domowe za sadzonki',
       offerItem: 'Słoiki ogórków i dżemu',
       wantItem: 'Sadzonki ziół / pomidorów',
-      authorName: 'Sąsiadka z Olechowa',
-      subDistrict: 'Olechów',
+      authorName: 'Sąsiadka',
+      subDistrict: 'Twoja okolica',
     ),
     BarterOffer(
       id: 'barter-cake',
       title: 'Książka za domowe ciasto',
       offerItem: 'Książka (fantastyka)',
       wantItem: 'Domowe ciasto / drożdżówka',
-      authorName: 'Sąsiad z Janowa',
-      subDistrict: 'Janów',
+      authorName: 'Sąsiad',
+      subDistrict: 'Twoja okolica',
     ),
   ];
 }

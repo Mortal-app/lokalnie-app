@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:lokalnie_widzew/models/pro_subscription.dart';
 import 'package:lokalnie_widzew/models/tradesperson_marketplace.dart';
 import 'package:lokalnie_widzew/screens/neighbor_help_board_screen.dart';
 import 'package:lokalnie_widzew/screens/tradesperson_catalog_screen.dart';
@@ -19,7 +20,7 @@ Widget _catalog() {
   return MaterialApp(
     home: TradespersonCatalogScreen(
       account: const TradespersonAccount(),
-      clientName: 'Sąsiad z Widzewa',
+      clientName: 'Sąsiad',
       helpPosts: NeighborHelpPost.seeded(),
       onSubmitJob: (_) {},
       onOpenSubscription: () {},
@@ -82,7 +83,7 @@ void main() {
       card: const TradespersonCard(
         displayName: 'Jan Kowalski',
         trade: 'Hydraulika',
-        description: 'Awarie na Olechowie',
+        description: 'Awarie w okolicy',
         rateLabel: 'od 120 zł',
       ),
     );
@@ -141,7 +142,7 @@ void main() {
           id: 'fresh',
           title: 'Nowe zlecenie',
           description: 'Dziś',
-          subDistrict: 'Olechów',
+          subDistrict: 'okolica',
           clientName: 'Kasia',
           createdAt: DateTime(2026, 10, 20),
         ),
@@ -149,7 +150,7 @@ void main() {
           id: 'stale',
           title: 'Stare zlecenie',
           description: 'Sprzed miesiąca',
-          subDistrict: 'Janów',
+          subDistrict: 'okolica',
           clientName: 'Marek',
           createdAt: DateTime(2026, 9, 1),
         ),
@@ -210,11 +211,11 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('Katalog Fachowców'), findsOneWidget);
-    expect(find.text('Hydraulik Olechów – Marek Nowak'), findsOneWidget);
+    expect(find.text('Hydraulik – Marek Nowak'), findsOneWidget);
     expect(find.text('Gwarancja Jakości'), findsWidgets);
     expect(find.text('Szukam Fachowca'), findsOneWidget);
     expect(find.text('Ulubieni'), findsOneWidget);
-    expect(find.byKey(const ValueKey('district-filter-Janów')), findsNothing);
+    expect(find.byKey(const ValueKey('district-filter-okolica')), findsNothing);
     expect(find.text('Osiedle'), findsNothing);
   });
 
@@ -246,7 +247,7 @@ void main() {
       card: const TradespersonCard(
         displayName: 'Jan Kowalski',
         trade: 'Hydraulika',
-        description: 'Awarie na Olechowie',
+        description: 'Awarie w okolicy',
         rateLabel: 'od 120 zł',
       ),
     );
@@ -258,6 +259,7 @@ void main() {
           jobRequests: const [],
           onRenew: () {},
           onListingPublishedChanged: (_) {},
+          offer: ProOffer.fallback,
         ),
       ),
     );
@@ -267,6 +269,8 @@ void main() {
     expect(find.text('Aktywny'), findsWidgets);
     expect(find.text('Przedłuż subskrypcję'), findsOneWidget);
     expect(find.textContaining('Pozostało'), findsOneWidget);
+    expect(find.text('Przywróć zakupy'), findsOneWidget);
+    expect(find.text(ProProduct.fallbackPriceLabel), findsOneWidget);
   });
 
   testWidgets('PRO benefits and tradesperson profile render', (tester) async {
@@ -308,10 +312,10 @@ void main() {
               id: 'mine-listing',
               displayName: 'Jan Kowalski',
               trade: 'Hydraulika',
-              description: 'Awarie na Olechowie',
+              description: 'Awarie w okolicy',
               rateLabel: 'od 120 zł',
               phone: '+48 600 000 000',
-              subDistrict: 'Olechów',
+              subDistrict: 'okolica',
               isPro: false,
               isMine: true,
             ),
@@ -338,12 +342,12 @@ void main() {
           body: TradespersonListingCard(
             listing: const TradespersonListing(
               id: 'pro-hydraulik-olechow',
-              displayName: 'Hydraulik Olechów – Marek Nowak',
+              displayName: 'Hydraulik – Marek Nowak',
               trade: 'Hydraulika',
               description: 'Awarie',
               rateLabel: 'od 120 zł',
               phone: '+48 600 111 222',
-              subDistrict: 'Olechów',
+              subDistrict: 'okolica',
             ),
             isFavorite: false,
             onOpen: () {},
@@ -370,6 +374,7 @@ void main() {
           jobRequests: const [],
           onRenew: () {},
           onListingPublishedChanged: (_) {},
+          offer: ProOffer.fallback,
         ),
       ),
     );

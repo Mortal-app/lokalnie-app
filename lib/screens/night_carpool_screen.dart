@@ -54,7 +54,7 @@ class _NightCarpoolScreenState extends State<NightCarpoolScreen> {
         padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
-            'Powroty z nocnych imprez w centrum Łodzi oraz weekendowe wyjazdy poza miasto.',
+            'Powroty z nocnych imprez w centrum miasta oraz weekendowe wyjazdy poza miasto.',
           ),
           const SizedBox(height: 12),
           for (final item in _items)

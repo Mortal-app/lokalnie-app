@@ -25,7 +25,7 @@ class BulkWasteReport {
     return BulkWasteReport(
       id: json['id'] as String? ?? '',
       item: json['item'] as String? ?? '',
-      place: json['place'] as String? ?? 'Widzew',
+      place: json['place'] as String? ?? 'Okolica',
       pickupLabel: json['pickupLabel'] as String? ?? 'Harmonogram MPO',
       authorName: json['authorName'] as String? ?? 'Sąsiad',
     );
@@ -35,14 +35,14 @@ class BulkWasteReport {
     BulkWasteReport(
       id: 'bw-sofa',
       item: 'Stara sofa przy śmietniku A',
-      place: 'Rokicińska 140',
-      pickupLabel: 'Odbiór MPO Łódź: wtorek 4.11, od 6:00',
+      place: 'Główna 140',
+      pickupLabel: 'Odbiór MPO: wtorek 4.11, od 6:00',
       authorName: 'Sąsiad z Wschodu',
     ),
     BulkWasteReport(
       id: 'bw-szafa',
       item: 'Szafa drewniana — wystawiona przy klatce',
-      place: 'Olechów, klatka V',
+      place: 'okolica, klatka V',
       pickupLabel: 'Gabaryty: pierwszy wtorek miesiąca',
       authorName: 'Kasia',
     ),

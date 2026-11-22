@@ -23,7 +23,11 @@ class _SchoolBooksScreenState extends State<SchoolBooksScreen> {
   late List<SchoolBookListing> _items;
   String? _school;
 
-  static const _schools = ['SP 114', 'SP 34', 'SP 141'];
+  static const _schools = [
+    'Szkoła podstawowa 1',
+    'Szkoła podstawowa 2',
+    'Szkoła podstawowa 3',
+  ];
 
   @override
   void initState() {
@@ -110,7 +114,7 @@ class _BookDialog extends StatefulWidget {
 
 class _BookDialogState extends State<_BookDialog> {
   final _title = TextEditingController();
-  var _school = 'SP 114';
+  var _school = 'Szkoła podstawowa 1';
   var _grade = 'klasa 4';
 
   @override
@@ -130,9 +134,18 @@ class _BookDialogState extends State<_BookDialog> {
             DropdownButtonFormField<String>(
               initialValue: _school,
               items: const [
-                DropdownMenuItem(value: 'SP 114', child: Text('SP 114')),
-                DropdownMenuItem(value: 'SP 34', child: Text('SP 34')),
-                DropdownMenuItem(value: 'SP 141', child: Text('SP 141')),
+                DropdownMenuItem(
+                  value: 'Szkoła podstawowa 1',
+                  child: Text('Szkoła podstawowa 1'),
+                ),
+                DropdownMenuItem(
+                  value: 'Szkoła podstawowa 2',
+                  child: Text('Szkoła podstawowa 2'),
+                ),
+                DropdownMenuItem(
+                  value: 'Szkoła podstawowa 3',
+                  child: Text('Szkoła podstawowa 3'),
+                ),
               ],
               onChanged: (value) {
                 if (value != null) setState(() => _school = value);

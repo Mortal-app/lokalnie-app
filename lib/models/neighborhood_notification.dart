@@ -148,7 +148,7 @@ class LocalNotificationMock {
         final newest = newestOnDistrict.first;
         items.add(
           NeighborhoodNotification(
-            title: 'Nowe ogłoszenie na osiedlu $userSubDistrict',
+            title: 'Nowe ogłoszenie w Twojej okolicy',
             body: '${newest.category} · ${newest.subDistrict}',
             createdAt: newest.publishedAt,
             icon: Icons.campaign_outlined,
@@ -168,7 +168,7 @@ class LocalNotificationMock {
         );
         items.add(
           NeighborhoodNotification(
-            title: 'Uwaga: utrudnienia na ul. Puszkina',
+            title: 'Uwaga: utrudnienia na ul. Parkowa',
             body:
                 'Objazdy i utrudnienia w rejonie $userSubDistrict. Zachowaj ostrożność.',
             createdAt: DateTime(2026, 10, 13, 7, 45),

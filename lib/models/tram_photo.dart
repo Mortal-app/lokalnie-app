@@ -30,14 +30,14 @@ class TramPhotoClip {
   static List<TramPhotoClip> seeded() => const [
     TramPhotoClip(
       id: 'tp-petla',
-      title: 'Dawna pętla na Widzewie Wschodzie',
+      title: 'Dawna pętla w okolicy',
       era: 'lata 80.',
       caption:
           'Rozjazdy i wagon 805Na na pętli — opis zdjęcia archiwalnego, bez pliku.',
     ),
     TramPhotoClip(
       id: 'tp-olech',
-      title: 'Pętla i tory w stronę Olechowa',
+      title: 'Pętla i tory w stronę okolicy',
       era: 'lata 90.',
       caption: 'Linia na wschód Łodzi, zajezdnia w tle, commuters przy słupku.',
     ),

@@ -46,7 +46,7 @@ class CarpoolRide {
       seats: json['seats'] as int? ?? 1,
       seekingSeat: json['seekingSeat'] as bool? ?? false,
       authorName: json['authorName'] as String? ?? 'Sąsiad',
-      subDistrict: json['subDistrict'] as String? ?? 'Widzew Wschód',
+      subDistrict: json['subDistrict'] as String? ?? 'Twoja okolica',
       note: json['note'] as String? ?? '',
     );
   }
@@ -54,25 +54,25 @@ class CarpoolRide {
   static List<CarpoolRide> seeded() => const [
     CarpoolRide(
       id: 'ride-olechow',
-      title: 'Codzienny dojazd do centrum Łodzi z Olechowa o 7:30',
-      fromPlace: 'Olechów',
+      title: 'Codzienny dojazd do centrum miasta z okolicy o 7:30',
+      fromPlace: 'Twoja okolica',
       toPlace: 'Centrum Łodzi',
       time: '7:30',
       seats: 2,
-      authorName: 'Sąsiadka z Olechowa',
-      subDistrict: 'Olechów',
+      authorName: 'Sąsiadka',
+      subDistrict: 'Twoja okolica',
       note: 'Poniedziałek–piątek, parking przy galerii.',
     ),
     CarpoolRide(
       id: 'ride-seat',
       title: 'Szukam kogoś na wolne miejsce w aucie',
-      fromPlace: 'Widzew Wschód',
+      fromPlace: 'Twoja okolica',
       toPlace: 'Manufaktura / Śródmieście',
       time: '8:00',
       seats: 1,
       seekingSeat: true,
-      authorName: 'Sąsiad z Widzewa Wschód',
-      subDistrict: 'Widzew Wschód',
+      authorName: 'Sąsiad',
+      subDistrict: 'Twoja okolica',
       note: 'Mogę dołożyć się do paliwa.',
     ),
   ];

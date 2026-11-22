@@ -22,7 +22,7 @@ class PhoneChargeScreen extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(16, 12, 16, 80),
         children: [
           const Text(
-            'Punkty awaryjnego podładowania smartfona — biblioteki, domy kultury i przestrzeń publiczna Widzewa.',
+            'Punkty awaryjnego podładowania smartfona — biblioteki, domy kultury i przestrzeń publiczna.',
           ),
           const SizedBox(height: 12),
           SizedBox(

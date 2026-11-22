@@ -55,7 +55,7 @@ class TimeBankOffer {
       want: json['want'] as String? ?? '',
       hours: json['hours'] as int? ?? 1,
       authorName: json['authorName'] as String? ?? 'Sąsiad',
-      subDistrict: json['subDistrict'] as String? ?? 'Widzew Wschód',
+      subDistrict: json['subDistrict'] as String? ?? 'Twoja okolica',
       isNeed: json['isNeed'] as bool? ?? false,
       isCompleted: json['isCompleted'] as bool? ?? false,
     );
@@ -68,8 +68,8 @@ class TimeBankOffer {
       offer: 'Dam 1h korepetycji z angielskiego',
       want: 'w zamian za skoszenie trawnika',
       hours: 1,
-      authorName: 'Sąsiadka z Olechowa',
-      subDistrict: 'Olechów',
+      authorName: 'Sąsiadka',
+      subDistrict: 'Twoja okolica',
     ),
     TimeBankOffer(
       id: 'tb-pralka',
@@ -77,8 +77,8 @@ class TimeBankOffer {
       offer: 'Odwdzięczę się kawą i godziną pomocy w domu',
       want: 'Kto pomoże wnieść pralkę na 3 piętro?',
       hours: 1,
-      authorName: 'Sąsiad z Widzewa Wschód',
-      subDistrict: 'Widzew Wschód',
+      authorName: 'Sąsiad',
+      subDistrict: 'Twoja okolica',
       isNeed: true,
     ),
   ];

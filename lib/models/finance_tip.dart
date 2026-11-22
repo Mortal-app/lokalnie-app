@@ -50,7 +50,7 @@ class FinanceTip {
       kind: FinanceTipKind.energyTariff,
       title: 'Taryfa G12 — pralka po 22:00',
       body:
-          'Na Widzewie wielu sąsiadów schodzi na G12: pranie i bojler w tańszej strefie.',
+          'W okolicy wielu sąsiadów schodzi na G12: pranie i bojler w tańszej strefie.',
       authorName: 'Basia',
     ),
     FinanceTip(

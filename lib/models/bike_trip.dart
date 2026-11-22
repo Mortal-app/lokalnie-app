@@ -49,16 +49,16 @@ class BikeTrip {
   static List<BikeTrip> seeded() => const [
     BikeTrip(
       id: 'bt-jasien',
-      title: 'Wzdłuż rzeki Jasień',
-      route: 'Park nad Jasieniem → stawki przy Olechowie',
+      title: 'Wzdłuż rzeki',
+      route: 'Park nad rzeką → stawki przy osiedlu',
       whenLabel: 'Sobota 9:00',
-      host: 'Klub rowerowy Widzew',
+      host: 'Klub rowerowy okolica',
       going: 6,
     ),
     BikeTrip(
       id: 'bt-lag',
-      title: 'Do Łagiewnik lasem',
-      route: 'Widzew → Las Łagiewnicki (pętla)',
+      title: 'Do lasu',
+      route: 'okolica → las (pętla)',
       whenLabel: 'Niedziela 8:30',
       host: 'Bartek',
       going: 4,

@@ -46,7 +46,7 @@ class FireSafetyReport {
     FireSafetyReport(
       id: 'fs-wyjscie',
       kind: FireHazardKind.blockedExit,
-      place: 'Klatka II, Widzew Wschód — parter',
+      place: 'Klatka II, osiedle wschodnie — parter',
       note: 'Rowery przy drzwiach ewakuacyjnych — proszę o interwencję.',
       authorName: 'Pan Marek',
     ),

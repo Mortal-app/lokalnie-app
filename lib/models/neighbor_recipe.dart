@@ -62,7 +62,7 @@ class NeighborRecipe {
     NeighborRecipe(
       id: 'rec-zurek',
       kind: RecipeKind.dinner,
-      title: 'Żurek na zakwasie z Olechowa',
+      title: 'Żurek na zakwasie z okolicy',
       body: 'Zakwas 3 dni, kiełbasa z osiedlowego, majeranek. Na 6 talerzy.',
       authorName: 'Kasia',
     ),

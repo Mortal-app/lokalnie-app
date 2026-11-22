@@ -5,17 +5,39 @@ class OfflineBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return const StatusBanner(
+      icon: Icons.wifi_off,
+      message: 'Tryb offline — przeglądasz dane zapisane lokalnie.',
+      color: Color(0xFF5D4037),
+    );
+  }
+}
+
+class StatusBanner extends StatelessWidget {
+  final IconData icon;
+  final String message;
+  final Color color;
+
+  const StatusBanner({
+    super.key,
+    required this.icon,
+    required this.message,
+    required this.color,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     return Material(
-      color: const Color(0xFF5D4037),
+      color: color,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         child: Row(
           children: [
-            const Icon(Icons.wifi_off, color: Colors.white, size: 18),
+            Icon(icon, color: Colors.white, size: 18),
             const SizedBox(width: 10),
             Expanded(
               child: Text(
-                'Tryb offline — przeglądasz dane zapisane lokalnie.',
+                message,
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
                   color: Colors.white,
                   fontWeight: FontWeight.w600,

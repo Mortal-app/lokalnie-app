@@ -48,7 +48,7 @@ class GenerationBridgeOffer {
     GenerationBridgeOffer(
       id: 'gb-szyd',
       kind: BridgeKind.seniorShare,
-      title: 'Szydełkowanie i opowieści o starym Widzewie — czwartek',
+      title: 'Szydełkowanie i opowieści o starym osiedlu — czwartek',
       authorName: 'Pani Krysia',
     ),
   ];

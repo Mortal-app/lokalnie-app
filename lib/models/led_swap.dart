@@ -22,7 +22,7 @@ class LedSwapItem {
     return LedSwapItem(
       id: json['id'] as String? ?? '',
       title: json['title'] as String? ?? '',
-      place: json['place'] as String? ?? 'Widzew',
+      place: json['place'] as String? ?? 'Okolica',
       authorName: json['authorName'] as String? ?? 'Sąsiad',
     );
   }
@@ -31,13 +31,13 @@ class LedSwapItem {
     LedSwapItem(
       id: 'led-e27',
       title: 'Żarówki LED E27 9 W — 4 sztuki po remoncie',
-      place: 'Klatka II, Widzew Wschód',
+      place: 'Klatka II, osiedle wschodnie',
       authorName: 'Arek',
     ),
     LedSwapItem(
       id: 'led-g4',
       title: 'Pozostałe halogeny LED do szafek kuchennych',
-      place: 'Olechów',
+      place: 'Okolica',
       authorName: 'Kasia',
     ),
   ];

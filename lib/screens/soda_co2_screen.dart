@@ -22,7 +22,7 @@ class SodaCo2Screen extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(16, 12, 16, 80),
         children: [
           const Text(
-            'Punkty nabijania i wymiany różowych oraz niebieskich cylindrów CO2 do syfonów i saturatorów na Widzewie.',
+            'Punkty nabijania i wymiany różowych oraz niebieskich cylindrów CO2 do syfonów i saturatorów w Twojej okolicy.',
           ),
           const SizedBox(height: 12),
           SizedBox(

@@ -71,7 +71,7 @@ class _SlabMuseumScreenState extends State<SlabMuseumScreen> {
         padding: const EdgeInsets.fromLTRB(16, 12, 16, 80),
         children: [
           const Text(
-            'Galeria etapów Widzewa Wschodu i Olechowa. Seniorzy — dodajcie wspomnienie.',
+            'Galeria etapów okolicy. Seniorzy — dodajcie wspomnienie.',
           ),
           const SizedBox(height: 12),
           for (final item in _items)

@@ -22,7 +22,7 @@ class _GreenPathsScreenState extends State<GreenPathsScreen> {
         padding: const EdgeInsets.fromLTRB(16, 12, 16, 80),
         children: [
           const Text(
-            'Mniej znane zakątki przyrodnicze wschodniej Łodzi — dotknij, by rozwinąć opis.',
+            'Mniej znane zakątki przyrodnicze wschodniej części miasta — dotknij, by rozwinąć opis.',
           ),
           const SizedBox(height: 12),
           for (final spot in widget.spots)

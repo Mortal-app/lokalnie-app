@@ -44,7 +44,7 @@ class ClassicCarMeetup {
       ),
       title: json['title'] as String? ?? '',
       whenText: json['whenText'] as String? ?? '',
-      place: json['place'] as String? ?? 'Widzew',
+      place: json['place'] as String? ?? 'Okolica',
       authorName: json['authorName'] as String? ?? 'Kierowca',
     );
   }
@@ -53,17 +53,17 @@ class ClassicCarMeetup {
     ClassicCarMeetup(
       id: 'cc-maluch',
       kind: ClassicCarKind.fiat126p,
-      title: 'Spot maluchów na parkingu przy Piłsudskiego',
+      title: 'Spot maluchów na parkingu przy głównej arterii',
       whenText: 'Niedziela 9:00',
-      place: 'Widzew Wschód',
+      place: 'Okolica',
       authorName: 'Zbyszek',
     ),
     ClassicCarMeetup(
       id: 'cc-polonez',
       kind: ClassicCarKind.polonez,
-      title: 'Polonez + Duży Fiat — kawa na Olechowie',
+      title: 'Polonez + Duży Fiat — kawa w okolicy',
       whenText: 'Sobota 16:00',
-      place: 'Olechów, przy pawilonie',
+      place: 'okolica, przy pawilonie',
       authorName: 'Jarek',
     ),
   ];

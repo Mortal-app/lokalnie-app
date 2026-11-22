@@ -54,7 +54,7 @@ class _VinylSwapScreenState extends State<VinylSwapScreen> {
         padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
-            'Wymiana i sprzedaż winyli, CD i kaset magnetofonowych — kolekcjonerzy z Widzewa.',
+            'Wymiana i sprzedaż winyli, CD i kaset magnetofonowych — kolekcjonerzy z okolicy.',
           ),
           const SizedBox(height: 12),
           for (final item in _items)

@@ -42,7 +42,7 @@ class SmogFilterOffer {
     SmogFilterOffer(
       id: 'sf-hepa',
       kind: SmogFilterKind.purifier,
-      title: 'Zbiorczy zakup filtrów HEPA — 4 sztuki, Olechów',
+      title: 'Zbiorczy zakup filtrów HEPA — 4 sztuki, okolica',
       authorName: 'Kasia',
     ),
     SmogFilterOffer(

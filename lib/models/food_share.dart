@@ -41,7 +41,7 @@ class FoodShareOffer {
           : FoodShareKind.partyLeftovers,
       title: json['title'] as String? ?? '',
       whenLabel: json['whenLabel'] as String? ?? '',
-      place: json['place'] as String? ?? 'Widzew',
+      place: json['place'] as String? ?? 'Okolica',
       authorName: json['authorName'] as String? ?? 'Sąsiad',
     );
   }
@@ -52,7 +52,7 @@ class FoodShareOffer {
       kind: FoodShareKind.partyLeftovers,
       title: 'Zostały kanapki i ciasto po imieninach klatki',
       whenLabel: 'Dziś do 21:00',
-      place: 'Klatka I, Rokicińska',
+      place: 'Klatka I, Główna',
       authorName: 'Halina',
     ),
     FoodShareOffer(
@@ -60,7 +60,7 @@ class FoodShareOffer {
       kind: FoodShareKind.homemadeDinner,
       title: 'Garnek barszczu — chętnie podzielę się z sąsiadem',
       whenLabel: 'Jutro 13:00',
-      place: 'Stary Widzew',
+      place: 'Okolica',
       authorName: 'Pani Krysia',
     ),
   ];

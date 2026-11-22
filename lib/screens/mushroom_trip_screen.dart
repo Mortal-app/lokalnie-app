@@ -42,7 +42,7 @@ class _MushroomTripScreenState extends State<MushroomTripScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Grzyby i Las Łagiewnicki')),
+      appBar: AppBar(title: const Text('Grzyby i lasy okolicy')),
       floatingActionButton: WidzewUi.safeFab(
         FloatingActionButton.extended(
         onPressed: _add,
@@ -130,15 +130,15 @@ class _TripDialogState extends State<_TripDialog> {
               MushroomTrip(
                 id: 'mt-${DateTime.now().millisecondsSinceEpoch}',
                 title: _title.text.trim().isEmpty
-                    ? 'Grzybobranie w Łagiewnikach'
+                    ? 'Grzybobranie w lesie'
                     : _title.text.trim(),
                 whenText: _when.text.trim().isEmpty
                     ? 'Sobota rano'
                     : _when.text.trim(),
                 meetingPoint: _meet.text.trim().isEmpty
-                    ? 'Pętla Widzew Wschód'
+                    ? 'Pętla osiedlowa'
                     : _meet.text.trim(),
-                forest: 'Las Łagiewnicki',
+                forest: 'Las okolicy',
                 authorName: widget.userName,
               ),
             );

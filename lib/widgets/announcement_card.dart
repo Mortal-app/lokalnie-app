@@ -37,6 +37,7 @@ class AnnouncementCard extends StatelessWidget {
   bool get _isAlert {
     final category = announcement.category.toLowerCase();
     return category == Announcement.wildlifeCategory.toLowerCase() ||
+        category == Announcement.alertCategory.toLowerCase() ||
         category.contains('uwaga') ||
         category.contains('ostrze');
   }
@@ -236,17 +237,16 @@ class AnnouncementCard extends StatelessWidget {
                                     ),
                                   ),
                                 ),
-                              if (resolved)
-                                const Chip(
-                                  visualDensity: VisualDensity.compact,
-                                  label: Text(
-                                    'Załatwione',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 11,
-                                    ),
+                              Chip(
+                                visualDensity: VisualDensity.compact,
+                                label: Text(
+                                  announcement.status.label,
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 11,
                                   ),
                                 ),
+                              ),
                               Chip(
                                 visualDensity: VisualDensity.compact,
                                 label: Text(

@@ -135,7 +135,7 @@ class _FoodDialogState extends State<_FoodDialog> {
                     ? _kind.label
                     : _title.text.trim(),
                 whenLabel: 'Dziś',
-                place: 'Widzew',
+                place: 'Okolica',
                 authorName: widget.userName,
               ),
             );

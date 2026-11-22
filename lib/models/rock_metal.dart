@@ -49,7 +49,7 @@ class RockMetalPost {
       id: 'rm-atlas',
       kind: RockPostKind.concert,
       title: 'Atlas Arena — zapowiedź koncertu',
-      body: 'Wspólny dojazd z pętli Widzew. Bilety we własnym zakresie.',
+      body: 'Wspólny dojazd z pętli okolica. Bilety we własnym zakresie.',
       authorName: 'Piotr',
     ),
     RockMetalPost(

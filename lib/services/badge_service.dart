@@ -15,7 +15,6 @@ class BadgeIds {
   static const ecoResident = 'eco_resident';
   static const localExpert = 'local_expert';
   static const fastDeal = 'fast_deal';
-  static const garageKing = 'garage_king';
   static const goldenHand = 'golden_hand';
   static const watchfulEye = 'watchful_eye';
   static const popularNeighbor = 'popular_neighbor';
@@ -89,7 +88,6 @@ class BadgeManager {
     final ids = <String>[];
     if (createdCount >= 1) ids.add(BadgeIds.firstListing);
     if (createdCount >= 5) ids.add(BadgeIds.localExpert);
-    if (NeighborAchievements.isGarageKing(item)) ids.add(BadgeIds.garageKing);
     if (item.isHelp) ids.add(BadgeIds.helpfulHand);
     if (NeighborAchievements.isGoldenHand(item)) ids.add(BadgeIds.goldenHand);
     if (item.isFree) ids.add(BadgeIds.ecoResident);
@@ -135,7 +133,6 @@ class BadgeManager {
       solvedCityReport: solvedCityReport,
     );
     if (achievements.fastDeal) ids.add(BadgeIds.fastDeal);
-    if (achievements.garageKing) ids.add(BadgeIds.garageKing);
     if (achievements.goldenHand) ids.add(BadgeIds.goldenHand);
     if (achievements.watchfulEye) ids.add(BadgeIds.watchfulEye);
     if (achievements.popularNeighbor) ids.add(BadgeIds.popularNeighbor);
@@ -158,7 +155,6 @@ class BadgeManager {
       BadgeIds.ecoResident => context.tr('badgeEcoTitle'),
       BadgeIds.localExpert => context.tr('badgeExpertTitle'),
       BadgeIds.fastDeal => context.tr('badgeFastDealTitle'),
-      BadgeIds.garageKing => context.tr('badgeGarageKingTitle'),
       BadgeIds.goldenHand => context.tr('badgeGoldenHandTitle'),
       BadgeIds.watchfulEye => context.tr('badgeWatchfulEyeTitle'),
       BadgeIds.popularNeighbor => context.tr('badgePopularTitle'),

@@ -158,7 +158,7 @@ class _EvDialogState extends State<_EvDialog> {
                 title: _title.text.trim().isEmpty
                     ? _kind.label
                     : _title.text.trim(),
-                place: 'Widzew',
+                place: 'Okolica',
                 hours: 'Po 18:00',
                 authorName: widget.userName,
               ),

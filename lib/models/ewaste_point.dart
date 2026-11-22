@@ -54,14 +54,14 @@ class EwastePoint {
       id: 'ew-bat',
       kind: EwasteKind.battery,
       name: 'Kosz na baterie — market',
-      place: 'Przy kasach, Widzew Wschód',
+      place: 'Przy kasach, osiedle wschodnie',
       pos: StationAlign.topLeft,
     ),
     EwastePoint(
       id: 'ew-agd',
       kind: EwasteKind.smallAgd,
       name: 'Punkt spółdzielni — małe AGD',
-      place: 'Administracja Olechów',
+      place: 'Administracja okolica',
       pos: StationAlign.bottomRight,
     ),
   ];

@@ -56,7 +56,7 @@ class DiscoRetroPost {
       id: 'dr-dom',
       kind: DiscoKind.houseParty,
       title: 'Domówka w klimacie disco 90',
-      body: 'Olechów, blok, cisza po 22. Przynieś playlistę na pendrive.',
+      body: 'okolica, blok, cisza po 22. Przynieś playlistę na pendrive.',
       authorName: 'Piotr',
     ),
   ];

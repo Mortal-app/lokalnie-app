@@ -65,7 +65,7 @@ class BookOffer {
         orElse: () => BookOfferTerms.exchange,
       ),
       ownerName: json['ownerName'] as String? ?? 'Sąsiad',
-      subDistrict: json['subDistrict'] as String? ?? 'Widzew Wschód',
+      subDistrict: json['subDistrict'] as String? ?? 'Twoja okolica',
       note: json['note'] as String? ?? '',
     );
   }
@@ -77,8 +77,8 @@ class BookOffer {
       author: 'Stanisław Lem',
       genre: BookGenre.literature,
       terms: BookOfferTerms.exchange,
-      ownerName: 'Sąsiad z Widzewa Wschód',
-      subDistrict: 'Widzew Wschód',
+      ownerName: 'Sąsiad',
+      subDistrict: 'Twoja okolica',
       note: 'Chętnie wymienie na inną fantastykę.',
     ),
     BookOffer(
@@ -87,9 +87,9 @@ class BookOffer {
       author: 'Zygmunt Miłoszewski',
       genre: BookGenre.crime,
       terms: BookOfferTerms.lend,
-      ownerName: 'Sąsiadka z Olechowa',
-      subDistrict: 'Olechów',
-      note: 'Na dwa tygodnie, odbiór na Olechowie.',
+      ownerName: 'Sąsiadka',
+      subDistrict: 'Twoja okolica',
+      note: 'Na dwa tygodnie, odbiór w okolicy.',
     ),
     BookOffer(
       id: 'book-kids',
@@ -97,8 +97,8 @@ class BookOffer {
       author: 'Czesław Janczarski',
       genre: BookGenre.children,
       terms: BookOfferTerms.free,
-      ownerName: 'Sąsiad z Janowa',
-      subDistrict: 'Janów',
+      ownerName: 'Sąsiad',
+      subDistrict: 'Twoja okolica',
       note: 'Po naszym maluchu, stan dobry.',
     ),
     BookOffer(
@@ -107,8 +107,8 @@ class BookOffer {
       author: 'Podręcznik szkolny',
       genre: BookGenre.textbook,
       terms: BookOfferTerms.free,
-      ownerName: 'Sąsiadka ze Starego Widzewa',
-      subDistrict: 'Stary Widzew',
+      ownerName: 'Sąsiadka',
+      subDistrict: 'Twoja okolica',
     ),
   ];
 }

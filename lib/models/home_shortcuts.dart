@@ -24,7 +24,8 @@ class HomeShortcuts {
     final seen = <String>{};
     final ordered = <String>[];
     for (final id in tileOrder) {
-      if (defaults.contains(id) && seen.add(id)) ordered.add(id);
+      final mapped = id == 'Więcej' ? 'Inne' : id;
+      if (defaults.contains(mapped) && seen.add(mapped)) ordered.add(mapped);
     }
     for (final id in defaults) {
       if (seen.add(id)) ordered.add(id);

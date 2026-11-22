@@ -45,7 +45,11 @@ class HomeFeedCategory {
     id: 'zwierzaki',
     tileId: 'Zwierzaki',
     title: 'Opieka nad zwierzętami',
-    aliases: ['zwierzaki', 'Zwierzaki'],
+    aliases: [
+      'zwierzaki',
+      Announcement.petCategory,
+      Announcement.wildlifeCategory,
+    ],
   );
 
   static const zgubione = HomeFeedCategory(
@@ -75,6 +79,7 @@ class HomeFeedCategory {
     title: 'Alerty / awarie',
     aliases: [
       'alerty_awarie',
+      Announcement.alertCategory,
       Announcement.wildlifeCategory,
       'Uwaga/Ostrzeżenie',
     ],
@@ -103,9 +108,9 @@ class HomeFeedCategory {
 
   static const wiecej = HomeFeedCategory(
     id: 'wiecej',
-    tileId: 'Więcej',
-    title: 'Więcej',
-    aliases: ['wiecej', 'Więcej'],
+    tileId: 'Inne',
+    title: 'Inne',
+    aliases: ['wiecej', 'Więcej', Announcement.otherCategory],
   );
 
   static const all = [
@@ -126,12 +131,7 @@ class HomeFeedCategory {
   static List<HomeFeedCategory> get exclusiveFilters =>
       all.where((item) => item.id != wiecej.id).toList();
 
-  static HomeFeedCategory? byTile(String tileId) {
-    for (final item in all) {
-      if (item.tileId == tileId) return item;
-    }
-    return null;
-  }
+  static HomeFeedCategory? byTile(String tileId) => resolve(tileId);
 
   static HomeFeedCategory? resolve(String? value) {
     if (value == null || value.isEmpty) return null;

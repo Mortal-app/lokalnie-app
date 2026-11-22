@@ -16,12 +16,12 @@ class JasienGuideScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Park nad Jasieniem')),
+      appBar: AppBar(title: const Text('Park nad rzeką')),
       body: ListView(
         padding: const EdgeInsets.fromLTRB(16, 12, 16, 80),
         children: [
           const Text(
-            'Mini-przewodnik po zieleni Widzewa: ścieżki rowerowe i miejsca wypoczynku.',
+            'Mini-przewodnik po lokalnej zieleni: ścieżki rowerowe i miejsca wypoczynku.',
           ),
           const SizedBox(height: 12),
           SizedBox(
@@ -38,7 +38,7 @@ class JasienGuideScreen extends StatelessWidget {
                     left: 8,
                     top: 8,
                     child: Text(
-                      'Mapka ścieżek — Jasień',
+                      'Mapka ścieżek zieleni',
                       style: TextStyle(fontWeight: FontWeight.w600),
                     ),
                   ),

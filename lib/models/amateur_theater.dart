@@ -36,14 +36,14 @@ class AmateurTheaterMeetup {
       id: 'at-poe',
       title: 'Czytanie poezji — wieczór w świetlicy',
       whenText: 'Piątek 18:00',
-      place: 'Świetlica spółdzielni, Widzew Wschód',
+      place: 'Świetlica spółdzielni, osiedle wschodnie',
       authorName: 'Ola',
     ),
     AmateurTheaterMeetup(
       id: 'at-eti',
       title: 'Małe formy — etiudy amatorskie',
       whenText: 'Środa 17:30',
-      place: 'Klub osiedlowy, Olechów',
+      place: 'Klub osiedlowy, okolica',
       authorName: 'Bartek',
     ),
   ];

@@ -2,9 +2,9 @@ import 'announcement.dart';
 
 class NeighborhoodStreet {
   static const selectable = [
-    'Puszkina',
-    'Rokicińska',
-    'Przybyszewskiego',
+    'Parkowa',
+    'Główna',
+    'Szkolna',
   ];
 
   static bool matchesAnnouncement(

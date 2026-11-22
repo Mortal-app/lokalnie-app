@@ -20,7 +20,7 @@ class WidzewSkinScreen extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(16, 12, 16, 80),
         children: [
           const Text(
-            'Kolorystyka nawiązująca do miejsc Widzewa. Tryb jasny/ciemny zostaje bez zmian.',
+            'Kolorystyka nawiązująca do miejsc okolicy. Tryb jasny/ciemny zostaje bez zmian.',
           ),
           const SizedBox(height: 12),
           for (final skin in WidzewSkinX.palette)

@@ -52,7 +52,7 @@ class _SchoolEcoScreenState extends State<SchoolEcoScreen> {
         padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
-            'Puszki, nakrętki i makulatura — akcje szkół na Widzewie (SP 114, 34, 141).',
+            'Puszki, nakrętki i makulatura — akcje szkół w Twojej okolicy.',
           ),
           const SizedBox(height: 12),
           for (final item in _items)
@@ -134,7 +134,7 @@ class _EcoDialogState extends State<_EcoDialog> {
                 id: 'se-${DateTime.now().millisecondsSinceEpoch}',
                 kind: _kind,
                 school: _school.text.trim().isEmpty
-                    ? 'Szkoła na Widzewie'
+                    ? 'Szkoła w Twojej okolicy'
                     : _school.text.trim(),
                 title: _title.text.trim().isEmpty
                     ? _kind.label

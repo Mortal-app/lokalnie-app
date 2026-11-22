@@ -1,11 +1,11 @@
 {
-    "name": "Lokalnie Widzew",
-    "short_name": "Lokalnie Widzew",
+    "name": "Lokalnie",
+    "short_name": "Lokalnie",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "Lokalnie Widzew — ogłoszenia sąsiedzkie dla Widzewa, Olechowa i Janowa.",
+    "description": "Lokalnie — ogłoszenia sąsiedzkie.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

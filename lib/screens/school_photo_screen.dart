@@ -10,12 +10,12 @@ class SchoolPhotoScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Dawne szkoły Widzewa')),
+      appBar: AppBar(title: const Text('Dawne szkoły okolicy')),
       body: ListView(
         padding: const EdgeInsets.fromLTRB(16, 12, 16, 80),
         children: [
           const Text(
-            'Galeria opisów historycznych zdjęć budynków szkół podstawowych i liceów wschodniej Łodzi — bez plików graficznych.',
+            'Galeria opisów historycznych zdjęć budynków szkół podstawowych i liceów wschodniej części miasta — bez plików graficznych.',
           ),
           const SizedBox(height: 12),
           for (final item in items)

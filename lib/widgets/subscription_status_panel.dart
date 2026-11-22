@@ -6,12 +6,14 @@ import '../theme/widzew_ui.dart';
 class SubscriptionStatusPanel extends StatelessWidget {
   final TradespersonAccount account;
   final VoidCallback onRenew;
+  final VoidCallback? onRestore;
   final VoidCallback? onOpenDetails;
 
   const SubscriptionStatusPanel({
     super.key,
     required this.account,
     required this.onRenew,
+    this.onRestore,
     this.onOpenDetails,
   });
 
@@ -63,6 +65,15 @@ class SubscriptionStatusPanel extends StatelessWidget {
                 active ? 'Przedłuż subskrypcję' : 'Aktywuj abonament PRO',
               ),
             ),
+            if (onRestore != null) ...[
+              const SizedBox(height: 8),
+              OutlinedButton.icon(
+                key: const ValueKey('restore-pro-purchases'),
+                onPressed: onRestore,
+                icon: const Icon(Icons.restore),
+                label: const Text('Przywróć zakupy'),
+              ),
+            ],
             if (onOpenDetails != null)
               TextButton(
                 onPressed: onOpenDetails,

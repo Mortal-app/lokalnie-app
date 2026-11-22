@@ -48,12 +48,12 @@ class _CraftMakersScreenState extends State<CraftMakersScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Rzemiosło i rękodzieło z Widzewa')),
+      appBar: AppBar(title: const Text('Rzemiosło i rękodzieło z okolicy')),
       floatingActionButton: WidzewUi.safeFab(
         FloatingActionButton.extended(
         onPressed: _add,
         icon: const Icon(Icons.handshake_outlined),
-        label: const Text('Jestem lokalnym twórcą z Widzewa'),
+        label: const Text('Jestem lokalnym twórcą z okolicy'),
       ),
       ),
       body: ListView(
@@ -115,7 +115,7 @@ class _MakerDialogState extends State<_MakerDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('Jestem lokalnym twórcą z Widzewa'),
+      title: const Text('Jestem lokalnym twórcą z okolicy'),
       content: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,

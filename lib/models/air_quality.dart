@@ -32,7 +32,7 @@ class AirSensorReading {
     return AirSensorReading(
       id: json['id'] as String? ?? '',
       name: json['name'] as String? ?? '',
-      place: json['place'] as String? ?? 'Widzew',
+      place: json['place'] as String? ?? 'Okolica',
       pm25: (json['pm25'] as num?)?.toDouble() ?? 0,
       pm10: (json['pm10'] as num?)?.toDouble() ?? 0,
       pos: StationAlign.values.firstWhere(
@@ -45,16 +45,16 @@ class AirSensorReading {
   static List<AirSensorReading> seeded() => const [
     AirSensorReading(
       id: 'aq-wschod',
-      name: 'Czujnik Widzew Wschód',
-      place: 'al. Piłsudskiego',
+      name: 'Czujnik osiedlowy',
+      place: 'aleja Główna',
       pm25: 18,
       pm10: 32,
       pos: StationAlign.topLeft,
     ),
     AirSensorReading(
       id: 'aq-olech',
-      name: 'Czujnik Olechów',
-      place: 'Przy SP 141',
+      name: 'Czujnik osiedlowy',
+      place: 'Przy szkole podstawowej',
       pm25: 31,
       pm10: 58,
       pos: StationAlign.bottomRight,

@@ -50,7 +50,7 @@ class ModelFairItem {
     ModelFairItem(
       id: 'mf-widz',
       kind: ModelKind.diorama,
-      title: 'Makieta bloku z wielkiej płyty, Olechów',
+      title: 'Makieta bloku z wielkiej płyty, okolica',
       authorName: 'Marek',
     ),
   ];

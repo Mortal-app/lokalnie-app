@@ -48,7 +48,7 @@ class WindowViewPhoto {
     WindowViewPhoto(
       id: 'wv-wschod',
       kind: WindowViewKind.sunrise,
-      title: 'Wschód z 10. piętra, Olechów',
+      title: 'Wschód z 10. piętra, okolica',
       caption: 'Opis zdjęcia: różowe niebo nad wielką płytą, 13.10.2026.',
       authorName: 'Ola',
     ),

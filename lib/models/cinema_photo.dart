@@ -30,7 +30,7 @@ class CinemaPhotoClip {
   static List<CinemaPhotoClip> seeded() => const [
     CinemaPhotoClip(
       id: 'cp-widz',
-      title: 'Dawne kino osiedlowe na Widzewie',
+      title: 'Dawne kino osiedlowe w Twojej okolicy',
       era: 'lata 70.–80.',
       caption:
           'Sala, afisze i kolejka przed kasą — opis zdjęcia archiwalnego, bez pliku.',

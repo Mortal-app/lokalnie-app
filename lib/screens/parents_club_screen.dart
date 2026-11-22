@@ -53,7 +53,7 @@ class _ParentsClubScreenState extends State<ParentsClubScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Dzieciaki z Widzewa / Rodzice Razem')),
+      appBar: AppBar(title: const Text('Dzieciaki z okolicy / Rodzice Razem')),
       floatingActionButton: WidzewUi.safeFab(
         FloatingActionButton.extended(
         onPressed: _add,

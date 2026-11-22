@@ -22,7 +22,7 @@ class DistrictEcoStatsScreen extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(16, 12, 16, 80),
         children: [
           const Text(
-            'Wpływ sąsiedzkiej wymiany i wspólnych przejazdów na Widzewie.',
+            'Wpływ sąsiedzkiej wymiany i wspólnych przejazdów w Twojej okolicy.',
           ),
           const SizedBox(height: 12),
           Card(

@@ -54,7 +54,7 @@ class _EnergyHubScreenState extends State<EnergyHubScreen> {
         padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
-            'Domy jednorodzinne na Widzewie Wschodzie i Olechowie: PV, pompy ciepła i dotacje.',
+            'Domy jednorodzinne w okolicy: PV, pompy ciepła i dotacje.',
           ),
           const SizedBox(height: 12),
           for (final item in _items)
@@ -92,7 +92,7 @@ class _EnergyDialogState extends State<_EnergyDialog> {
   final _title = TextEditingController();
   final _body = TextEditingController();
   var _kind = EnergyKind.pv;
-  var _area = 'Olechów';
+  var _area = 'Twoja okolica';
 
   @override
   void dispose() {
@@ -123,10 +123,10 @@ class _EnergyDialogState extends State<_EnergyDialog> {
               initialValue: _area,
               items: const [
                 DropdownMenuItem(
-                  value: 'Widzew Wschód',
-                  child: Text('Widzew Wschód'),
+                  value: 'Twoja okolica',
+                  child: Text('Twoja okolica'),
                 ),
-                DropdownMenuItem(value: 'Olechów', child: Text('Olechów')),
+                DropdownMenuItem(value: 'Twoja okolica', child: Text('Twoja okolica')),
               ],
               onChanged: (value) {
                 if (value != null) setState(() => _area = value);

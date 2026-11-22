@@ -40,14 +40,14 @@ class PramAccessSpot {
     PramAccessSpot(
       id: 'pa-usc',
       name: 'Urząd — winda bez barier',
-      place: 'Budynek użyteczności publicznej, Widzew',
+      place: 'Budynek użyteczności publicznej, okolica',
       note: 'Podjazd od ulicy, winda do 2. piętra, miejsce na wózek.',
       pos: StationAlign.topLeft,
     ),
     PramAccessSpot(
       id: 'pa-klin',
       name: 'Przychodnia — wejście z podjazdem',
-      place: 'Olechów',
+      place: 'Okolica',
       note: 'Szerokie drzwi, winda, stojak na wózki przy recepcji.',
       pos: StationAlign.bottomRight,
     ),

@@ -37,9 +37,9 @@ class BazaarPhotoClip {
     ),
     BazaarPhotoClip(
       id: 'bz-hand',
-      title: 'Handel przy pętli na Widzewie Wschodzie',
+      title: 'Handel przy pętli w okolicy',
       era: 'lata 90.',
-      caption: 'Budki, dresy i kasety — targowisko wschodniej Łodzi.',
+      caption: 'Budki, dresy i kasety — targowisko wschodniej części miasta.',
     ),
   ];
 }

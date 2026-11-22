@@ -54,7 +54,7 @@ class _RodShareScreenState extends State<RodShareScreen> {
         padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
-            'Narzędzia ogrodowe, nadwyżki plonów i kostka brukowa — ROD im. Władysława Reymonta i okolice Widzewa.',
+            'Narzędzia ogrodowe, nadwyżki plonów i kostka brukowa — działki ROD i okolica.',
           ),
           const SizedBox(height: 12),
           for (final item in _items)

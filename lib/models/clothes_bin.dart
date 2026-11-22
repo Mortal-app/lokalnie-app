@@ -61,14 +61,14 @@ class ClothesBinSpot {
     ClothesBinSpot(
       id: 'cb-pck',
       name: 'Kontener PCK',
-      place: 'Widzew Wschód, przy śmietniku',
+      place: 'osiedle wschodnie, przy śmietniku',
       issue: ClothesBinIssue.ok,
       pos: StationAlign.topLeft,
     ),
     ClothesBinSpot(
       id: 'cb-pec',
       name: 'Kontener Pecet / odzież używana',
-      place: 'Olechów, przy pawilonie',
+      place: 'okolica, przy pawilonie',
       issue: ClothesBinIssue.full,
       pos: StationAlign.bottomRight,
     ),

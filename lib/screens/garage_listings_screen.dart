@@ -54,7 +54,7 @@ class _GarageListingsScreenState extends State<GarageListingsScreen> {
         padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
-            'Wynajmę / dam w użytkowanie miejsce w garażu podziemnym lub box w piwnicy na Widzewie.',
+            'Wynajmę / dam w użytkowanie miejsce w garażu podziemnym lub box w piwnicy w Twojej okolicy.',
           ),
           const SizedBox(height: 12),
           for (final item in _items)
@@ -151,7 +151,7 @@ class _GarageDialogState extends State<_GarageDialog> {
                 space: _space,
                 title: '${_offer.label} ${_space.label.toLowerCase()}',
                 place: _place.text.trim().isEmpty
-                    ? 'Widzew'
+                    ? 'Okolica'
                     : _place.text.trim(),
                 details: _details.text.trim(),
                 authorName: widget.userName,

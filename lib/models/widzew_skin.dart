@@ -21,12 +21,12 @@ extension WidzewSkinX on WidzewSkin {
   ];
 
   String get label => switch (this) {
-    WidzewSkin.classic => 'Domyślny Widzew',
+    WidzewSkin.classic => 'Domyślna paleta',
     WidzewSkin.redBrick => 'Czerwona Cegła',
     WidzewSkin.parkGreen => 'Zieleń Parkowa',
     WidzewSkin.cityNavy => 'Granat Miejski',
     WidzewSkin.amberGold => 'Złoty Bursztyn',
-    WidzewSkin.graphiteOlechow => 'Grafitowy Olechów',
+    WidzewSkin.graphiteOlechow => 'Grafit',
   };
 
   Color get seed => switch (this) {

@@ -34,14 +34,14 @@ class PavementCleanSlot {
   static List<PavementCleanSlot> seeded() => const [
     PavementCleanSlot(
       id: 'pv-wsch',
-      block: 'Widzew Wschód, klatka I',
+      block: 'osiedle wschodnie, klatka I',
       whenText: 'Sobota 9:00',
       note: 'Kostka i podjazd dla wózków przy wejściu — myjka i szczotki.',
       authorName: 'Kasia',
     ),
     PavementCleanSlot(
       id: 'pv-olech',
-      block: 'Olechów, wejście B',
+      block: 'okolica, wejście B',
       whenText: 'Niedziela 8:30',
       note: 'Chodnik od śmietnika do drzwi — nie zastawiać wózkami.',
       authorName: 'Marek',

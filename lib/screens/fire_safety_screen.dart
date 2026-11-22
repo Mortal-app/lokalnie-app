@@ -144,7 +144,7 @@ class _FireDialogState extends State<_FireDialog> {
                 id: 'fs-${DateTime.now().millisecondsSinceEpoch}',
                 kind: _kind,
                 place: _place.text.trim().isEmpty
-                    ? 'Klatka na Widzewie'
+                    ? 'Klatka w Twojej okolicy'
                     : _place.text.trim(),
                 note: _note.text.trim(),
                 authorName: widget.userName,

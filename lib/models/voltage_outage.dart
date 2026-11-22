@@ -47,7 +47,7 @@ class VoltageOutageReport {
         orElse: () => VoltageKind.blackout,
       ),
       street: json['street'] as String? ?? '',
-      district: json['district'] as String? ?? 'Widzew Wschód',
+      district: json['district'] as String? ?? 'Twoja okolica',
       note: json['note'] as String? ?? '',
       authorName: json['authorName'] as String? ?? 'Sąsiad',
       pos: StationAlign.values.firstWhere(
@@ -61,8 +61,8 @@ class VoltageOutageReport {
     VoltageOutageReport(
       id: 'vo-wschod',
       kind: VoltageKind.spike,
-      street: 'ul. Puszkina',
-      district: 'Widzew Wschód',
+      street: 'ul. Parkowa',
+      district: 'Twoja okolica',
       note: 'Migające światła w klatce III, ok. 21:10.',
       authorName: 'Marek',
       pos: StationAlign.topLeft,
@@ -71,7 +71,7 @@ class VoltageOutageReport {
       id: 'vo-olech',
       kind: VoltageKind.blackout,
       street: 'ul. Zakładowa',
-      district: 'Olechów',
+      district: 'Twoja okolica',
       note: 'Cały odcinek bez prądu od 18:40.',
       authorName: 'Ola',
       pos: StationAlign.bottomRight,

@@ -54,7 +54,7 @@ class _WalkingBusScreenState extends State<WalkingBusScreen> {
         padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
-            'Wspólne odprowadzanie do SP 114, SP 34 i SP 141. Harmonogram klatek.',
+            'Wspólne odprowadzanie dzieci do lokalnych szkół. Harmonogram klatek.',
           ),
           const SizedBox(height: 12),
           for (final shift in _shifts)

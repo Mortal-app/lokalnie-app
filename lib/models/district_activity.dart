@@ -30,19 +30,19 @@ class BlockRanking {
   static List<BlockRanking> seeded() => const [
     BlockRanking(
       id: 'blk-rok',
-      blockName: 'Rokicińska 140–146',
+      blockName: 'Główna 140–146',
       score: 86,
       activeStaircases: 4,
     ),
     BlockRanking(
       id: 'blk-pusz',
-      blockName: 'Puszkina 77–83',
+      blockName: 'Parkowa 77–83',
       score: 71,
       activeStaircases: 3,
     ),
     BlockRanking(
       id: 'blk-olech',
-      blockName: 'Olechów — bloki przy SP 141',
+      blockName: 'okolica — bloki przy szkole podstawowej',
       score: 64,
       activeStaircases: 5,
     ),

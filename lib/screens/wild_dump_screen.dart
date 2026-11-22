@@ -61,7 +61,7 @@ class _WildDumpScreenState extends State<WildDumpScreen> {
         padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
-            'Porzucony gruz i opony w lasach i zieleńcach Widzewa — pinezka na mapie.',
+            'Porzucony gruz i opony w lasach i zieleńcach okolicy — pinezka na mapie.',
           ),
           const SizedBox(height: 12),
           SizedBox(
@@ -174,7 +174,7 @@ class _DumpDialogState extends State<_DumpDialog> {
                 id: 'wd-${DateTime.now().millisecondsSinceEpoch}',
                 kind: _kind,
                 place: _place.text.trim().isEmpty
-                    ? 'Zieleń na Widzewie'
+                    ? 'Zieleń w Twojej okolicy'
                     : _place.text.trim(),
                 note: _note.text.trim(),
                 authorName: widget.userName,

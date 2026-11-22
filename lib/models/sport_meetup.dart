@@ -74,7 +74,7 @@ class SportMeetup {
       joinedCount: json['joinedCount'] as int? ?? 1,
       isJoined: json['isJoined'] as bool? ?? false,
       authorName: json['authorName'] as String? ?? 'Sąsiad',
-      subDistrict: json['subDistrict'] as String? ?? 'Widzew Wschód',
+      subDistrict: json['subDistrict'] as String? ?? 'Twoja okolica',
       note: json['note'] as String? ?? '',
     );
   }
@@ -83,12 +83,12 @@ class SportMeetup {
     SportMeetup(
       id: 'sport-orlik',
       title: 'Szukam chętnych na piłkę nożną we wtorek na Orliku',
-      place: 'Orlik Widzew',
+      place: 'Orlik okolica',
       whenLabel: 'Wtorek, 18:00',
       participantLimit: 12,
       joinedCount: 7,
-      authorName: 'Sąsiad z Widzewa Wschód',
-      subDistrict: 'Widzew Wschód',
+      authorName: 'Sąsiad',
+      subDistrict: 'Twoja okolica',
     ),
     SportMeetup(
       id: 'sport-run',
@@ -97,18 +97,18 @@ class SportMeetup {
       whenLabel: 'Środa, 6:45',
       participantLimit: 8,
       joinedCount: 3,
-      authorName: 'Sąsiadka ze Starego Widzewa',
-      subDistrict: 'Stary Widzew',
+      authorName: 'Sąsiadka',
+      subDistrict: 'Twoja okolica',
     ),
     SportMeetup(
       id: 'sport-bike',
-      title: 'Rowerowa masa krytyczna z Olechowa',
-      place: 'Start: pętla Olechów',
+      title: 'Rowerowa masa krytyczna z okolicy',
+      place: 'Start: pętla okolica',
       whenLabel: 'Piątek, 17:30',
       participantLimit: 20,
       joinedCount: 11,
-      authorName: 'Sąsiadka z Olechowa',
-      subDistrict: 'Olechów',
+      authorName: 'Sąsiadka',
+      subDistrict: 'Twoja okolica',
     ),
   ];
 }

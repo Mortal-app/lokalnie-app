@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 
 import '../app_info.dart';
 import '../widgets/app_page_route.dart';
+import '../widgets/route_pop_scope.dart';
 import 'privacy_terms_screen.dart';
 
 class AboutScreen extends StatelessWidget {
@@ -18,13 +19,22 @@ class AboutScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('O aplikacji')),
+      appBar: AppBar(
+        leading: const AppBarBackButton(),
+        title: const Text('O aplikacji'),
+      ),
       body: ListView(
         key: const ValueKey('about-list'),
         padding: const EdgeInsets.fromLTRB(16, 16, 16, 80),
         children: [
           const Text(
-            'O aplikacji Lokalnie Widzew',
+            'Lokalnie to tablica ogłoszeń sąsiedzkich. Szczegóły przetwarzania '
+            'danych (Firebase Auth, Firestore, Storage, FCM) znajdziesz w '
+            'polityce prywatności.',
+          ),
+          const SizedBox(height: 16),
+          const Text(
+            'O aplikacji Lokalnie',
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 8),
@@ -49,9 +59,8 @@ class AboutScreen extends StatelessWidget {
           Text('O projekcie', style: Theme.of(context).textTheme.titleMedium),
           const SizedBox(height: 8),
           const Text(
-            'Lokalnie Widzew to sąsiedzka tablica ogłoszeń dla Widzewa, '
-            'Olechowa, Janowa, Starego Widzewa i Księżego Młyna. Pomaga '
-            'dzielić się alertami, pomocą i codziennymi sprawami osiedla.',
+            'Lokalnie to sąsiedzka tablica ogłoszeń. Pomaga '
+            'dzielić się alertami, pomocą i codziennymi sprawami okolicy.',
           ),
           const SizedBox(height: 20),
           Text(

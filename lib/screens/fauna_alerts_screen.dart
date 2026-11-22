@@ -45,15 +45,18 @@ class _FaunaAlertsScreenState extends State<FaunaAlertsScreen> {
     widget.onAdd(created);
   }
 
+  static const _pins = [
+    Alignment.bottomRight,
+    Alignment.topRight,
+    Alignment.bottomLeft,
+    Alignment.topLeft,
+    Alignment.centerLeft,
+    Alignment.center,
+  ];
+
   Alignment _align(String subDistrict) {
-    return switch (subDistrict) {
-      'Olechów' => Alignment.bottomRight,
-      'Widzew Wschód' => Alignment.topRight,
-      'Janów' => Alignment.bottomLeft,
-      'Stary Widzew' => Alignment.topLeft,
-      'Księży Młyn' => Alignment.centerLeft,
-      _ => Alignment.center,
-    };
+    final index = subDistrict.hashCode.abs() % _pins.length;
+    return _pins[index];
   }
 
   @override
@@ -71,7 +74,7 @@ class _FaunaAlertsScreenState extends State<FaunaAlertsScreen> {
         padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
-            'Zgłoszenia dzików i dzikich zwierząt przy parkach i blokowiskach Widzewa. Nie dokarmiać.',
+            'Zgłoszenia dzików i dzikich zwierząt przy parkach i blokowiskach. Nie dokarmiać.',
           ),
           const SizedBox(height: 12),
           SizedBox(
@@ -88,7 +91,7 @@ class _FaunaAlertsScreenState extends State<FaunaAlertsScreen> {
                     left: 8,
                     top: 8,
                     child: Text(
-                      'Mapa zgłoszeń Widzewa',
+                      'Mapa zgłoszeń okolicy',
                       style: TextStyle(fontWeight: FontWeight.w600),
                     ),
                   ),

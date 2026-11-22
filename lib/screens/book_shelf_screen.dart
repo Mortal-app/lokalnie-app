@@ -53,7 +53,7 @@ class _BookShelfScreenState extends State<BookShelfScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Książki z Widzewa')),
+      appBar: AppBar(title: const Text('Książki z okolicy')),
       floatingActionButton: WidzewUi.safeFab(
         FloatingActionButton.extended(
         onPressed: _add,

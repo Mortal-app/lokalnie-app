@@ -38,14 +38,14 @@ class WaterPressureReport {
   static List<WaterPressureReport> seeded() => const [
     WaterPressureReport(
       id: 'wp-8',
-      block: 'Blok 12, Widzew Wschód',
+      block: 'Blok 12, osiedle wschodnie',
       floor: '8. piętro',
       note: 'Rano prawie nie ma ciśnienia w pionie ciepłej wody.',
       authorName: 'Pani Ewa',
     ),
     WaterPressureReport(
       id: 'wp-olech',
-      block: 'Olechów, klatka III',
+      block: 'okolica, klatka III',
       floor: '10. piętro',
       note: 'Spadek wieczorem — prośba o zgłoszenie do spółdzielni.',
       authorName: 'Marek',

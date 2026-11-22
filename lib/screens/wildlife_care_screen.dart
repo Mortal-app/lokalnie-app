@@ -142,7 +142,7 @@ class _CareDialogState extends State<_CareDialog> {
                 id: 'wc-${DateTime.now().millisecondsSinceEpoch}',
                 kind: _kind,
                 place: _place.text.trim().isEmpty
-                    ? 'Park na Widzewie'
+                    ? 'Park w Twojej okolicy'
                     : _place.text.trim(),
                 note: _note.text.trim(),
                 authorName: widget.userName,

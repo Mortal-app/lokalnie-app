@@ -136,7 +136,7 @@ class _PressureDialogState extends State<_PressureDialog> {
               WaterPressureReport(
                 id: 'wp-${DateTime.now().millisecondsSinceEpoch}',
                 block: _block.text.trim().isEmpty
-                    ? 'Blok na Widzewie'
+                    ? 'Blok w Twojej okolicy'
                     : _block.text.trim(),
                 floor: _floor.text.trim().isEmpty
                     ? 'Piętro'

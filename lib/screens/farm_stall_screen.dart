@@ -22,7 +22,7 @@ class FarmStallScreen extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(16, 12, 16, 80),
         children: [
           const Text(
-            'Bazarki, targowiska i mobilne punkty świeżych warzyw i owoców na Widzewie.',
+            'Bazarki, targowiska i mobilne punkty świeżych warzyw i owoców w Twojej okolicy.',
           ),
           const SizedBox(height: 12),
           SizedBox(

@@ -29,9 +29,9 @@ class LocalDeal {
       id: json['id'] as String? ?? '',
       title: json['title'] as String? ?? '',
       business: json['business'] as String? ?? '',
-      passphrase: json['passphrase'] as String? ?? 'Sąsiad z Widzewa',
+      passphrase: json['passphrase'] as String? ?? 'Sąsiad',
       details: json['details'] as String? ?? '',
-      subDistrict: json['subDistrict'] as String? ?? 'Widzew Wschód',
+      subDistrict: json['subDistrict'] as String? ?? 'Twoja okolica',
     );
   }
 
@@ -39,26 +39,26 @@ class LocalDeal {
     LocalDeal(
       id: 'deal-pizza',
       title: '10% na pizzę na wynos',
-      business: 'Osiedlowa pizzeria przy Rokicińskiej',
-      passphrase: 'Sąsiad z Widzewa',
+      business: 'Osiedlowa pizzeria przy Głównej',
+      passphrase: 'Sąsiad',
       details: 'Pokaż aplikację albo powiedz hasło przy kasie. Od poniedziałku do czwartku.',
-      subDistrict: 'Widzew Wschód',
+      subDistrict: 'Twoja okolica',
     ),
     LocalDeal(
       id: 'deal-kawa',
       title: 'Druga kawa -50%',
-      business: 'Kawiarnia na Olechowie',
-      passphrase: 'Sąsiad z Widzewa',
-      details: 'Dla mieszkańców Olechowa i Janowa, w dni powszednie do 12:00.',
-      subDistrict: 'Olechów',
+      business: 'Kawiarnia w okolicy',
+      passphrase: 'Sąsiad',
+      details: 'Dla mieszkańców okolicy, w dni powszednie do 12:00.',
+      subDistrict: 'Twoja okolica',
     ),
     LocalDeal(
       id: 'deal-serwis',
       title: 'Rabat na przegląd roweru',
-      business: 'Serwis dwóch kółek – Stary Widzew',
-      passphrase: 'Sąsiad z Widzewa',
+      business: 'Serwis dwóch kółek',
+      passphrase: 'Sąsiad',
       details: '15 zł taniej za regulację hamulców po okazaniu hasła.',
-      subDistrict: 'Stary Widzew',
+      subDistrict: 'Twoja okolica',
     ),
   ];
 }

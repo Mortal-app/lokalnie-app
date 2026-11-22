@@ -54,7 +54,7 @@ class _YouthCodeScreenState extends State<YouthCodeScreen> {
         padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
-            'Kodowanie, roboty i druk 3D dla dzieci i młodzieży na Widzewie.',
+            'Kodowanie, roboty i druk 3D dla dzieci i młodzieży w Twojej okolicy.',
           ),
           const SizedBox(height: 12),
           for (final item in _items)
@@ -134,7 +134,7 @@ class _CodeDialogState extends State<_CodeDialog> {
                 title: _title.text.trim().isEmpty
                     ? _kind.label
                     : _title.text.trim(),
-                place: 'Widzew — świetlica',
+                place: 'Świetlica osiedlowa',
                 whenLabel: 'Sobota 11:00',
                 host: widget.userName,
               ),

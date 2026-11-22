@@ -39,14 +39,14 @@ class ParkingShareOffer {
       id: 'pk-praca',
       title: shareTitle,
       hours: '8:00 - 16:00',
-      place: 'Przy bloku, Widzew Wschód',
+      place: 'Przy bloku, osiedle wschodnie',
       authorName: 'Tomek',
     ),
     ParkingShareOffer(
       id: 'pk-olech',
       title: shareTitle,
       hours: '7:30 - 15:30',
-      place: 'Olechów, przy SP 141',
+      place: 'okolica, przy szkole podstawowej',
       authorName: 'Kasia',
     ),
   ];

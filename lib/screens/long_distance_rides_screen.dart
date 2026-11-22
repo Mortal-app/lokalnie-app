@@ -110,7 +110,7 @@ class _RideDialog extends StatefulWidget {
 }
 
 class _RideDialogState extends State<_RideDialog> {
-  final _from = TextEditingController(text: 'Widzew');
+  final _from = TextEditingController(text: 'Okolica');
   final _time = TextEditingController(text: '6:00');
   final _fuel = TextEditingController(text: '15');
   var _dest = LongHaulDest.fabryczna;

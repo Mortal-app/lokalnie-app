@@ -30,7 +30,7 @@ class PavilionPhotoClip {
   static List<PavilionPhotoClip> seeded() => const [
     PavilionPhotoClip(
       id: 'pp-80',
-      title: 'Pawilon handlowy na Widzewie Wschodzie',
+      title: 'Pawilon handlowy w okolicy',
       era: 'lata 80.',
       caption:
           'Szyldy, kolejka po mięso i blaszany dach — opis zdjęcia, bez pliku.',

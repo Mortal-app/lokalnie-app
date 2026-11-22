@@ -51,7 +51,7 @@ class PowerShareOffer {
     PowerShareOffer(
       id: 'ps-bank',
       kind: PowerShareKind.powerbank,
-      title: 'Powerbank 20000 mAh — po awarii prądu na Olechowie',
+      title: 'Powerbank 20000 mAh — po awarii prądu w okolicy',
       authorName: 'Kasia',
     ),
   ];

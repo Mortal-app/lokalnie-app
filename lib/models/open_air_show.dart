@@ -56,7 +56,7 @@ class OpenAirShow {
     OpenAirShow(
       id: 'oa-kino',
       title: 'Repertuar: „Miś” — kino pod chmurką',
-      place: 'Dziedziniec, Rokicińska',
+      place: 'Dziedziniec, Główna',
       whenLabel: 'Piątek 21:00',
       votes: 18,
       authorName: 'Klub osiedlowy',
@@ -64,7 +64,7 @@ class OpenAirShow {
     OpenAirShow(
       id: 'oa-teatr',
       title: 'Teatrzyk: bajka dla dzieci',
-      place: 'Świetlica osiedlowa, Olechów',
+      place: 'Świetlica osiedlowa, okolica',
       whenLabel: 'Sobota 17:00',
       votes: 11,
       authorName: 'Rada rodziców',

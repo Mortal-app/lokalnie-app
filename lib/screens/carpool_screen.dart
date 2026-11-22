@@ -48,7 +48,7 @@ class _CarpoolScreenState extends State<CarpoolScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Jedziemy Razem / Carpooling Widzew')),
+      appBar: AppBar(title: const Text('Jedziemy razem / Carpooling')),
       floatingActionButton: WidzewUi.safeFab(
         FloatingActionButton.extended(
         onPressed: _add,

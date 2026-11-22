@@ -63,7 +63,7 @@ class SportHubItem {
     SportHubItem(
       id: 'sl-widzew',
       kind: SportHubKind.tip,
-      title: 'Widzew — mecz ligowy (typer osiedla)',
+      title: 'okolica — mecz ligowy (typer osiedla)',
       whenLabel: 'Sobota 15:00',
       host: 'Liga klatek',
     ),

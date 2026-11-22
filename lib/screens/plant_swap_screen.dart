@@ -53,7 +53,7 @@ class _PlantSwapScreenState extends State<PlantSwapScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Zielony Widzew')),
+      appBar: AppBar(title: const Text('Zielona okolica')),
       floatingActionButton: WidzewUi.safeFab(
         FloatingActionButton.extended(
         onPressed: _add,
@@ -143,7 +143,7 @@ class _PlantDialogState extends State<_PlantDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('Zielony Widzew'),
+      title: const Text('Zielona okolica'),
       content: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,

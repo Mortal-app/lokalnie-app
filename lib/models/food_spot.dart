@@ -78,7 +78,7 @@ class FoodSpot {
       id: json['id'] as String? ?? '',
       name: json['name'] as String? ?? '',
       kind: json['kind'] as String? ?? 'Kawiarnia',
-      subDistrict: json['subDistrict'] as String? ?? 'Widzew Wschód',
+      subDistrict: json['subDistrict'] as String? ?? 'Twoja okolica',
       description: json['description'] as String? ?? '',
       reviews: (json['reviews'] as List<dynamic>? ?? const [])
           .map(
@@ -91,13 +91,13 @@ class FoodSpot {
   static List<FoodSpot> seeded() => [
     FoodSpot(
       id: 'pizza-widzew',
-      name: 'Osiedlowa pizzeria przy Rokicińskiej',
+      name: 'Osiedlowa pizzeria przy Głównej',
       kind: 'Pizzeria',
-      subDistrict: 'Widzew Wschód',
+      subDistrict: 'Twoja okolica',
       description: 'Duże okrągłe, sos czosnkowy, szybki odbiór dla sąsiadów.',
       reviews: [
         FoodReview(
-          authorName: 'Sąsiad z Widzewa',
+          authorName: 'Sąsiad',
           stars: 5,
           text: 'Capricciosa jak trzeba. Sąsiedzki Smak 5/5.',
           createdAt: DateTime(2026, 10, 18),
@@ -108,21 +108,21 @@ class FoodSpot {
       id: 'paczki-janow',
       name: 'Pączkarnia na Janowie',
       kind: 'Pączkarnia',
-      subDistrict: 'Janów',
+      subDistrict: 'Twoja okolica',
       description: 'Tradycyjne pączki i faworki, kolejka w tłusty czwartek.',
     ),
     FoodSpot(
       id: 'kawa-olechow',
-      name: 'Kawiarnia na Olechowie',
+      name: 'Kawiarnia w okolicy',
       kind: 'Kawiarnia',
-      subDistrict: 'Olechów',
+      subDistrict: 'Twoja okolica',
       description: 'Przelew, ciasta domowe, wózki dziecięce wchodzą bez problemu.',
     ),
     FoodSpot(
       id: 'kawa-wschod',
-      name: 'Kawiarnia Widzew Wschód',
+      name: 'Kawiarnia osiedle wschodnie',
       kind: 'Kawiarnia',
-      subDistrict: 'Widzew Wschód',
+      subDistrict: 'Twoja okolica',
       description: 'Śniadania i laptop-friendly stoliki przy Górce.',
     ),
   ];

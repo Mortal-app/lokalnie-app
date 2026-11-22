@@ -39,7 +39,7 @@ class SmileGift {
         orElse: () => SmileGiftKind.clothes,
       ),
       title: json['title'] as String? ?? '',
-      place: json['place'] as String? ?? 'Widzew',
+      place: json['place'] as String? ?? 'Okolica',
       authorName: json['authorName'] as String? ?? 'Sąsiad',
     );
   }
@@ -49,21 +49,21 @@ class SmileGift {
       id: 'sg-ubrania',
       kind: SmileGiftKind.clothes,
       title: 'Kurtki dziecięce 116–128 — oddam za uśmiech',
-      place: 'Klatka IV, Olechów',
+      place: 'Klatka IV, okolica',
       authorName: 'Kasia',
     ),
     SmileGift(
       id: 'sg-zabawki',
       kind: SmileGiftKind.toys,
       title: 'Klocki i pluszaki po synku',
-      place: 'Janów',
+      place: 'Okolica',
       authorName: 'Pani Zosia',
     ),
     SmileGift(
       id: 'sg-meble',
       kind: SmileGiftKind.furniture,
       title: 'Stolik kawowy — odbiór własny',
-      place: 'Widzew Wschód',
+      place: 'Okolica',
       authorName: 'Sąsiad z Wschodu',
     ),
   ];

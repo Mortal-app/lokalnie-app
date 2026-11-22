@@ -54,7 +54,7 @@ class _BocceMeetupScreenState extends State<BocceMeetupScreen> {
         padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
-            'Amatorskie boule i bocce na skwerach i trawnikach Widzewa Wschodu.',
+            'Amatorskie boule i bocce na skwerach i trawnikach okolicy.',
           ),
           const SizedBox(height: 12),
           for (final item in _items)

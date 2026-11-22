@@ -44,8 +44,8 @@ class TimeCapsuleEntry {
       id: 'tc-letter',
       title: 'Wspólny list do przyszłych pokoleń',
       body:
-          'Drodzy mieszkańcy Widzewa z 2036: zostawiamy wam wspomnienie bloków, Olechowa i sąsiedzkiej tablicy. Otwórzcie ten list za 10 lat.',
-      authorName: 'Mieszkańcy Widzewa',
+          'Drodzy mieszkańcy okolicy z 2036: zostawiamy wam wspomnienie bloków, okolicy i sąsiedzkiej tablicy. Otwórzcie ten list za 10 lat.',
+      authorName: 'Mieszkańcy okolicy',
       sealedAt: '28.10.2026',
       opensAt: '28.10.2036',
       isSharedLetter: true,

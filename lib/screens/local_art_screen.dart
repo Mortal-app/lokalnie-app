@@ -54,7 +54,7 @@ class _LocalArtScreenState extends State<LocalArtScreen> {
         padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
-            'Malarze, graficy i fotografowie z Widzewa — wystawa i kontakt.',
+            'Malarze, graficy i fotografowie z okolicy — wystawa i kontakt.',
           ),
           const SizedBox(height: 12),
           for (final item in _items)

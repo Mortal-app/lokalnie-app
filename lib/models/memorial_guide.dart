@@ -30,14 +30,14 @@ class MemorialSpot {
   static List<MemorialSpot> seeded() => const [
     MemorialSpot(
       id: 'mm-cmentarz',
-      title: 'Historyczny cmentarz we wschodniej Łodzi',
+      title: 'Historyczny cmentarz we wschodniej części miasta',
       era: 'XIX–XX w.',
       body:
           'Miejsce pamięci przy wschodnich osiedlach — spokojny spacer edukacyjny, szacunek dla grobów.',
     ),
     MemorialSpot(
       id: 'mm-pomnik',
-      title: 'Miejsce pamięci narodowej — Widzew',
+      title: 'Miejsce pamięci narodowej — okolica',
       era: 'XX w.',
       body:
           'Tablica i zieleń przy drodze do centrum. Krótka historia osiedla i ofiar wojen.',

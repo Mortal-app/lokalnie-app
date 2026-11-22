@@ -50,13 +50,13 @@ class LocalArtWork {
       kind: ArtKind.paint,
       title: 'Wielka płyta o zmierzchu — olej',
       contact: 'Wiadomość w aplikacji',
-      authorName: 'Ania, Widzew Wschód',
+      authorName: 'Ania, osiedle wschodnie',
     ),
     LocalArtWork(
       id: 'la-foto',
       kind: ArtKind.photo,
-      title: 'Klatki Olechowa — cykl analog',
-      contact: 'Spotkanie w DH Widzew',
+      title: 'Klatki okolicy — cykl analog',
+      contact: 'Spotkanie w centrum handlowe',
       authorName: 'Jacek',
     ),
   ];

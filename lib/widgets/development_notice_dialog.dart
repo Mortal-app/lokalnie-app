@@ -12,7 +12,7 @@ class DevelopmentNoticeDialog extends StatelessWidget {
 
   static const titleText = 'Aplikacja w fazie rozwoju';
   static const bodyText =
-      'Aplikacja jest w trakcie tworzenia i budowania lokalnej społeczności, dlatego obecnie nie ma jeszcze zbyt wielu ogłoszeń, ale niebawem będzie ich coraz więcej. Jeśli masz własne ogłoszenie – wstaw je i pomóż rozwijać naszą społeczność!';
+      'Aplikacja jest w trakcie tworzenia i budowania lokalnej społeczności, dlatego obecnie nie ma jeszcze zbyt wielu ogłoszeń, ale niebawem będzie ich coraz więcej. Jeśli masz własne ogłoszenie, wstaw je i pomóż rozwijać naszą społeczność!';
 
   /// Gdy true, zamknięcie okna zapisuje się w SharedPreferences i kolejne
   /// starty je pomijają. Na czas wdrożenia zostawiamy false — okno przy

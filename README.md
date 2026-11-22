@@ -1,6 +1,22 @@
-# lokalnie_widzew
+# Lokalnie
 
-A new Flutter project.
+Tablica ogłoszeń sąsiedzkich.
+
+## Testy
+
+```bash
+flutter test
+```
+
+## Reguły Firebase
+
+- `firestore.rules` — odczyt/zapis dla `request.auth != null`, walidacja ogłoszeń (w tym opcjonalne `imageBase64`), zgłoszeń treści i tokenu FCM w `users/{uid}`
+
+Wdrożenie: `firebase deploy --only firestore:rules --project lokalnie-bff8b`
+
+## Prywatność
+
+Zobacz `PRIVACY_POLICY.md` oraz ekran **Ustawienia → Polityka prywatności i regulamin**.
 
 ## Getting Started
 

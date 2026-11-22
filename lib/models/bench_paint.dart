@@ -34,14 +34,14 @@ class BenchPaintSlot {
   static List<BenchPaintSlot> seeded() => const [
     BenchPaintSlot(
       id: 'bp-law',
-      place: 'Skwer przy pętli, Widzew Wschód',
+      place: 'Skwer przy pętli, osiedle wschodnie',
       whenText: 'Sobota 9:00',
       note: 'Malowanie ławek — farba do drewna, pędzle ze spółdzielni.',
       authorName: 'Kasia',
     ),
     BenchPaintSlot(
       id: 'bp-trz',
-      place: 'Altana i trzepak, Olechów',
+      place: 'Altana i trzepak, okolica',
       whenText: 'Niedziela 10:00',
       note: 'Renowacja małej architektury — grunt i emalia.',
       authorName: 'Marek',

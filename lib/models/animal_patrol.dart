@@ -48,7 +48,7 @@ class AnimalPatrolReport {
     AnimalPatrolReport(
       id: 'ap-koty',
       kind: AnimalPatrolKind.feralCat,
-      place: 'Piwnica klatki IV, Olechów',
+      place: 'Piwnica klatki IV, okolica',
       note: 'Budka i karma sucha — dyżur wieczorny.',
       authorName: 'Pani Krysia',
     ),
@@ -56,7 +56,7 @@ class AnimalPatrolReport {
       id: 'ap-schron',
       kind: AnimalPatrolKind.shelter,
       place: 'Zbiórka koców — schronisko partnerskie',
-      note: 'Koce i miski w sobotę przy DH Widzew.',
+      note: 'Koce i miski w sobotę przy centrum handlowym.',
       authorName: 'Ania',
     ),
   ];

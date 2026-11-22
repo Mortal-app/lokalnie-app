@@ -44,7 +44,7 @@ class LeftoverMaterial {
       ),
       title: json['title'] as String? ?? '',
       priceLabel: json['priceLabel'] as String? ?? 'Za grosze',
-      place: json['place'] as String? ?? 'Widzew',
+      place: json['place'] as String? ?? 'Okolica',
       authorName: json['authorName'] as String? ?? 'Sąsiad',
     );
   }
@@ -55,7 +55,7 @@ class LeftoverMaterial {
       kind: LeftoverKind.glue,
       title: 'Pół worka kleju do płytek',
       priceLabel: 'Oddam',
-      place: 'Olechów',
+      place: 'Okolica',
       authorName: 'Bartek',
     ),
     LeftoverMaterial(
@@ -63,7 +63,7 @@ class LeftoverMaterial {
       kind: LeftoverKind.panels,
       title: 'Resztki paneli dąb — 4 szt.',
       priceLabel: '10 zł',
-      place: 'Widzew Wschód',
+      place: 'Okolica',
       authorName: 'Arek',
     ),
     LeftoverMaterial(
@@ -71,7 +71,7 @@ class LeftoverMaterial {
       kind: LeftoverKind.paint,
       title: 'Puszka farby lateksowej biała 2,5 l',
       priceLabel: 'Za grosze',
-      place: 'Stary Widzew',
+      place: 'Okolica',
       authorName: 'Ania',
     ),
     LeftoverMaterial(
@@ -79,8 +79,8 @@ class LeftoverMaterial {
       kind: LeftoverKind.tiles,
       title: 'Płytki ceramiczne 30×60 — karton',
       priceLabel: 'Oddam',
-      place: 'Janów',
-      authorName: 'Sąsiad z Janowa',
+      place: 'Okolica',
+      authorName: 'Sąsiad',
     ),
   ];
 }

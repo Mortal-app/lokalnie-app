@@ -58,14 +58,14 @@ class EcoCollectionDrive {
       ),
       whenLabel: json['whenLabel'] as String? ?? '',
       kgCollected: (json['kgCollected'] as num?)?.toDouble() ?? 0,
-      place: json['place'] as String? ?? 'Widzew',
+      place: json['place'] as String? ?? 'Okolica',
     );
   }
 
   static List<EcoCollectionDrive> seeded() => const [
     EcoCollectionDrive(
       id: 'eco-paper',
-      blockName: 'Rokicińska 140',
+      blockName: 'Główna 140',
       material: EcoMaterial.paper,
       whenLabel: 'Sobota 8:00–12:00',
       kgCollected: 84,
@@ -73,7 +73,7 @@ class EcoCollectionDrive {
     ),
     EcoCollectionDrive(
       id: 'eco-e',
-      blockName: 'Puszkina 77',
+      blockName: 'Parkowa 77',
       material: EcoMaterial.eWaste,
       whenLabel: 'Niedziela 10:00–14:00',
       kgCollected: 21,
@@ -81,7 +81,7 @@ class EcoCollectionDrive {
     ),
     EcoCollectionDrive(
       id: 'eco-cans',
-      blockName: 'Olechów przy SP 141',
+      blockName: 'okolica przy szkole podstawowej',
       material: EcoMaterial.cans,
       whenLabel: 'Cały tydzień',
       kgCollected: 12.5,

@@ -1,0 +1,98 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(uid) {
+      return signedIn() && request.auth.uid == uid;
+    }
+
+    function optionalImageBase64() {
+      return !('imageBase64' in request.resource.data)
+        || request.resource.data.imageBase64 == null
+        || (request.resource.data.imageBase64 is string
+          && request.resource.data.imageBase64.size() <= 220000);
+    }
+
+    function optionalImageUrl() {
+      return !('imageUrl' in request.resource.data)
+        || request.resource.data.imageUrl == null
+        || (request.resource.data.imageUrl is string
+          && request.resource.data.imageUrl.size() <= 220000);
+    }
+
+    function optionalStatus() {
+      return !('status' in request.resource.data)
+        || request.resource.data.status == null
+        || request.resource.data.status == 'current'
+        || request.resource.data.status == 'resolved';
+    }
+
+    function validAnnouncement() {
+      let data = request.resource.data;
+      return data.title is string
+        && data.title.size() > 0
+        && data.title.size() <= 200
+        && data.category is string
+        && data.category.size() > 0
+        && data.category.size() <= 80
+        && data.subDistrict is string
+        && data.subDistrict.size() > 0
+        && data.subDistrict.size() <= 120
+        && data.description is string
+        && data.description.size() <= 4000
+        && data.authorUid is string
+        && data.authorUid == request.auth.uid
+        && optionalImageBase64()
+        && optionalImageUrl()
+        && optionalStatus();
+    }
+
+    function validContentReport() {
+      let data = request.resource.data;
+      return data.announcementId is string
+        && data.announcementId.size() > 0
+        && data.announcementId.size() <= 120
+        && data.reason is string
+        && data.reason.size() > 0
+        && data.reason.size() <= 120
+        && data.reporterUid is string
+        && data.reporterUid == request.auth.uid;
+    }
+
+    match /announcements/{announcementId} {
+      allow read: if signedIn();
+      allow create: if signedIn() && validAnnouncement();
+      allow update: if signedIn()
+        && validAnnouncement()
+        && resource.data.authorUid == request.resource.data.authorUid;
+      allow delete: if isOwner(resource.data.authorUid);
+    }
+
+    match /content_reports/{reportId} {
+      allow read: if isOwner(resource.data.reporterUid);
+      allow create: if signedIn() && validContentReport();
+      allow update, delete: if false;
+    }
+
+    function optionalProFields() {
+      let data = request.resource.data;
+      return (!('isPro' in data) || data.isPro is bool)
+        && (!('proProductId' in data)
+          || data.proProductId == null
+          || (data.proProductId is string
+            && data.proProductId.size() <= 80))
+        && (!('proExpiryAt' in data)
+          || data.proExpiryAt == null
+          || data.proExpiryAt is string
+          || data.proExpiryAt is timestamp);
+    }
+
+    match /users/{userId} {
+      allow read: if isOwner(userId);
+      allow write: if isOwner(userId) && optionalProFields();
+    }
+  }
+}

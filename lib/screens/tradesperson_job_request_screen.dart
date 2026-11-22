@@ -86,7 +86,7 @@ class _TradespersonJobRequestScreenState
           ),
           const SizedBox(height: 8),
           const Text(
-            'Numer fachowca pozostaje ukryty. Zlecenie idzie przez aplikację, bez odpływu kontaktów poza Lokalnie Widzew.',
+            'Numer fachowca pozostaje ukryty. Zlecenie idzie przez aplikację, bez odpływu kontaktów poza Lokalnie.',
           ),
           const SizedBox(height: 16),
           TextField(

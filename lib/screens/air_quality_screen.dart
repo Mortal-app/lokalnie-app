@@ -23,7 +23,7 @@ class AirQualityScreen extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(16, 12, 16, 80),
         children: [
           const Text(
-            'Odczyty czujników PM2.5 / PM10 na Widzewie. Alert przy przekroczeniu norm.',
+            'Odczyty czujników PM2.5 / PM10 w Twojej okolicy. Alert przy przekroczeniu norm.',
           ),
           if (alerts.isNotEmpty) ...[
             const SizedBox(height: 8),

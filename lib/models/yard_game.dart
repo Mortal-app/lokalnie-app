@@ -63,7 +63,7 @@ class YardGameMeetup {
       kind: YardGameKind.hopscotch,
       title: 'Klasy i guma do skakania',
       whenText: 'Niedziela 16:00',
-      place: 'Olechów, skwer',
+      place: 'okolica, skwer',
       authorName: 'Hania',
     ),
   ];

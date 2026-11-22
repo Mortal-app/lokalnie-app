@@ -36,7 +36,7 @@ class BocceMeetup {
       id: 'bc-skw',
       title: 'Pétanque na skwerze — amatorzy',
       whenText: 'Sobota 16:00',
-      place: 'Widzew Wschód, skwer przy pętli',
+      place: 'osiedle wschodnie, skwer przy pętli',
       authorName: 'Bartek',
     ),
     BocceMeetup(

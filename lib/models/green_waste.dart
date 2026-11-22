@@ -34,14 +34,14 @@ class GreenWastePickup {
   static List<GreenWastePickup> seeded() => const [
     GreenWastePickup(
       id: 'gw-dzialka',
-      place: 'Działki przy Rokicińskiej',
+      place: 'Działki przy Głównej',
       whenText: 'Sobota rano',
       volume: 'Gałęzie po cięciu krzewów — 3 worki',
       authorName: 'Pan Leszek',
     ),
     GreenWastePickup(
       id: 'gw-blok',
-      place: 'Zieleń przy klatce I, Olechów',
+      place: 'Zieleń przy klatce I, okolica',
       whenText: 'Niedziela 9:00',
       volume: 'Gałęzie z przycinki drzewek',
       authorName: 'Zarząd klatki',

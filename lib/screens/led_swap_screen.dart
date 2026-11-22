@@ -112,7 +112,7 @@ class _LedDialogState extends State<_LedDialog> {
                 title: _title.text.trim().isEmpty
                     ? 'Żarówki LED po remoncie'
                     : _title.text.trim(),
-                place: 'Widzew',
+                place: 'Okolica',
                 authorName: widget.userName,
               ),
             );

@@ -54,7 +54,7 @@ class _MpoBulkyScreenState extends State<MpoBulkyScreen> {
         padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
-            'Wystawianie i odbiór gabarytów przez MPO — Widzew Wschód i Olechów, ulica po ulicy.',
+            'Wystawianie i odbiór gabarytów przez MPO — ulica po ulicy.',
           ),
           const SizedBox(height: 12),
           for (final item in _items)

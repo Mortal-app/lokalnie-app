@@ -500,7 +500,7 @@ class NeighborHelpPost {
       id: json['id'] as String? ?? '',
       title: json['title'] as String? ?? '',
       description: json['description'] as String? ?? '',
-      subDistrict: json['subDistrict'] as String? ?? 'Widzew Wschód',
+      subDistrict: json['subDistrict'] as String? ?? 'Twoja okolica',
       clientName: json['clientName'] as String? ?? 'Sąsiad',
       clientPhone: json['clientPhone'] as String? ?? '',
       createdAt:
@@ -516,9 +516,9 @@ class NeighborHelpPost {
       id: 'help-kran-olechow',
       title: 'Cieknący kran w kuchni',
       description:
-          'Bateria kuchenna cieknie od tygodnia. Szukam hydraulika na Olechowie, wieczór po 17.',
-      subDistrict: 'Olechów',
-      clientName: 'Kasia z Olechowa',
+          'Bateria kuchenna cieknie od tygodnia. Szukam hydraulika w okolicy, wieczór po 17.',
+      subDistrict: 'Twoja okolica',
+      clientName: 'Kasia',
       clientPhone: '+48 512 100 200',
       createdAt: DateTime(2026, 10, 13, 9),
     ),
@@ -527,8 +527,8 @@ class NeighborHelpPost {
       title: 'Zamek w drzwiach mieszkania',
       description:
           'Wkładka zacina się, klucz obraca się luzem. Potrzebna wymiana jeszcze dziś.',
-      subDistrict: 'Janów',
-      clientName: 'Marek z Janowa',
+      subDistrict: 'Twoja okolica',
+      clientName: 'Marek',
       clientPhone: '+48 512 300 400',
       createdAt: DateTime(2026, 10, 13, 11),
       isUrgent: true,
@@ -538,8 +538,8 @@ class NeighborHelpPost {
       title: 'Malowanie pokoju 12 m²',
       description:
           'Szukam ekipy na jeden pokój + drobne szpachlowanie. Termin w weekend.',
-      subDistrict: 'Widzew Wschód',
-      clientName: 'Ania z Widzewa',
+      subDistrict: 'Twoja okolica',
+      clientName: 'Ania',
       createdAt: DateTime(2026, 10, 13, 14),
     ),
   ];
@@ -661,7 +661,7 @@ class TradespersonCatalog {
     'Hydraulika' => const [
       PriceListItem(service: 'Uszczelnienie baterii / spłuczki', rate: 'od 80 zł'),
       PriceListItem(service: 'Wymiana baterii', rate: 'od 150 zł'),
-      PriceListItem(service: 'Awaria (dojazd Widzew)', rate: 'od 120 zł'),
+      PriceListItem(service: 'Awaria (dojazd)', rate: 'od 120 zł'),
     ],
     'Remonty' => const [
       PriceListItem(service: 'Malowanie ścian', rate: 'od 25 zł/m²'),
@@ -689,28 +689,28 @@ class TradespersonCatalog {
     ),
     TradespersonReview(
       listingId: listingId,
-      authorName: 'Pan z Olechowa',
+      authorName: 'Sąsiad',
       stars: 5,
       text: 'Polecam na awarie wieczorne.',
       createdAt: DateTime(2026, 10, 9),
     ),
     TradespersonReview(
       listingId: listingId,
-      authorName: 'Kasia z Janowa',
+      authorName: 'Kasia',
       stars: 5,
       text: 'Punktualnie i po robocie posprzątane.',
       createdAt: DateTime(2026, 10, 10),
     ),
     TradespersonReview(
       listingId: listingId,
-      authorName: 'Marek ze Starego Widzewa',
+      authorName: 'Marek',
       stars: 5,
       text: 'Fachowo wytłumaczył, co było nie tak.',
       createdAt: DateTime(2026, 10, 11),
     ),
     TradespersonReview(
       listingId: listingId,
-      authorName: 'Ania z Widzewa Wschód',
+      authorName: 'Ania',
       stars: 5,
       text: 'Najlepsza ekipa z okolicy.',
       createdAt: DateTime(2026, 10, 12),
@@ -733,50 +733,50 @@ class TradespersonCatalog {
   static List<TradespersonListing> seeded() => [
     TradespersonListing(
       id: 'pro-hydraulik-olechow',
-      displayName: 'Hydraulik Olechów – Marek Nowak',
+      displayName: 'Hydraulik – Marek Nowak',
       trade: 'Hydraulika',
       description:
-          'Awarie, uszczelnienia, wymiana baterii i spłuczek. Dojazd Widzew / Olechów / Janów.',
+          'Awarie, uszczelnienia, wymiana baterii i spłuczek. Dojazd w okolicy.',
       rateLabel: 'od 120 zł + dojazd',
       phone: '+48 600 111 222',
-      subDistrict: 'Olechów',
+      subDistrict: 'Twoja okolica',
       companyVerified: true,
       portfolio: _portfolio('pro-hydraulik-olechow'),
       priceList: _prices('Hydraulika'),
       reviews: _qualityReviews('pro-hydraulik-olechow'),
-      serviceAreas: ['Olechów', 'Widzew Wschód', 'Janów'],
+      serviceAreas: ['Okolica'],
     ),
     TradespersonListing(
       id: 'pro-remonty-widzew',
-      displayName: 'Remonty klatkowe – Ekipa Widzew',
+      displayName: 'Remonty klatkowe – Ekipa lokalna',
       trade: 'Remonty',
       description:
           'Malowanie, gładzie, drobne tynki. Terminy wieczorne po pracy mieszkańców.',
       rateLabel: 'wycena na miejscu',
       phone: '+48 600 333 444',
-      subDistrict: 'Widzew Wschód',
+      subDistrict: 'Twoja okolica',
       companyVerified: true,
       portfolio: _portfolio('pro-remonty-widzew'),
       priceList: _prices('Remonty'),
       reviews: _qualityReviews('pro-remonty-widzew'),
-      serviceAreas: ['Widzew Wschód', 'Stary Widzew'],
+      serviceAreas: ['Okolica'],
     ),
     TradespersonListing(
       id: 'pro-zamek-janow',
-      displayName: 'Awaryjne otwieranie drzwi – Janów',
+      displayName: 'Awaryjne otwieranie drzwi',
       trade: 'Zamek w drzwiach',
       description:
           'Wymiana wkładek, otwieranie bez zniszczeń, dorabianie kluczy do klatki.',
       rateLabel: 'od 150 zł',
       phone: '+48 600 555 666',
-      subDistrict: 'Janów',
+      subDistrict: 'Twoja okolica',
       companyVerified: true,
       portfolio: _portfolio('pro-zamek-janow'),
       priceList: _prices('Zamek w drzwiach'),
       reviews: [
         TradespersonReview(
           listingId: 'pro-zamek-janow',
-          authorName: 'Sąsiad z Janowa',
+          authorName: 'Sąsiad',
           stars: 5,
           text: 'Otworzył drzwi bez zniszczeń.',
           createdAt: DateTime(2026, 10, 12),
@@ -789,7 +789,7 @@ class TradespersonCatalog {
           createdAt: DateTime(2026, 10, 13),
         ),
       ],
-      serviceAreas: ['Janów'],
+      serviceAreas: ['Okolica'],
     ),
   ];
 
@@ -837,7 +837,7 @@ class TradespersonCatalog {
             ? 'stawka do uzupełnienia'
             : account.card.rateLabel,
         phone: account.card.phone,
-        subDistrict: 'Widzew',
+        subDistrict: 'Twoja okolica',
         verified: account.isProActive,
         isPro: account.isProActive,
         isMine: true,
@@ -846,10 +846,10 @@ class TradespersonCatalog {
         priceList: account.priceList,
         reviews: merged(mineId, account.reviews),
         serviceAreas: const [
-          'Stary Widzew',
-          'Widzew Wschód',
-          'Olechów',
-          'Janów',
+          'Twoja okolica',
+          'Twoja okolica',
+          'Twoja okolica',
+          'Twoja okolica',
         ],
       );
       if (account.isProActive && account.listingPublished) {

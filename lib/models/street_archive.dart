@@ -34,15 +34,15 @@ class StreetArchiveEntry {
   static List<StreetArchiveEntry> seeded() => const [
     StreetArchiveEntry(
       id: 'sa-pils',
-      currentName: 'al. Piłsudskiego',
+      currentName: 'aleja Główna',
       formerName: 'ul. Główna / odcinki przedwojenne',
       era: 'Przed wojną — PRL — III RP',
       body:
-          'Oś wschodniej Łodzi zmieniała patronów wraz z epokami. Dziś to główna arteria Widzewa.',
+          'Oś wschodniej części miasta zmieniała patronów wraz z epokami. Dziś to główna arteria osiedla.',
     ),
     StreetArchiveEntry(
       id: 'sa-rok',
-      currentName: 'ul. Rokicińska',
+      currentName: 'ul. Główna',
       formerName: 'Trakt w stronę Rokicin',
       era: 'XIX w. — dziś',
       body:
@@ -50,11 +50,11 @@ class StreetArchiveEntry {
     ),
     StreetArchiveEntry(
       id: 'sa-olech',
-      currentName: 'Olechów',
-      formerName: 'Wieś Olechów / tereny kolejowe',
+      currentName: 'Twoja okolica',
+      formerName: 'Wieś okolica / tereny kolejowe',
       era: 'Wieś — wielka płyta lat 70.–80.',
       body:
-          'Z osady przy torach do wielkiego osiedla. Patroni ulic na Olechowie to często kolejarze i inżynierowie.',
+          'Z osady przy torach do wielkiego osiedla. Patroni ulic w okolicy to często kolejarze i inżynierowie.',
     ),
   ];
 }

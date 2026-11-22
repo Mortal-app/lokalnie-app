@@ -10,12 +10,12 @@ class BazaarPhotoScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Dawne bazary na Widzewie')),
+      appBar: AppBar(title: const Text('Dawne bazary w Twojej okolicy')),
       body: ListView(
         padding: const EdgeInsets.fromLTRB(16, 12, 16, 80),
         children: [
           const Text(
-            'Opisy zdjęć ryneczków i handlu osiedlowego wschodniej Łodzi z lat 90. — bez plików graficznych.',
+            'Opisy zdjęć ryneczków i handlu osiedlowego wschodniej części miasta z lat 90. — bez plików graficznych.',
           ),
           const SizedBox(height: 12),
           for (final clip in items)

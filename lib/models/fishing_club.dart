@@ -48,15 +48,15 @@ class FishingPost {
     FishingPost(
       id: 'fi-olech',
       kind: FishingKind.spot,
-      title: 'Zbiornik na Olechowie — spokojny brzeg od południa',
-      place: 'Olechów',
+      title: 'Zbiornik w okolicy — spokojny brzeg od południa',
+      place: 'Okolica',
       authorName: 'Jarek',
     ),
     FishingPost(
       id: 'fi-przyn',
       kind: FishingKind.bait,
       title: 'Oddam gumy i spławiki — biorę kukurydzę',
-      place: 'Widzew Wschód',
+      place: 'Okolica',
       authorName: 'Tomek',
     ),
   ];

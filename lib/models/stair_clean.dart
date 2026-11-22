@@ -49,14 +49,14 @@ class StairCleanSlot {
       id: 'sc-okna',
       kind: StairCleanKind.windows,
       whenText: 'Sobota 9:00',
-      place: 'Klatka II, Widzew Wschód',
+      place: 'Klatka II, osiedle wschodnie',
       authorName: 'Pani Ewa',
     ),
     StairCleanSlot(
       id: 'sc-klatka',
       kind: StairCleanKind.staircase,
       whenText: 'Niedziela 10:00',
-      place: 'Olechów, klatka I',
+      place: 'okolica, klatka I',
       authorName: 'Marek',
     ),
   ];

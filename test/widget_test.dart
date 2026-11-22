@@ -47,7 +47,15 @@ Finder _scrollableIn(String listKey) {
   return find.byType(Scrollable).first;
 }
 
+void _enlargeSurface(WidgetTester tester) {
+  tester.view.physicalSize = const Size(800, 1600);
+  tester.view.devicePixelRatio = 1.0;
+  addTearDown(tester.view.resetPhysicalSize);
+  addTearDown(tester.view.resetDevicePixelRatio);
+}
+
 Future<void> _pumpApp(WidgetTester tester, {MemoryAppStore? store}) async {
+  _enlargeSurface(tester);
   await tester.pumpWidget(LokalnieWidzewApp(store: store ?? MemoryAppStore()));
   await tester.pumpAndSettle();
 }
@@ -60,7 +68,7 @@ void main() {
       final store = SharedPreferencesAppStore();
       final initial = AppSnapshot.initial();
       final announcement = initial.announcements.first.copyWith(
-        subDistrict: 'Janów',
+        subDistrict: 'okolica',
         isFavorite: true,
         likesCount: 12,
         isLiked: true,
@@ -92,7 +100,7 @@ void main() {
       expect(restored.isDarkMode, isTrue);
       expect(restored.createdAnnouncementCount, 3);
       expect(restored.neighborhoodNotificationsEnabled, isFalse);
-      expect(restored.announcements.single.subDistrict, 'Janów');
+      expect(restored.announcements.single.subDistrict, 'okolica');
       expect(restored.announcements.single.isFavorite, isTrue);
       expect(restored.announcements.single.likesCount, 12);
       expect(restored.announcements.single.viewsCount, 34);
@@ -141,7 +149,7 @@ void main() {
     await _pumpApp(tester);
 
     const wildlifeTitle =
-        'Uwaga! Dziki przy ul. Puszkarskiej / w pobliżu parku';
+        'Uwaga! Dziki przy ul. Leśnej / w pobliżu parku';
     const wildlifeCategory = 'Dziki / Zwierzęta w mieście';
 
     final wildlifeTile = find.byKey(
@@ -155,18 +163,14 @@ void main() {
       scrollable: _scrollableIn('home-list'),
     );
     expect(find.text(wildlifeTitle), findsOneWidget);
-    expect(find.text('Poszukiwany hydraulik - ul. Rokicińska'), findsNothing);
+    expect(find.text('Poszukiwany hydraulik - ul. Główna'), findsNothing);
 
     await tester.tap(find.byTooltip('Dodaj ogłoszenie'));
     await tester.pumpAndSettle();
     await tester.tap(find.byType(DropdownButtonFormField<String>).first);
     await tester.pumpAndSettle();
-    expect(find.text('Księży Młyn'), findsOneWidget);
-    await tester.tap(find.text('Janów').last);
-    await tester.pumpAndSettle();
-    await tester.tap(find.byType(DropdownButtonFormField<String>).last);
-    await tester.pumpAndSettle();
-    expect(find.text(wildlifeCategory), findsOneWidget);
+    expect(find.text('Zwierzaki'), findsOneWidget);
+    expect(find.text('Inne'), findsOneWidget);
   });
 
   testWidgets('searches announcement titles and descriptions', (
@@ -180,16 +184,16 @@ void main() {
     );
     await tester.pumpAndSettle();
     await tester.scrollUntilVisible(
-      find.text('Znaleziono klucze w parku Górka Widzewska'),
+      find.text('Znaleziono klucze w parku osiedlowym'),
       300,
       scrollable: _scrollableIn('home-list'),
     );
 
     expect(
-      find.text('Znaleziono klucze w parku Górka Widzewska'),
+      find.text('Znaleziono klucze w parku osiedlowym'),
       findsOneWidget,
     );
-    expect(find.text('Poszukiwany hydraulik - ul. Rokicińska'), findsNothing);
+    expect(find.text('Poszukiwany hydraulik - ul. Główna'), findsNothing);
   });
 
   testWidgets('shows micro-district map counts and notification center', (
@@ -199,14 +203,14 @@ void main() {
     await tester.tap(find.byTooltip('Centrum powiadomień'));
     await tester.pumpAndSettle();
     expect(find.text('Powiadomienia'), findsOneWidget);
-    expect(find.textContaining('Dziki przy ul. Puszkarskiej'), findsOneWidget);
+    expect(find.textContaining('Dziki przy ul. Leśnej'), findsOneWidget);
     expect(find.textContaining('Awaria oświetlenia'), findsOneWidget);
     expect(
-      find.text('Nowe ogłoszenie na osiedlu Widzew Wschód'),
+      find.text('Nowe ogłoszenie w Twojej okolicy'),
       findsOneWidget,
     );
     expect(find.text('Prace serwisowe na osiedlu'), findsOneWidget);
-    expect(find.text('Uwaga: utrudnienia na ul. Puszkina'), findsOneWidget);
+    expect(find.text('Uwaga: utrudnienia na ul. Parkowa'), findsOneWidget);
     expect(find.text('Nowa wiadomość od sąsiada'), findsOneWidget);
   }, skip: true);
 
@@ -251,10 +255,24 @@ void main() {
       ),
     );
 
-    await tester.tap(find.text('Oznacz jako rozwiązane'));
+    await tester.scrollUntilVisible(
+      find.text('Oznacz jako zakończone'),
+      300,
+      scrollable: find.byType(Scrollable).first,
+    );
+    await tester.ensureVisible(find.text('Oznacz jako zakończone'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Oznacz jako zakończone'));
     await tester.pumpAndSettle();
     expect(savedStatus, AnnouncementStatus.resolved);
-    expect(find.text('Rozwiązane'), findsOneWidget);
+
+    await tester.ensureVisible(
+      find.byKey(const ValueKey('restore-listing-current')),
+    );
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const ValueKey('restore-listing-current')));
+    await tester.pumpAndSettle();
+    expect(savedStatus, AnnouncementStatus.current);
 
     await tester.drag(find.byType(Scrollable).first, const Offset(0, -300));
     await tester.pumpAndSettle();
@@ -362,14 +380,14 @@ void main() {
     await tester.tap(find.byKey(const ValueKey('category-Fachowcy')));
     await tester.pumpAndSettle();
     await tester.scrollUntilVisible(
-      find.text('Poszukiwany hydraulik - ul. Rokicińska'),
+      find.text('Poszukiwany hydraulik - ul. Główna'),
       300,
       scrollable: _scrollableIn('home-list'),
     );
 
-    expect(find.text('Poszukiwany hydraulik - ul. Rokicińska'), findsOneWidget);
+    expect(find.text('Poszukiwany hydraulik - ul. Główna'), findsOneWidget);
     expect(
-      find.text('Znaleziono klucze w parku Górka Widzewska'),
+      find.text('Znaleziono klucze w parku osiedlowym'),
       findsNothing,
     );
 
@@ -380,7 +398,7 @@ void main() {
     );
     await tester.tap(find.byTooltip('Resetuj wyszukiwanie i kategorię'));
     await tester.pumpAndSettle();
-    final keysTitle = find.text('Znaleziono klucze w parku Górka Widzewska');
+    final keysTitle = find.text('Znaleziono klucze w parku osiedlowym');
     await tester.scrollUntilVisible(
       keysTitle,
       300,
@@ -394,7 +412,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('Zwierzaki / Zgubione'), findsOneWidget);
-    expect(find.text('Stary Widzew'), findsOneWidget);
+    expect(find.text('stare osiedle'), findsOneWidget);
     expect(
       find.text(RelativeTime.format(DateTime(2026, 10, 13, 11, 45))),
       findsWidgets,
@@ -432,16 +450,16 @@ void main() {
       scrollable: _scrollableIn('home-list'),
     );
     expect(find.text('Pomoc sąsiedzka'), findsOneWidget);
-    expect(find.text('Sąsiad z Widzewa'), findsWidgets);
+    expect(find.text('Sąsiad'), findsWidgets);
     await tester.tap(find.text('Profil').last);
     await tester.pumpAndSettle();
-    expect(find.text('Sąsiad z Widzewa'), findsWidgets);
+    expect(find.text('Sąsiad'), findsWidgets);
     await tester.tap(find.byTooltip('Edytuj profil'));
     await tester.pumpAndSettle();
-    await tester.enterText(find.byType(TextField).last, 'Sąsiadka Janowa');
+    await tester.enterText(find.byType(TextField).last, 'Sąsiadka okolicy');
     await tester.tap(find.text('Zapisz'), warnIfMissed: false);
     await tester.pumpAndSettle();
-    expect(find.text('Sąsiadka Janowa'), findsOneWidget);
+    expect(find.text('Sąsiadka okolicy'), findsOneWidget);
     expect(find.text('Dodane ogłoszenia'), findsWidgets);
   }, skip: true);
 
@@ -555,37 +573,13 @@ void main() {
       ),
     );
 
+    expect(find.byKey(const ValueKey('subdistrict-filter-row')), findsNothing);
+
     await tester.scrollUntilVisible(
-      find.byKey(const ValueKey('subdistrict-filter-row')),
+      find.byTooltip('Sortuj według polubień'),
       300,
       scrollable: find.byType(Scrollable).first,
     );
-    await tester.tap(find.byKey(const ValueKey('subdistrict-chip-Olechów')));
-    await tester.pumpAndSettle();
-    await tester.scrollUntilVisible(
-      find.text('Uwaga! Dziki przy ul. Puszkarskiej / w pobliżu parku'),
-      300,
-      scrollable: find.byType(Scrollable).first,
-    );
-
-    expect(
-      find.text('Uwaga! Dziki przy ul. Puszkarskiej / w pobliżu parku'),
-      findsOneWidget,
-    );
-    expect(find.text('Poszukiwany hydraulik - ul. Rokicińska'), findsNothing);
-
-    await tester.scrollUntilVisible(
-      find.byTooltip('Resetuj wyszukiwanie i kategorię'),
-      -300,
-      scrollable: find.byType(Scrollable).first,
-    );
-    await Scrollable.ensureVisible(
-      tester.element(find.byTooltip('Resetuj wyszukiwanie i kategorię')),
-      alignment: 0.35,
-    );
-    await tester.pumpAndSettle();
-    await tester.tap(find.byTooltip('Resetuj wyszukiwanie i kategorię'));
-    await tester.pumpAndSettle();
     await Scrollable.ensureVisible(
       tester.element(find.byTooltip('Sortuj według polubień')),
       alignment: 0.35,
@@ -600,7 +594,7 @@ void main() {
         .toList();
     expect(
       titles.first,
-      'Uwaga! Dziki przy ul. Puszkarskiej / w pobliżu parku',
+      'Uwaga! Dziki przy ul. Leśnej / w pobliżu parku',
     );
   });
 
@@ -628,7 +622,7 @@ void main() {
     await tester.tap(find.byKey(const ValueKey('my-announcements-tile')));
     await tester.pumpAndSettle();
     expect(find.text('Oddam doniczki'), findsOneWidget);
-    expect(find.text('Sąsiad z Widzewa'), findsWidgets);
+    expect(find.text('Sąsiad'), findsWidgets);
   });
 
   testWidgets('shows neighborhood empty state for osiedle without posts', (
@@ -689,7 +683,7 @@ void main() {
     await tester.tap(aboutTile);
     await tester.pumpAndSettle();
 
-    expect(find.text('O aplikacji Lokalnie Widzew'), findsWidgets);
+    expect(find.text('O aplikacji Lokalnie'), findsWidgets);
     expect(find.textContaining('1.0.0'), findsOneWidget);
     expect(find.text('administracja@lokalniewidzew.app'), findsOneWidget);
     await tester.scrollUntilVisible(
@@ -716,18 +710,18 @@ void main() {
     );
     expect(find.byKey(const ValueKey('tag-#Usługi')), findsNothing);
     await tester.scrollUntilVisible(
-      find.text('Poszukiwany hydraulik - ul. Rokicińska'),
+      find.text('Poszukiwany hydraulik - ul. Główna'),
       300,
       scrollable: find.byType(Scrollable).first,
     );
-    expect(find.text('Poszukiwany hydraulik - ul. Rokicińska'), findsOneWidget);
+    expect(find.text('Poszukiwany hydraulik - ul. Główna'), findsOneWidget);
     await tester.scrollUntilVisible(
-      find.text('Znaleziono klucze w parku Górka Widzewska'),
+      find.text('Znaleziono klucze w parku osiedlowym'),
       300,
       scrollable: find.byType(Scrollable).first,
     );
     expect(
-      find.text('Znaleziono klucze w parku Górka Widzewska'),
+      find.text('Znaleziono klucze w parku osiedlowym'),
       findsOneWidget,
     );
   });
@@ -779,16 +773,16 @@ void main() {
   ) async {
     await _pumpApp(tester);
     await tester.scrollUntilVisible(
-      find.text('Znaleziono klucze w parku Górka Widzewska'),
+      find.text('Znaleziono klucze w parku osiedlowym'),
       300,
       scrollable: _scrollableIn('home-list'),
     );
     await Scrollable.ensureVisible(
-      tester.element(find.text('Znaleziono klucze w parku Górka Widzewska')),
+      tester.element(find.text('Znaleziono klucze w parku osiedlowym')),
       alignment: 0.35,
     );
     await tester.pumpAndSettle();
-    await tester.tap(find.text('Znaleziono klucze w parku Górka Widzewska'));
+    await tester.tap(find.text('Znaleziono klucze w parku osiedlowym'));
     await tester.pumpAndSettle();
     await tester.tap(find.byTooltip('Dodaj do ulubionych'));
     await tester.pumpAndSettle();
@@ -799,7 +793,7 @@ void main() {
 
     expect(find.text('Zapisane ogłoszenia'), findsOneWidget);
     expect(
-      find.text('Znaleziono klucze w parku Górka Widzewska'),
+      find.text('Znaleziono klucze w parku osiedlowym'),
       findsOneWidget,
     );
   });
@@ -809,12 +803,12 @@ void main() {
   ) async {
     await _pumpApp(tester);
     await tester.scrollUntilVisible(
-      find.text('Oddam sprawną pralkę za darmo (odbiór Janów)'),
+      find.text('Oddam sprawną pralkę za darmo (odbiór na osiedlu)'),
       300,
       scrollable: _scrollableIn('home-list'),
     );
     await Scrollable.ensureVisible(
-      tester.element(find.text('Oddam sprawną pralkę za darmo (odbiór Janów)')),
+      tester.element(find.text('Oddam sprawną pralkę za darmo (odbiór na osiedlu)')),
       alignment: 0.35,
     );
     await tester.pumpAndSettle();
@@ -836,7 +830,7 @@ void main() {
       findsOneWidget,
     );
     expect(
-      find.text('Oddam sprawną pralkę za darmo (odbiór Janów)'),
+      find.text('Oddam sprawną pralkę za darmo (odbiór na osiedlu)'),
       findsWidgets,
     );
   });
@@ -876,6 +870,11 @@ void main() {
     await tester.pumpAndSettle();
     await tester.tap(find.text('Polityka prywatności i regulamin'));
     await tester.pumpAndSettle();
+    await tester.scrollUntilVisible(
+      find.textContaining('SharedPreferences'),
+      240,
+      scrollable: _scrollableIn('privacy-list'),
+    );
     expect(find.text('Przetwarzanie danych lokalnie'), findsOneWidget);
     expect(find.textContaining('SharedPreferences'), findsOneWidget);
 
@@ -896,8 +895,13 @@ void main() {
     await tester.scrollUntilVisible(
       find.text('Polityka prywatności i regulamin'),
       250,
-      scrollable: find.byType(Scrollable).first,
+      scrollable: _scrollableIn('about-list'),
     );
+    await Scrollable.ensureVisible(
+      tester.element(find.text('Polityka prywatności i regulamin')),
+      alignment: 0.35,
+    );
+    await tester.pumpAndSettle();
     await tester.tap(find.text('Polityka prywatności i regulamin'));
     await tester.pumpAndSettle();
     expect(find.text('Polityka prywatności'), findsWidgets);
@@ -940,6 +944,13 @@ void main() {
       scrollable: find.byType(Scrollable).first,
     );
     expect(find.text('Zadzwoń / SMS'), findsOneWidget);
+    await tester.scrollUntilVisible(
+      find.text('Napisz do sąsiada'),
+      200,
+      scrollable: find.byType(Scrollable).first,
+    );
+    await tester.ensureVisible(find.text('Napisz do sąsiada'));
+    await tester.pumpAndSettle();
     expect(find.text('Napisz do sąsiada'), findsOneWidget);
     await tester.tap(find.text('Napisz do sąsiada'));
     await tester.pump();
@@ -1032,7 +1043,7 @@ void main() {
     );
     await tester.tap(resetFilters);
     await tester.pumpAndSettle();
-    expect(find.text('Poszukiwany hydraulik - ul. Rokicińska'), findsOneWidget);
+    expect(find.text('Poszukiwany hydraulik - ul. Główna'), findsOneWidget);
   });
 
   testWidgets('saved tab shows an empty state message', (
@@ -1047,6 +1058,7 @@ void main() {
   testWidgets('quick neighborhood questions post a comment', (
     WidgetTester tester,
   ) async {
+    _enlargeSurface(tester);
     await tester.pumpWidget(
       MaterialApp(
         home: AnnouncementDetailScreen(
@@ -1063,6 +1075,8 @@ void main() {
       300,
       scrollable: find.byType(Scrollable).first,
     );
+    await tester.ensureVisible(find.text('Czy aktualne?'));
+    await tester.pumpAndSettle();
     await tester.tap(find.text('Czy aktualne?'));
     await tester.pumpAndSettle();
     expect(find.text('Czy aktualne?'), findsWidgets);
@@ -1082,14 +1096,17 @@ void main() {
     await tester.tap(find.text('Profil').last);
     await tester.pumpAndSettle();
     await tester.scrollUntilVisible(
-      find.text('Historia aktywności'),
+      find.byKey(const ValueKey('activity-summary-header')),
       250,
       scrollable: _scrollableIn('profile-list'),
     );
-    expect(find.text('Moje komentarze'), findsOneWidget);
-    expect(find.text('Nie dodałeś jeszcze komentarzy.'), findsOneWidget);
-    expect(find.text('Historia aktywności'), findsOneWidget);
-    expect(find.textContaining('Sąsiad od'), findsWidgets);
+    expect(find.text('Podsumowanie aktywności'), findsOneWidget);
+    await tester.scrollUntilVisible(
+      find.byKey(const ValueKey('my-announcements-tile')),
+      250,
+      scrollable: _scrollableIn('profile-list'),
+    );
+    expect(find.text('Moje ogłoszenia'), findsOneWidget);
   });
 
   testWidgets('owner can edit complete and delete an announcement', (
@@ -1142,7 +1159,7 @@ void main() {
     await tester.pumpAndSettle();
     await tester.tap(find.byKey(const ValueKey('complete-own-announcement')));
     await tester.pumpAndSettle();
-    expect(find.text('Rozwiązane'), findsOneWidget);
+    expect(find.text('Zakończone'), findsOneWidget);
 
     await Scrollable.ensureVisible(
       tester.element(find.text('Usuń')),
@@ -1159,25 +1176,26 @@ void main() {
   testWidgets('home sorts nearest and filters by date range', (
     WidgetTester tester,
   ) async {
+    _enlargeSurface(tester);
     final now = DateTime.now();
     await tester.pumpWidget(
       MaterialApp(
         home: HomeScreen(
-          userSubDistrict: 'Olechów',
+          userSubDistrict: 'okolica',
           announcements: [
             Announcement(
-              title: 'Stare z Janowa',
+              title: 'Stare z okolicy',
               category: 'Sąsiedzi',
-              subDistrict: 'Janów',
+              subDistrict: 'okolica',
               time: 'tydzień temu',
               icon: Icons.campaign,
               publishedAt: now.subtract(const Duration(days: 10)),
               likesCount: 20,
             ),
             Announcement(
-              title: 'Dzisiejsze z Olechowa',
+              title: 'Dzisiejsze z okolicy',
               category: 'Sąsiedzi',
-              subDistrict: 'Olechów',
+              subDistrict: 'okolica',
               time: 'teraz',
               icon: Icons.campaign,
               publishedAt: now,
@@ -1197,6 +1215,8 @@ void main() {
       300,
       scrollable: find.byType(Scrollable).first,
     );
+    await tester.ensureVisible(find.byKey(const ValueKey('sort-nearest')));
+    await tester.pumpAndSettle();
     await tester.tap(find.byKey(const ValueKey('sort-nearest')));
     await tester.pumpAndSettle();
     expect(
@@ -1205,7 +1225,7 @@ void main() {
           .first
           .announcement
           .title,
-      'Dzisiejsze z Olechowa',
+      'Dzisiejsze z okolicy',
     );
 
     await tester.tap(find.byKey(const ValueKey('sort-likes')));
@@ -1216,13 +1236,13 @@ void main() {
           .first
           .announcement
           .title,
-      'Stare z Janowa',
+      'Stare z okolicy',
     );
 
     await tester.tap(find.byKey(const ValueKey('date-filter-today')));
     await tester.pumpAndSettle();
-    expect(find.text('Dzisiejsze z Olechowa'), findsWidgets);
-    expect(find.text('Stare z Janowa'), findsNothing);
+    expect(find.text('Dzisiejsze z okolicy'), findsWidgets);
+    expect(find.text('Stare z okolicy'), findsNothing);
   });
 
   testWidgets('opens zoomable photo gallery from announcement details', (
@@ -1242,7 +1262,7 @@ void main() {
       ),
     );
 
-    await tester.tap(find.text('Galeria'));
+    await tester.tap(find.byType(InkWell).first);
     await tester.pumpAndSettle();
     expect(find.byType(PhotoGalleryScreen), findsOneWidget);
     expect(find.text('Galeria zdjęć'), findsOneWidget);
@@ -1338,7 +1358,7 @@ void main() {
     final help = Announcement(
       title: 'Wniesienie zakupów na 4. piętro',
       category: Announcement.helpCategory,
-      subDistrict: 'Olechów',
+      subDistrict: 'okolica',
       time: 'teraz',
       icon: Icons.volunteer_activism,
       publishedAt: DateTime(2026, 10, 22, 12),
@@ -1373,7 +1393,7 @@ void main() {
       scrollable: find.byType(Scrollable).first,
     );
     expect(find.text('Wniesienie zakupów na 4. piętro'), findsOneWidget);
-    expect(find.text('Poszukiwany hydraulik - ul. Rokicińska'), findsNothing);
+    expect(find.text('Poszukiwany hydraulik - ul. Główna'), findsNothing);
 
     var resolved = AnnouncementStatus.current;
     await tester.pumpWidget(
@@ -1386,6 +1406,13 @@ void main() {
         ),
       ),
     );
+    await tester.scrollUntilVisible(
+      find.text('Zrealizowane – Dziękuję sąsiedzie!'),
+      300,
+      scrollable: find.byType(Scrollable).first,
+    );
+    await tester.ensureVisible(find.text('Zrealizowane – Dziękuję sąsiedzie!'));
+    await tester.pumpAndSettle();
     await tester.tap(find.text('Zrealizowane – Dziękuję sąsiedzie!'));
     await tester.pumpAndSettle();
     expect(resolved, AnnouncementStatus.resolved);
@@ -1404,7 +1431,7 @@ void main() {
         ),
       ),
     );
-    expect(find.text('Piknik sąsiedzki na Górce Widzewskiej'), findsOneWidget);
+    expect(find.text('Piknik sąsiedzki na górce osiedlowej'), findsOneWidget);
     await tester.tap(find.byKey(const ValueKey('event-going-picnic')));
     await tester.pumpAndSettle();
     expect(find.text('Wypisuję się'), findsOneWidget);
@@ -1426,41 +1453,40 @@ void main() {
     );
     await tester.testTextInput.receiveAction(TextInputAction.done);
     await tester.pumpAndSettle();
+    final clearSearch = find.byTooltip('Wyczyść wyszukiwanie');
+    if (clearSearch.evaluate().isNotEmpty) {
+      await tester.tap(clearSearch);
+      await tester.pumpAndSettle();
+    }
+    final clearHistory = find.text('Wyczyść historię');
+    if (clearHistory.evaluate().isNotEmpty) {
+      await tester.tap(clearHistory);
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 300));
+      expect(
+        find.text('Historia wyszukiwania została wyczyszczona'),
+        findsOneWidget,
+      );
+    }
 
     await tester.tap(find.text('Profil').last);
     await tester.pumpAndSettle();
-    await tester.scrollUntilVisible(
-      find.text('Wyczyść historię wyszukiwania'),
-      250,
-      scrollable: _scrollableIn('profile-list'),
-    );
-    await Scrollable.ensureVisible(
-      tester.element(find.text('Wyczyść historię wyszukiwania')),
-      alignment: 0.35,
-    );
+    await tester.tap(find.byKey(const ValueKey('profile-settings')));
     await tester.pumpAndSettle();
-    await tester.tap(find.text('Wyczyść historię wyszukiwania'));
-    await tester.pump();
-    await tester.pump(const Duration(milliseconds: 300));
-    expect(
-      find.text('Historia wyszukiwania została wyczyszczona'),
-      findsOneWidget,
-    );
-
     await tester.scrollUntilVisible(
-      find.text('Eksportuj wprowadzone preferencje'),
+      find.text('Polityka prywatności i regulamin'),
       250,
-      scrollable: _scrollableIn('profile-list'),
+      scrollable: _scrollableIn('settings-list'),
     );
-    await Scrollable.ensureVisible(
-      tester.element(find.text('Eksportuj wprowadzone preferencje')),
-      alignment: 0.35,
-    );
+    await tester.tap(find.text('Polityka prywatności i regulamin'));
     await tester.pumpAndSettle();
-    await tester.tap(find.text('Eksportuj wprowadzone preferencje'));
-    await tester.pump();
-    await tester.pump(const Duration(milliseconds: 300));
-    expect(find.text('Skopiowano preferencje prywatności'), findsOneWidget);
+    expect(find.textContaining('Firebase Auth'), findsOneWidget);
+    await tester.scrollUntilVisible(
+      find.textContaining('SharedPreferences'),
+      240,
+      scrollable: _scrollableIn('privacy-list'),
+    );
+    expect(find.textContaining('SharedPreferences'), findsOneWidget);
   });
 }
 

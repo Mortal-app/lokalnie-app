@@ -11,7 +11,7 @@ class TradespersonProBenefitsScreen extends StatelessWidget {
     (
       Icons.campaign_outlined,
       'Oferta w katalogu usług',
-      'Tylko fachowcy PRO publikują wizytówkę widoczną dla mieszkańców Widzewa, Olechowa i Janowa.',
+      'Tylko fachowcy PRO publikują wizytówkę widoczną dla mieszkańców okolicy.',
     ),
     (
       Icons.phone_in_talk_outlined,
@@ -45,7 +45,7 @@ class TradespersonProBenefitsScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
-              'Pakiet abonamentowy dla wykonawców z Widzewa',
+              'Pakiet abonamentowy dla wykonawców z okolicy',
               style: Theme.of(context).textTheme.titleLarge,
             ),
             const SizedBox(height: 8),
@@ -64,7 +64,9 @@ class TradespersonProBenefitsScreen extends StatelessWidget {
               ),
             const SizedBox(height: 12),
             const Text(
-              'Symulacja płatności Blik lub kartą przedłuża pakiet o 30 dni. Status i datę ważności zawsze sprawdzisz w Profilu.',
+              'Opłata idzie przez Google Play (produkt lokalnie_pro_monthly). '
+              'Jeśli oferta nie jest jeszcze w sklepie, ekran pokaże cenę orientacyjną i nie wywali aplikacji. '
+              'Status i datę ważności zawsze sprawdzisz w Profilu.',
             ),
             const SizedBox(height: 20),
             FilledButton.icon(

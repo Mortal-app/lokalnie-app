@@ -16,6 +16,7 @@ import '../widgets/announcement_contact_links.dart';
 import '../widgets/announcement_photo.dart';
 import '../widgets/announcement_reactions.dart';
 import '../widgets/app_page_route.dart';
+import '../widgets/route_pop_scope.dart';
 import '../widgets/verified_neighbor_badge.dart';
 import 'photo_gallery_screen.dart';
 
@@ -29,6 +30,8 @@ class AnnouncementDetailScreen extends StatefulWidget {
   final VoidCallback? onRemindTomorrow;
   final ValueChanged<String>? onReact;
   final VoidCallback? onWriteToAuthor;
+  final VoidCallback? onEdit;
+  final VoidCallback? onDelete;
 
   const AnnouncementDetailScreen({
     super.key,
@@ -41,6 +44,8 @@ class AnnouncementDetailScreen extends StatefulWidget {
     this.onRemindTomorrow,
     this.onReact,
     this.onWriteToAuthor,
+    this.onEdit,
+    this.onDelete,
   });
 
   @override
@@ -125,12 +130,56 @@ class _AnnouncementDetailScreenState extends State<AnnouncementDetailScreen> {
       );
   }
 
+  void _restoreCurrent() {
+    setState(() => _status = AnnouncementStatus.current);
+    widget.onStatusChanged(AnnouncementStatus.current);
+  }
+
+  void _contactAuthor() {
+    NeighborContact.sendMessage(context);
+    widget.onWriteToAuthor?.call();
+  }
+
+  Future<void> _confirmDelete(BuildContext context) async {
+    final shouldDelete = await showDialog<bool>(
+      context: context,
+      barrierDismissible: true,
+      builder: (dialogContext) => AlertDialog(
+        title: const Text('Usunąć ogłoszenie?'),
+        content: Text(
+          'Ogłoszenie „${widget.announcement.title}” zostanie usunięte z tablicy.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(dialogContext).pop(false),
+            child: const Text('Anuluj'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.of(dialogContext).pop(true),
+            child: const Text('Usuń'),
+          ),
+        ],
+      ),
+    );
+    if (!context.mounted || shouldDelete != true) return;
+    widget.onDelete?.call();
+  }
+
+  Future<void> _reportContent() async {
+    final reason = await showAnnouncementReportDialog(context);
+    if (reason == null || !mounted) return;
+    widget.onReport?.call(reason);
+  }
+
   String _formatDateTime(DateTime dateTime) => RelativeTime.format(dateTime);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: ModalRoute.of(context)?.impliesAppBarDismissal == true
+            ? const AppBarBackButton()
+            : null,
         title: const Text('Szczegóły ogłoszenia'),
         actions: [
           IconButton(
@@ -138,6 +187,20 @@ class _AnnouncementDetailScreenState extends State<AnnouncementDetailScreen> {
             onPressed: _shareAnnouncement,
             icon: const Icon(Icons.share_outlined),
           ),
+          if (widget.onEdit != null)
+            IconButton(
+              key: const ValueKey('edit-own-announcement'),
+              tooltip: 'Edytuj ogłoszenie',
+              onPressed: widget.onEdit,
+              icon: const Icon(Icons.edit_outlined),
+            ),
+          if (widget.onDelete != null)
+            IconButton(
+              key: const ValueKey('delete-own-announcement'),
+              tooltip: 'Usuń ogłoszenie',
+              onPressed: () => _confirmDelete(context),
+              icon: const Icon(Icons.delete_outline),
+            ),
           if (widget.onReport != null && !widget.announcement.isMine)
             PopupMenuButton<String>(
               tooltip: 'Zgłoś nadużycie',
@@ -217,42 +280,53 @@ class _AnnouncementDetailScreenState extends State<AnnouncementDetailScreen> {
             const SizedBox(height: 16),
             Hero(
               tag: '${widget.announcement.heroTag}-photo',
-              child: ClipRRect(
-                borderRadius: WidzewUi.borderRadius,
-                child: AspectRatio(
-                  aspectRatio: 16 / 9,
-                  child: Stack(
-                    fit: StackFit.expand,
-                    children: [
-                      AnnouncementPhoto(
+              child: Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  onTap: () => Navigator.of(context).push(
+                    AppPageRoute<void>(
+                      builder: (_) => PhotoGalleryScreen(
                         announcement: widget.announcement,
-                        memCacheWidth: MediaQuery.sizeOf(context).width,
-                        memCacheHeight:
-                            MediaQuery.sizeOf(context).width * 9 / 16,
                       ),
-                      Material(
-                        color: Colors.transparent,
-                        child: InkWell(
-                          onTap: () => Navigator.of(context).push(
-                            AppPageRoute<void>(
-                              builder: (_) => PhotoGalleryScreen(
+                    ),
+                  ),
+                  child: ClipRRect(
+                    borderRadius: WidzewUi.borderRadius,
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints(
+                        minHeight: 180,
+                        maxHeight: MediaQuery.sizeOf(context).height * 0.55,
+                      ),
+                      child: Stack(
+                        alignment: Alignment.bottomRight,
+                        children: [
+                          ColoredBox(
+                            color: Theme.of(context)
+                                .colorScheme
+                                .surfaceContainerHighest,
+                            child: SizedBox(
+                              width: double.infinity,
+                              child: AnnouncementPhoto(
                                 announcement: widget.announcement,
+                                fit: BoxFit.contain,
+                                memCacheWidth: MediaQuery.sizeOf(context).width,
+                                memCacheHeight:
+                                    MediaQuery.sizeOf(context).height * 0.55,
                               ),
                             ),
                           ),
-                          child: const Align(
-                            alignment: Alignment.bottomRight,
+                          const IgnorePointer(
                             child: Padding(
                               padding: EdgeInsets.all(8),
                               child: Chip(
                                 avatar: Icon(Icons.zoom_in, size: 18),
-                                label: Text('Galeria'),
+                                label: Text('Pełny rozmiar'),
                               ),
                             ),
                           ),
-                        ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
                 ),
               ),
@@ -266,19 +340,20 @@ class _AnnouncementDetailScreenState extends State<AnnouncementDetailScreen> {
             children: [
               Chip(
                 avatar: Icon(widget.announcement.icon, size: 18),
-                label: Text(widget.announcement.category),
+                label: Text(widget.announcement.displayCategory),
               ),
               const Icon(Icons.schedule, size: 18),
               Text(_formatDateTime(widget.announcement.publishedAt)),
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Icon(Icons.location_on_outlined, size: 18),
-                  const SizedBox(width: 4),
-                  Text(widget.announcement.subDistrict),
-                ],
+              Chip(
+                avatar: const Icon(Icons.location_on_outlined, size: 18),
+                label: Text(
+                  widget.announcement.subDistrict.trim().isEmpty
+                      ? 'Brak lokalizacji'
+                      : widget.announcement.subDistrict,
+                ),
               ),
               Chip(
+                key: const ValueKey('listing-status-chip'),
                 avatar: Icon(
                   _status == AnnouncementStatus.current
                       ? Icons.check_circle_outline
@@ -288,6 +363,7 @@ class _AnnouncementDetailScreenState extends State<AnnouncementDetailScreen> {
                 label: Text(_status.label),
               ),
               ActionChip(
+                key: const ValueKey('share-listing-chip'),
                 avatar: const Icon(Icons.share_outlined, size: 18),
                 label: const Text('Udostępnij'),
                 onPressed: _shareAnnouncement,
@@ -305,6 +381,15 @@ class _AnnouncementDetailScreenState extends State<AnnouncementDetailScreen> {
                 ),
             ],
           ),
+          if (!widget.announcement.isMine) ...[
+            const SizedBox(height: 16),
+            FilledButton.icon(
+              key: const ValueKey('contact-author-button'),
+              onPressed: _contactAuthor,
+              icon: const Icon(Icons.chat_bubble_outline),
+              label: const Text('Napisz do autora'),
+            ),
+          ],
           if (widget.announcement.isLending) ...[
             const SizedBox(height: 16),
             FilledButton.tonalIcon(
@@ -313,6 +398,23 @@ class _AnnouncementDetailScreenState extends State<AnnouncementDetailScreen> {
               label: const Text('Poproś o rezerwację terminu'),
             ),
           ],
+          const SizedBox(height: 8),
+          ListTile(
+            contentPadding: EdgeInsets.zero,
+            leading: const Icon(Icons.category_outlined),
+            title: const Text('Kategoria'),
+            subtitle: Text(widget.announcement.displayCategory),
+          ),
+          ListTile(
+            contentPadding: EdgeInsets.zero,
+            leading: const Icon(Icons.place_outlined),
+            title: const Text('Lokalizacja'),
+            subtitle: Text(
+              widget.announcement.subDistrict.trim().isEmpty
+                  ? 'Brak lokalizacji'
+                  : widget.announcement.subDistrict,
+            ),
+          ),
           const SizedBox(height: 12),
           AnnouncementReactionsBar(announcement: _item, onReact: _react),
           const SizedBox(height: 24),
@@ -328,13 +430,24 @@ class _AnnouncementDetailScreenState extends State<AnnouncementDetailScreen> {
               (widget.announcement.isMine || widget.announcement.isHelp)) ...[
             const SizedBox(height: 16),
             OutlinedButton.icon(
+              key: const ValueKey('mark-listing-closed'),
               onPressed: _markResolved,
               icon: const Icon(Icons.task_alt),
               label: Text(
                 widget.announcement.isHelp
                     ? 'Zrealizowane – Dziękuję sąsiedzie!'
-                    : 'Oznacz jako rozwiązane',
+                    : 'Oznacz jako zakończone',
               ),
+            ),
+          ],
+          if (_status == AnnouncementStatus.resolved &&
+              widget.announcement.isMine) ...[
+            const SizedBox(height: 16),
+            FilledButton.tonalIcon(
+              key: const ValueKey('restore-listing-current'),
+              onPressed: _restoreCurrent,
+              icon: const Icon(Icons.restart_alt),
+              label: const Text('Przywróć jako aktualne'),
             ),
           ],
           const SizedBox(height: 20),
@@ -371,6 +484,19 @@ class _AnnouncementDetailScreenState extends State<AnnouncementDetailScreen> {
                       label: const Text('Zgłoś nieaktualne'),
                     ),
                   ),
+                  if (widget.onReport != null &&
+                      !widget.announcement.isMine) ...[
+                    const SizedBox(height: 8),
+                    SizedBox(
+                      width: double.infinity,
+                      child: FilledButton.tonalIcon(
+                        key: const ValueKey('report-content-button'),
+                        onPressed: _reportContent,
+                        icon: const Icon(Icons.flag_outlined),
+                        label: const Text('Zgłoś treść'),
+                      ),
+                    ),
+                  ],
                 ],
               ),
             ),
@@ -448,6 +574,13 @@ class _AnnouncementDetailScreenState extends State<AnnouncementDetailScreen> {
                     spacing: 8,
                     runSpacing: 8,
                     children: [
+                      if (!widget.announcement.isMine)
+                        FilledButton.icon(
+                          key: const ValueKey('contact-author-card-button'),
+                          onPressed: _contactAuthor,
+                          icon: const Icon(Icons.chat_bubble_outline),
+                          label: const Text('Napisz do autora'),
+                        ),
                       OutlinedButton.icon(
                         onPressed: () => NeighborContact.callOrSms(context),
                         icon: const Icon(Icons.phone_outlined),

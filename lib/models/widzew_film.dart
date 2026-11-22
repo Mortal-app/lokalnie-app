@@ -38,11 +38,11 @@ class WidzewFilmClip {
       era: 'lata 70.–80.',
       source: 'Archiwum PKF / opis odnośnika (bez odtwarzacza)',
       body:
-          'Budowa blokowisk Widzewa Wschodu i Olechowa — dźwigi, płyty, nowe klatki.',
+          'Budowa blokowisk okolicy — dźwigi, płyty, nowe klatki.',
     ),
     WidzewFilmClip(
       id: 'wf-knie',
-      title: 'Widzew w starym knie',
+      title: 'Okolica w starym kinie',
       era: 'powojnie',
       source: 'Kronika filmowa — tytuł i opis do wyszukania',
       body: 'Ulice i commuters przy torach, zanim wyrosły osiedla.',

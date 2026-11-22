@@ -49,7 +49,10 @@ class _EventsScreenState extends State<EventsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Wydarzenia na Widzewie')),
+      appBar: AppBar(
+        leading: const BackButton(),
+        title: const Text('Wydarzenia w Twojej okolicy'),
+      ),
       body: ListView.separated(
         padding: const EdgeInsets.fromLTRB(16, 16, 16, 80),
         scrollCacheExtent: WidzewUi.listCacheExtent,

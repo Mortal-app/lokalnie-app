@@ -10,12 +10,12 @@ class WidzewFilmScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Widzew w starym knie')),
+      appBar: AppBar(title: const Text('Okolica w starym kinie')),
       body: ListView(
         padding: const EdgeInsets.fromLTRB(16, 12, 16, 80),
         children: [
           const Text(
-            'Opisy historycznych materiałów wideo i kronik z budowy blokowisk wschodniej Łodzi. To archiwum opisowe — bez odtwarzania plików.',
+            'Opisy historycznych materiałów wideo i kronik z budowy blokowisk wschodniej części miasta. To archiwum opisowe — bez odtwarzania plików.',
           ),
           const SizedBox(height: 12),
           for (final clip in items)

@@ -2,8 +2,6 @@ import 'package:flutter/widgets.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 
-import '../models/neighborhood_geo.dart';
-
 class WidzewFix {
   final double latitude;
   final double longitude;
@@ -18,22 +16,36 @@ class WidzewFix {
     required this.addressLabel,
     this.success = false,
   });
+
+  static const unavailable = WidzewFix(
+    latitude: 0,
+    longitude: 0,
+    subDistrict: '',
+    addressLabel: 'Brak lokalizacji',
+    success: false,
+  );
+
+  bool get hasCoordinates => success;
 }
 
 class WidzewLocation {
+  /// Test-only GPS override. Production never sets this.
+  static WidzewFix? debugOverride;
+
   static bool get _inTest =>
       WidgetsBinding.instance.runtimeType.toString().contains('TestWidgets');
 
-  static Future<WidzewFix> current({
-    String fallbackDistrict = 'Widzew Wschód',
-  }) async {
+  static Future<WidzewFix> current({String fallbackDistrict = ''}) async {
+    final override = debugOverride;
+    if (override != null) return override;
     if (_inTest) {
-      final pin = NeighborhoodGeo.forSubDistrict(fallbackDistrict);
       return WidzewFix(
-        latitude: pin.latitude,
-        longitude: pin.longitude,
+        latitude: 51.76,
+        longitude: 19.54,
         subDistrict: fallbackDistrict,
-        addressLabel: '$fallbackDistrict · 51.76°N 19.54°E',
+        addressLabel: fallbackDistrict.isEmpty
+            ? 'GPS (test)'
+            : fallbackDistrict,
         success: true,
       );
     }
@@ -45,7 +57,7 @@ class WidzewLocation {
       }
       if (permission == LocationPermission.denied ||
           permission == LocationPermission.deniedForever) {
-        return _fallback(fallbackDistrict);
+        return WidzewFix.unavailable;
       }
       final position = await Geolocator.getCurrentPosition(
         locationSettings: const LocationSettings(
@@ -53,33 +65,18 @@ class WidzewLocation {
           timeLimit: Duration(seconds: 8),
         ),
       );
-      final district = NeighborhoodGeo.nearestSubDistrict(
-        position.latitude,
-        position.longitude,
-      );
       return WidzewFix(
         latitude: position.latitude,
         longitude: position.longitude,
-        subDistrict: district,
+        subDistrict: '',
         addressLabel:
-            '$district · ${position.latitude.toStringAsFixed(5)}, '
+            '${position.latitude.toStringAsFixed(5)}, '
             '${position.longitude.toStringAsFixed(5)}',
         success: true,
       );
     } catch (_) {
-      return _fallback(fallbackDistrict);
+      return WidzewFix.unavailable;
     }
-  }
-
-  static WidzewFix _fallback(String district) {
-    final pin = NeighborhoodGeo.forSubDistrict(district);
-    return WidzewFix(
-      latitude: pin.latitude,
-      longitude: pin.longitude,
-      subDistrict: district,
-      addressLabel: '$district (przybliżona lokalizacja Widzewa)',
-      success: false,
-    );
   }
 
   static LatLng asLatLng(WidzewFix fix) => LatLng(fix.latitude, fix.longitude);

@@ -66,7 +66,7 @@ class DistrictAnalyticsScreen extends StatelessWidget {
               ),
           const SizedBox(height: 8),
           const Text(
-            'Aktywność ulic (Puszkina, Rokicińska, Przybyszewskiego)',
+            'Aktywność ulic (Parkowa, Główna, Szkolna)',
             style: TextStyle(fontWeight: FontWeight.w600),
           ),
           const SizedBox(height: 8),

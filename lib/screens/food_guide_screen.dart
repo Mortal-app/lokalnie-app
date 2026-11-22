@@ -49,7 +49,7 @@ class _FoodGuideScreenState extends State<FoodGuideScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Smaki Widzewa')),
+      appBar: AppBar(title: const Text('Smaki okolicy')),
       body: ListView.builder(
         padding: const EdgeInsets.fromLTRB(16, 12, 16, 80),
         itemCount: _spots.length,

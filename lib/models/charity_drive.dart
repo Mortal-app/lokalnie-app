@@ -81,7 +81,7 @@ class CharityDrive {
       id: 'drive-karma',
       title: 'Karma dla zwierząt ze schroniska',
       description:
-          'Mokra i sucha karma dla kotów i psów z lokalnego schroniska przy Widzewie.',
+          'Mokra i sucha karma dla kotów i psów z lokalnego schroniska w okolicy.',
       kind: CharityDriveKind.goods,
       goal: 40,
       collected: 18,
@@ -97,7 +97,7 @@ class CharityDrive {
       goal: 12,
       collected: 5,
       unit: 'wyprawek',
-      beneficiary: 'Rodziny z Widzewa i Janowa',
+      beneficiary: 'Rodziny z okolicy',
     ),
     CharityDrive(
       id: 'drive-heat',

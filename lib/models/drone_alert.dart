@@ -59,7 +59,7 @@ class DroneAlert {
       title: 'Zaginął dron / model RC w koronie drzew w Parku Baden-Powella',
       place: 'Park Baden-Powella',
       details:
-          'DJI Mini, biały — zawisł w koronie lipy przy alei. Operatorzy z Widzewa: namierzcie pisk / światełko.',
+          'DJI Mini, biały — zawisł w koronie lipy przy alei. Operatorzy z okolicy: namierzcie pisk / światełko.',
       authorName: 'Piotr',
       operatorSpots: 1,
     ),

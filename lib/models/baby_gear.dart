@@ -55,7 +55,7 @@ class BabyGearItem {
     BabyGearItem(
       id: 'bg-wozek',
       kind: BabyGearKind.pram,
-      title: 'Wózek głęboki, Olechów — symboliczna kwota',
+      title: 'Wózek głęboki, okolica — symboliczna kwota',
       authorName: 'Kasia',
       forSale: true,
     ),

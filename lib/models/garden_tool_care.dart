@@ -50,7 +50,7 @@ class GardenToolCareOffer {
     GardenToolCareOffer(
       id: 'gt-kos',
       kind: GardenToolKind.mower,
-      title: 'Konserwacja kosiarki i wymiana oleju, działki przy Rokicińskiej',
+      title: 'Konserwacja kosiarki i wymiana oleju, działki przy Głównej',
       authorName: 'Arek',
     ),
   ];

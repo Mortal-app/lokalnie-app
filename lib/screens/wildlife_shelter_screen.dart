@@ -61,7 +61,7 @@ class _WildlifeShelterScreenState extends State<WildlifeShelterScreen> {
         padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
-            'Schronienia dla ptaków i owadów pożytecznych na zieleni Widzewa.',
+            'Schronienia dla ptaków i owadów pożytecznych w zieleni okolicy.',
           ),
           const SizedBox(height: 12),
           SizedBox(
@@ -172,7 +172,7 @@ class _ShelterDialogState extends State<_ShelterDialog> {
                 id: 'ws-${DateTime.now().millisecondsSinceEpoch}',
                 kind: _kind,
                 place: _place.text.trim().isEmpty
-                    ? 'Zieleń na Widzewie'
+                    ? 'Zieleń w Twojej okolicy'
                     : _place.text.trim(),
                 note: _note.text.trim(),
                 authorName: widget.userName,

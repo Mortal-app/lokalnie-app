@@ -51,14 +51,14 @@ class SodaCo2Spot {
     SodaCo2Spot(
       id: 'sc-paw',
       name: 'Wymiana SodaStream — pawilon',
-      place: 'Widzew Wschód, sklep spożywczy',
+      place: 'osiedle wschodnie, sklep spożywczy',
       cylinder: SodaCylinder.pink,
       pos: StationAlign.topLeft,
     ),
     SodaCo2Spot(
       id: 'sc-ole',
       name: 'Nabijanie CO2 — saturatory',
-      place: 'Olechów, punkt wymiany cylindrów',
+      place: 'okolica, punkt wymiany cylindrów',
       cylinder: SodaCylinder.blue,
       pos: StationAlign.bottomRight,
     ),

@@ -81,7 +81,7 @@ class LostFoundItem {
           : LostFoundSide.lost,
       place: json['place'] as String? ?? '',
       authorName: json['authorName'] as String? ?? 'Sąsiad',
-      subDistrict: json['subDistrict'] as String? ?? 'Widzew Wschód',
+      subDistrict: json['subDistrict'] as String? ?? 'Twoja okolica',
       returned: json['returned'] as bool? ?? false,
     );
   }
@@ -90,12 +90,12 @@ class LostFoundItem {
     LostFoundItem(
       id: 'lf-keys',
       title: 'Zgubiono klucze przy klatce',
-      description: 'Brelok z herbem Widzewa, trzy klucze.',
+      description: 'Brelok z herbem, trzy klucze.',
       kind: LostFoundKind.keys,
       side: LostFoundSide.lost,
-      place: 'Olechów, klatka II',
-      authorName: 'Sąsiadka z Olechowa',
-      subDistrict: 'Olechów',
+      place: 'Klatka II',
+      authorName: 'Sąsiadka',
+      subDistrict: 'Twoja okolica',
     ),
     LostFoundItem(
       id: 'lf-wallet',
@@ -103,9 +103,9 @@ class LostFoundItem {
       description: 'Czarny portfel, bez dokumentów na wierzchu.',
       kind: LostFoundKind.wallet,
       side: LostFoundSide.found,
-      place: 'Park Górka Widzewska',
-      authorName: 'Sąsiad ze Starego Widzewa',
-      subDistrict: 'Stary Widzew',
+      place: 'Park osiedlowy',
+      authorName: 'Sąsiad',
+      subDistrict: 'Twoja okolica',
     ),
     LostFoundItem(
       id: 'lf-cat',
@@ -113,9 +113,9 @@ class LostFoundItem {
       description: 'Rudy, bez obroży, płochliwy.',
       kind: LostFoundKind.pet,
       side: LostFoundSide.lost,
-      place: 'ul. Rokicińska',
-      authorName: 'Sąsiad z Widzewa Wschód',
-      subDistrict: 'Widzew Wschód',
+      place: 'ul. Główna',
+      authorName: 'Sąsiad',
+      subDistrict: 'Twoja okolica',
     ),
   ];
 }

@@ -8,6 +8,7 @@ class LocalPushService {
       FlutterLocalNotificationsPlugin();
   static var _ready = false;
   static var _enabled = true;
+  static void Function(String payload)? onTap;
 
   static bool get _inTest =>
       WidgetsBinding.instance.runtimeType.toString().contains('TestWidgets');
@@ -20,6 +21,11 @@ class LocalPushService {
     const ios = DarwinInitializationSettings();
     await _plugin.initialize(
       const InitializationSettings(android: android, iOS: ios),
+      onDidReceiveNotificationResponse: (response) {
+        final payload = response.payload;
+        if (payload == null || payload.isEmpty) return;
+        onTap?.call(payload);
+      },
     );
     await _plugin
         .resolvePlatformSpecificImplementation<
@@ -41,6 +47,7 @@ class LocalPushService {
     required String title,
     required String body,
     int id = 0,
+    String? payload,
   }) async {
     if (_inTest || !_enabled) return;
     await init();
@@ -51,13 +58,14 @@ class LocalPushService {
       const NotificationDetails(
         android: AndroidNotificationDetails(
           'widzew_local',
-          'Lokalnie Widzew',
+          'Lokalnie',
           channelDescription: 'Czaty sąsiedzkie i alerty z okolicy',
           importance: Importance.high,
           priority: Priority.high,
         ),
         iOS: DarwinNotificationDetails(),
       ),
+      payload: payload,
     );
   }
 }

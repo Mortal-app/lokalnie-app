@@ -126,7 +126,7 @@ class _TradespersonDetailScreenState extends State<TradespersonDetailScreen> {
                               authorName: clientName,
                               stars: stars,
                               text: Utf8TextGuard.sanitize(text.text).isEmpty
-                                  ? 'Polecam tego fachowca z Widzewa.'
+                                  ? 'Polecam tego fachowca z okolicy.'
                                   : Utf8TextGuard.sanitize(text.text),
                               createdAt: DateTime.now(),
                             ),
@@ -239,7 +239,7 @@ class _TradespersonDetailScreenState extends State<TradespersonDetailScreen> {
                       context,
                       listing.phone,
                       body:
-                          'Cześć! Piszę z aplikacji Lokalnie Widzew w sprawie usługi „${listing.trade}”.',
+                          'Cześć! Piszę z aplikacji Lokalnie w sprawie usługi „${listing.trade}”.',
                     ),
                     icon: const Icon(Icons.sms_outlined),
                     label: const Text('SMS'),
@@ -399,7 +399,7 @@ class _TradespersonDetailScreenState extends State<TradespersonDetailScreen> {
           else ...[
             Text(
               '${( _reviews.fold<int>(0, (total, item) => total + item.stars) / _reviews.length).toStringAsFixed(1)} ★ · ${_reviews.length} opinii'
-              '${_hasQualityGuarantee ? ' · Gwarancja Jakości Lokalnie Widzew' : ''}',
+              '${_hasQualityGuarantee ? ' · Gwarancja Jakości Lokalnie' : ''}',
             ),
             const SizedBox(height: 8),
             for (final review in _reviews.take(5))

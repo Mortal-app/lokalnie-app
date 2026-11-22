@@ -54,7 +54,7 @@ class _BabyGearScreenState extends State<BabyGearScreen> {
         padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
-            'Foteliki samochodowe, wózki głębokie, spacerówki i nosidełka — dla rodziców z Widzewa.',
+            'Foteliki samochodowe, wózki głębokie, spacerówki i nosidełka — dla rodziców z okolicy.',
           ),
           const SizedBox(height: 12),
           for (final item in _items)

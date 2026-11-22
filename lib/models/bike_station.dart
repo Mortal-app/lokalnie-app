@@ -41,7 +41,7 @@ class BikeRepairStation {
     return BikeRepairStation(
       id: json['id'] as String? ?? '',
       name: json['name'] as String? ?? '',
-      place: json['place'] as String? ?? 'Widzew',
+      place: json['place'] as String? ?? 'Okolica',
       toolsOk: json['toolsOk'] as bool? ?? true,
       pumpOk: json['pumpOk'] as bool? ?? true,
       pos: StationAlign.values.firstWhere(
@@ -54,16 +54,16 @@ class BikeRepairStation {
   static List<BikeRepairStation> seeded() => const [
     BikeRepairStation(
       id: 'bs-rok',
-      name: 'Stacja przy DH Widzew',
-      place: 'al. Piłsudskiego',
+      name: 'Stacja przy centrum handlowym',
+      place: 'aleja Główna',
       toolsOk: true,
       pumpOk: true,
       pos: StationAlign.topLeft,
     ),
     BikeRepairStation(
       id: 'bs-olech',
-      name: 'Pompka przy SP 141',
-      place: 'Olechów',
+      name: 'Pompka przy szkole podstawowej',
+      place: 'Okolica',
       toolsOk: false,
       pumpOk: true,
       pos: StationAlign.bottomRight,
@@ -71,7 +71,7 @@ class BikeRepairStation {
     BikeRepairStation(
       id: 'bs-park',
       name: 'Narzędzia — Park Baden-Powella',
-      place: 'Wejście od Puszkina',
+      place: 'Wejście od Parkowa',
       toolsOk: true,
       pumpOk: false,
       pos: StationAlign.center,

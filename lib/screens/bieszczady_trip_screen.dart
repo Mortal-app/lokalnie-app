@@ -54,7 +54,7 @@ class _BieszczadyTripScreenState extends State<BieszczadyTripScreen> {
         padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
-            'Wspólne dalekie wyprawy z Widzewa w Bieszczady i nad Solinę — miejsca w aucie i koordynacja załadunku bagaży.',
+            'Wspólne dalekie wyprawy z okolicy w Bieszczady i nad Solinę — miejsca w aucie i koordynacja załadunku bagaży.',
           ),
           const SizedBox(height: 12),
           for (final item in _items)
@@ -151,7 +151,7 @@ class _TripDialogState extends State<_TripDialog> {
                     ? 'Weekend'
                     : _when.text.trim(),
                 meetingPoint: _meet.text.trim().isEmpty
-                    ? 'Widzew Wschód'
+                    ? 'Okolica'
                     : _meet.text.trim(),
                 seats: _seats.text.trim().isEmpty
                     ? '2 miejsca'

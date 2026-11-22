@@ -48,14 +48,14 @@ class PlaygroundReport {
     PlaygroundReport(
       id: 'py-swing',
       issue: PlaygroundIssue.swing,
-      place: 'Plac przy SP 141, Olechów',
+      place: 'Plac przy szkole podstawowej, okolica',
       note: 'Łańcuch przetarty, huśtawka kołysze się bokiem.',
       authorName: 'Mama Kuby',
     ),
     PlaygroundReport(
       id: 'py-gum',
       issue: PlaygroundIssue.surface,
-      place: 'Plac przy Rokicińskiej',
+      place: 'Plac przy Głównej',
       note: 'Dziura w gumie pod zjeżdżalnią.',
       authorName: 'Sąsiad z Wschodu',
     ),

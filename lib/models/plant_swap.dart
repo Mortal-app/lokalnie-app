@@ -45,7 +45,7 @@ class PlantSwapOffer {
         orElse: () => PlantSwapKind.cuttings,
       ),
       authorName: json['authorName'] as String? ?? 'Sąsiad',
-      subDistrict: json['subDistrict'] as String? ?? 'Widzew Wschód',
+      subDistrict: json['subDistrict'] as String? ?? 'Twoja okolica',
     );
   }
 
@@ -55,16 +55,16 @@ class PlantSwapOffer {
       title: 'Oddam szczepki monstery',
       description: 'Kilka ukorzenionych sadzonek, odbiór na klatce.',
       kind: PlantSwapKind.cuttings,
-      authorName: 'Sąsiadka z Olechowa',
-      subDistrict: 'Olechów',
+      authorName: 'Sąsiadka',
+      subDistrict: 'Twoja okolica',
     ),
     PlantSwapOffer(
       id: 'plant-tomato',
       title: 'Przekażę nadmiar sadzonek pomidorów',
       description: 'Malinowe i koktajlowe, hartowane na balkonie.',
       kind: PlantSwapKind.seedlings,
-      authorName: 'Sąsiad z Janowa',
-      subDistrict: 'Janów',
+      authorName: 'Sąsiad',
+      subDistrict: 'Twoja okolica',
     ),
     PlantSwapOffer(
       id: 'plant-guide',
@@ -72,8 +72,8 @@ class PlantSwapOffer {
       description:
           'Wiatr ze wschodu, późne przymrozki: hartujcie rozsady, pomidory po 15 maja, zioła przy ścianie południowej.',
       kind: PlantSwapKind.guide,
-      authorName: 'Działkowiec z Widzewa',
-      subDistrict: 'Widzew Wschód',
+      authorName: 'Działkowiec z okolicy',
+      subDistrict: 'Twoja okolica',
     ),
   ];
 }

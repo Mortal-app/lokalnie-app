@@ -45,7 +45,7 @@ class ThermalTrip {
       title: 'Weekend — termy Uniejów',
       place: 'Uniejów',
       whenText: 'Sobota 7:30',
-      seats: '3 miejsca z pętli Widzew',
+      seats: '3 miejsca z pętli okolica',
       costShare: 'Paliwo na 4 osoby',
       authorName: 'Tomek',
     ),

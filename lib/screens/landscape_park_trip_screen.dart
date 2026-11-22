@@ -158,7 +158,7 @@ class _ParkTripDialogState extends State<_ParkTripDialog> {
                     ? 'Weekend'
                     : _when.text.trim(),
                 meetingPoint: _meet.text.trim().isEmpty
-                    ? 'Widzew Wschód'
+                    ? 'Okolica'
                     : _meet.text.trim(),
                 seats: _seats.text.trim().isEmpty
                     ? '2 miejsca'

@@ -58,7 +58,7 @@ class ProposeChangeDialog {
       scheme: 'mailto',
       path: AppInfo.adminEmail,
       queryParameters: {
-        'subject': 'Propozycja zmiany — Lokalnie Widzew',
+        'subject': 'Propozycja zmiany — Lokalnie',
         'body': '$userName:\n$text',
       },
     );

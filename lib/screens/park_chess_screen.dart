@@ -54,7 +54,7 @@ class _ParkChessScreenState extends State<ParkChessScreen> {
         padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
-            'Partie pod chmurką przy stolikach parkowych na Widzewie Wschodzie.',
+            'Partie pod chmurką przy stolikach parkowych w okolicy.',
           ),
           const SizedBox(height: 12),
           for (final item in _items)
@@ -129,7 +129,7 @@ class _ParkDialogState extends State<_ParkDialog> {
                 whenText: _when.text.trim().isEmpty
                     ? 'Dziś popołudniu'
                     : _when.text.trim(),
-                tablePlace: 'Stoliki parkowe, Widzew Wschód',
+                tablePlace: 'Stoliki parkowe',
                 authorName: widget.userName,
               ),
             );

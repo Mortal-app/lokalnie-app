@@ -46,14 +46,14 @@ class ParkingMarkReport {
     ParkingMarkReport(
       id: 'pm-lin',
       kind: ParkingMarkKind.lines,
-      place: 'Pod blokiem, Widzew Wschód',
+      place: 'Pod blokiem, osiedle wschodnie',
       note: 'Linie wytarte — prośba o odświeżenie farby.',
       authorName: 'Kasia',
     ),
     ParkingMarkReport(
       id: 'pm-kop',
       kind: ParkingMarkKind.disabledEnvelope,
-      place: 'Olechów, przy klatce II',
+      place: 'okolica, przy klatce II',
       note: 'Koperta bez symbolu — zaplanować malowanie.',
       authorName: 'Marek',
     ),

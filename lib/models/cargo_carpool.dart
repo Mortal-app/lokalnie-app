@@ -53,7 +53,7 @@ class CargoCarpoolOffer {
     CargoCarpoolOffer(
       id: 'cg-dost',
       kind: CargoVehicleKind.van,
-      title: 'Dostawcze — kanapa ze sklepu na Olechów',
+      title: 'Dostawcze — kanapa ze sklepu do okolicy',
       whenLabel: 'Niedziela rano',
       authorName: 'Arek',
     ),

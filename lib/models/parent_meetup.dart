@@ -65,20 +65,20 @@ class ParentMeetup {
       ),
       place: json['place'] as String? ?? '',
       authorName: json['authorName'] as String? ?? 'Sąsiad',
-      subDistrict: json['subDistrict'] as String? ?? 'Widzew Wschód',
+      subDistrict: json['subDistrict'] as String? ?? 'Twoja okolica',
     );
   }
 
   static List<ParentMeetup> seeded() => const [
     ParentMeetup(
       id: 'parent-puch',
-      title: 'Wspólne wyjście na plac zabaw przy Puszkina',
+      title: 'Wspólne wyjście na plac zabaw przy Parkowa',
       description: 'Dziś po 16:00, weźcie piaskownice i bidony.',
       kind: ParentMeetupKind.playground,
       ageBand: ChildAgeBand.preschool,
-      place: 'Plac zabaw, ul. Puszkina',
-      authorName: 'Mama z Widzewa',
-      subDistrict: 'Widzew Wschód',
+      place: 'Plac zabaw, ul. Parkowa',
+      authorName: 'Mama z okolicy',
+      subDistrict: 'Twoja okolica',
     ),
     ParentMeetup(
       id: 'parent-swap',
@@ -86,19 +86,19 @@ class ParentMeetup {
       description: 'Rozmiary 74–98, klocki i rowerki biegowe.',
       kind: ParentMeetupKind.swap,
       ageBand: ChildAgeBand.babies,
-      place: 'Klatka III, Olechów',
-      authorName: 'Tata z Olechowa',
-      subDistrict: 'Olechów',
+      place: 'Klatka III',
+      authorName: 'Tata z okolicy',
+      subDistrict: 'Twoja okolica',
     ),
     ParentMeetup(
       id: 'parent-school',
       title: 'Sąsiedzkie zastępstwo w odebraniu dziecka ze szkoły',
-      description: 'Szukam kogoś z trasy przy Przybyszewskiego, wtorek 15:10.',
+      description: 'Szukam kogoś z trasy przy Szkolnej, wtorek 15:10.',
       kind: ParentMeetupKind.schoolPickup,
       ageBand: ChildAgeBand.earlySchool,
-      place: 'SP w rejonie Przybyszewskiego',
-      authorName: 'Mama ze Starego Widzewa',
-      subDistrict: 'Stary Widzew',
+      place: 'SP w rejonie Szkolnej',
+      authorName: 'Mama z okolicy',
+      subDistrict: 'Twoja okolica',
     ),
   ];
 }

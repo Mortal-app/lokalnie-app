@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
@@ -20,6 +21,28 @@ class AnnouncementPhoto extends StatelessWidget {
     this.memCacheHeight,
   });
 
+  static Uint8List? decodeBytes(Announcement announcement) {
+    final embedded = announcement.imageBase64;
+    if (embedded != null && embedded.isNotEmpty) {
+      return _decode(embedded);
+    }
+    final url = announcement.imageUrl;
+    if (url != null && url.startsWith('data:image')) {
+      return _decode(url);
+    }
+    return null;
+  }
+
+  static Uint8List? _decode(String raw) {
+    try {
+      final payload = raw.contains(',') ? raw.split(',').last : raw;
+      if (payload.isEmpty) return null;
+      return base64Decode(payload);
+    } catch (_) {
+      return null;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final cacheWidth = WidzewUi.imageCachePixels(
@@ -29,8 +52,23 @@ class AnnouncementPhoto extends StatelessWidget {
     final cacheHeight = memCacheHeight == null
         ? null
         : WidzewUi.imageCachePixels(context, memCacheHeight!);
+    final bytes = decodeBytes(announcement);
+    if (bytes != null && bytes.isNotEmpty) {
+      return Image.memory(
+        bytes,
+        fit: fit,
+        cacheWidth: cacheWidth,
+        cacheHeight: cacheHeight,
+        gaplessPlayback: true,
+        filterQuality: FilterQuality.low,
+        errorBuilder: (_, _, _) => const _PhotoFallback(),
+      );
+    }
+
     final url = announcement.imageUrl;
-    if (url != null && url.isNotEmpty) {
+    if (url != null &&
+        url.isNotEmpty &&
+        (url.startsWith('http://') || url.startsWith('https://'))) {
       return Image.network(
         url,
         fit: fit,

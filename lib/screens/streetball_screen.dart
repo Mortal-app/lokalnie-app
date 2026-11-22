@@ -54,7 +54,7 @@ class _StreetballScreenState extends State<StreetballScreen> {
         padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
-            'Luźne mecze na boiskach szkolnych i orlikach na Widzewie Wschodzie.',
+            'Luźne mecze na boiskach szkolnych i orlikach w okolicy.',
           ),
           const SizedBox(height: 12),
           for (final item in _items)
@@ -141,7 +141,7 @@ class _BallDialogState extends State<_BallDialog> {
                 whenText: _when.text.trim().isEmpty
                     ? 'Dziś wieczór'
                     : _when.text.trim(),
-                place: 'Widzew Wschód',
+                place: 'Okolica',
                 authorName: widget.userName,
               ),
             );

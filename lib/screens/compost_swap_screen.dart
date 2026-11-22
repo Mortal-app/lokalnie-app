@@ -54,7 +54,7 @@ class _CompostSwapScreenState extends State<CompostSwapScreen> {
         padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
-            'Kompostowniki, dżdżownice kalifornijskie i wiaderka na bio — ogródki i ROD z Widzewa.',
+            'Kompostowniki, dżdżownice kalifornijskie i wiaderka na bio — ogródki i ROD z okolicy.',
           ),
           const SizedBox(height: 12),
           for (final item in _items)

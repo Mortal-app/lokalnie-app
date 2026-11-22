@@ -43,7 +43,7 @@ class EnergyExperience {
         (item) => item.name == json['kind'],
         orElse: () => EnergyKind.pv,
       ),
-      area: json['area'] as String? ?? 'Olechów',
+      area: json['area'] as String? ?? 'Twoja okolica',
       authorName: json['authorName'] as String? ?? 'Sąsiad',
     );
   }
@@ -53,18 +53,18 @@ class EnergyExperience {
       id: 'en-pv-olechow',
       title: '6 kWp na dachu szeregówki',
       body:
-          'Na Olechowie falownik Huawei, orientacja południe. Latem zbędny prąd oddajemy, zimą dogrzewamy bojler.',
+          'W okolicy falownik Huawei, orientacja południe. Latem zbędny prąd oddajemy, zimą dogrzewamy bojler.',
       kind: EnergyKind.pv,
-      area: 'Olechów',
+      area: 'Twoja okolica',
       authorName: 'Marek z szeregówki',
     ),
     EnergyExperience(
       id: 'en-hp-wschod',
       title: 'Pompa powietrze-woda zamiast gazu',
       body:
-          'Widzew Wschód, dom z 2004. Po ociepleniu pompa 9 kW starcza do −12 °C. Bufor 200 l.',
+          'osiedle wschodnie, dom z 2004. Po ociepleniu pompa 9 kW starcza do −12 °C. Bufor 200 l.',
       kind: EnergyKind.heatPump,
-      area: 'Widzew Wschód',
+      area: 'Twoja okolica',
       authorName: 'Kasia z Wschodu',
     ),
     EnergyExperience(
@@ -73,8 +73,8 @@ class EnergyExperience {
       body:
           'Wniosek przez gminę, audyt obowiązkowy. Czas od złożenia do decyzji ok. 3 miesięcy.',
       kind: EnergyKind.subsidy,
-      area: 'Olechów',
-      authorName: 'Sąsiad z Olechowa',
+      area: 'Twoja okolica',
+      authorName: 'Sąsiad',
     ),
   ];
 }

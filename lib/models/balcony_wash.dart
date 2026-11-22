@@ -38,7 +38,7 @@ class BalconyWashSlot {
   static List<BalconyWashSlot> seeded() => const [
     BalconyWashSlot(
       id: 'bw-wsch',
-      block: 'Widzew Wschód, klatka II',
+      block: 'osiedle wschodnie, klatka II',
       floor: '5–8 piętro',
       whenText: 'Sobota 9:00',
       note: 'Mycie loggii i szyb od zewnątrz — wiadro i teleskop.',
@@ -46,7 +46,7 @@ class BalconyWashSlot {
     ),
     BalconyWashSlot(
       id: 'bw-olech',
-      block: 'Olechów, blok przy Zakładowej',
+      block: 'okolica, blok przy Szkolnej',
       floor: 'wyższe piętra',
       whenText: 'Niedziela 8:30',
       note: 'Wspólne porządki elewacji loggii, nie wieszamy dywanów.',

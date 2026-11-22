@@ -81,8 +81,8 @@ class EcoReport {
   static List<EcoReport> seeded() => [
     EcoReport(
       id: 'eco-jasien',
-      title: 'Gałąź nad ścieżką – park nad Jasieniem',
-      place: 'Park nad Jasieniem',
+      title: 'Gałąź nad ścieżką – park nad rzeką',
+      place: 'Park nad rzeką',
       description:
           'Uszkodzone drzewo nachyla się nad alejka. Ryzyko dla rowerzystów.',
       kind: EcoReportKind.damagedTree,
@@ -92,7 +92,7 @@ class EcoReport {
     EcoReport(
       id: 'eco-kosz-olechow',
       title: 'Przepełnione kosze przy placu zabaw',
-      place: 'Olechów · Malownicza',
+      place: 'okolica · Parkowa',
       description: 'Kosze pełne od weekendu, worki leżą obok.',
       kind: EcoReportKind.overflowingBin,
       createdAt: DateTime(2026, 10, 22, 17),

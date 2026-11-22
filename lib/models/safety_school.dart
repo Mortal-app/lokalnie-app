@@ -54,7 +54,7 @@ class SafetyWorkshop {
       kind: SafetyClassKind.firstAid,
       title: 'Darmowa pierwsza pomoc — RKO i krwotoki',
       whenLabel: 'Sobota 10:00',
-      place: 'Klub osiedlowy, Widzew Wschód',
+      place: 'Klub osiedlowy, osiedle wschodnie',
       host: 'Ratownik Kuba',
     ),
     SafetyWorkshop(

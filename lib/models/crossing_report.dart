@@ -48,14 +48,14 @@ class CrossingReport {
     CrossingReport(
       id: 'cr-pils',
       issue: CrossingIssue.unlit,
-      place: 'al. Piłsudskiego / przy DH Widzew',
+      place: 'aleja Główna / przy centrum handlowym',
       note: 'Lampa nie świeci od tygodnia, przejście przy przystanku.',
       authorName: 'Kasia',
     ),
     CrossingReport(
       id: 'cr-rok',
       issue: CrossingIssue.dark,
-      place: 'Rokicińska, przy szkole',
+      place: 'Główna, przy szkole',
       note: 'Po 17:00 bardzo ciemno, kierowcy nie zwalniają.',
       authorName: 'Pan Marek',
     ),

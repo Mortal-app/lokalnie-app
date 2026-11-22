@@ -216,7 +216,7 @@ class _TradespersonCatalogScreenState extends State<TradespersonCatalogScreen>
                 padding: EdgeInsets.fromLTRB(16, 12, 16, 0),
                 sliver: SliverToBoxAdapter(
                   child: Text(
-                    'Usługi remontowo-naprawcze na Widzewie. W katalogu tylko fachowcy z aktywnym abonamentem PRO.',
+                    'Usługi remontowo-naprawcze w Twojej okolicy. W katalogu tylko fachowcy z aktywnym abonamentem PRO.',
                   ),
                 ),
               ),
@@ -340,7 +340,7 @@ class _TradespersonCatalogScreenState extends State<TradespersonCatalogScreen>
                 padding: EdgeInsets.fromLTRB(16, 12, 16, 12),
                 sliver: SliverToBoxAdapter(
                   child: Text(
-                    'Ulubieni Fachowcy — Twoi zapisani, zaufani wykonawcy z Widzewa.',
+                    'Ulubieni Fachowcy — Twoi zapisani, zaufani wykonawcy z okolicy.',
                   ),
                 ),
               ),

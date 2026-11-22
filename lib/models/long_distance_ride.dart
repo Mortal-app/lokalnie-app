@@ -47,7 +47,7 @@ class LongDistanceRide {
         (item) => item.name == json['destination'],
         orElse: () => LongHaulDest.fabryczna,
       ),
-      fromPlace: json['fromPlace'] as String? ?? 'Widzew',
+      fromPlace: json['fromPlace'] as String? ?? 'Okolica',
       time: json['time'] as String? ?? '6:00',
       seats: json['seats'] as int? ?? 1,
       fuelShare: (json['fuelShare'] as num?)?.toDouble() ?? 20,
@@ -60,7 +60,7 @@ class LongDistanceRide {
     LongDistanceRide(
       id: 'ld-fab',
       destination: LongHaulDest.fabryczna,
-      fromPlace: 'Olechów',
+      fromPlace: 'Twoja okolica',
       time: '5:40',
       seats: 2,
       fuelShare: 12,
@@ -70,7 +70,7 @@ class LongDistanceRide {
     LongDistanceRide(
       id: 'ld-kal',
       destination: LongHaulDest.kaliska,
-      fromPlace: 'Widzew Wschód',
+      fromPlace: 'Twoja okolica',
       time: '6:10',
       seats: 1,
       fuelShare: 10,
@@ -79,7 +79,7 @@ class LongDistanceRide {
     LongDistanceRide(
       id: 'ld-air',
       destination: LongHaulDest.airport,
-      fromPlace: 'Stary Widzew',
+      fromPlace: 'Twoja okolica',
       time: '4:30',
       seats: 3,
       fuelShare: 25,

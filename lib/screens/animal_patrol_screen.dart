@@ -136,7 +136,7 @@ class _PatrolDialogState extends State<_PatrolDialog> {
                 id: 'ap-${DateTime.now().millisecondsSinceEpoch}',
                 kind: _kind,
                 place: _place.text.trim().isEmpty
-                    ? 'Osiedle Widzew'
+                    ? 'Osiedle'
                     : _place.text.trim(),
                 note: _note.text.trim(),
                 authorName: widget.userName,

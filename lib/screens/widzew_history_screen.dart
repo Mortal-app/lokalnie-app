@@ -56,7 +56,7 @@ class _WidzewHistoryScreenState extends State<WidzewHistoryScreen> {
   Widget build(BuildContext context) {
     final questions = _questions;
     return Scaffold(
-      appBar: AppBar(title: const Text('Śladami historii Widzewa')),
+      appBar: AppBar(title: const Text('Śladami historii okolicy')),
       body: ListView(
         padding: const EdgeInsets.fromLTRB(16, 12, 16, 80),
         children: [
@@ -65,11 +65,11 @@ class _WidzewHistoryScreenState extends State<WidzewHistoryScreen> {
               child: ListTile(
                 leading: Icon(Icons.military_tech_outlined),
                 title: Text('Lokalny Patriota'),
-                subtitle: Text('Odznaka za quiz o Widzewie i Księżym Młynie'),
+                subtitle: Text('Odznaka za quiz o historii okolicy'),
               ),
             ),
           const Text(
-            'Ciekawostki i stare kadry: WiMa, Księży Młyn, architektura osiedla.',
+            'Ciekawostki i stare kadry: lokalna manufaktura, osada fabryczna, architektura osiedla.',
           ),
           const SizedBox(height: 12),
           for (final story in widget.stories)
@@ -102,7 +102,7 @@ class _WidzewHistoryScreenState extends State<WidzewHistoryScreen> {
             ),
           const SizedBox(height: 8),
           const Text(
-            'Quiz z wiedzy o Widzewie',
+            'Quiz z wiedzy o okolicy',
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 8),

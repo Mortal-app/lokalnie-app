@@ -46,14 +46,14 @@ class WildlifeCareReport {
     WildlifeCareReport(
       id: 'wc-ptaki',
       kind: WildlifeCareKind.birdFeed,
-      place: 'Park Górka Widzewska',
+      place: 'Park osiedlowy',
       note: 'Karmnik przy alejce — słonecznik, nie chleb.',
       authorName: 'Pani Krysia',
     ),
     WildlifeCareReport(
       id: 'wc-ranny',
       kind: WildlifeCareKind.injured,
-      place: 'Puszkina, przy parkingu',
+      place: 'Parkowa, przy parkingu',
       note: 'Gołąb z uszkodzonym skrzydłem — proszę o klatkę.',
       authorName: 'Ania',
     ),

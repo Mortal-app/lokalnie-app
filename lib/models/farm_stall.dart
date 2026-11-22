@@ -41,14 +41,14 @@ class FarmStall {
       id: 'fs-baz',
       name: 'Bazarek przy pętli',
       whenText: 'Wtorek i piątek 7:00–12:00',
-      place: 'Widzew Wschód — warzywa od rolnika',
+      place: 'osiedle wschodnie — warzywa od rolnika',
       pos: StationAlign.topLeft,
     ),
     FarmStall(
       id: 'fs-bus',
       name: 'Mobilny punkt — bus z owocami',
       whenText: 'Sobota 8:00–11:00',
-      place: 'Olechów, przy szkole',
+      place: 'okolica, przy szkole',
       pos: StationAlign.bottomRight,
     ),
   ];

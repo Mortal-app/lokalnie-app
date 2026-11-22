@@ -143,7 +143,7 @@ class _ItDialogState extends State<_ItDialog> {
                 description: _description.text.trim(),
                 kind: _kind,
                 authorName: widget.userName,
-                place: 'Widzew',
+                place: 'Okolica',
               ),
             );
           },

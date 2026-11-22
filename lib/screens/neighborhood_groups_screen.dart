@@ -9,6 +9,7 @@ class NeighborhoodGroupsScreen extends StatelessWidget {
   final String userName;
   final ValueChanged<String> onToggleJoin;
   final void Function(String clubId, String text) onSendMessage;
+  final VoidCallback? onClose;
 
   const NeighborhoodGroupsScreen({
     super.key,
@@ -16,12 +17,22 @@ class NeighborhoodGroupsScreen extends StatelessWidget {
     required this.userName,
     required this.onToggleJoin,
     required this.onSendMessage,
+    this.onClose,
   });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Kluby i Grupy Widzewa')),
+      appBar: AppBar(
+        leading: onClose == null
+            ? null
+            : IconButton(
+                tooltip: MaterialLocalizations.of(context).backButtonTooltip,
+                icon: const Icon(Icons.arrow_back),
+                onPressed: onClose,
+              ),
+        title: const Text('Kluby i lokalne grupy'),
+      ),
       body: ListView.separated(
         padding: const EdgeInsets.fromLTRB(8, 8, 8, 80),
         itemCount: clubs.length,
@@ -109,7 +120,10 @@ class _ClubChatScreenState extends State<_ClubChatScreen> {
   Widget build(BuildContext context) {
     final messages = _messages;
     return Scaffold(
-      appBar: AppBar(title: Text(widget.club.name)),
+      appBar: AppBar(
+        leading: const BackButton(),
+        title: Text(widget.club.name),
+      ),
       body: Column(
         children: [
           if (!widget.club.isJoined)

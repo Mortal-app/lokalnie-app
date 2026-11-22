@@ -39,7 +39,7 @@ class MobileCraftPro {
         orElse: () => MobileCraftKind.electrician,
       ),
       name: json['name'] as String? ?? '',
-      area: json['area'] as String? ?? 'Widzew',
+      area: json['area'] as String? ?? 'Okolica',
       endorsedBy: json['endorsedBy'] as String? ?? 'Sąsiad',
     );
   }
@@ -49,14 +49,14 @@ class MobileCraftPro {
       id: 'mc-slusarz',
       kind: MobileCraftKind.locksmith,
       name: 'Ślusarz 24h — Arek',
-      area: 'Widzew Wschód / Olechów',
-      endorsedBy: 'Klatka III, Puszkina',
+      area: 'osiedle wschodnie / okolica',
+      endorsedBy: 'Klatka III, Parkowa',
     ),
     MobileCraftPro(
       id: 'mc-opony',
       kind: MobileCraftKind.tires,
       name: 'Mobilna wymiana opon przy bloku',
-      area: 'Olechów',
+      area: 'Twoja okolica',
       endorsedBy: 'Tomek z garażu',
     ),
   ];

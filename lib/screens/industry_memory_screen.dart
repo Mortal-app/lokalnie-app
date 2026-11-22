@@ -22,7 +22,7 @@ class _IndustryMemoryScreenState extends State<IndustryMemoryScreen> {
         padding: const EdgeInsets.fromLTRB(16, 12, 16, 80),
         children: [
           const Text(
-            'Dawne potęgi przemysłowe Łodzi, które dawały pracę mieszkańcom Widzewa.',
+            'Dawne potęgi przemysłowe Łodzi, które dawały pracę mieszkańcom okolicy.',
           ),
           const SizedBox(height: 12),
           for (final entry in widget.entries)

@@ -28,7 +28,7 @@ class SchoolBookListing {
     return SchoolBookListing(
       id: json['id'] as String? ?? '',
       title: json['title'] as String? ?? '',
-      school: json['school'] as String? ?? 'SP 114',
+      school: json['school'] as String? ?? 'Szkoła podstawowa 1',
       grade: json['grade'] as String? ?? 'klasa 4',
       terms: json['terms'] as String? ?? 'Wymiana',
       authorName: json['authorName'] as String? ?? 'Rodzic',
@@ -39,7 +39,7 @@ class SchoolBookListing {
     SchoolBookListing(
       id: 'sb-mat',
       title: 'Matematyka — podręcznik + ćwiczenia',
-      school: 'SP 114',
+      school: 'Szkoła podstawowa 1',
       grade: 'klasa 5',
       terms: 'Wymiana',
       authorName: 'Mama Zosi',
@@ -47,7 +47,7 @@ class SchoolBookListing {
     SchoolBookListing(
       id: 'sb-hist',
       title: 'Historia — klasa 7',
-      school: 'SP 34',
+      school: 'Szkoła podstawowa 2',
       grade: 'klasa 7',
       terms: 'Odkup 15 zł',
       authorName: 'Tata Kuby',
@@ -55,10 +55,10 @@ class SchoolBookListing {
     SchoolBookListing(
       id: 'sb-ang',
       title: 'Angielski — zeszyt ćwiczeń',
-      school: 'SP 141',
+      school: 'szkoła podstawowa',
       grade: 'klasa 4',
       terms: 'Oddam',
-      authorName: 'Sąsiadka z Olechowa',
+      authorName: 'Sąsiadka',
     ),
   ];
 }

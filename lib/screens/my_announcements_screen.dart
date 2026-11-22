@@ -3,12 +3,15 @@ import 'package:flutter/material.dart';
 import '../l10n/app_localizations.dart';
 import '../models/announcement.dart';
 import '../theme/widzew_ui.dart';
+import '../widgets/empty_announcements.dart';
+import '../widgets/route_pop_scope.dart';
 
 class MyAnnouncementsScreen extends StatefulWidget {
   final List<Announcement> announcements;
   final ValueChanged<Announcement> onOpen;
   final Future<Announcement?> Function(Announcement announcement) onEdit;
   final ValueChanged<Announcement> onComplete;
+  final ValueChanged<Announcement> onReopen;
   final ValueChanged<Announcement> onDelete;
 
   const MyAnnouncementsScreen({
@@ -17,6 +20,7 @@ class MyAnnouncementsScreen extends StatefulWidget {
     required this.onOpen,
     required this.onEdit,
     required this.onComplete,
+    required this.onReopen,
     required this.onDelete,
   });
 
@@ -59,6 +63,17 @@ class _MyAnnouncementsScreenState extends State<MyAnnouncementsScreen> {
     );
   }
 
+  void _reopen(Announcement announcement) {
+    widget.onReopen(announcement);
+    _replace(
+      announcement,
+      announcement.copyWith(
+        status: AnnouncementStatus.current,
+        clearResolvedAt: true,
+      ),
+    );
+  }
+
   void _delete(Announcement announcement) {
     widget.onDelete(announcement);
     setState(() {
@@ -72,9 +87,17 @@ class _MyAnnouncementsScreenState extends State<MyAnnouncementsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(context.tr('myAnnouncements'))),
+      appBar: AppBar(
+        leading: const AppBarBackButton(),
+        title: Text(context.tr('myAnnouncements')),
+      ),
       body: _items.isEmpty
-          ? Center(child: Text(context.tr('noOwnAnnouncements')))
+          ? EmptyAnnouncements(
+              message: context.tr('noOwnAnnouncements'),
+              hint: 'Dodaj ogłoszenie z tablicy, aby zarządzać nim tutaj.',
+              icon: Icons.campaign_outlined,
+              fill: true,
+            )
           : ListView.builder(
               key: const ValueKey('my-announcements-list'),
               padding: const EdgeInsets.only(top: 8, bottom: 80),
@@ -93,6 +116,9 @@ class _MyAnnouncementsScreenState extends State<MyAnnouncementsScreen> {
                   onComplete: announcement.status == AnnouncementStatus.current
                       ? () => _complete(announcement)
                       : null,
+                  onReopen: announcement.status == AnnouncementStatus.resolved
+                      ? () => _reopen(announcement)
+                      : null,
                   onDelete: () => _delete(announcement),
                 );
               },
@@ -106,6 +132,7 @@ class _OwnAnnouncementTile extends StatelessWidget {
   final VoidCallback onOpen;
   final VoidCallback onEdit;
   final VoidCallback? onComplete;
+  final VoidCallback? onReopen;
   final VoidCallback onDelete;
 
   const _OwnAnnouncementTile({
@@ -113,6 +140,7 @@ class _OwnAnnouncementTile extends StatelessWidget {
     required this.onOpen,
     required this.onEdit,
     required this.onComplete,
+    required this.onReopen,
     required this.onDelete,
   });
 
@@ -174,14 +202,6 @@ class _OwnAnnouncementTile extends StatelessWidget {
                         : '${announcement.category} · ${announcement.price}',
                   ),
                   Text(announcement.status.label),
-                  if (resolved)
-                    Padding(
-                      padding: const EdgeInsets.only(top: 4),
-                      child: Chip(
-                        visualDensity: VisualDensity.compact,
-                        label: Text(context.tr('doneChip')),
-                      ),
-                    ),
                 ],
               ),
               onTap: onOpen,
@@ -195,6 +215,12 @@ class _OwnAnnouncementTile extends StatelessWidget {
                     key: const ValueKey('complete-own-announcement'),
                     onPressed: onComplete,
                     child: Text(context.tr('markDone')),
+                  ),
+                if (onReopen != null)
+                  TextButton(
+                    key: const ValueKey('restore-own-announcement'),
+                    onPressed: onReopen,
+                    child: Text(context.tr('restoreCurrent')),
                   ),
                 TextButton(
                   onPressed: () => _confirmDelete(context),

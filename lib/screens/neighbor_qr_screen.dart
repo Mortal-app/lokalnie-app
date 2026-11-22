@@ -50,7 +50,7 @@ class NeighborQrScreen extends StatelessWidget {
             onPressed: () => unawaited(
               NeighborShare.shareText(
                 context,
-                text: 'Moja wizytówka Lokalnie Widzew:\n$payload',
+                text: 'Moja wizytówka Lokalnie:\n$payload',
                 subject: 'Wizytówka sąsiada',
                 copiedMessage: 'Skopiowano wizytówkę QR',
               ),

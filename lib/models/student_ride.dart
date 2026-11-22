@@ -42,7 +42,7 @@ class StudentRide {
       campus: json['campus'] == CampusDest.uniwersytet.name
           ? CampusDest.uniwersytet
           : CampusDest.politechnika,
-      fromDistrict: json['fromDistrict'] as String? ?? 'Olechów',
+      fromDistrict: json['fromDistrict'] as String? ?? 'Twoja okolica',
       time: json['time'] as String? ?? '7:40',
       seats: json['seats'] as int? ?? 1,
       authorName: json['authorName'] as String? ?? 'Student',
@@ -54,7 +54,7 @@ class StudentRide {
     StudentRide(
       id: 'st-pl',
       campus: CampusDest.politechnika,
-      fromDistrict: 'Olechów',
+      fromDistrict: 'Twoja okolica',
       time: '7:35',
       seats: 2,
       authorName: 'Kasia, sem. 4',
@@ -63,7 +63,7 @@ class StudentRide {
     StudentRide(
       id: 'st-ul',
       campus: CampusDest.uniwersytet,
-      fromDistrict: 'Widzew Wschód',
+      fromDistrict: 'Twoja okolica',
       time: '8:00',
       seats: 1,
       authorName: 'Bartek',

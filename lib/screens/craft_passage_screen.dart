@@ -52,7 +52,7 @@ class _CraftPassageScreenState extends State<CraftPassageScreen> {
         padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
-            'Szewc, dorabianie kluczy i ostrzenie noży na Widzewie — mobilnie i stacjonarnie.',
+            'Szewc, dorabianie kluczy i ostrzenie noży w Twojej okolicy — mobilnie i stacjonarnie.',
           ),
           const SizedBox(height: 12),
           for (final item in _items)
@@ -155,7 +155,7 @@ class _PassageDialogState extends State<_PassageDialog> {
                     ? _kind.label
                     : _name.text.trim(),
                 place: _place.text.trim().isEmpty
-                    ? 'Widzew'
+                    ? 'Okolica'
                     : _place.text.trim(),
                 hours: _hours.text.trim().isEmpty
                     ? 'Do uzgodnienia'

@@ -30,14 +30,14 @@ class ArchitectureSpot {
   static List<ArchitectureSpot> seeded() => const [
     ArchitectureSpot(
       id: 'ar-plyta',
-      title: 'Wielka płyta na Widzewie Wschodzie',
+      title: 'Wielka płyta w okolicy',
       era: 'lata 70.–80.',
       body:
           'Powtarzalne klatki, loggie i pawilony. Układ urbanistyczny z zielenią między blokami.',
     ),
     ArchitectureSpot(
       id: 'ar-punkt',
-      title: 'Punktowce przy Olechowie',
+      title: 'Punktowce przy osiedlu',
       era: 'lata 80.',
       body:
           'Wysokie bloki-punktowce jako dominanty osiedla, klatki z windą i komórkami lokatorskimi.',

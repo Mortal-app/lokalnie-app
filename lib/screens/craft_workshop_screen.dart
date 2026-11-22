@@ -54,7 +54,7 @@ class _CraftWorkshopScreenState extends State<CraftWorkshopScreen> {
         padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
-            'Twórcy w skórze, drewnie i tkaninach artystycznych — Widzew Wschód i Olechów.',
+            'Twórcy w skórze, drewnie i tkaninach artystycznych z okolicy.',
           ),
           const SizedBox(height: 12),
           for (final item in _items)
@@ -137,7 +137,7 @@ class _CraftDialogState extends State<_CraftDialog> {
                 title: _title.text.trim().isEmpty
                     ? _material.label
                     : _title.text.trim(),
-                area: 'Widzew Wschód',
+                area: 'Twoja okolica',
                 authorName: widget.userName,
               ),
             );

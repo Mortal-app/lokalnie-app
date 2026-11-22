@@ -38,7 +38,7 @@ class GasInspection {
   static List<GasInspection> seeded() => const [
     GasInspection(
       id: 'gi-gaz',
-      block: 'Blok 12, Widzew Wschód',
+      block: 'Blok 12, osiedle wschodnie',
       whenText: '12.11.2026, 8:00–14:00',
       kind: 'Kontrola szczelności gazu',
       note: 'Udostępnij kuchnię, kot niech będzie w pokoju.',
@@ -46,7 +46,7 @@ class GasInspection {
     ),
     GasInspection(
       id: 'gi-komin',
-      block: 'Olechów, klatka III',
+      block: 'okolica, klatka III',
       whenText: '18.11.2026',
       kind: 'Przegląd kominiarski',
       note: 'Kratki wentylacyjne — nie zasłaniać.',

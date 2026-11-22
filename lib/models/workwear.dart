@@ -64,7 +64,7 @@ class WorkwearItem {
       kind: WorkwearKind.helmet,
       title: 'Kask BHP po budowie — oddam',
       size: 'uniwersalny',
-      authorName: 'Ekipa z Olechowa',
+      authorName: 'Ekipa z okolicy',
     ),
   ];
 }

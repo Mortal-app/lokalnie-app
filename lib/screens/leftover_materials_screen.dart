@@ -136,7 +136,7 @@ class _MaterialDialogState extends State<_MaterialDialog> {
                     ? 'Zostało mi po remoncie: ${_kind.label.toLowerCase()}'
                     : _title.text.trim(),
                 priceLabel: 'Za grosze',
-                place: 'Widzew',
+                place: 'Okolica',
                 authorName: widget.userName,
               ),
             );

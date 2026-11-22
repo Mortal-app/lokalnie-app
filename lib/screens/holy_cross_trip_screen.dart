@@ -129,7 +129,7 @@ class _TripDialogState extends State<_TripDialog> {
                 whenText: _when.text.trim().isEmpty
                     ? 'Weekend'
                     : _when.text.trim(),
-                meetingPoint: 'Pętla Widzew Wschód',
+                meetingPoint: 'Pętla osiedlowa',
                 seats: 'Miejsca do uzgodnienia',
                 authorName: widget.userName,
               ),

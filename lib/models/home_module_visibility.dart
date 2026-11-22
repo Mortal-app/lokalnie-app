@@ -27,7 +27,7 @@ class HomeModuleVisibility {
     'Jedzenie' => jedzenie,
     'Sąsiedzi' => sasiedzi,
     'Wydarzenia' => wydarzenia,
-    'Więcej' => wiecej,
+    'Więcej' || 'Inne' => wiecej,
     _ => true,
   };
 
@@ -85,6 +85,6 @@ class HomeModuleVisibility {
     ('Jedzenie', 'jedzenie'),
     ('Sąsiedzi', 'sasiedzi'),
     ('Wydarzenia', 'wydarzenia'),
-    ('Więcej', 'wiecej'),
+    ('Inne', 'wiecej'),
   ];
 }

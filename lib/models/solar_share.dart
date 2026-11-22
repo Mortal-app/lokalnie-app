@@ -51,7 +51,7 @@ class SolarSharePost {
       title: 'Pralka i bojler w szczycie produkcji',
       body:
           'Na dachu 4 kWp — pranie i grzanie wody 11:00–14:00, mniej oddajemy do sieci.',
-      authorName: 'Arek, Olechów',
+      authorName: 'Arek, okolica',
     ),
     SolarSharePost(
       id: 'pv-nad',

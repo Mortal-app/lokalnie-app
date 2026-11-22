@@ -89,20 +89,20 @@ class VetClinic {
   static List<VetClinic> seeded() => const [
     VetClinic(
       id: 'vet-rokicinska',
-      name: 'Gabinet przy Rokicińskiej',
-      address: 'ul. Rokicińska, Widzew Wschód',
+      name: 'Gabinet przy Głównej',
+      address: 'ul. Główna, osiedle wschodnie',
       note: 'Psy i koty, szczepienia bez kolejki do 10:00.',
     ),
     VetClinic(
       id: 'vet-olechow',
-      name: 'Weterynarz Olechów',
-      address: 'os. Olechów, przy przychodni',
+      name: 'Weterynarz okolica',
+      address: 'os. okolica, przy przychodni',
       note: 'Dyżur weekendowy, papugi i króliki.',
     ),
     VetClinic(
       id: 'vet-janow',
       name: 'Przychodnia na Janowie',
-      address: 'Janów, przy pętli',
+      address: 'okolica, przy pętli',
       note: 'Chipowanie i paszporty UE.',
     ),
   ];

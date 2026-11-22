@@ -48,14 +48,14 @@ class SidewalkSaltReport {
     SidewalkSaltReport(
       id: 'ss-klat',
       kind: SaltKind.mix,
-      place: 'Chodnik przy klatce I, Widzew Wschód',
+      place: 'Chodnik przy klatce I, osiedle wschodnie',
       note: 'Ślisko przy schodach — potrzebny piasek i sól.',
       authorName: 'Kasia',
     ),
     SidewalkSaltReport(
       id: 'ss-podj',
       kind: SaltKind.sand,
-      place: 'Olechów, podjazd do klatki III',
+      place: 'okolica, podjazd do klatki III',
       note: 'Akcja posypywania w sobotę rano.',
       authorName: 'Marek',
     ),

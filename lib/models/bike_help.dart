@@ -116,20 +116,20 @@ class BikeRack {
   static List<BikeRack> seeded() => const [
     BikeRack(
       id: 'rack-batorego',
-      name: 'Stojak przy DH Widzew',
-      place: 'al. Piłsudskiego / Batorego',
+      name: 'Stojak przy centrum handlowym',
+      place: 'aleja Główna / Parkowej',
       hint: 'Zadaszony, monitoring z galerii.',
     ),
     BikeRack(
       id: 'rack-olechow',
-      name: 'Stojak przy SP 141',
-      place: 'Olechów, przy boisku',
+      name: 'Stojak przy szkole podstawowej',
+      place: 'okolica, przy boisku',
       hint: 'U-racki, najlepiej zapiąć ramę.',
     ),
     BikeRack(
       id: 'rack-park',
       name: 'Park Baden-Powella',
-      place: 'Wejście od Puszkina',
+      place: 'Wejście od Parkowa',
       hint: 'Dwa rzędy, wieczorem oświetlone.',
     ),
   ];

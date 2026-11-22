@@ -30,7 +30,7 @@ class MushroomTrip {
       title: json['title'] as String? ?? '',
       whenText: json['whenText'] as String? ?? '',
       meetingPoint: json['meetingPoint'] as String? ?? '',
-      forest: json['forest'] as String? ?? 'Las Łagiewnicki',
+      forest: json['forest'] as String? ?? 'Las okolicy',
       authorName: json['authorName'] as String? ?? 'Sąsiad',
     );
   }
@@ -38,10 +38,10 @@ class MushroomTrip {
   static List<MushroomTrip> seeded() => const [
     MushroomTrip(
       id: 'mt-lag',
-      title: 'Grzybobranie w Łagiewnikach',
+      title: 'Grzybobranie w lesie',
       whenText: 'Sobota, zbiórka 7:30',
-      meetingPoint: 'Pętla tramwajowa Widzew Wschód',
-      forest: 'Las Łagiewnicki',
+      meetingPoint: 'Pętla tramwajowa osiedle wschodnie',
+      forest: 'Las okolicy',
       authorName: 'Basia',
     ),
     MushroomTrip(
@@ -49,7 +49,7 @@ class MushroomTrip {
       title: 'Spacer leśny (bez koszy — tylko zdjęcia)',
       whenText: 'Niedziela 10:00',
       meetingPoint: 'Parking przy Arturówku',
-      forest: 'Kompleks Łagiewnicki',
+      forest: 'Kompleks leśny',
       authorName: 'Piotr',
     ),
   ];

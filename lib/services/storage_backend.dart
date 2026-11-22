@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../utils/privacy_log.dart';
+
 /// Warstwa nośnika danych. Lokalna implementacja może zostać
 /// podmieniona na [FirestoreStorageBackend] bez zmian w UI.
 abstract interface class StorageBackend {
@@ -56,8 +58,9 @@ class LocalPreferencesBackend implements StorageBackend {
       }
       await _writeSessionKeys(preferences, data);
     } catch (error) {
+      PrivacyLog.debug('Local save failed: $error');
       throw StateError(
-        'Nie udało się zapisać danych. Sprawdź wolne miejsce na telefonie. ($error)',
+        'Nie udało się zapisać danych. Sprawdź wolne miejsce na telefonie.',
       );
     }
   }

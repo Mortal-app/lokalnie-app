@@ -12,7 +12,7 @@ extension TutoringAudienceX on TutoringAudience {
 
 extension TutoringModeX on TutoringMode {
   String get label => switch (this) {
-    TutoringMode.onsite => 'Stacjonarnie na Widzewie',
+    TutoringMode.onsite => 'Stacjonarnie w Twojej okolicy',
     TutoringMode.online => 'Online',
   };
 }
@@ -63,7 +63,7 @@ class TutoringOffer {
         orElse: () => TutoringMode.onsite,
       ),
       authorName: json['authorName'] as String? ?? 'Sąsiad',
-      subDistrict: json['subDistrict'] as String? ?? 'Widzew Wschód',
+      subDistrict: json['subDistrict'] as String? ?? 'Twoja okolica',
       note: json['note'] as String? ?? '',
     );
   }
@@ -75,8 +75,8 @@ class TutoringOffer {
       subject: 'Matematyka',
       audience: TutoringAudience.youth,
       mode: TutoringMode.onsite,
-      authorName: 'Sąsiadka z Olechowa',
-      subDistrict: 'Olechów',
+      authorName: 'Sąsiadka',
+      subDistrict: 'Twoja okolica',
       note: 'Szkoła podstawowa i liceum, przy kawie.',
     ),
     TutoringOffer(
@@ -85,8 +85,8 @@ class TutoringOffer {
       subject: 'Języki obce',
       audience: TutoringAudience.adults,
       mode: TutoringMode.online,
-      authorName: 'Sąsiad z Widzewa Wschód',
-      subDistrict: 'Widzew Wschód',
+      authorName: 'Sąsiad',
+      subDistrict: 'Twoja okolica',
     ),
     TutoringOffer(
       id: 'tutor-guitar',
@@ -94,8 +94,8 @@ class TutoringOffer {
       subject: 'Gitara',
       audience: TutoringAudience.children,
       mode: TutoringMode.onsite,
-      authorName: 'Sąsiad ze Starego Widzewa',
-      subDistrict: 'Stary Widzew',
+      authorName: 'Sąsiad',
+      subDistrict: 'Twoja okolica',
     ),
     TutoringOffer(
       id: 'tutor-code',
@@ -103,8 +103,8 @@ class TutoringOffer {
       subject: 'Programowanie',
       audience: TutoringAudience.youth,
       mode: TutoringMode.online,
-      authorName: 'Sąsiad z Janowa',
-      subDistrict: 'Janów',
+      authorName: 'Sąsiad',
+      subDistrict: 'Twoja okolica',
     ),
   ];
 }

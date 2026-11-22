@@ -54,7 +54,7 @@ class _SudetyTripScreenState extends State<SudetyTripScreen> {
         padding: const EdgeInsets.fromLTRB(16, 12, 16, 120),
         children: [
           const Text(
-            'Dłuższe wyprawy z Widzewa na południe — Sudety i Karkonosze, podział paliwa.',
+            'Dłuższe wyprawy z okolicy na południe — Sudety i Karkonosze, podział paliwa.',
           ),
           const SizedBox(height: 12),
           for (final item in _items)
@@ -129,7 +129,7 @@ class _SudDialogState extends State<_SudDialog> {
                 whenText: _when.text.trim().isEmpty
                     ? 'Weekend'
                     : _when.text.trim(),
-                meetingPoint: 'Pętla Widzew Wschód',
+                meetingPoint: 'Pętla osiedlowa',
                 seats: 'Miejsca do uzgodnienia',
                 fuelShare: 'Paliwo na spółkę',
                 authorName: widget.userName,
