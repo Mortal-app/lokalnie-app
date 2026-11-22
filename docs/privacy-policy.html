@@ -75,30 +75,33 @@
         <h1>Polityka prywatności</h1>
         <p>
           Aplikacja <strong>Lokalnie</strong> (<code>pl.patryk.lokalnie</code>)
-          to tablica ogłoszeń sąsiedzkich. Nie sprzedajemy danych i nie prowadzimy
-          reklamowej analityki.
+          to tablica ogłoszeń sąsiedzkich. Nie sprzedajemy danych, nie prowadzimy
+          reklamowej analityki i nie zbieramy numerów kart płatniczych.
         </p>
+        <p>Ostatnia aktualizacja: 22 listopada 2026.</p>
       </header>
 
       <section>
-        <h2>Na urządzeniu</h2>
-        <p>Na telefonie (SharedPreferences) zostają m.in.:</p>
+        <h2>Na urządzeniu (SharedPreferences)</h2>
+        <p>Na telefonie zostają m.in.:</p>
         <ul>
-          <li>nazwa profilu, ustawienia motywu i języka,</li>
-          <li>kopia ogłoszeń, ulubione i historia czatów,</li>
-          <li>szkice formularzy oraz flagi bezpieczeństwa treści.</li>
+          <li>nazwa profilu, ustawienia motywu, języka i powiadomień,</li>
+          <li>kopia ogłoszeń, ulubione i historia wyszukiwania,</li>
+          <li>szkice formularzy (dodawanie ogłoszenia, szybkie zgłoszenie),</li>
+          <li>historia wiadomości sąsiedzkich i notatek głosowych — lokalnie, nie w chmurze,</li>
+          <li>lokalny status konta Fachowca PRO oraz flagi bezpieczeństwa treści.</li>
         </ul>
         <p>
           Te dane znikają po odinstalowaniu aplikacji albo po wyczyszczeniu danych
-          w ustawieniach.
+          w ustawieniach systemu / w Ustawieniach aplikacji (pamięć podręczna).
         </p>
       </section>
 
       <section>
         <h2>Firebase Auth</h2>
         <ul>
-          <li>anonimowy identyfikator sesji (<code>uid</code>),</li>
-          <li>służy do rozpoznania Twoich ogłoszeń i uprawnień zapisu.</li>
+          <li>anonimowy identyfikator sesji (<code>uid</code>), bez adresu e-mail i hasła,</li>
+          <li>służy do rozpoznania Twoich ogłoszeń, zgłoszeń treści i uprawnień zapisu.</li>
         </ul>
       </section>
 
@@ -107,15 +110,24 @@
         <ul>
           <li>
             ogłoszenia i zgłoszenia usterki (tytuł, kategoria, opis, lokalizacja
-            tekstowa, opcjonalne współrzędne GPS, status aktualne/zakończone),
+            tekstowa, opcjonalne współrzędne GPS, status aktualne/zakończone,
+            identyfikator autora),
           </li>
           <li>
             opcjonalna miniaturka zdjęcia (skompresowana, Base64, poniżej 150 KB)
-            w polu dokumentu ogłoszenia,
+            w polu dokumentu ogłoszenia — bez płatnego Firebase Storage,
           </li>
           <li>zgłoszenia nieodpowiednich treści (<code>content_reports</code>),</li>
-          <li>token FCM urządzenia w dokumencie <code>users/{uid}</code>.</li>
+          <li>
+            dokument <code>users/{uid}</code>: token FCM urządzenia oraz status
+            subskrypcji <code>isPro</code> (identyfikator produktu
+            <code>lokalnie_pro_monthly</code> i data ważności, jeśli dotyczy).
+          </li>
         </ul>
+        <p>
+          Wiadomości czatu sąsiedzkiego nie są zapisywane w Firestore — zostają
+          na urządzeniu.
+        </p>
       </section>
 
       <section>
@@ -124,23 +136,63 @@
           <li>token urządzenia, aby dostarczać powiadomienia z okolicy,</li>
           <li>
             otwarcie powiadomienia może przenieść do ogłoszenia
-            (<code>announcementId</code>) albo zakładki (<code>route</code>).
+            (<code>announcementId</code>) albo zakładki (<code>route</code>),
           </li>
+          <li>powiadomienia można wyłączyć w Profilu.</li>
         </ul>
       </section>
 
       <section>
-        <h2>Lokalizacja i aparat</h2>
+        <h2>Lokalizacja, aparat i mikrofon</h2>
         <ul>
-          <li>GPS jest opcjonalny (szybkie zgłoszenie),</li>
           <li>
-            zdjęcie jest opcjonalne; bez zgody systemu nie jest pobierane.
+            GPS jest opcjonalny (szybkie zgłoszenie). Bez zgody systemu nie
+            pobieramy pozycji. Brak GPS nie podstawia dzielnicy — wpis może
+            zostać jako „Twoja okolica”.
+          </li>
+          <li>
+            zdjęcie z aparatu lub galerii jest opcjonalne; miniaturka trafia do
+            ogłoszenia tylko jeśli je dodasz,
+          </li>
+          <li>
+            mikrofon służy wyłącznie do opcjonalnej notatki głosowej w czacie
+            i nie wysyłamy jej do Firebase.
           </li>
         </ul>
       </section>
 
       <section>
-        <h2>Twoje prawa i usuwanie danych</h2>
+        <h2>Google Play Billing (Konto PRO)</h2>
+        <ul>
+          <li>
+            subskrypcja <code>lokalnie_pro_monthly</code> jest rozliczana przez
+            oficjalny Google Play Billing (<code>in_app_purchase</code>),
+          </li>
+          <li>
+            aplikacja <strong>nie zbiera i nie przechowuje danych kart
+            płatniczych</strong> — płatność obsługuje Google Play,
+          </li>
+          <li>
+            po zakupie zapisujemy tylko uprawnienie <code>isPro</code> (lokalnie
+            i w <code>users/{uid}</code>), żeby odblokować katalog fachowca.
+          </li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Podmioty przetwarzające i czego nie zbieramy</h2>
+        <ul>
+          <li>
+            Google (Firebase Auth, Firestore, FCM oraz Play Billing) przetwarza
+            dane w imieniu aplikacji, aby tablica, powiadomienia i zakupy działały,
+          </li>
+          <li>nie sprzedajemy danych, nie włączamy reklamowej analityki ani identyfikatorów reklamowych,</li>
+          <li>nie wymagamy konta Google do przeglądania tablicy — sesja Auth jest anonimowa.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Twoje prawa, RODO i usuwanie danych</h2>
         <ul>
           <li>
             własne ogłoszenia: edycja, oznaczenie jako zakończone i usunięcie w
@@ -152,13 +204,20 @@
           </li>
           <li>
             kopia lokalna: Ustawienia → wyczyszczenie pamięci aplikacji albo
-            odinstalowanie.
+            odinstalowanie,
+          </li>
+          <li>
+            w sprawach danych osobowych (wgląd, sprostowanie, usunięcie, RODO)
+            napisz na adres poniżej — to kontakt twórcy aplikacji Lokalnie.
           </li>
         </ul>
       </section>
 
       <footer>
-        Kontakt: <a href="mailto:administracja@lokalniewidzew.app">administracja@lokalniewidzew.app</a>
+        Administrator danych: twórca aplikacji Lokalnie
+        (<code>pl.patryk.lokalnie</code>).<br />
+        Kontakt RODO / dane osobowe:
+        <a href="mailto:administracja@lokalniewidzew.app">administracja@lokalniewidzew.app</a>
       </footer>
     </main>
   </body>
