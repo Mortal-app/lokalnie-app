@@ -58,7 +58,7 @@ Wiadomości czatu sąsiedzkiego **nie** są zapisywane w Firestore — zostają 
 - w sprawach danych osobowych (wgląd, sprostowanie, usunięcie, RODO) napisz na adres poniżej — to kontakt twórcy aplikacji Lokalnie
 
 Administrator danych: twórca aplikacji Lokalnie (`pl.patryk.lokalnie`).
-Kontakt RODO / dane osobowe: administracja@lokalniewidzew.app
+Kontakt RODO / dane osobowe: sfgame1818@gmail.com
 
 ## Publiczny link do Google Play (HTML)
 

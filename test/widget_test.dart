@@ -685,7 +685,7 @@ void main() {
 
     expect(find.text('O aplikacji Lokalnie'), findsWidgets);
     expect(find.textContaining('1.0.0'), findsOneWidget);
-    expect(find.text('administracja@lokalniewidzew.app'), findsOneWidget);
+    expect(find.text('sfgame1818@gmail.com'), findsOneWidget);
     await tester.scrollUntilVisible(
       find.text('Regulamin osiedlowy'),
       250,
